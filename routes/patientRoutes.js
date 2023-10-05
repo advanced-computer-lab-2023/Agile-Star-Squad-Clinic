@@ -10,6 +10,10 @@ router
   .route('/')
   .get(patientController.getAllPatients)
   .post(patientController.signup);
-// router.route('/').get(patientController.getAllPatients).post(patientController.createPatient);
+
+router
+  .route('/:id')
+  .get(patientController.getPatient)
+  .delete(patientController.removePatient);
 
 module.exports = router;

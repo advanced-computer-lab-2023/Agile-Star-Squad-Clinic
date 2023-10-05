@@ -13,18 +13,18 @@ exports.getAllPatients = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.removePatient = async (req, res) => {
-  const patient = await Patient.findByIdAndDelete(req.body.id);
+exports.removePatient = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findByIdAndDelete(req.params.id);
 
   if (!patient) {
-    return next(new AppError('No Admin found with that ID', 404));
+    return next(new AppError('No patient found with that ID', 404));
   }
 
   res.status(204).json({
     status: 'success',
     data: null,
   });
-};
+});
 
 exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const newMember = await Family.create(req.body);
@@ -48,6 +48,20 @@ exports.signup = catchAsync(async (req, res) => {
     status: 'success',
     data: {
       patient: newPatient,
+    },
+  });
+});
+
+exports.getPatient = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findById(req.params.id).populate({
+    path:'doctor',
+    select:'-__v -dateOfBirth -hourlyRate -affiliation -educationalBackground'
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
     },
   });
 });
