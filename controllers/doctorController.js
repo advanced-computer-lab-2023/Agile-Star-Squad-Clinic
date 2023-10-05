@@ -1,8 +1,8 @@
 const Doctor = require('../models/doctorModel');
 const AppError = require('../utils/appError');
-const catchsync = require('../utils/catchsync');
+const catchAsync = require('../utils/catchAsync');
 
-exports.getAllDoctors = catchsync(async (req, res, next) => {
+exports.getAllDoctors = catchAsync(async (req, res, next) => {
   const doctors = await Doctor.find().populate('patients');
 
   res.status(200).json({
@@ -13,7 +13,7 @@ exports.getAllDoctors = catchsync(async (req, res, next) => {
   });
 });
 
-exports.removeDoctor = async (req, res) => {
+exports.removeDoctor = catchAsync(async (req, res) => {
   const Doctor = await Doctor.findByIdAndDelete(req.body.id);
 
   if (!Doctor) {
@@ -24,7 +24,7 @@ exports.removeDoctor = async (req, res) => {
     status: 'success',
     data: null,
   });
-};
+});
 
 const filterObj = (obj, ...allowedFields) => {
   console.log(allowedFields);
@@ -35,7 +35,7 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.updateDoctor = async (req, res, next) => {
+exports.updateDoctor = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(
     req.body,
     'email',
@@ -59,7 +59,7 @@ exports.updateDoctor = async (req, res, next) => {
       doctor: updatedDoctor,
     },
   });
-};
+});
 
 exports.doctorSignup = async (req, res) => {
   const newDoctor = await Doctor.create(req.body);

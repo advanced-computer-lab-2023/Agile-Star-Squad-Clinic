@@ -1,9 +1,8 @@
 const Patient = require('../models/patientModel');
-const catchsync = require('../utils/catchsync');
+const catchAsync = require('../utils/catchAsync');
 const Family = require('../models/familyModel');
 
-
-exports.getAllPatients = catchsync(async (req, res, next) => {
+exports.getAllPatients = catchAsync(async (req, res, next) => {
   const patients = await Patient.find().populate('doctor');
 
   res.status(200).json({
@@ -27,7 +26,7 @@ exports.removePatient = async (req, res) => {
   });
 };
 
-exports.addFamilyMember = catchsync(async (req, res, next) => {
+exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const newMember = await Family.create(req.body);
 
   res.status(200).json({
@@ -42,7 +41,7 @@ exports.addFamilyMember = catchsync(async (req, res, next) => {
 //   const members = await.Family.find()
 // })
 
-exports.signup = async (req, res) => {
+exports.signup = catchAsync(async (req, res) => {
   const newPatient = await Patient.create(req.body);
 
   res.status(200).json({
@@ -51,4 +50,4 @@ exports.signup = async (req, res) => {
       patient: newPatient,
     },
   });
-};
+});

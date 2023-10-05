@@ -1,6 +1,6 @@
 const Admin = require('../models/adminModel');
 const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchsync');
+const catchAsync = require('../utils/catchAsync');
 
 exports.createAdmin = catchAsync(async (req, res) => {
   const newAdmin = await Admin.create(req.body);
