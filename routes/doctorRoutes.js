@@ -8,7 +8,12 @@ const router = express.Router({
 router
   .route('/')
   .get(doctorController.getAllDoctors)
-  .post(doctorController.doctorSignup)
-  .patch(doctorController.updateDoctor);
+  .post(doctorController.doctorSignup);
+
+router
+  .route('/:id')
+  .get(doctorController.getDoctor)
+  .patch(doctorController.updateDoctor)
+  .delete(doctorController.removeDoctor);
 
 module.exports = router;

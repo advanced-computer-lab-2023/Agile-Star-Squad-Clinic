@@ -33,3 +33,7 @@ const familySchema = new mongoose.Schema({
     required: [true, 'Member must belong to a patient.'],
   },
 });
+
+const Family = mongoose.model('Family', familySchema);
+
+module.exports = Family;

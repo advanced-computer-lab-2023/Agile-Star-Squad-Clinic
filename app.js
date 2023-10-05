@@ -2,11 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 
-const AppError = require('./src/data/utils/appError')
-const globalErrorHandler = require('./src/data/controllers/errorController');
-const adminRouter = require('./src/data/routes/adminRoutes');
-const patientRouter = require('./src/data/routes/patientRoutes');
-const doctorRouter = require('./src/data/routes/doctorRoutes');
+const AppError = require('./utils/appError')
+const globalErrorHandler = require('./controllers/errorController');
+const adminRouter = require('./routes/adminRoutes');
+const patientRouter = require('./routes/patientRoutes');
+const doctorRouter = require('./routes/doctorRoutes');
 
 // const patientController = require('./controllers/patientController');
 // const adminController = require('./controllers/adminController');
