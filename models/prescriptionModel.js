@@ -19,21 +19,25 @@ const prescriptionSchema = new mongoose.Schema({
         },
     ],
 
-    // patientName: {
-    //     type: String,
-    //     required: [true, 'Please provide your name.'],
-    //     validate: [validator.isAlpha, 'Name must only contain letters'],
-    // },
-    // doctorName: {
-    //     type: String,
-    //     required: [true, 'Please provide your name.'],
-    //     validate: [validator.isAlpha, 'Name must only contain letters'],
-    // },
     body: {
         type: String,
         required: [true, 'Please provide a prescription.'],
         maxlength: [255, 'A prescription must have less or equal to 255 characters'],
-    }
+    },
+
+    dateOfCreation: {
+        type: Date,
+        required:[true , 'Please provide a creation date'],
+        default: Date.now
+    },
+
+    status : {
+        type : String,
+        enum: ["Active" , "inActive"],
+        required: [true , 'Please provide status'], 
+        default: "Active"
+    },
+
 })
 
 const Prescription = mongoose.model('Prescription', prescriptionSchema);

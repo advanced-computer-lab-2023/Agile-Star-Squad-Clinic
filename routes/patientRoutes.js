@@ -16,4 +16,8 @@ router
   .get(patientController.getPatient)
   .delete(patientController.removePatient);
 
+router
+  .route('/:id/prescriptions')
+  .get(patientController.getPatientPrescription);
+
 module.exports = router;

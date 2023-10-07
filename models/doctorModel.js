@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Patient = require('./patientModel');
 const validator = require('validator');
+const Prescription = require('./prescriptionModel');
+
 
 const doctorSchema = new mongoose.Schema(
   {
@@ -40,7 +42,13 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide an edcational background'],
     },
-    
+
+    prescription: [{
+
+      type: mongoose.Schema.ObjectId,
+      ref: 'Prescription',
+    }],
+
     // patients: [
     //   {
     //     type: mongoose.Schema.ObjectId,

@@ -56,6 +56,11 @@ const patientSchema = new mongoose.Schema({
       required: [true, 'A patient must belong to a doctor'],
     },
   ],
+  prescription: [{
+
+    type: mongoose.Schema.ObjectId,
+    ref: 'Prescription',
+  }],
   familyMembers: [
     {
       type: mongoose.Schema.ObjectId,
@@ -63,6 +68,8 @@ const patientSchema = new mongoose.Schema({
     },
   ],
 });
+
+
 // tourSchema.virtual('familyMembers', {
 //   ref: 'Family',
 //   foreignField: 'patient',

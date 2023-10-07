@@ -77,4 +77,17 @@ exports.getPatient = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getPatientPrescription = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findById(req.params.id).populate({
+    path:'prescription',
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      prescriptions :patient.prescription,
+    },
+  });
+});
+
 // Modules.exports = {createPatient}
