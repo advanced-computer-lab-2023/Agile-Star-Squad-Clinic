@@ -40,16 +40,12 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide an edcational background'],
     },
-    speciality: {
-      type: String,
-      required: [true, 'Please provide your speciality'],
-    },
-    patients: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Patient',
-      },
-    ],
+    // patients: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Patient',
+    //   },
+    // ],
   },
   {
     toJSON: { virtuals: true },

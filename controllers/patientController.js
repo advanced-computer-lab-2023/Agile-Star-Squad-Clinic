@@ -51,6 +51,17 @@ exports.removePatient = catchAsync(async (req, res, next) => {
   });
 });
 
+const createPatient = async (req, res) => {
+  //add a new patient to the database 
+  const newPatient = req.body;
+  const addPatient = new patientModel({
+      username: newPatient.username, name: newPatient.name, email: newPatient.patient,
+      password: newPatient.password, dateOfBirth: newPatient.dateOfBirth, gender: newPatient.gender,
+      mobileNumber: newPatient.mobileNumber, emergencyContact: newPatient.emergencyContact});
+  const p = await addPatient.save();
+  res.send(p);
+}
+
 exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   const memberData = req.body;
@@ -86,3 +97,5 @@ exports.getFamilyMembers = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Modules.exports = {createPatient}

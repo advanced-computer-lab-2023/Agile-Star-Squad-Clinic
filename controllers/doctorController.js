@@ -2,6 +2,7 @@ const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const Prescription = require('../models/prescriptionModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   const newDoctor = await Doctor.create(req.body);
