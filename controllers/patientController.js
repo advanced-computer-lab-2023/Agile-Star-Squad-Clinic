@@ -77,4 +77,4 @@ exports.getPatient = catchAsync(async (req, res, next) => {
   });
 });
 
-Modules.exports = {createPatient}
+// Modules.exports = {createPatient}

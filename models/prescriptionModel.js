@@ -18,7 +18,18 @@ const prescriptionSchema = new mongoose.Schema({
             required: [true, 'A prescription must belong to a patient.'],
         },
     ],
-    body:{
+
+    // patientName: {
+    //     type: String,
+    //     required: [true, 'Please provide your name.'],
+    //     validate: [validator.isAlpha, 'Name must only contain letters'],
+    // },
+    // doctorName: {
+    //     type: String,
+    //     required: [true, 'Please provide your name.'],
+    //     validate: [validator.isAlpha, 'Name must only contain letters'],
+    // },
+    body: {
         type: String,
         required: [true, 'Please provide a prescription.'],
         maxlength: [255, 'A prescription must have less or equal to 255 characters'],

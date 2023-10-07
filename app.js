@@ -7,6 +7,8 @@ const globalErrorHandler = require('./controllers/errorController');
 const adminRouter = require('./routes/adminRoutes');
 const patientRouter = require('./routes/patientRoutes');
 const doctorRouter = require('./routes/doctorRoutes');
+const prescriptionRouter = require('./routes/prescriptionRoutes');
+const Prescription = require('./models/prescriptionModel');
 
 // const patientController = require('./controllers/patientController');
 // const adminController = require('./controllers/adminController');
@@ -21,6 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/admins', adminRouter);
 app.use('/doctors', doctorRouter);
 app.use('/patients', patientRouter);
+app.use('/prescriptions' , prescriptionRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));
