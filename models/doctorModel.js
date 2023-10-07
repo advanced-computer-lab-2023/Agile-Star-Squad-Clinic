@@ -40,6 +40,7 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide an edcational background'],
     },
+    
     // patients: [
     //   {
     //     type: mongoose.Schema.ObjectId,

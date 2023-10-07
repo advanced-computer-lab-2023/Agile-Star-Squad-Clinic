@@ -1,6 +1,7 @@
 const Doctor = require('../models/doctorModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const Prescription = require('../models/prescriptionModel');
 
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
   const doctors = await Doctor.find().populate('patients');

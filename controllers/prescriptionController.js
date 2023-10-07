@@ -12,6 +12,8 @@ exports.getAllPrescription = catchAsync(async (req, res, next) => {
     });
 });
 
+
+
 exports.createPrescription = catchAsync(async (req, res, next) => {
     const newPrescription = await Prescription.create(req.body);
   
