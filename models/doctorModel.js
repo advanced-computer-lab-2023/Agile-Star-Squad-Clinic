@@ -42,13 +42,7 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide an edcational background'],
     },
-
-    prescription: [{
-
-      type: mongoose.Schema.ObjectId,
-      ref: 'Prescription',
-    }],
-
+    
     // patients: [
     //   {
     //     type: mongoose.Schema.ObjectId,
@@ -62,11 +56,12 @@ const doctorSchema = new mongoose.Schema(
   }
 );
 
-doctorSchema.virtual('patients', {
-  ref: 'Patient',
-  foreignField: 'doctor',
-  localField: '_id',
-});
+// doctorSchema.virtual('patients', {
+//   ref: 'Patient',
+//   foreignField: 'doctor',
+//   localField: '_id',
+// });
+
 const Doctor = mongoose.model('Doctor', doctorSchema);
 
 module.exports = Doctor;

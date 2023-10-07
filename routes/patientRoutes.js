@@ -4,7 +4,12 @@ const doctorRouter = require('./doctorRoutes');
 
 const router = express.Router();
 
-router.use('/:patientId/doctors', doctorRouter);
+router.use('/:id/doctors', doctorRouter);
+
+router
+  .route('/:patientId/familyMembers')
+  .get(patientController.getFamilyMembers)
+  .post(patientController.addFamilyMember);
 
 router
   .route('/')
@@ -15,9 +20,5 @@ router
   .route('/:id')
   .get(patientController.getPatient)
   .delete(patientController.removePatient);
-
-router
-  .route('/:id/prescriptions')
-  .get(patientController.getPatientPrescription);
 
 module.exports = router;

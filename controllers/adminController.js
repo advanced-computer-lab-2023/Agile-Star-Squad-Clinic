@@ -13,18 +13,6 @@ exports.createAdmin = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.removeAdmin = catchAsync(async (req, res, next) => {
-  const admin = await Admin.findByIdAndDelete(req.params.id);
-
-  if (!admin) {
-    return next(new AppError('No admin found with that ID', 404));
-  }
-
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
-});
 exports.getAllAdmins = catchAsync(async (req, res, next) => {
   const admins = await Admin.find();
 
@@ -44,5 +32,18 @@ exports.getAdmin = catchAsync(async (req, res, next) => {
     data: {
       admin,
     },
+  });
+});
+
+exports.removeAdmin = catchAsync(async (req, res, next) => {
+  const admin = await Admin.findByIdAndDelete(req.params.id);
+
+  if (!admin) {
+    return next(new AppError('No admin found with that ID', 404));
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });

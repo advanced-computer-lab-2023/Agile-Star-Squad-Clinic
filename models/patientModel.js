@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const Doctor = require('./doctorModel');
-const Family = require('../models/familyModel');
+const Family = require('./familyModel');
 
 const patientSchema = new mongoose.Schema({
   username: {
@@ -53,7 +53,6 @@ const patientSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.ObjectId,
       ref: 'Doctor',
-      required: [true, 'A patient must belong to a doctor'],
     },
   ],
   prescription: [{
@@ -68,13 +67,26 @@ const patientSchema = new mongoose.Schema({
     },
   ],
 });
-
-
 // tourSchema.virtual('familyMembers', {
 //   ref: 'Family',
 //   foreignField: 'patient',
 //   localField: '_id',
 // });
+
+// patientSchema.pre(/^find/,function(next){
+//   this.populate({
+//     path:'familyMembers',
+//     select:'name'
+//   })
+//   next();
+// })
+
+// patientSchema.pre(/^find/,function(next){
+//   this.populate({
+//     path:'familyMembers',
+//   })
+//   next();
+// })
 const Patient = mongoose.model('Patient', patientSchema);
 
 module.exports = Patient;
