@@ -2,6 +2,8 @@ const Patient = require('../models/patientModel');
 const catchAsync = require('../utils/catchAsync');
 const Family = require('../models/familyModel');
 const AppError = require('../utils/appError');
+const Doctor = require('../models/doctorModel');
+const apiFeatures = require('../utils/apiFeatures');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newPatient = await Patient.create(req.body);
@@ -52,15 +54,21 @@ exports.removePatient = catchAsync(async (req, res, next) => {
 });
 
 const createPatient = async (req, res) => {
-  //add a new patient to the database 
+  //add a new patient to the database
   const newPatient = req.body;
   const addPatient = new patientModel({
-      username: newPatient.username, name: newPatient.name, email: newPatient.patient,
-      password: newPatient.password, dateOfBirth: newPatient.dateOfBirth, gender: newPatient.gender,
-      mobileNumber: newPatient.mobileNumber, emergencyContact: newPatient.emergencyContact});
+    username: newPatient.username,
+    name: newPatient.name,
+    email: newPatient.patient,
+    password: newPatient.password,
+    dateOfBirth: newPatient.dateOfBirth,
+    gender: newPatient.gender,
+    mobileNumber: newPatient.mobileNumber,
+    emergencyContact: newPatient.emergencyContact,
+  });
   const p = await addPatient.save();
   res.send(p);
-}
+};
 
 exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
@@ -81,14 +89,16 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
   // Associate the patient with the doctor
   patient.familyMembers.push(newMember._id);
   await patient.save();
-  await Family.create(newMember)
+  await Family.create(newMember);
   res.status(200).json({
     status: 'success',
   });
 });
 
 exports.getFamilyMembers = catchAsync(async (req, res, next) => {
-  const patient = await Patient.findById(req.params.patientId).populate('familyMembers')
+  const patient = await Patient.findById(req.params.patientId).populate(
+    'familyMembers'
+  );
 
   res.status(200).json({
     status: 'success',
@@ -98,4 +108,23 @@ exports.getFamilyMembers = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getDoctor = catchAsync(async (req, res, next) => {
+  const { name, speciality } = req.body;
+  const query = {};
+
+  if (name) {
+    query.name = { $regex: name, $options: 'i', $eq: name };
+  }
+  if (speciality) {
+    query.speciality = { $regex: speciality, $options: 'i' };
+  }
+  const doctor = await Doctor.find(query);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      doctor,
+    },
+  });
+});
 // Modules.exports = {createPatient}

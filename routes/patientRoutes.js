@@ -21,4 +21,6 @@ router
   .get(patientController.getPatient)
   .delete(patientController.removePatient);
 
+router.route('/:patientId/getDoctor').get(patientController.getDoctor);
+
 module.exports = router;

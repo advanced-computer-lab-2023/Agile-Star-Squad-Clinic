@@ -3,6 +3,7 @@ const Patient = require('../models/patientModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Prescription = require('../models/prescriptionModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   const newDoctor = await Doctor.create(req.body);
@@ -16,7 +17,12 @@ exports.doctorSignup = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
-  const doctors = await Doctor.find().populate('patients');
+  const features = new APIFeatures(Doctor.find(), req.query)
+    .filter()
+    .sort()
+    .fieldLimit()
+    .paginate();
+  const doctors = await features.query;
 
   res.status(200).json({
     status: 'success',
@@ -27,7 +33,7 @@ exports.getAllDoctors = catchAsync(async (req, res, next) => {
 });
 
 exports.getDoctor = catchAsync(async (req, res, next) => {
-  const doctor = await Doctor.findById(req.params.id).populate('patients');
+  const doctor = await Doctor.findOne(req.params.id).populate('patients');
 
   res.status(200).json({
     status: 'success',
@@ -92,7 +98,9 @@ exports.removeDoctor = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyPatients = catchAsync(async (req, res, next) => {
-  const doctor = await Doctor.findById(req.params.doctorId).populate('patients');
+  const doctor = await Doctor.findById(req.params.doctorId).populate(
+    'patients'
+  );
 
   res.status(200).json({
     status: 'success',
@@ -134,7 +142,7 @@ exports.addPatient = catchAsync(async (req, res, next) => {
 
   // Associate the patient with the doctor
   doctor.patients.push(patient._id);
-  patient.doctor.push()
+  patient.doctor.push();
   await doctor.save();
   res.status(200).json({
     status: 'success',
