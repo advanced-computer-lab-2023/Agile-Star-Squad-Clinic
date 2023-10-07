@@ -4,7 +4,12 @@ const doctorRouter = require('./doctorRoutes');
 
 const router = express.Router();
 
-router.use('/:patientId/doctors', doctorRouter);
+router.use('/:id/doctors', doctorRouter);
+
+router
+  .route('/:patientId/familyMembers')
+  .get(patientController.getFamilyMembers)
+  .post(patientController.addFamilyMember);
 
 router
   .route('/')

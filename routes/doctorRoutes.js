@@ -16,4 +16,10 @@ router
   .patch(doctorController.updateDoctor)
   .delete(doctorController.removeDoctor);
 
+router
+  .route('/:doctorId/patients')
+  .get(doctorController.getMyPatients)
+  .post(doctorController.addPatient);
+router.route('/:id/patient').get(doctorController.getMyPatient);
+
 module.exports = router;
