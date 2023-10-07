@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const morgan = require('morgan');
+
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController');
