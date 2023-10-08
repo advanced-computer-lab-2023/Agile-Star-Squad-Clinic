@@ -46,7 +46,11 @@ const requestSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide your speciality'],
     },
-
+    status: {
+      type: String,
+      enum: ['rejected', 'accepted', 'pending'],
+      default: 'pending',
+    },
     // patients: [
     //   {
     //     type: mongoose.Schema.ObjectId,
