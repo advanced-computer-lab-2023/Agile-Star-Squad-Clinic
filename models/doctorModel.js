@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Patient = require('./patientModel');
 const validator = require('validator');
+const Prescription = require('./prescriptionModel');
+
 
 const doctorSchema = new mongoose.Schema(
   {
@@ -40,6 +42,12 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide an edcational background'],
     },
+
+    speciality: {
+      type: String,
+      required : [true , 'Please provide your speciality']
+    },
+    
     // patients: [
     //   {
     //     type: mongoose.Schema.ObjectId,
@@ -53,11 +61,12 @@ const doctorSchema = new mongoose.Schema(
   }
 );
 
-doctorSchema.virtual('patients', {
-  ref: 'Patient',
-  foreignField: 'doctor',
-  localField: '_id',
-});
+// doctorSchema.virtual('patients', {
+//   ref: 'Patient',
+//   foreignField: 'doctor',
+//   localField: '_id',
+// });
+
 const Doctor = mongoose.model('Doctor', doctorSchema);
 
 module.exports = Doctor;
