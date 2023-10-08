@@ -14,7 +14,7 @@
     "validator": "^13.11.0"
   },
   "scripts": {
-    "start": "nodemon backend/server.js"
+    "start": "nodemon server.js"
   },
   "eslintConfig": {
     "extends": [

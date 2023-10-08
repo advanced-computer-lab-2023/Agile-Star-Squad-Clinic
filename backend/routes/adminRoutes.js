@@ -8,9 +8,11 @@ router
   .get(adminController.getAllAdmins)
   .post(adminController.createAdmin);
 
+router.route('/requests').get(adminController.viewAllRequests);
+
 router
   .route('/:id')
   .get(adminController.getAdmin)
   .delete(adminController.removeAdmin);
-router.route('/requests').get(adminController.viewAllRequests);
+
 module.exports = router;
