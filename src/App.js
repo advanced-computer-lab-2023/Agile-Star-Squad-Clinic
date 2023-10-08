@@ -3,8 +3,8 @@ import './App.css';
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
-  const patients = getAllPatients();
-  console.log(patients);
+  // const patients = getAllPatients();
+  // console.log(patients);
   
   return (
     <div className="App">

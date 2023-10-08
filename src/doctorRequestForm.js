@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { doctorSignup } from '../controllers/doctortController'
 
 class DoctorRequestForm extends Component {
 
@@ -69,15 +68,21 @@ class DoctorRequestForm extends Component {
     //PharmacistSignup is temp till we make a request function
     //
     handleSubmit = event => {
-        doctorSignup(`${this.state.username}
-        ${this.state.name}
-        ${this.state.email}
-        ${this.state.password}
-        ${this.state.dateOfBirth}
-        ${this.state.hourlyRate}
-        ${this.state.affiliation}
-        ${this.state.educationalBackground}`)
-        event.preventDefault()
+        const requestOptions = {
+            method: 'POST',
+            headers: { "Content-type": "application/json; charset=UTF-8", },
+            body: JSON.stringify(this.state)
+        };
+        fetch('/doctors', requestOptions)
+        // doctorSignup(`${this.state.username}
+        // ${this.state.name}
+        // ${this.state.email}
+        // ${this.state.password}
+        // ${this.state.dateOfBirth}
+        // ${this.state.hourlyRate}
+        // ${this.state.affiliation}
+        // ${this.state.educationalBackground}`)
+        // event.preventDefault()
     }
 
 
