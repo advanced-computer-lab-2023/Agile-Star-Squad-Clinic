@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {getAllPatients} from '../src/data/controllers/patientController';
+// import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
   const patients = getAllPatients();
