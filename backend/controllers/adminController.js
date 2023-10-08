@@ -47,3 +47,5 @@ exports.removeAdmin = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+exports.viewAllRequests
