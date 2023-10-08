@@ -1,18 +1,9 @@
 const Patient = require('../models/patientModel');
 const Prescription = require('../models/prescriptionModel');
 const catchAsync = require('../utils/catchAsync');
-const APIFeatures = require('../utils/apiFeatures');
-
 
 exports.getAllPrescription = catchAsync(async (req, res, next) => {
-    // const prescriptions = await Prescription.find().populate('doctor').populate('patient');
-
-    const features = new APIFeatures(Prescription.find(), req.query)
-    .filter()
-    .sort()
-    .fieldLimit()
-    .paginate();
-  const prescriptions = await features.query;
+    const prescriptions = await Prescription.find().populate('doctor').populate('patient');
 
     res.status(200).json({
         status: 'success',
