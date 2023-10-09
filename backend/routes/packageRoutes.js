@@ -10,10 +10,10 @@ router
   .get(packageController.getPackages)
   .post(packageController.addPackage);
 
-// router
-//   .route('/:id')
-//   .get(doctorController.getDoctor)
-//   .patch(doctorController.updateDoctor)
-//   .delete(doctorController.removeDoctor);
+router
+  .route('/:id')
+  .get(packageController.getPackage)
+  .patch(packageController.editPackage)
+  .delete(packageController.deletePackage);
 
 module.exports = router;

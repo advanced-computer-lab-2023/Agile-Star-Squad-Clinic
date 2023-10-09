@@ -1,14 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const { v4: uuidv4 } = require('uuid');
+
 
 const packageSchema = new mongoose.Schema({
-    packageId: {
-        type: String,
-        unique: true, // Ensure unique package IDs
-        default: uuidv4, // Generate a UUID as the default ID
-        required: true,
-    },
     name: {
         type: String,
         required: true,
@@ -37,11 +31,6 @@ const packageSchema = new mongoose.Schema({
         maxlength: [255, 'A prescription must have less or equal to 255 characters'],
     },
 
-    dateOfCreation: {
-        type: Date,
-        required:[true , 'Please provide a creation date'],
-        default: Date.now
-    },
 
 
 })
