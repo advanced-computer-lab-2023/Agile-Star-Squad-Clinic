@@ -42,7 +42,10 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide an edcational background'],
     },
-
+    mobileNumber: {
+      type: String,
+      required: [false]
+    },
     speciality: {
       type: String,
       required : [true , 'Please provide your speciality']

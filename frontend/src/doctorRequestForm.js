@@ -59,6 +59,12 @@ class DoctorRequestForm extends Component {
         })
     }
 
+    handleMobileNumberChange = event => {
+        this.setState({
+            mobileNumber: event.target.value
+        })
+    }
+
     handleEducationalBackgroundChange = event => {
         this.setState({
             educationalBackground: event.target.value
@@ -106,6 +112,10 @@ class DoctorRequestForm extends Component {
                 <div>
                     <label>Password</label>
                     <input type='text' value={password} onChange={this.handlePasswordChange} />
+                </div>
+                <div>
+                    <label>Mobile Number</label>
+                    <input type='text' value={mobileNumber} onChange={this.handleMobileNumberChange} />
                 </div>
                 <div>
                     <label>Date of Birth</label>

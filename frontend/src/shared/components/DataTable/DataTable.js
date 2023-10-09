@@ -4,7 +4,9 @@ import './DataTable.css';
 const DataTable = (params) => {
 
     const onRowClick = (rowParams) => {
-        params.onRowClick(rowParams.row);
+        if (params.onRowClick != null) {    
+            params.onRowClick(rowParams.row);
+        }
     };
 
     return (

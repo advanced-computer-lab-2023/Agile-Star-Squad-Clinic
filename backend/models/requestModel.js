@@ -42,6 +42,10 @@ const requestSchema = new mongoose.Schema(
       required: [true, 'Please provide an edcational background'],
     },
 
+    mobileNumber: {
+      type: String,
+      required: [false]
+    },
     speciality: {
       type: String,
       required: [true, 'Please provide your speciality'],
