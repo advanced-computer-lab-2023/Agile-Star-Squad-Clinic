@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DataTable from "../../../shared/components/DataTable/DataTable";
 import RequestDetails from "./RequestDetails";
 import AdminForm from "./AdminForm";
+import UserDetails from './UserDetails'
 
 
 const ManageUsersPage = () => {
@@ -9,6 +10,7 @@ const ManageUsersPage = () => {
     const [requests, setRequests] = useState([]);
     const [isUserTab, setUserTab] = useState(true);
     const [showRequest, setShowRequest] = useState(false);
+    const [showUser, setShowUser] = useState(false);
     const [showAdminForm, setShowAdminForm] = useState(false);
     const [selectedRow, setSelectedRow] = useState({});
 
@@ -42,7 +44,13 @@ const ManageUsersPage = () => {
                     id: patient["_id"],
                     username: patient["username"],
                     name: patient["name"],
+                    email: patient['email'],
+                    dateOfBirth: patient['dateOfBirth'],
+                    gender: patient['gender'],
                     mobileNumber: patient["mobileNumber"],
+                    emergencyContact: patient['emergencyContact'],
+                    doctor: patient['doctor'],
+                    familyMembers: patient['familyMembers'],
                     role: "Patient"
                 }
             })]);
@@ -58,6 +66,11 @@ const ManageUsersPage = () => {
                     id: doctor["_id"],
                     username: doctor["username"],
                     name: doctor["name"],
+                    dateOfBirth: doctor['dateOfBirth'],
+                    hourlyRate: doctor['hourlyRate'],
+                    affiliation: doctor['affiliation'],
+                    educationalBackground: doctor['educationalBackground'],
+                    specialty: doctor['specialty'],
                     mobileNumber: doctor["mobileNumber"] ?? "-",
                     role: "Doctor"
                 }
@@ -108,9 +121,19 @@ const ManageUsersPage = () => {
         setShowRequest(true);
     }
 
+    const showUserModal = (selectedRow) => {
+        setSelectedRow(selectedRow);
+        setShowUser(true);
+    }
+
     const exitRequestModal = () => {
         setShowRequest(false);
     }
+
+    const exitUserModal = () => {
+        setShowUser(false);
+    }
+
     const exitAdminModal = () => {
         setShowAdminForm(false);
     }
@@ -122,9 +145,23 @@ const ManageUsersPage = () => {
         fetchAdmins();
     }
 
+    const deleteUser = (username) => {
+        const user = users.find((value) => value.username === username)
+        console.log(user)
+        if (user.role === 'Patient') {
+            fetch(`http://localhost:3000/patients/${user.id}`, {method: 'DELETE'})
+        } else if (user.role === 'Doctor') {
+            fetch(`http://localhost:3000/doctors/${user.id}`, {method: 'DELETE'})
+        } else if (user.role === 'Admin') {
+            fetch(`http://localhost:3000/admins/${user.id}`, {method: 'DELETE'})
+        }
+        setUsers(users.filter((val) => val.username !== username))
+    }
+
     return <div className="center">
         {showRequest && <RequestDetails data={selectedRow} exit={exitRequestModal} />}
-        {showAdminForm && <AdminForm exit={exitAdminModal} refresh={refreshUserData}/>}
+        {showAdminForm && <AdminForm exit={exitAdminModal} refresh={refreshUserData} />}
+        {showUser && <UserDetails data={selectedRow} exit={exitUserModal} onDelete={deleteUser} />}
         <div >
             <span>
                 <button onClick={() => setUserTab(true)}>
@@ -140,7 +177,7 @@ const ManageUsersPage = () => {
         {isUserTab && <h2>Users</h2>}
         {!isUserTab && <h2>Requests</h2>}
 
-        {isUserTab && <DataTable columns={userCols} rows={users} />}
+        {isUserTab && <DataTable columns={userCols} rows={users} onRowClick={showUserModal} />}
         {!isUserTab && <DataTable columns={requestCols} rows={requests} onRowClick={showRequestModal} />}
 
         <div>
