@@ -11,6 +11,7 @@ const addPackage = async (req, res) => {
       package: newPackage,
     },
   });
+  
 };
 
 const getPackages = async (req, res) => {
