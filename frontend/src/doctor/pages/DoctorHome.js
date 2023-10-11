@@ -31,7 +31,7 @@ const DoctorHome = () => {
     { field: "username", headerName: "Username" },
     { field: "name", headerName: "Name" },
     { field: "appointments", headerName: "Date of Appointment" },
-    // { field: "status", headerName: "Appointment Status" },
+    { field: "status", headerName: "Appointment Status" },
   ];
 
   // const infoCols = [  //khaliha text
@@ -79,6 +79,7 @@ const DoctorHome = () => {
           return {
             id: appointment["patient"],
             dateOfAppointment: appointment["dateOfAppointment"],
+            status: appointment["status"],
           };
         })
       );
@@ -129,13 +130,19 @@ const DoctorHome = () => {
     const userAppointments = appointments.filter(
       (appointment) => appointment.id == user.id
     );
+    const appointmentList = userAppointments.map((appointment) => {
+      return {
+        appointments: appointment.dateOfAppointment,
+        status: appointment.status,
+      };
+    });
+    const appointmentJSONObject =
+      appointmentList.length === 0 ? {} : appointmentList[0];
     return {
       id: user.id, // Add a unique id for the user
       username: user.username,
       name: user.name,
-      appointments: userAppointments.map(
-        (appointment) => appointment.dateOfAppointment
-      ),
+      ...appointmentJSONObject,
       ...user,
     };
   });
