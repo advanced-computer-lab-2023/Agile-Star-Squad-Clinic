@@ -1,7 +1,7 @@
 import React from "react";
 
 import Card from "../../shared/components/Card/Card";
-import "./packageItem.css";
+// import "./packageItem.css";
 
 const PackageItem = (props) => {
   return (
