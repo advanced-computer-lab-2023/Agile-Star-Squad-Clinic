@@ -7,7 +7,7 @@ const DoctorHome = () => {
     const [isUserTab, setUserTab] = useState(true);
     const [showAppointment, setShowAppointment] = useState(false);
     const [showUser, setShowUser] = useState(false);
-    const [showAdminForm, setShowAdminForm] = useState(false);
+    const [showInfo, setShowInfo] = useState(false);
     const [selectedRow, setSelectedRow] = useState({});
 
     useEffect(() => {
