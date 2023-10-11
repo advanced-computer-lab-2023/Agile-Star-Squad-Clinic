@@ -9,7 +9,7 @@ const Appointment = require('../models/appointmentModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   const newRequest = await Request.create(req.body);
-  const newDoctor = await Doctor.create(req.body);
+  // const newDoctor = await Doctor.create(req.body);
   res.status(200).json({
     status: 'success',
     data: {

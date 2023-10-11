@@ -1,19 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+// import App from './App';
 import reportWebVitals from './reportWebVitals';
-import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
-import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
-// import DoctorHome from './doctor/pages/DoctorHome';
-
-
+import DoctorRequestForm from './shared/components/FormElements/doctorRequestForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     <div id="backdrop-root"></div>
-    <PatientRegisterForm />
+    <DoctorRequestForm />
   </>
 );
 

@@ -4,7 +4,6 @@ const validator = require('validator');
 const Prescription = require('./prescriptionModel');
 const Appointment = require('./appointmentModel');
 
-
 const doctorSchema = new mongoose.Schema(
   {
     username: {
@@ -45,16 +44,18 @@ const doctorSchema = new mongoose.Schema(
     },
     mobileNumber: {
       type: String,
-      required: [false]
+      required: [false],
     },
     speciality: {
       type: String,
-      required : [true , 'Please provide your speciality']
+      required: [true, 'Please provide your speciality'],
     },
-    appointments:[{
-      type: mongoose.Schema.ObjectId,
-      ref: 'Appointment'
-    }],
+    appointments: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Appointment',
+      },
+    ],
     patients: [
       {
         type: mongoose.Schema.ObjectId,
