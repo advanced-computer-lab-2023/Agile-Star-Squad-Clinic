@@ -51,6 +51,16 @@ const patientSchema = new mongoose.Schema({
       required: [true, 'Please provide an emergency phone number.'],
     },
   },
+  MedicalRecord: {
+    type: String,
+    required: [true, 'Please provide your medical record']
+  },
+  package: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Package'
+    }
+  ],
   doctor: [
     {
       type: mongoose.Schema.ObjectId,
