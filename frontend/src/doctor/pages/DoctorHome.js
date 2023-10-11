@@ -4,7 +4,7 @@ import AppointmentDetails from "./AppointmentDetails";
 import myInfo from "./myInfo";
 import PatientDetails from "./PatientDetails";
 
-const DUMMY_DOCTOR_ID = "6521b5c6ba5aa46d406e1090";
+const DUMMY_DOCTOR_ID = "65270f436a48cd31d535b963";
 
 const DoctorHome = () => {
   const [users, setUsers] = useState([]);
@@ -23,15 +23,15 @@ const DoctorHome = () => {
 
   const upcomingCols = [
     { field: "username", headerName: "Patient Name" },
-    { field: "dateOfAppointment", headerName: "Date of appointment" },
-    { field: "status", headerName: "Status" },
+    { field: "mobileNumber", headerName: "Mobile Number" },
+    { field: "dateOfAppointment", headerName: "Date of Appointment" },
   ];
 
   const patientCols = [
     { field: "username", headerName: "Username" },
     { field: "name", headerName: "Name" },
-    { field: "mobileNumber", headerName: "Mobile Number" },
-    { field: "dateOfAppointment", headerName: "Date of appointment" },
+    { field: "appointments", headerName: "Date of Appointment" },
+    // { field: "status", headerName: "Appointment Status" },
   ];
 
   // const infoCols = [  //khaliha text
@@ -60,7 +60,6 @@ const DoctorHome = () => {
               emergencyContact: patient["emergencyContact"],
               doctor: patient["doctor"],
               familyMembers: patient["familyMembers"],
-              // dateOfAppointment: appointment["dateOfAppointment"]
             };
           })
         );
@@ -79,7 +78,6 @@ const DoctorHome = () => {
         appointmentsJson.map((appointment) => {
           return {
             id: appointment["patient"],
-            status: appointment["status"],
             dateOfAppointment: appointment["dateOfAppointment"],
           };
         })
@@ -127,6 +125,21 @@ const DoctorHome = () => {
   //     setShowAdminForm(false);
   // }
 
+  const usersAndTheirAppointments = users.map((user) => {
+    const userAppointments = appointments.filter(
+      (appointment) => appointment.id == user.id
+    );
+    return {
+      id: user.id, // Add a unique id for the user
+      username: user.username,
+      name: user.name,
+      appointments: userAppointments.map(
+        (appointment) => appointment.dateOfAppointment
+      ),
+      ...user,
+    };
+  });
+
   return (
     <div className="center">
       {showAppointment && (
@@ -148,7 +161,7 @@ const DoctorHome = () => {
       {isUserTab && (
         <DataTable
           columns={patientCols}
-          rows={users}
+          rows={usersAndTheirAppointments}
           onRowClick={showUserModal}
         />
       )}
