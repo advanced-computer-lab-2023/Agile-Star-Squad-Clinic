@@ -3,26 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
-<<<<<<< HEAD
 import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
 import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
 // import NewPackage from './shared/components/FormElements/newPackage';
 // import DoctorHome from './doctor/pages/DoctorHome';
 
 
-=======
-import DoctorRequestForm from './shared/components/FormElements/doctorRequestForm';
->>>>>>> d43bb1faf1a26bc7f44c2cf1e90029a73dcbbecc
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     <div id="backdrop-root"></div>
-<<<<<<< HEAD
     {/* <NewPackage /> */}
-=======
     <DoctorRequestForm />
->>>>>>> d43bb1faf1a26bc7f44c2cf1e90029a73dcbbecc
   </>
 );
 
