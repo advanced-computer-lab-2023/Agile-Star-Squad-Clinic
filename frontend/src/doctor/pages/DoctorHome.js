@@ -63,19 +63,11 @@ const DoctorHome = () => {
         //hardcode id
         fetch("http://localhost:3000/doctors/652697382f4bf60c788346ac/upComingAppointments").then(async (response) => {
             const json = await response.json();
-            const appointmentsJson = json.data.patients; 
-            setUsers(patientsJson.map((patient) => {
+            const appointmentsJson = json.data.appointments; 
+            setAppointments(patientsJson.map((appointment) => {
                 return {
-                    id: patient["_id"],
-                    username: patient["username"],
-                    name: patient["name"],
-                    email: patient['email'],
-                    dateOfBirth: patient['dateOfBirth'],
-                    gender: patient['gender'],
-                    mobileNumber: patient["mobileNumber"],
-                    emergencyContact: patient['emergencyContact'],
-                    doctor: patient['doctor'],
-                    familyMembers: patient['familyMembers'],
+                    id: appointment["Patient"],
+                    dateOfAppointment: appointment['dateOfAppointment'],
                 }
             }));
         });
@@ -83,22 +75,18 @@ const DoctorHome = () => {
 
     const fetchMyInfo = () => {
         //hardcode id
-        fetch("http://localhost:3000/doctors/:doctorId/patients").then(async (response) => {
+        fetch("http://localhost:3000/doctors/652697382f4bf60c788346ac").then(async (response) => {
             const json = await response.json();
-            const patientsJson = json.data.patients; //check
+            const patientsJson = json.data.doctors; //check
             console.log(json.data);
-            setUsers(patientsJson.map((patient) => {
+            setUsers(patientsJson.map((doctor) => {
                 return {
-                    id: patient["_id"],
-                    username: patient["username"],
-                    name: patient["name"],
-                    email: patient['email'],
-                    dateOfBirth: patient['dateOfBirth'],
-                    gender: patient['gender'],
-                    mobileNumber: patient["mobileNumber"],
-                    emergencyContact: patient['emergencyContact'],
-                    doctor: patient['doctor'],
-                    familyMembers: patient['familyMembers'],
+                    id: doctor["_id"],
+                    username: doctor["username"],
+                    name: doctor["name"],
+                    email: doctor['email'],
+                    affiliation: doctor['affiliation'],
+                    hourlyRate: doctor['hourlyRate'],
                 }
             }));
         });
