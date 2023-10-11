@@ -54,13 +54,13 @@ const doctorSchema = new mongoose.Schema(
     appointments:[{
       type: mongoose.Schema.ObjectId,
       ref: 'Appointment'
-    }]
-    // patients: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'Patient',
-    //   },
-    // ],
+    }],
+    patients: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Patient',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
