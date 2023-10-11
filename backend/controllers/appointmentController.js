@@ -42,18 +42,18 @@ const isDateInFuture = (dateToCompare) => {
 };
 
 exports.upComingAppointments = catchAsync(async (req, res, next) => {
-  const myApps = [];
+  const appointments = [];
   const doctor = await Doctor.findById(req.params.doctorId).populate(
     'appointments'
   );
   doctor.appointments.forEach((appointment) => {
     if (isDateInFuture(appointment.dateOfAppointment))
-      myApps.push(appointment);
+      appointments.push(appointment);
   });
   res.status(200).json({
     status: 'success',
     data: {
-      myApps,
+      appointments,
     },
   });
 });
