@@ -13,7 +13,8 @@ class PatientRegisterForm extends Component {
             dateOfBirth: '',
             gender: '',
             mobileNumber: '',
-            emergencyContact: ''
+            emergencyFullName: '',
+            emergencyNumber: ''
         }
     }
 
@@ -59,21 +60,28 @@ class PatientRegisterForm extends Component {
         })
     }
 
-    handleEmergencyContactChange = event => {
+    handleEmergencyFullNameChange = event => {
         this.setState({
-            emergencyContact: event.target.value
+            emergencyFullName: event.target.value
+        })
+    }
+
+    handleEmergencyNumberChange = event => {
+        this.setState({
+            emergencyNumber: event.target.value
         })
     }
 
 
 
-    handleSubmit = event =>{
+    handleSubmit = event => {
+        event.preventDefault()
         const requestOptions = {
             method: 'POST',
             headers: { "Content-type": "application/json; charset=UTF-8", },
             body: JSON.stringify(this.state)
         };
-        fetch('/patients', requestOptions)
+        fetch('http://localhost:3000/patients', requestOptions)
 
         // alert(`${this.state.username}
         // ${this.state.name}
@@ -89,7 +97,7 @@ class PatientRegisterForm extends Component {
 
 
     render() {
-        const { username, name, email, password, dateOfBirth, gender, mobileNumber, emergencyContact} = this.state
+        const { username, name, email, password, dateOfBirth, gender, mobileNumber, emergencyContact } = this.state
         return (
             <form onSubmit={this.handleSubmit}>
                 <div>
@@ -117,7 +125,7 @@ class PatientRegisterForm extends Component {
                     <select type='text' value={gender} onChange={this.handleGenderChange} >
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                        </select>
+                    </select>
                 </div>
                 <div>
                     <label>Moible Number</label>
@@ -125,9 +133,16 @@ class PatientRegisterForm extends Component {
                 </div>
                 <div>
                     <label>Emergency Contact</label>
-                    <input type='text' value={emergencyContact} onChange={this.handleEmergencyContactChange} />
+                    <div>
+                        <label>Full Name</label>
+                        <input type='text' value={emergencyFullName} onChange={this.handleEmergencyFullNameChange} />
+                    </div>
+                    <div>
+                        <label>Moible Number</label>
+                        <input type='text' value={emergencyNumber} onChange={this.handleEmergencyNumberChange} />
+                    </div>
                 </div>
-                <button type= "submit">Register</button>
+                <button type="submit">Register</button>
             </form>
         )
     }

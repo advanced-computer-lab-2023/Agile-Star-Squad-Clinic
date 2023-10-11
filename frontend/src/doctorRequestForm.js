@@ -74,12 +74,13 @@ class DoctorRequestForm extends Component {
     //PharmacistSignup is temp till we make a request function
     //
     handleSubmit = event => {
+        event.preventDefault()
         const requestOptions = {
             method: 'POST',
             headers: { "Content-type": "application/json; charset=UTF-8", },
             body: JSON.stringify(this.state)
         };
-        fetch('/doctors', requestOptions)
+        fetch('http://localhost:3000/doctors', requestOptions)
         // doctorSignup(`${this.state.username}
         // ${this.state.name}
         // ${this.state.email}
