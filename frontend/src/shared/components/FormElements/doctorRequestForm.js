@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class PatientRegisterForm extends Component {
+class DoctorRequestForm extends Component {
 
     constructor(props) {
         super(props)
@@ -11,9 +11,9 @@ class PatientRegisterForm extends Component {
             email: '',
             password: '',
             dateOfBirth: '',
-            gender: '',
-            mobileNumber: '',
-            emergencyContact: ''
+            hourlyRate: '',
+            affiliation: '',
+            educationalBackground: ''
         }
     }
 
@@ -47,51 +47,57 @@ class PatientRegisterForm extends Component {
         })
     }
 
-    handleGenderChange = event => {
+    handleHourlyRateChange = event => {
         this.setState({
-            gender: event.target.value
+            hourlyRate: event.target.value
         })
     }
 
-    handleMoibleNumberChange = event => {
+    handleAffiliationChange = event => {
+        this.setState({
+            affiliation: event.target.value
+        })
+    }
+
+    handleMobileNumberChange = event => {
         this.setState({
             mobileNumber: event.target.value
         })
     }
 
-    handleEmergencyContactChange = event => {
+    handleEducationalBackgroundChange = event => {
         this.setState({
-            emergencyContact: event.target.value
+            educationalBackground: event.target.value
         })
     }
-
-
-
-    handleSubmit = event =>{
+    // 
+    //PharmacistSignup is temp till we make a request function
+    //
+    handleSubmit = event => {
+        event.preventDefault()
         const requestOptions = {
             method: 'POST',
             headers: { "Content-type": "application/json; charset=UTF-8", },
             body: JSON.stringify(this.state)
         };
-        fetch('/patients', requestOptions)
-
-        // alert(`${this.state.username}
+        fetch('http://localhost:3000/doctors', requestOptions)
+        // doctorSignup(`${this.state.username}
         // ${this.state.name}
         // ${this.state.email}
         // ${this.state.password}
         // ${this.state.dateOfBirth}
-        // ${this.state.gender}
-        // ${this.state.mobileNumber}
-        // ${this.state.emergencyContact}`)
+        // ${this.state.hourlyRate}
+        // ${this.state.affiliation}
+        // ${this.state.educationalBackground}`)
         // event.preventDefault()
     }
 
 
 
     render() {
-        const { username, name, email, password, dateOfBirth, gender, mobileNumber, emergencyContact} = this.state
+        const { username, name, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground } = this.state
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit = {this.handleSubmit}>
                 <div>
                     <label>Username</label>
                     <input type='text' value={username} onChange={this.handleUsernameChange} />
@@ -109,28 +115,29 @@ class PatientRegisterForm extends Component {
                     <input type='text' value={password} onChange={this.handlePasswordChange} />
                 </div>
                 <div>
+                    <label>Mobile Number</label>
+                    <input type='text' value={mobileNumber} onChange={this.handleMobileNumberChange} />
+                </div>
+                <div>
                     <label>Date of Birth</label>
                     <input type='date' value={dateOfBirth} onChange={this.handleDateOfBirthChange} />
                 </div>
                 <div>
-                    <label>Gender</label>
-                    <select type='text' value={gender} onChange={this.handleGenderChange} >
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        </select>
+                    <label>Hourly Rate</label>
+                    <input type='text' value={hourlyRate} onChange={this.handleHourlyRateChange} />
                 </div>
                 <div>
-                    <label>Moible Number</label>
-                    <input type='text' value={mobileNumber} onChange={this.handleMoibleNumberChange} />
+                    <label>Affiliation</label>
+                    <input type='text' value={affiliation} onChange={this.handleAffiliationChange} />
                 </div>
                 <div>
-                    <label>Emergency Contact</label>
-                    <input type='text' value={emergencyContact} onChange={this.handleEmergencyContactChange} />
+                    <label>Educational Background</label>
+                    <input type='text' value={educationalBackground} onChange={this.handleEducationalBackgroundChange} />
                 </div>
-                <button type= "submit">Register</button>
+                <button type= "submit">Request registeration</button>
             </form>
         )
     }
 }
 
-export default PatientRegisterForm
+export default DoctorRequestForm
