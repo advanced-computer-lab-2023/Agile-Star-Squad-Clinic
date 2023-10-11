@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import DataTable from "../../shared/components/DataTable/DataTable";
-
+import Appointment from "../../../../backend/models/appointmentModel";
+import AppointmentDetails from "./AppointmentDetails";
+import myInfo from "./myInfo";
+import PatientDetails from "./PatientDetails";
 const DoctorHome = () => {
     const [users, setUsers] = useState([]);
     const [appointments, setAppointments] = useState([]);
@@ -64,9 +67,9 @@ const DoctorHome = () => {
         fetch("http://localhost:3000/doctors/652697382f4bf60c788346ac/upComingAppointments").then(async (response) => {
             const json = await response.json();
             const appointmentsJson = json.data.appointments; 
-            setAppointments(patientsJson.map((appointment) => {
+            setAppointments(appointmentsJson.map((appointment) => {
                 return {
-                    id: appointment["Patient"],
+                    id: appointment["patient"],
                     dateOfAppointment: appointment['dateOfAppointment'],
                 }
             }));
@@ -112,9 +115,9 @@ const DoctorHome = () => {
         setShowUser(false);
     }
 
-    const exitAdminModal = () => {
-        setShowAdminForm(false);
-    }
+    // const exitAdminModal = () => {
+    //     setShowAdminForm(false);
+    // }
 
 
 
@@ -123,8 +126,10 @@ const DoctorHome = () => {
 
     return <div className="center">
     {showAppointment && <AppointmentDetails data={selectedRow} exit={exitAppointmentModal} />}
-    {showAdminForm && <AdminForm exit={exitAdminModal} refresh={refreshUserData} />}
-    {showUser && <UserDetails data={selectedRow} exit={exitUserModal} onDelete={deleteUser} />}
+    {/* {showInfo && <myInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
+    {showUser && <PatientDetails data={selectedRow} exit={exitUserModal} />};
+    /*onDelete={deleteUser}*/
+
     <div >
         <span>
             <button onClick={() => setUserTab(true)}>
@@ -140,11 +145,11 @@ const DoctorHome = () => {
     {isUserTab && <h2>Users</h2>}
     {!isUserTab && <h2>Appointments</h2>}
 
-    {isUserTab && <DataTable columns={userCols} rows={users} onRowClick={showUserModal} />}
+    {isUserTab && <DataTable columns={patientCols} rows={users} onRowClick={showUserModal} />}
     {!isUserTab && <DataTable columns={upcomingCols} rows={appointments} onRowClick={showAppointmentModal} />}
 
     <div>
-        <button onClick={() => setShowAdminForm(true)}>Add New Admin</button>
+        <button onClick={() => setShowInfo(true)}>Add New Admin</button>
     </div>
 </div>;
 }
