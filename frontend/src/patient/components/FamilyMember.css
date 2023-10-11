@@ -1,0 +1,55 @@
+.family-member {
+    margin: 1rem 0;
+  }
+  
+  .family-member__content {
+    padding: 0;
+  }
+  
+  .family-member__info {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .family-member__image {
+    width: 100%;
+    height: 12.5rem;
+    margin-right: 1.5rem;
+  }
+  
+  .family-member__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .family-member__info h2,
+  .family-member__info h3,
+  .family-member__info p {
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .family-member__actions {
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid #ccc;
+  }
+  
+  .family-member__modal-content {
+    padding: 0;
+  }
+  
+  .family-member__modal-actions {
+    text-align: right;
+  }
+  
+  .family-member__actions button,
+  .family-member__actions a {
+    margin: 0.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .family-member__image {
+      height: 20rem;
+    } 
+  }
