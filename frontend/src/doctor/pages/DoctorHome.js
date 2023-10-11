@@ -23,14 +23,15 @@ const DoctorHome = () => {
 
   const upcomingCols = [
     { field: "username", headerName: "Patient Name" },
-    { field: "mobileNumber", headerName: "Mobile Number" },
     { field: "dateOfAppointment", headerName: "Date of appointment" },
+    { field: "status", headerName: "Status" },
   ];
 
   const patientCols = [
     { field: "username", headerName: "Username" },
     { field: "name", headerName: "Name" },
     { field: "mobileNumber", headerName: "Mobile Number" },
+    { field: "dateOfAppointment", headerName: "Date of appointment" },
   ];
 
   // const infoCols = [  //khaliha text
@@ -59,6 +60,7 @@ const DoctorHome = () => {
               emergencyContact: patient["emergencyContact"],
               doctor: patient["doctor"],
               familyMembers: patient["familyMembers"],
+              // dateOfAppointment: appointment["dateOfAppointment"]
             };
           })
         );
@@ -77,6 +79,7 @@ const DoctorHome = () => {
         appointmentsJson.map((appointment) => {
           return {
             id: appointment["patient"],
+            status: appointment["status"],
             dateOfAppointment: appointment["dateOfAppointment"],
           };
         })

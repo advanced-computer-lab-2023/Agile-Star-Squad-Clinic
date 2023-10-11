@@ -43,10 +43,18 @@ const isDateInFuture = (dateToCompare) => {
 
 exports.upComingAppointments = catchAsync(async (req, res, next) => {
   const appointments = [];
+  const names = [];
   const doctor = await Doctor.findById(req.params.doctorId).populate(
     'appointments'
   );
+  const patients = await Patient.findById(req.body.patient)
+  console.log(patients)
+ // const patients = doctor.patients
+  // patients.forEach((name) =>{
+  //   names.push(name);
+  // })
   doctor.appointments.forEach((appointment) => {
+    console.log(appointment.patient)
     if (isDateInFuture(appointment.dateOfAppointment))
       appointments.push(appointment);
   });
@@ -54,6 +62,7 @@ exports.upComingAppointments = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       appointments,
+      names,
     },
   });
 });
