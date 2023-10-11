@@ -2,11 +2,8 @@ import Modal from "../../shared/components/Modal/Modal";
 import ReactDOM from "react-dom";
 import React from "react";
 
-const myInfo = () => {
-  return getDoctorBody();
-};
-
-const getDoctorBody = () => {
+const myInfo = (props) => {
+  
   return (
     <React.Fragment>
       {/* <div>
@@ -64,4 +61,4 @@ const getDoctorBody = () => {
 //     );
 // };
 
-export default UserDetails;
+export default myInfo;

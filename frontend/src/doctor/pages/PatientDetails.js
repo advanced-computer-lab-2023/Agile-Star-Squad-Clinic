@@ -70,7 +70,7 @@ const PatientDetails = (props) => {
 
   return ReactDOM.createPortal(
     <Modal exit={props.exit}>
-      {userDetails()}
+      {PatientDetails()}
       <ActionButtons onDelete={onDelete} />
     </Modal>,
     document.getElementById("backdrop-root")
@@ -87,4 +87,4 @@ const ActionButtons = (props) => {
   );
 };
 
-export default UserDetails;
+export default PatientDetails;

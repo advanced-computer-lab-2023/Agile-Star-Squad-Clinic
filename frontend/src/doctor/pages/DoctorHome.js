@@ -134,7 +134,7 @@ const DoctorHome = () => {
       )}
       {/* {showInfo && <myInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
       {showUser && <PatientDetails data={selectedRow} exit={exitUserModal} />};
-      /*onDelete={deleteUser}*/
+      {/* onDelete={deleteUser} */}
       <div>
         <span>
           <button onClick={() => setUserTab(true)}>User</button>
