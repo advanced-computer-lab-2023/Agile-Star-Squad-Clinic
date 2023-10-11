@@ -61,7 +61,7 @@ const DoctorHome = () => {
 
     const fetchUpcomingAppointments = () => {
         //hardcode id
-        fetch("http://localhost:3000/doctors/:doctorId/patients").then(async (response) => {
+        fetch("http://localhost:3000/doctors/652697382f4bf60c788346ac/upComingAppointments").then(async (response) => {
             const json = await response.json();
             const appointmentsJson = json.data.patients; 
             setUsers(patientsJson.map((patient) => {
