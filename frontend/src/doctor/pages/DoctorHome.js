@@ -38,10 +38,12 @@ const DoctorHome = () => {
     ]
 
     const fetchMyPatients = () => {
+        //hardcode id
         fetch("http://localhost:3000/doctors/:doctorId/patients").then(async (response) => {
             const json = await response.json();
-            const patientsJson = json.data.patients;
-            setUsers((val) => [...val, ...patientsJson.map((patient) => {
+            const patientsJson = json.data.patients; //check
+            console.log(json.data);
+            setUsers(patientsJson.map((patient) => {
                 return {
                     id: patient["_id"],
                     username: patient["username"],
@@ -54,7 +56,7 @@ const DoctorHome = () => {
                     doctor: patient['doctor'],
                     familyMembers: patient['familyMembers'],
                 }
-            })]);
+            }));
         });
     }
 
