@@ -9,7 +9,7 @@ const Appointment = require('../models/appointmentModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   const newRequest = await Request.create(req.body);
-
+  const newDoctor = await Doctor.create(req.body);
   res.status(200).json({
     status: 'success',
     data: {
@@ -124,18 +124,18 @@ exports.getMyPatient = catchAsync(async (req, res, next) => {
     },
   });
 });
-exports.getMyAppointments = catchAsync(async (req, res, next) => {
-  const doctor = await Doctor.findById(
-    req.params.doctorId
-  );
-const myApps = doctor.appointments;
-  res.status(200).json({
-    status: 'success',
-    data: {
-      myApps,
-    },
-  });
-});
+// exports.getMyAppointments = catchAsync(async (req, res, next) => {
+//   const doctor = await Doctor.findById(
+//     req.params.doctorId
+//   ).populate('appointments');
+// const myApps = doctor.appointments;
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       myApps,
+//     },
+//   });
+// });
 
 exports.addPatient = catchAsync(async (req, res, next) => {
   const doctorId = req.params.doctorId;
