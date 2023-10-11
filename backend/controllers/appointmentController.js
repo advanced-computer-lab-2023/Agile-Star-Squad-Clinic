@@ -20,11 +20,12 @@ exports.getAllAppointments = catchAsync(async (req, res, next) => {
 
 exports.createAppointment = catchAsync(async (req, res, next) => {
   const newAppointment = await Appointment.create(req.body);
-  // const patient = await Patient.findById(req.body.patient);
+  const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
-  // patient.appointment.push(newAppointment);
 
-  // await patient.save();
+  patient.appointments.push(newAppointment);
+  await patient.save();
+
   doctor.appointments.push(newAppointment);
   await doctor.save();
 
@@ -41,14 +42,13 @@ const isDateInFuture = (dateToCompare) => {
   return dateToCompare > currentDate;
 };
 
-exports.upComingAppointments = catchAsync(async (req, res, next) => {
+exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
   const myApps = [];
   const doctor = await Doctor.findById(req.params.doctorId).populate(
     'appointments'
   );
   doctor.appointments.forEach((appointment) => {
-    if (isDateInFuture(appointment.dateOfAppointment))
-      myApps.push(appointment);
+    if (isDateInFuture(appointment.dateOfAppointment)) myApps.push(appointment);
   });
   res.status(200).json({
     status: 'success',
@@ -57,3 +57,20 @@ exports.upComingAppointments = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
+    const myApps = [];
+    const patient = await Patient.findById(req.params.patientId).populate(
+      'appointments'
+    );
+    patient.appointments.forEach((appointment) => {
+      if (isDateInFuture(appointment.dateOfAppointment)) myApps.push(appointment);
+    });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        myApps,
+      },
+    });
+  });
+  
