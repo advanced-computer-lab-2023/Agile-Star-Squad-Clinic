@@ -150,7 +150,7 @@ class PatientRegisterForm extends Component {
           />
         </div>
         <div>
-          <label>Emergency Contact</label>
+          <label>Emergency Contact:</label>
           <div>
             <label>Full Name</label>
             <input
