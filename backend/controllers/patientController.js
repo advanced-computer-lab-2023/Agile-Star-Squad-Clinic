@@ -6,7 +6,28 @@ const Doctor = require('../models/doctorModel');
 const apiFeatures = require('../utils/apiFeatures');
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const newPatient = await Patient.create(req.body);
+  console.log(req.body);
+
+  const newPatient = await Patient.create(req.body)
+    .then((result) => {
+      console.log('New patient created:', result);
+      return result; // Forward the result for further processing
+    })
+    .catch((error) => {
+      console.error('Error creating patient:', error.message);
+      throw error; // Re-throw the error for further handling
+    });
+
+  console.log('ERR');
+
+  if (newPatient == null) {
+    res.status(404).json({
+      status: 'fail',
+      data: {
+        error: 'error',
+      },
+    });
+  }
 
   res.status(200).json({
     status: 'success',
@@ -52,7 +73,6 @@ exports.removePatient = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
-
 
 exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;

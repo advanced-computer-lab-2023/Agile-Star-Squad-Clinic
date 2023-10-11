@@ -3,7 +3,7 @@ const validator = require('validator');
 const Doctor = require('./doctorModel');
 const Family = require('./familyModel');
 const Appointment = require('./appointmentModel');
-const Prescription = require('./prescriptionModel')
+const Prescription = require('./prescriptionModel');
 
 const patientSchema = new mongoose.Schema({
   username: {
@@ -38,7 +38,7 @@ const patientSchema = new mongoose.Schema({
     default: 'male',
   },
   mobileNumber: {
-    type: Number,
+    type: String,
     required: [true, 'Please provide a phone number.'],
   },
   emergencyContact: {
@@ -47,7 +47,7 @@ const patientSchema = new mongoose.Schema({
       required: [true, 'Please provide a full name.'],
     },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: [true, 'Please provide an emergency phone number.'],
     },
   },
@@ -57,21 +57,24 @@ const patientSchema = new mongoose.Schema({
       ref: 'Doctor',
     },
   ],
-  prescription: [{
-
-    type: mongoose.Schema.ObjectId,
-    ref: 'Prescription',
-  }],
+  prescription: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Prescription',
+    },
+  ],
   familyMembers: [
     {
       type: mongoose.Schema.ObjectId,
       ref: 'Family',
     },
   ],
-  appointments:[{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Appointment'
-  }]
+  appointments: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Appointment',
+    },
+  ],
 });
 
 // tourSchema.virtual('familyMembers', {
