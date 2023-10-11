@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Patient = require('./patientModel');
 const validator = require('validator');
 const Prescription = require('./prescriptionModel');
+const Appointment = require('./appointmentModel');
 
 
 const doctorSchema = new mongoose.Schema(
@@ -50,7 +51,10 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required : [true , 'Please provide your speciality']
     },
-    
+    appointments:[{
+      type: mongoose.Schema.ObjectId,
+      ref: 'Appointment'
+    }]
     // patients: [
     //   {
     //     type: mongoose.Schema.ObjectId,

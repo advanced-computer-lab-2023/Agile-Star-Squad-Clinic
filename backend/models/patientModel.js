@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const Doctor = require('./doctorModel');
 const Family = require('./familyModel');
+const Appointment = require('./appointmentModel');
+const Prescription = require('./prescriptionModel')
 
 const patientSchema = new mongoose.Schema({
   username: {
@@ -66,7 +68,12 @@ const patientSchema = new mongoose.Schema({
       ref: 'Family',
     },
   ],
+  appointments:[{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Appointment'
+  }]
 });
+
 // tourSchema.virtual('familyMembers', {
 //   ref: 'Family',
 //   foreignField: 'patient',

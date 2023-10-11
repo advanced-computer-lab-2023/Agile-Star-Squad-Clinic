@@ -1,8 +1,11 @@
 const express = require('express');
 const patientController = require('../controllers/patientController');
 const doctorRouter = require('./doctorRoutes');
+const appointmentController = require('../controllers/appointmentController')
 
 const router = express.Router();
+
+router.route('/appointments').get(appointmentController.getAllAppointments).post(appointmentController.createAppointment)
 
 router.use('/:id/doctors', doctorRouter);
 

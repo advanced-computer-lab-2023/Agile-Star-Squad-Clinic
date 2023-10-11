@@ -3,7 +3,7 @@ const validator = require('validator');
 const Doctor = require('./doctorModel');
 const Patient = require('./patientModel');
 
-const prescriptionSchema = new mongoose.Schema({
+const appointmentSchema = new mongoose.Schema({
     doctor: [
         {
             type: mongoose.Schema.ObjectId,
@@ -27,9 +27,8 @@ const prescriptionSchema = new mongoose.Schema({
 
     status : {
         type : String,
-        enum: ["Attended" , "Absent"],
+        enum: ["vaccant" , "reserved",'passed'],
         required: [true , 'Please provide status'], 
-        default: "Attended"
     },
 
 })

@@ -6,14 +6,7 @@ const Appointment = require('../models/appointmentModel');
 
 
 exports.getAllAppointments = catchAsync(async (req, res, next) => {
-    // const prescriptions = await Prescription.find().populate('doctor').populate('patient');
-
-    const features = new APIFeatures(Appointment.find(), req.query)
-    .filter()
-    .sort()
-    .fieldLimit()
-    .paginate();
-  const appointments = await features.query;
+   const appointments = await Appointment.find().populate('doctor').populate('patient');
 
     res.status(200).json({
         status: 'success',
@@ -27,11 +20,11 @@ exports.getAllAppointments = catchAsync(async (req, res, next) => {
 
 exports.createAppointment = catchAsync(async (req, res, next) => {
     const newAppointment = await Appointment.create(req.body);
-    const patient = await Patient.findById(req.body.patient);
+    // const patient = await Patient.findById(req.body.patient);
 
-    patient.appointment.push(newAppointment);
+    // patient.appointment.push(newAppointment);
 
-    await patient.save();
+    // await patient.save();
     
     res.status(200).json({
       status: 'success',
