@@ -3,9 +3,9 @@ import DataTable from "../../shared/components/DataTable/DataTable";
 
 const DoctorHome = () => {
     const [users, setUsers] = useState([]);
-    const [requests, setRequests] = useState([]);
+    const [appointments, setAppointments] = useState([]);
     const [isUserTab, setUserTab] = useState(true);
-    const [showRequest, setShowRequest] = useState(false);
+    const [showAppointment, setShowAppointment] = useState(false);
     const [showUser, setShowUser] = useState(false);
     const [showAdminForm, setShowAdminForm] = useState(false);
     const [selectedRow, setSelectedRow] = useState({});
@@ -18,10 +18,9 @@ const DoctorHome = () => {
 
 
     const upcomingCols = [ 
-        { field: "username", headerName: "Username" },
-        { field: "name", headerName: "Name" },
-        { field: "email", headerName: "Email" },
-        { field: "status", headerName: "Status" },
+        { field: "username", headerName: "Patient Name" },
+        { field: "mobileNumber", headerName: "Mobile Number" },
+        { field: "dateOfAppointment", headerName: "Date of appointment" },
     ]
 
     const patientCols = [
@@ -30,12 +29,12 @@ const DoctorHome = () => {
         { field: "mobileNumber", headerName: "Mobile Number" },
     ]
 
-    const infoCols = [  //khaliha text
-        { field: "username", headerName: "Username" },
-        { field: "name", headerName: "Name" },
-        { field: "mobileNumber", headerName: "Mobile Number" },
-        { field: "role", headerName: "Role" },
-    ]
+    // const infoCols = [  //khaliha text
+    //     { field: "username", headerName: "Username" },
+    //     { field: "name", headerName: "Name" },
+    //     { field: "mobileNumber", headerName: "Mobile Number" },
+    //     { field: "role", headerName: "Role" },
+    // ]
 
     const fetchMyPatients = () => {
         //hardcode id
@@ -60,11 +59,56 @@ const DoctorHome = () => {
         });
     }
 
+    const fetchUpcomingAppointments = () => {
+        //hardcode id
+        fetch("http://localhost:3000/doctors/:doctorId/patients").then(async (response) => {
+            const json = await response.json();
+            const appointmentsJson = json.data.patients; 
+            setUsers(patientsJson.map((patient) => {
+                return {
+                    id: patient["_id"],
+                    username: patient["username"],
+                    name: patient["name"],
+                    email: patient['email'],
+                    dateOfBirth: patient['dateOfBirth'],
+                    gender: patient['gender'],
+                    mobileNumber: patient["mobileNumber"],
+                    emergencyContact: patient['emergencyContact'],
+                    doctor: patient['doctor'],
+                    familyMembers: patient['familyMembers'],
+                }
+            }));
+        });
+    }
+
+    const fetchMyInfo = () => {
+        //hardcode id
+        fetch("http://localhost:3000/doctors/:doctorId/patients").then(async (response) => {
+            const json = await response.json();
+            const patientsJson = json.data.patients; //check
+            console.log(json.data);
+            setUsers(patientsJson.map((patient) => {
+                return {
+                    id: patient["_id"],
+                    username: patient["username"],
+                    name: patient["name"],
+                    email: patient['email'],
+                    dateOfBirth: patient['dateOfBirth'],
+                    gender: patient['gender'],
+                    mobileNumber: patient["mobileNumber"],
+                    emergencyContact: patient['emergencyContact'],
+                    doctor: patient['doctor'],
+                    familyMembers: patient['familyMembers'],
+                }
+            }));
+        });
+    }
 
 
-    const showRequestModal = (selectedRow) => {
+
+    const showAppointmentModal = (selectedRow) => {
         setSelectedRow(selectedRow);
-        setShowRequest(true);
+        setShowAppointment(true);
     }
 
     const showUserModal = (selectedRow) => {
@@ -72,8 +116,8 @@ const DoctorHome = () => {
         setShowUser(true);
     }
 
-    const exitRequestModal = () => {
-        setShowRequest(false);
+    const exitAppointmentModal = () => {
+        setShowAppointment(false);
     }
 
     const exitUserModal = () => {
@@ -90,7 +134,7 @@ const DoctorHome = () => {
 
 
     return <div className="center">
-    {showRequest && <RequestDetails data={selectedRow} exit={exitRequestModal} />}
+    {showAppointment && <AppointmentDetails data={selectedRow} exit={exitAppointmentModal} />}
     {showAdminForm && <AdminForm exit={exitAdminModal} refresh={refreshUserData} />}
     {showUser && <UserDetails data={selectedRow} exit={exitUserModal} onDelete={deleteUser} />}
     <div >
@@ -101,15 +145,15 @@ const DoctorHome = () => {
         </span>
         <span >
             <button onClick={() => setUserTab(false)}>
-                Requests
+                Appointments
             </button>
         </span>
     </div>
     {isUserTab && <h2>Users</h2>}
-    {!isUserTab && <h2>Requests</h2>}
+    {!isUserTab && <h2>Appointments</h2>}
 
     {isUserTab && <DataTable columns={userCols} rows={users} onRowClick={showUserModal} />}
-    {!isUserTab && <DataTable columns={requestCols} rows={requests} onRowClick={showRequestModal} />}
+    {!isUserTab && <DataTable columns={upcomingCols} rows={appointments} onRowClick={showAppointmentModal} />}
 
     <div>
         <button onClick={() => setShowAdminForm(true)}>Add New Admin</button>

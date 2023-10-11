@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const Prescription = require('../models/prescriptionModel');
 const APIFeatures = require('../utils/apiFeatures');
 const Request = require('../models/requestModel');
+const Appointment = require('../models/appointmentModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   const newRequest = await Request.create(req.body);
@@ -120,6 +121,18 @@ exports.getMyPatient = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       patient,
+    },
+  });
+});
+exports.getMyAppointments = catchAsync(async (req, res, next) => {
+  const doctor = await Doctor.findById(
+    req.params.doctorId
+  );
+const myApps = doctor.appointments;
+  res.status(200).json({
+    status: 'success',
+    data: {
+      myApps,
     },
   });
 });
