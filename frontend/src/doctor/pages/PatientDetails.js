@@ -80,9 +80,9 @@ const PatientDetails = (props) => {
 const ActionButtons = (props) => {
   return (
     <div className="d-flex justify-content-end mt-5">
-      <button className="formButtons formDeleteButton" onClick={props.onDelete}>
+      {/* <button className="formButtons formDeleteButton" onClick={props.onDelete}>
         Delete
-      </button>
+      </button> */}
     </div>
   );
 };

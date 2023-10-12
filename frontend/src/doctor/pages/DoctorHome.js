@@ -34,12 +34,15 @@ const DoctorHome = () => {
     { field: "status", headerName: "Appointment Status" },
   ];
 
-  // const infoCols = [  //khaliha text
-  //     { field: "username", headerName: "Username" },
-  //     { field: "name", headerName: "Name" },
-  //     { field: "mobileNumber", headerName: "Mobile Number" },
-  //     { field: "role", headerName: "Role" },
-  // ]
+  const infoCols = [  //khaliha text
+      { field: "username", headerName: "Username" },
+      { field: "name", headerName: "Name" },
+      { field: "mobileNumber", headerName: "Mobile Number" },
+      { field: "speciality", headerName: "Speciality" },
+      { field: "email", headerName: "Email" },
+      { field: "hourlyRate", headerName: "Hourly Rate" },
+      { field: "affiliation", headerName: "Affiliation" },
+  ]
 
   const fetchMyPatients = () => {
     //hardcode id
@@ -85,7 +88,31 @@ const DoctorHome = () => {
       );
     });
   };
+  
 
+  // const fetchMyInfo = () => {
+  //   //hardcode id
+  //   fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}`).then(
+  //     async (response) => {
+  //       const json = await response.json();
+  //       const doctorJson = json.data.doctors; //check
+  //       setShowInfo(
+  //         doctorJson.map((doctor) => {
+  //           return{
+  //         username: doctor["username"],
+  //         name: doctor["name"],
+  //         mobileNumber: doctor["mobileNumber"],
+  //         speciality: doctor["speciality"],
+  //         email: doctor["email"],
+  //         hourlyRate: doctor["hourlyRate"],
+  //         affiliation: doctor["affiliation"],
+
+  //       };})
+  //       );
+  //     }
+  
+  //   );
+  // };
   const fetchMyInfo = () => {
     //hardcode id
     fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}`).then(
@@ -96,13 +123,12 @@ const DoctorHome = () => {
           id: doctor._id,
           username: doctor.username,
           name: doctor.name,
-          email: doctor.email,
-          affiliation: doctor.affiliation,
-          hourlyRate: doctor.hourlyRate,
+          mobileNumber: doctor.mobileNumber,
         });
       }
     );
   };
+
 
   const showAppointmentModal = (selectedRow) => {
     setSelectedRow(selectedRow);
@@ -157,14 +183,14 @@ const DoctorHome = () => {
       {/* onDelete={deleteUser} */}
       <div>
         <span>
-          <button onClick={() => setUserTab(true)}>User</button>
+          <button onClick={() => setUserTab(true)}>My Patients</button>
         </span>
         <span>
-          <button onClick={() => setUserTab(false)}>Appointments</button>
+          <button onClick={() => setUserTab(false)}>Account Info</button>
         </span>
       </div>
-      {isUserTab && <h2>Users</h2>}
-      {!isUserTab && <h2>Appointments</h2>}
+      {isUserTab && <h3>Patients and Upcoming Appointments</h3>}
+      {!isUserTab && <h3>My Info</h3>}
       {isUserTab && (
         <DataTable
           columns={patientCols}
@@ -180,7 +206,7 @@ const DoctorHome = () => {
         />
       )}
       <div>
-        <button onClick={() => setShowInfo(true)}>Add New Admin</button>
+        {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
       </div>
     </div>
   );
