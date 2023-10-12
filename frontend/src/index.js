@@ -5,17 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
 import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
-import NewPackage from './shared/components/FormElements/newPackage';
+
+import PatientHome from './patient/pages/PatientHome';
+// import NewPackage from './shared/components/FormElements/newPackage';
 // import DoctorHome from './doctor/pages/DoctorHome';
-import DoctorRequestForm from './shared/components/FormElements/doctorRequestForm';
-// import 
+
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     <div id="backdrop-root"></div>
-    <NewPackage />
+
+    {/* <NewPackage /> */}
+    <PatientHome />
+
   </>
 );
 

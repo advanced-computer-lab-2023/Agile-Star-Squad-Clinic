@@ -41,7 +41,7 @@ exports.getPatient = catchAsync(async (req, res, next) => {
   const patient = await Patient.findById(req.params.id).populate({
     path: 'doctor',
     select: '-__v -dateOfBirth -hourlyRate -affiliation -educationalBackground',
-  });
+  }).populate('package');
 
   res.status(200).json({
     status: 'success',
@@ -51,7 +51,7 @@ exports.getPatient = catchAsync(async (req, res, next) => {
   });
 });
 exports.getAllPatients = catchAsync(async (req, res, next) => {
-  const patients = await Patient.find().populate('doctor');
+  const patients = await Patient.find().populate('doctor').populate('package');
 
   res.status(200).json({
     status: 'success',

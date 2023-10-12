@@ -59,18 +59,31 @@ exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
 });
 
 exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
-    const myApps = [];
-    const patient = await Patient.findById(req.params.patientId).populate(
-      'appointments'
-    );
-    patient.appointments.forEach((appointment) => {
-      if (isDateInFuture(appointment.dateOfAppointment)) myApps.push(appointment);
-    });
-    res.status(200).json({
-      status: 'success',
-      data: {
-        myApps,
-      },
-    });
+  const appointments = [];
+  const patient = await Patient.findById(req.params.patientId).populate(
+    'appointments'
+  );
+
+    for (const app of patient.appointments) {
+      const doctor = await Doctor.findById(app.doctor);
+      const appointment = {
+          _id: app._id,
+          doctorName: doctor.name,
+          doctorId: doctor.id,
+          date: new Date(app.dateOfAppointment).toDateString(),
+          status: app.status
+      }
+      console.log(isDateInFuture(app.dateOfAppointment))
+      if (isDateInFuture(app.dateOfAppointment)) appointments.push(appointment);
+  }
+
+
+
+  console.log(appointments)
+  res.status(200).json({
+    status: 'success',
+    data: {
+      appointments: appointments,
+    },
   });
-  
+});
