@@ -5,6 +5,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
 import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
+import PatientHome from './patient/pages/PatientHome';
 // import NewPackage from './shared/components/FormElements/newPackage';
 // import DoctorHome from './doctor/pages/DoctorHome';
 
@@ -15,7 +16,7 @@ root.render(
   <>
     <div id="backdrop-root"></div>
     {/* <NewPackage /> */}
-    <DoctorRequestForm />
+    <PatientHome />
   </>
 );
 
