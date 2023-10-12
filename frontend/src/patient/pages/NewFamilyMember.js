@@ -17,27 +17,43 @@ const NewFamilyMember = () => {
       [name]: value,
     }));
   };
-
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-      body: JSON.stringify(familyMember), // Use the data entered in the form
-    };
+  //   setFamilyMember(
+  //     {familyMembers?.map((place) => (
+  //       <FamilyMember
+  //         // key={place._id}
+  //         name={place.name}
+  //         NationalID={place.NationalID}
+  //         age={place.age}
+  //         gender={place.gender}
+  //         patient={place.patient}
+  //         relation={place.relation}
+  //       />
+  //     ))}
+  //   );
+     };
+  // const submitHandler = (event) => {
+  //   event.preventDefault();
 
-    fetch("http://localhost:3000/6526e47b30ab6b420edcd716/familyMembers", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response, e.g., show a success message
-        console.log("Family member added:", data);
-      })
-      .catch((error) => {
-        // Handle errors, e.g., show an error message
-        console.error("Error adding family member:", error);
-      });
-  };
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: { "Content-type": "application/json; charset=UTF-8" },
+  //     body: JSON.stringify(familyMember), // Use the data entered in the form
+  //   };
+
+  //   fetch("http://localhost:3000/6521b46c8e7a4831ac7e6dce/familyMembers", requestOptions)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Handle the response, e.g., show a success message
+  //       console.log("Family member added:", data);
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors, e.g., show an error message
+  //       console.error("Error adding family member:", error);
+  //     });
+  // };
 
   return (
     <Card>
@@ -108,6 +124,7 @@ const NewFamilyMember = () => {
         </button>
       </form>
     </Card>
+    
   );
 };
 
