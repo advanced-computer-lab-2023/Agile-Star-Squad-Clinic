@@ -40,7 +40,7 @@ const NewPackage = () => {
     try {
       const response = await fetch("http://localhost:3000/packages", {
         method: "POST",
-        heders: {},
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       });
 

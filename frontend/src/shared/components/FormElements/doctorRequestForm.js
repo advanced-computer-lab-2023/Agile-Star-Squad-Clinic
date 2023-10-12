@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+
+import Card from '../Card/Card';
+
 class DoctorRequestForm extends Component {
   constructor(props) {
     super(props);
@@ -113,81 +116,91 @@ class DoctorRequestForm extends Component {
       speciality,
     } = this.state;
     return (
+      <Card>
       <form onSubmit={this.handleSubmit}>
-        <div>
-          <label>Username</label>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Username</label>
           <input
             type="text"
+            class="form-control"
             value={username}
             onChange={this.handleUsernameChange}
           />
         </div>
-        <div>
-          <label>Name</label>
-          <input type="text" value={name} onChange={this.handleNameChange} />
+       <div class="mb-3">
+         <label for="exampleFormControlInput1" class="form-label">Name</label>
+          <input type="text"class="form-control" value={name} onChange={this.handleNameChange} />
         </div>
-        <div>
-          <label>Email</label>
-          <input type="text" value={email} onChange={this.handleEmailChange} />
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Email</label>
+          <input type="text" class="form-control" value={email} onChange={this.handleEmailChange} />
         </div>
-        <div>
-          <label>Password</label>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Password</label>
           <input
             type="text"
+            class="form-control"
             value={password}
             onChange={this.handlePasswordChange}
           />
         </div>
-        <div>
-          <label>Mobile Number</label>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Mobile Number</label>
           <input
             type="text"
+            class="form-control"
             value={mobileNumber}
             onChange={this.handleMobileNumberChange}
           />
         </div>
-        <div>
-          <label>Date of Birth</label>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Date of Birth</label>
           <input
             type="date"
             value={dateOfBirth}
+            class="form-control"
             onChange={this.handleDateOfBirthChange}
           />
         </div>
-        <div>
-          <label>Hourly Rate</label>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Hourly Rate</label>
           <input
             type="text"
+            class="form-control"
             value={hourlyRate}
             onChange={this.handleHourlyRateChange}
           />
         </div>
-        <div>
-          <label>Affiliation</label>
+       <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Affiliation</label>
           <input
             type="text"
+            class="form-control"
             value={affiliation}
             onChange={this.handleAffiliationChange}
           />
         </div>
-        <div>
-          <label>Educational Background</label>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Educational Background</label>
           <input
             type="text"
+            class="form-control"
             value={educationalBackground}
             onChange={this.handleEducationalBackgroundChange}
           />
         </div>
-        <div>
-          <label>Speciality</label>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Speciality</label>
           <input
             type="text"
+            class="form-control"
             value={speciality}
             onChange={this.handleSpecialityChange}
           />
         </div>
-        <button type="submit">Request registeration</button>
+        <button class="btn btn-primary lg" id="subbutton2" type="submit">Request registeration</button>
       </form>
+      </Card>
     );
   }
 }
