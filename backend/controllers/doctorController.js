@@ -68,7 +68,6 @@ exports.updateDoctor = catchAsync(async (req, res, next) => {
     'hourlyRate',
     'affiliation'
   );
-  console.log(filteredBody);
   const updatedDoctor = await Doctor.findByIdAndUpdate(
     req.params.id,
     filteredBody,
