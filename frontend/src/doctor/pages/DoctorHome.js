@@ -14,7 +14,8 @@ const DoctorHome = () => {
   const [showUser, setShowUser] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-  const [doctorSearchField, setDoctorSearchField] = useState("");
+  const [patientSearchField, setPatientSearchField] = useState("");
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
     fetchMyPatients();
@@ -68,6 +69,21 @@ const DoctorHome = () => {
             };
           })
         );
+        setFilteredPatients(
+          patientsJson.map((patient) => {
+            return {
+              id: patient["_id"],
+              username: patient["username"],
+              name: patient["name"],
+              email: patient["email"],
+              dateOfBirth: patient["dateOfBirth"],
+              gender: patient["gender"],
+              mobileNumber: patient["mobileNumber"],
+              emergencyContact: patient["emergencyContact"],
+              doctor: patient["doctor"],
+              familyMembers: patient["familyMembers"],
+            };
+          }));
       }
     );
   };
@@ -134,16 +150,17 @@ const DoctorHome = () => {
     // Navigate to patient info
   };
 
-  //   const patientSearchHandler = (event) => {
-  //     const searchValue = event.target.value;
-  //     setPatientSearchField(searchValue);
-  //     if (searchValue === "") {
-  //         setFilteredPatients(patients);
-  //     } else {
-  //     //const newPatients = patients.filter((patient) => patient[doctorSearchGroup].includes(searchValue));
-  //     setFilteredPatients(newPatients);
-  //     }
-  // };
+  const patientSearchHandler = (event) => {
+    const searchValue = event.target.value;
+    setPatientSearchField(searchValue);
+    if (searchValue === "") {
+      setFilteredPatients(users);
+    } else {
+      const newPatients = users.filter((patient) => patient.name.includes(searchValue));
+      console.log(newPatients);
+      setFilteredPatients(newPatients);
+    }
+  };
 
   const showAppointmentModal = (selectedRow) => {
     setSelectedRow(selectedRow);
@@ -167,7 +184,7 @@ const DoctorHome = () => {
   //     setShowAdminForm(false);
   // }
 
-  const usersAndTheirAppointments = users.map((user) => {
+  const usersAndTheirAppointments = filteredPatients.map((user) => {
     const userAppointments = appointments.filter(
       (appointment) => appointment.id == user.id
     );
@@ -207,11 +224,22 @@ const DoctorHome = () => {
       {isUserTab && <h3>Patients and Upcoming Appointments</h3>}
       {!isUserTab && <h3>My Info</h3>}
       {isUserTab && (
-        <DataTable
-          columns={patientCols}
-          rows={usersAndTheirAppointments}
-          onRowClick={showUserModal}
-        />
+        <>
+          <span>
+            <input
+              type="text"
+              placeholder="Search"
+              value={patientSearchField}
+              onChange={patientSearchHandler}
+            />
+          </span>
+          <DataTable
+            columns={patientCols}
+            rows={usersAndTheirAppointments}
+            onRowClick={showUserModal}
+          />
+        </>
+
       )}
       {!isUserTab && (
         <DataTable
@@ -223,18 +251,8 @@ const DoctorHome = () => {
       <div>
         {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
       </div>
-      {/* <span>
-        <input
-          type="text"
-          placeholder="Search"
-          value={doctorSearchField}
-          onChange={patientSearchHandler}
-        />
-        <select value={doctorSearchGroup} onChange={doctorSearchGroupHandler}>
-                {doctorSearchGroups}
-            </select>
-        </span>
-        <DataTable columns={doctorCols} rows={filteredDoctors} onRowClick={onPatientClick} /> */}
+
+      {/* <DataTable columns={patientCols} rows={filteredPatients} onRowClick={onPatientClick} /> */}
     </div>
   );
 };

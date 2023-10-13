@@ -1,27 +1,27 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-
-import LandingPage from './shared/pages/landingPage';
-import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
+import logo from './logo.svg';
 import './App.css';
-
+// import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
+  // const patients = getAllPatients();
+  // console.log(patients);
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} exact />
-          <Route
-            path="/patientRegisterForm"
-            element={<PatientRegisterForm />}
-            exact
-          />
-          {/*redirect to landing page if wrong url*/}
-          <Route path="*" element={<Navigate to="/" />} />{' '}
-        </Routes>
-      </BrowserRouter>
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
