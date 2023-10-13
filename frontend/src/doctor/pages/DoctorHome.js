@@ -14,7 +14,9 @@ const DoctorHome = () => {
   const [showUser, setShowUser] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-  const [doctorSearchField, setDoctorSearchField] = useState("");
+  const [patientSearchField, setPatientSearchField] = useState("");
+  const [filteredPatients, setFilteredPatients] = useState([]);
+  const [patients, setPatients] = useState([]);
 
   useEffect(() => {
     fetchMyPatients();
@@ -35,15 +37,16 @@ const DoctorHome = () => {
     { field: "status", headerName: "Appointment Status" },
   ];
 
-  const infoCols = [  //khaliha text
-      { field: "username", headerName: "Username" },
-      { field: "name", headerName: "Name" },
-      { field: "mobileNumber", headerName: "Mobile Number" },
-      { field: "speciality", headerName: "Speciality" },
-      { field: "email", headerName: "Email" },
-      { field: "hourlyRate", headerName: "Hourly Rate" },
-      { field: "affiliation", headerName: "Affiliation" },
-  ]
+  const infoCols = [
+    //khaliha text
+    { field: "username", headerName: "Username" },
+    { field: "name", headerName: "Name" },
+    { field: "mobileNumber", headerName: "Mobile Number" },
+    { field: "speciality", headerName: "Speciality" },
+    { field: "email", headerName: "Email" },
+    { field: "hourlyRate", headerName: "Hourly Rate" },
+    { field: "affiliation", headerName: "Affiliation" },
+  ];
 
   const fetchMyPatients = () => {
     //hardcode id
@@ -89,7 +92,6 @@ const DoctorHome = () => {
       );
     });
   };
-  
 
   // const fetchMyInfo = () => {
   //   //hardcode id
@@ -111,7 +113,7 @@ const DoctorHome = () => {
   //       };})
   //       );
   //     }
-  
+
   //   );
   // };
   const fetchMyInfo = () => {
@@ -132,19 +134,18 @@ const DoctorHome = () => {
   const onPatientClick = (selectedRow) => {
     setSelectedRow(selectedRow);
     // Navigate to patient info
-}
+  };
 
-  const patientSearchHandler = (event) => {
-    const searchValue = event.target.value;
-    setPatientSearchField(searchValue);
-    if (searchValue === "") {
-        setFilteredPatients(patients);
-    } else {
-    //const newPatients = patients.filter((patient) => patient[doctorSearchGroup].includes(searchValue));
-    setFilteredPatients(newPatients);
-    }
-};
-
+  //   const patientSearchHandler = (event) => {
+  //     const searchValue = event.target.value;
+  //     setPatientSearchField(searchValue);
+  //     if (searchValue === "") {
+  //         setFilteredPatients(patients);
+  //     } else {
+  //     {//const newPatients = patients.filter((patient) => patient[doctorSearchGroup].includes(searchValue));}
+  //     //setFilteredPatients(newPatients);
+  //     }
+  // };
 
   const showAppointmentModal = (selectedRow) => {
     setSelectedRow(selectedRow);
@@ -224,18 +225,18 @@ const DoctorHome = () => {
       <div>
         {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
       </div>
-      <span>
+      {/* <span>
         <input
           type="text"
           placeholder="Search"
-          value={doctorSearchField}
+          value={patientSearchField}
           onChange={patientSearchHandler}
         />
         <select value={doctorSearchGroup} onChange={doctorSearchGroupHandler}>
                 {doctorSearchGroups}
             </select>
         </span>
-        <DataTable columns={doctorCols} rows={filteredDoctors} onRowClick={onPatientClick} />
+        <DataTable columns={doctorCols} rows={filteredDoctors} onRowClick={onPatientClick} /> */}
     </div>
   );
 };
