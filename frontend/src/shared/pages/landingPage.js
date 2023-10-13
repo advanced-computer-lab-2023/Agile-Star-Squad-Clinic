@@ -19,15 +19,15 @@ class LandingPage extends Component {
 
     return (
       <React.Fragment>
-        <Link to="patientRegisterForm">
-          <button type="button">Register as Patient</button>
+        <Link to="patient/register">
+          <button type="button">Register as a Patient</button>
         </Link>
-        {/* // <Link to='patientRegisterForm'>
-            //     <button type="button" onClick={routeChangeRegister}>Register as Doctor</button>
-            // </Link>
-
-            // 
-            // <button type="button" onClick={routeChangeLogin}>Login</button> */}
+        <Link to="doctor/register">
+          <button type="button">Register as a Doctor</button>
+        </Link>
+        <Link to="doctor/login">
+          <button type="button">Login as a Doctor</button>
+        </Link>
       </React.Fragment>
     );
   }
