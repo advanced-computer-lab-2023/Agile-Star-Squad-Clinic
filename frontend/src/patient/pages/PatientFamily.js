@@ -7,7 +7,7 @@ const PatientFamily = () => {
   const [error, setError] = useState();
   const [listFamilyMember, setNewFamilyMember] = useState([]);
   const [isShowMemberForm, setShowMemberForm] = useState(false);
-
+  
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -48,7 +48,8 @@ const PatientFamily = () => {
   }
 
   return (
-    <div>
+    <div
+      className="center">
       <h1>My Family Members</h1>
       <button className="btn btn-primary" onClick={showMemberForm}>Add Family Members</button>
       {isShowMemberForm && <AddFamilyForm exit={exitMemberModal} />}

@@ -25,7 +25,7 @@ const FamilyMember = ({
               <p>Relation: {relation}</p>
             </div>
             <div className="family-member__actions">
-            <button>Add Member</button>
+            {/* <button>Add Member</button> */}
             </div>
           </Card>
     </li>

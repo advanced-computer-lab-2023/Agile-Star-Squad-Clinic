@@ -18,7 +18,7 @@ const FamilyList = props => {
       <div className="family-list center">
         <Card>
           <h2>No Family Added</h2>
-          <button>Add Family Member</button>
+          {/* <button>Add Family Member</button> */}
         </Card>
       </div>
     );

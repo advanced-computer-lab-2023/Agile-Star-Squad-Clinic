@@ -4,29 +4,43 @@ import ReactDOM  from 'react-dom';
 import Modal from '../../shared/components/Modal/Modal';
 
 const AddFamilyForm = (props) => {
-    const [username, setUsername] = useState("");
     const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
+    const [NationalID, setNationalID] = useState("");
+    const [age, setage] = useState("");
+    const [gender, setgender] = useState("");
+    const [relation, setrelation] = useState("");
+
+
     const [isLoading, setLoading] = useState(false);
 
 
-    const onUsernameChange = (event) => {
-        setUsername(event.target.value);
-    };
+   
     const onNameChange = (event) => {
         setName(event.target.value);
     };
-    const onPasswordChange = (event) => {
-        setPassword(event.target.value);
+    const onNationalIDChange = (event) => {
+        setNationalID(event.target.value);
     };
+    const onAgeChange = (event) => {
+        setage(event.target.value);
+    };
+    const onGenderChange = (event) => {
+        setgender(event.target.value);
+    };
+    const onRelationChange = (event) => {
+        setrelation(event.target.value);
+    };
+
 
 
     const onAdd = async () => {
         setLoading(true);
         const data = {
-            "username": username,
             "name": name,
-            "password": password,
+            "NationalID": NationalID,
+            "age": age,
+            "gender": gender,
+            "relation": relation,
         };
 
         const requestOptions = {
@@ -34,6 +48,7 @@ const AddFamilyForm = (props) => {
             headers: { "Content-type": "application/json; charset=UTF-8", },
             body: JSON.stringify(data)
         };
+        fetch("http://localhost:3000/patients/6521b46c8e7a4831ac7e6dce/addFamilyMember", requestOptions)
         // fetch(`http://localhost:3000/admins`, requestOptions); ADD YOUR OWN ENDPOINT HERE
 
         props.exit();
@@ -41,9 +56,11 @@ const AddFamilyForm = (props) => {
 
     return ReactDOM.createPortal(
         <Modal exit={props.exit}>
-            <InputField label="Username" value={username} onChange={onUsernameChange} />
             <InputField label="Name" value={name} onChange={onNameChange} />
-            <InputField label="Password" value={password} onChange={onPasswordChange} />
+            <InputField label="NationalID" value={NationalID} onChange={onNationalIDChange} />
+            <InputField label="Age" value={age} onChange={onAgeChange} />
+            <InputField label="Gender" value={gender} onChange={onGenderChange} />
+            <InputField label="Relation" value={relation} onChange={onRelationChange} />
 
             <NewButton onAdd={onAdd} isLoading={isLoading} />
 
