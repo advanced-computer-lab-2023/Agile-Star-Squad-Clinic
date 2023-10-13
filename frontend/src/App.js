@@ -6,10 +6,11 @@ import AdminHome from './admin/pages/ManageUsers/AdminHome';
 import NewPackage from './package/pages/NewPackage';
 import AdminPackagesView from './package/pages/AdminPackagesView';
 import UpdatePackage from './package/pages/UpdatePackage';
-import PatientRegisterForm from './patient/pages/PatientRegister';
+import PatientRegisterForm from './patient/pages/patientRegister';
 import PatientHome from './patient/pages/PatientHome';
 import DoctorRegisterForm from './doctor/pages/DoctorRequest';
 import DoctorHome from './doctor/pages/DoctorHome';
+import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage'
 import './App.css';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
@@ -20,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} exact />
-          <Route path="/admin/home" element={<AdminHome />} exact />
+          
           <Route
             path="/patient/register"
             element={<PatientRegisterForm />}
@@ -38,9 +39,11 @@ function App() {
             exact
           />
           <Route path="/doctor/login" element={<DoctorHome />} exact />
+          <Route path="/admin/home" element={<AdminHome />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />
+          <Route path="admin/manage" element={<ManageUsersPage/>}/>
           {/*redirect to landing page if wrong url*/}
           <Route path="*" element={<Navigate to="/" />} />{' '}
         </Routes>
@@ -50,3 +53,4 @@ function App() {
 }
 
 export default App;
+

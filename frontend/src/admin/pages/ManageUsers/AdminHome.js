@@ -1,22 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
+const AdminHome = (props) => {
+  return (
+    <div>
+      <h1>Welcome to Admin Home</h1>
+      <Link to="/admin/manage">
+        <button>Manage Users</button>
+      </Link>
 
-const AdminHome = props => {
+      <Link to="/packages">
+        <button>Packages Page</button>
+      </Link>
+    </div>
+  );
+};
 
-  
-    return ( 
-        <div>
-        <h1>Welcome to Admin Home</h1>
-        <button to="/">Manage Users</button>
-        <button to="/">Request List</button>
-        <button to="/">Packages Page</button>
-      </div>
-      );
-  };
-
-  export default AdminHome;
-
-
-
-
-
+export default AdminHome;

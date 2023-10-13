@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DataTable from "../../shared/components/DataTable/DataTable";
 import DoctorDetails from './DoctorDetails'
+import PrescriptionDetails from "../../prescriptions/pages/PrescriptionDetails";
 
 const PatientHome = () => {
     const [doctors, setDoctors] = useState([]);
@@ -19,6 +20,7 @@ const PatientHome = () => {
     const [showPrescDateFilter, setShowPrescDateFilter] = useState(false);
     const [showPrescDoctorFilter, setShowPrescDoctorFilter] = useState(false);
     const [showDoctor, setShowDoctor] = useState(false);
+    const [showPresc, setShowPresc] = useState(false);
 
     const [selectedRow, setSelectedRow] = useState({});
 
@@ -199,7 +201,14 @@ const PatientHome = () => {
         setSelectedRow(selectedRow);
         setShowDoctor(true);
       };
+      const showPrescModal = (selectedRow) => {
+        setSelectedRow(selectedRow);
+        setShowPresc(true);
+      };
       const exitDoctorModal = () => {
+        setShowDoctor(false);
+      };
+      const exitPrescModal = () => {
         setShowDoctor(false);
       };
 
@@ -221,8 +230,10 @@ const PatientHome = () => {
         </span>
         {showDoctor && (
         <DoctorDetails data={selectedRow} exit={exitDoctorModal} />
+      )} {showPresc && (
+        <PrescriptionDetails data={selectedRow} exit={exitPrescModal} />
       )}
-        <DataTable columns={prescriptionCols} rows={filteredPrescriptions} onRowClick={onPrescriptionClick} />
+        <DataTable columns={prescriptionCols} rows={filteredPrescriptions} onRowClick={showPrescModal} />
 
         <h2>Doctors</h2>
         <span>
