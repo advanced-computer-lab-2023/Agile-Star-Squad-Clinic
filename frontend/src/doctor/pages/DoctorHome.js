@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DataTable from "../../shared/components/DataTable/DataTable";
 import AppointmentDetails from "./AppointmentDetails";
-import myInfo from "./myInfo";
+import MyInfo from "./MyInfo";
 import PatientDetails from "./PatientDetails";
 
 const DUMMY_DOCTOR_ID = "65270f436a48cd31d535b963";
@@ -12,7 +12,7 @@ const DoctorHome = () => {
   const [isUserTab, setUserTab] = useState(true);
   const [showAppointment, setShowAppointment] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
+  const [info, setInfo] = useState({});
   const [selectedRow, setSelectedRow] = useState({});
   const [patientSearchField, setPatientSearchField] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
@@ -36,16 +36,16 @@ const DoctorHome = () => {
     { field: "status", headerName: "Appointment Status" },
   ];
 
-  const infoCols = [
-    //khaliha text
-    { field: "username", headerName: "Username" },
-    { field: "name", headerName: "Name" },
-    { field: "mobileNumber", headerName: "Mobile Number" },
-    { field: "speciality", headerName: "Speciality" },
-    { field: "email", headerName: "Email" },
-    { field: "hourlyRate", headerName: "Hourly Rate" },
-    { field: "affiliation", headerName: "Affiliation" },
-  ];
+  // const infoCols = [
+  //   //khaliha text
+  //   { field: "username", headerName: "Username" },
+  //   { field: "name", headerName: "Name" },
+  //   { field: "mobileNumber", headerName: "Mobile Number" },
+  //   { field: "speciality", headerName: "Speciality" },
+  //   { field: "email", headerName: "Email" },
+  //   { field: "hourlyRate", headerName: "Hourly Rate" },
+  //   { field: "affiliation", headerName: "Affiliation" },
+  // ];
 
   const fetchMyPatients = () => {
     //hardcode id
@@ -83,7 +83,8 @@ const DoctorHome = () => {
               doctor: patient["doctor"],
               familyMembers: patient["familyMembers"],
             };
-          }));
+          })
+        );
       }
     );
   };
@@ -136,11 +137,8 @@ const DoctorHome = () => {
       async (response) => {
         const json = await response.json();
         const doctor = json.data.doctor; //check
-        setShowInfo({
-          id: doctor._id,
-          username: doctor.username,
-          name: doctor.name,
-          mobileNumber: doctor.mobileNumber,
+        setInfo({
+          ...doctor,
         });
       }
     );
@@ -156,7 +154,9 @@ const DoctorHome = () => {
     if (searchValue === "") {
       setFilteredPatients(users);
     } else {
-      const newPatients = users.filter((patient) => patient.name.includes(searchValue));
+      const newPatients = users.filter((patient) =>
+        patient.name.includes(searchValue)
+      );
       console.log(newPatients);
       setFilteredPatients(newPatients);
     }
@@ -210,7 +210,7 @@ const DoctorHome = () => {
       {showAppointment && (
         <AppointmentDetails data={selectedRow} exit={exitAppointmentModal} />
       )}
-      {/* {showInfo && <myInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
+      {/* {showInfo && <MyInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
       {showUser && <PatientDetails data={selectedRow} exit={exitUserModal} />}
       {/* onDelete={deleteUser} */}
       <div>
@@ -222,7 +222,7 @@ const DoctorHome = () => {
         </span>
       </div>
       {isUserTab && <h3>Patients and Upcoming Appointments</h3>}
-      {!isUserTab && <h3>My Info</h3>}
+      {!isUserTab && <MyInfo info={info} />}
       {isUserTab && (
         <>
           <span>
@@ -239,15 +239,8 @@ const DoctorHome = () => {
             onRowClick={showUserModal}
           />
         </>
+      )}
 
-      )}
-      {!isUserTab && (
-        <DataTable
-          columns={upcomingCols}
-          rows={appointments}
-          onRowClick={showAppointmentModal}
-        />
-      )}
       <div>
         {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
       </div>

@@ -1,9 +1,48 @@
 import Modal from "../../shared/components/Modal/Modal";
 import ReactDOM from "react-dom";
-import React from "react";
+import React, { useState } from "react";
 
-const myInfo = (props) => {
-  
+const MyInfo = (props) => {
+  const info = props["info"];
+  const [email, setEmail] = useState(info.email);
+  let newEmail = email;
+  const [hourlyRate, setHourlyRate] = useState(info.hourlyRate);
+  let newHourlyRate = hourlyRate;
+  const [affiliation, setAffiliation] = useState(info.affiliation);
+  let newAffiliation = affiliation;
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+      body: JSON.stringify({
+        email: newEmail,
+        hourlyRate: newHourlyRate,
+        affiliation: newAffiliation,
+      }),
+    };
+    fetch(`http://localhost:3000/doctors/${info._id}`, requestOptions).then(
+      (response) => {
+        if (response.ok) {
+          setEmail(newEmail);
+          setHourlyRate(newHourlyRate);
+          setAffiliation(newAffiliation);
+        }
+      }
+    );
+  };
+
+  const editEmailHandler = (event) => {
+    newEmail = event.target.value;
+  };
+  const editHourlyRateHandler = (event) => {
+    newHourlyRate = event.target.value;
+  };
+  const editAffiliationHandler = (event) => {
+    newAffiliation = event.target.value;
+  };
+
   return (
     <React.Fragment>
       {/* <div>
@@ -22,18 +61,33 @@ const myInfo = (props) => {
         <span>
           <h4>Email</h4>
         </span>
-        <span>{props.data["email"]}</span>
+        <span>{email}</span>
       </div>
       <div>
         <span>
           <h4>Hourly Rate</h4>
         </span>
-        <span>{props.data["hourlyRate"]}</span>
+        <span>{hourlyRate}</span>
       </div>
       <div>
         <h4>Affiliation</h4>
-        <span>{props.data["affiliation"]}</span>
+        <span>{affiliation}</span>
       </div>
+      <hr />
+      <hr />
+      <hr />
+      <form onSubmit={onSubmitHandler}>
+        <label>Email</label>
+        <input type="text" onChange={editEmailHandler} />
+
+        <label>Hourly Rate</label>
+        <input type="text" onChange={editHourlyRateHandler} />
+
+        <label>Affiliation</label>
+        <input type="text" onChange={editAffiliationHandler} />
+        <hr />
+        <button type="submit">Edit</button>
+      </form>
       {/* <div>
                 <span><h4>Educational Background</h4></span>
                 <span>{props.data['educationalBackground']}</span>
@@ -61,4 +115,4 @@ const myInfo = (props) => {
 //     );
 // };
 
-export default myInfo;
+export default MyInfo;
