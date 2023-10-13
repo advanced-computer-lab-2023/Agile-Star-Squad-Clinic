@@ -29,6 +29,7 @@ const PackageList = (props) => {
             medicineDiscount={place.medicineDiscount}
             familyMemberDiscount={place.familyMemberDiscount}
             description={place.description}
+            onDelete={props.onDeletePlace}
         />
       ))}
     </ul>    

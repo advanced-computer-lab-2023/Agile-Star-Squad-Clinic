@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import {Link} from 'react-router-dom';
 import PackageList from "../components/packageList";
+import './adminPackagesView.css'
 
 const AdminPackagesView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,14 +28,21 @@ const AdminPackagesView = () => {
 
     sendRequest();
   }, []);
+  const placeDeletedHandler = deletedPlaceId => {
+    setLoadedPackages(prevPackages =>
+      prevPackages.filter(responseData => responseData.id !== "652921afe42b08743e42f87f")
+    );
+  };
   
-
+ 
   return (
     <div>
+      <div className="header">
       <h1>Packages</h1>
-      <button className="btn btn-primary">Add Packages</button>
-
-      {loadedPackages && <PackageList items={loadedPackages} />}
+      <Link to = "/addPack">
+      <button className="btn btn-primary sm">Add Package</button></Link>
+      </div>
+      {loadedPackages && <PackageList items={loadedPackages} onDeletePlace={placeDeletedHandler}/>}
     </div>
   );
 };
