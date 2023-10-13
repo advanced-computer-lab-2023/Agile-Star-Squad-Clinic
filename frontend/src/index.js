@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom/client';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,7 +22,6 @@ root.render(
     {/* <div id="backdrop-root"></div>
     <DoctorHome /> */}
     <Router>
-      <MainNavigation />
       <Switch>
         <Route path="/" exact>
           <LandingPage />
