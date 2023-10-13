@@ -5,7 +5,7 @@ import LandingPage from './shared/pages/landingPage';
 import PatientRegisterForm from './patient/pages/patientRegister';
 import PatientHome from './patient/pages/PatientHome';
 import DoctorRegiterForm from './doctor/pages/doctorRequest';
-import DoctorHome from './doctor/pages/DoctorHome';
+import DoctorHome from './doctor/pages/doctorHome';
 import './App.css';
 
 function App() {

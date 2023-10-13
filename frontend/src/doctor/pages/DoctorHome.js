@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import DataTable from "../../shared/components/DataTable/DataTable";
-import AppointmentDetails from "./AppointmentDetails";
+import AppointmentDetails from "./appointmentDetails";
 import myInfo from "./myInfo";
-import PatientDetails from "./PatientDetails";
+import PatientDetails from "./patientDetails";
 
 const DUMMY_DOCTOR_ID = "65270f436a48cd31d535b963";
 
