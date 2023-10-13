@@ -1,9 +1,20 @@
 import React from "react";
-
 import Card from "../../shared/components/Card/Card";
-// import "./packageItem.css";
 
 const PackageItem = (props) => {
+  const confirmDeleteHandler = async () => {
+    try {
+      // await fetch(`http://localhost:3000/packages/${props.id}`, {
+      await fetch(`http://localhost:3000/packages/652921afe42b08743e42f87f`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      props.onDeletePlace(props.id); // Use onDeletePlace prop
+    } catch (err) {
+      // Handle errors, if needed
+    }
+  };
+
   return (
     <li className="package-item">
       <Card className="package-item__content">
@@ -17,11 +28,10 @@ const PackageItem = (props) => {
         </div>
         <div className="package-item__actions">
           <button> Edit</button>
-          <button> Delete</button>
+          <button onClick={confirmDeleteHandler}> Delete</button>
         </div>
       </Card>
     </li>
-    
   );
 };
 
