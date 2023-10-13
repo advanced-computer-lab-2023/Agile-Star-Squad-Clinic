@@ -39,3 +39,19 @@ exports.createPrescription = catchAsync(async (req, res, next) => {
       },
     });
   });
+
+exports.getPatientPrescriptions = catchAsync(async (req, res, next) => {
+  const myApps = [];
+  const patient = await Patient.findById(req.params.patientId).populate(
+    'prescription'
+  );
+  patient.prescription.forEach((prescription) => {
+    myApps.push(prescription);
+  });
+  res.status(200).json({
+    status: 'success',
+    data: {
+      prescriptions: patient.prescription,
+    },
+  });
+});

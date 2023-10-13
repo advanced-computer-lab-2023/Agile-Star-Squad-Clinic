@@ -4,20 +4,18 @@ const Doctor = require('./doctorModel');
 const Patient = require('./patientModel');
 
 const prescriptionSchema = new mongoose.Schema({
-    doctor: [
+    doctor: 
         {
             type: mongoose.Schema.ObjectId,
             ref: 'Doctor',
             required: [true, 'A prescription must be written by a doctor.'],
         },
-    ],
-    patient: [
+    patient: 
         {
             type: mongoose.Schema.ObjectId,
             ref: 'Patient',
             required: [true, 'A prescription must belong to a patient.'],
         },
-    ],
 
     body: {
         type: String,
@@ -33,9 +31,9 @@ const prescriptionSchema = new mongoose.Schema({
 
     status : {
         type : String,
-        enum: ["Active" , "inActive"],
+        enum: ["Filled" , "Unfilled"],
         required: [true , 'Please provide status'], 
-        default: "Active"
+        default: "Unfilled"
     },
 
 })

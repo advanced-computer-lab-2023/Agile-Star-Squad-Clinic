@@ -20,11 +20,12 @@ exports.getAllAppointments = catchAsync(async (req, res, next) => {
 
 exports.createAppointment = catchAsync(async (req, res, next) => {
   const newAppointment = await Appointment.create(req.body);
-  // const patient = await Patient.findById(req.body.patient);
+  const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
-  // patient.appointment.push(newAppointment);
 
-  // await patient.save();
+  patient.appointments.push(newAppointment);
+  await patient.save();
+
   doctor.appointments.push(newAppointment);
   await doctor.save();
 
@@ -41,19 +42,56 @@ const isDateInFuture = (dateToCompare) => {
   return dateToCompare > currentDate;
 };
 
-exports.upComingAppointments = catchAsync(async (req, res, next) => {
-  const myApps = [];
+exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
+  const appointments = [];
+  const names = [];
   const doctor = await Doctor.findById(req.params.doctorId).populate(
     'appointments'
   );
+  const patients = await Patient.findById(req.body.patient);
+  console.log(patients);
+  // const patients = doctor.patients
+  // patients.forEach((name) =>{
+  //   names.push(name);
+  // })
   doctor.appointments.forEach((appointment) => {
+    console.log(appointment.patient);
     if (isDateInFuture(appointment.dateOfAppointment))
-      myApps.push(appointment);
+      appointments.push(appointment);
   });
   res.status(200).json({
     status: 'success',
     data: {
-      myApps,
+      appointments,
+      names,
+    },
+  });
+});
+
+exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
+  const appointments = [];
+  const patient = await Patient.findById(req.params.patientId).populate(
+    'appointments'
+  );
+
+  for (const app of patient.appointments) {
+    const doctor = await Doctor.findById(app.doctor);
+    const appointment = {
+      _id: app._id,
+      doctorName: doctor.name,
+      doctorId: doctor.id,
+      date: new Date(app.dateOfAppointment).toDateString(),
+      status: app.status,
+    };
+    console.log(isDateInFuture(app.dateOfAppointment));
+    if (isDateInFuture(app.dateOfAppointment)) appointments.push(appointment);
+  }
+
+  console.log(appointments);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      appointments: appointments,
     },
   });
 });
