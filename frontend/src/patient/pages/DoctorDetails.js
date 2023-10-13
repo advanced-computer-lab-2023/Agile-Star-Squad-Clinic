@@ -26,12 +26,6 @@ const DoctorDetails = (props) => {
         </div>
         <div>
           <span>
-            <h4>Mobile Number</h4>
-          </span>
-          <span>{props.data["mobileNumber"]}</span>
-        </div>
-        <div>
-          <span>
             <h4>Speciality</h4>
           </span>
           <span>{props.data["speciality"]}</span>
@@ -43,6 +37,12 @@ const DoctorDetails = (props) => {
           <span>{props.data["email"]}</span>
         </div>
         <div>
+          <span>
+            <h4>Mobile Number</h4>
+          </span>
+          <span>{props.data["mobileNumber"]}</span>
+        </div>
+        <div>
           <h4>Hourly Rate</h4>
           <span>{props.data["hourlyRate"]}</span>
         </div>
@@ -51,6 +51,12 @@ const DoctorDetails = (props) => {
             <h4>Affiliation</h4>
           </span>
           <span>{props.data["affiliation"]}</span>
+        </div>
+        <div>
+          <span>
+            <h4>Educational Background</h4>
+          </span>
+          <span>{props.data["educationalBackground"]}</span>
         </div>
       </React.Fragment>
     );
