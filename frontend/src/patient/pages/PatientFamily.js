@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FamilyList from '../components/FamilyList';
+import AddFamilyForm from './AddFamily';
 
 const PatientFamily = () => {
   const [familyMembers, setFamilyMembers] = useState(false);

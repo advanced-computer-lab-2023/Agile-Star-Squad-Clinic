@@ -7,6 +7,7 @@ import PatientRegisterForm from './shared/components/FormElements/patientRegiste
 import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
 
 import PatientHome from './patient/pages/PatientHome';
+import PatientFamily from './patient/pages/PatientFamily';
 // import NewPackage from './shared/components/FormElements/newPackage';
 // import DoctorHome from './doctor/pages/DoctorHome';
 
@@ -19,7 +20,7 @@ root.render(
     <div id="backdrop-root"></div>
 
     {/* <NewPackage /> */}
-    <PatientHome />
+    <PatientFamily />
 
   </>
 );

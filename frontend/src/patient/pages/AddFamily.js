@@ -1,7 +1,7 @@
-import InputField from '../../../shared/components/InputField/InputField';
+import InputField from '../../shared/components/InputField/InputField';
 import {useState} from 'react';
 import ReactDOM  from 'react-dom';
-import Modal from '../../../shared/components/Modal/Modal';
+import Modal from '../../shared/components/Modal/Modal';
 
 const AddFamilyForm = (props) => {
     const [username, setUsername] = useState("");
