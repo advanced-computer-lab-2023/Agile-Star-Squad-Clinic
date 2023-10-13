@@ -35,9 +35,11 @@ const PatientHome = () => {
             switch (prescriptionFilter) {
                 case "filled":
                     newPrescriptions = prescriptions.filter((presc) => presc.status == "Filled");
+                    setFilteredPrescriptions(newPrescriptions);
                     break;
                 case "unfilled":
                     newPrescriptions = prescriptions.filter((presc) => presc.status == "Unfilled");
+                    setFilteredPrescriptions(newPrescriptions);
                     break;
                 case "date":
                     setShowPrescDateFilter(true);
@@ -48,14 +50,13 @@ const PatientHome = () => {
                 default:
                     break;
             }
-            setFilteredPrescriptions(newPrescriptions);
         }
     }, [prescriptionFilter]);
 
 
     const appointmentCols = [
         { field: "doctorName", headerName: "Name" },
-        { field: "date", headerName: "Date" },
+        { field: "date", headerName: "Date", width: 200 },
         { field: "status", headerName: "Status" },
     ]
 
@@ -68,7 +69,8 @@ const PatientHome = () => {
 
     const prescriptionCols = [
         { field: "doctorName", headerName: "Doctor" },
-        { field: "body", headerName: "Prescription" },
+        { field: "body", headerName: "Prescription", width: 300 },
+        { field: 'status', headerName: "Status"}
     ]
 
     const prescriptionFilters = [
@@ -114,6 +116,7 @@ const PatientHome = () => {
         fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/prescriptions").then(async (response) => {
             const json = await response.json();
             const prescriptionsJson = json.data.prescriptions;
+            console.log(prescriptionsJson);
             const prescDoctors = new Set();
             setPrescriptions(prescriptionsJson.map((prescription) => {
                 prescDoctors.add(prescription['doctor']);
@@ -137,7 +140,6 @@ const PatientHome = () => {
         fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/upcomingAppointments").then(async (response) => {
             const json = await response.json();
             const appointmentsJson = json.data.appointments;
-            console.log(appointmentsJson)
             setUpcomingAppointments(appointmentsJson.map((appointment) => {
                 return {
                     id: appointment["_id"],
@@ -159,7 +161,6 @@ const PatientHome = () => {
 
     const prescriptionDropdownHandler = (event) => {
         setPrescriptionFilter(event.target.value);
-        console.log(prescriptionDoctors)
     }
 
     const prescDateFilterHandler = (event) => {

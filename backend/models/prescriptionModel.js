@@ -33,7 +33,7 @@ const prescriptionSchema = new mongoose.Schema({
         type : String,
         enum: ["Filled" , "Unfilled"],
         required: [true , 'Please provide status'], 
-        default: "Active"
+        default: "Unfilled"
     },
 
 })

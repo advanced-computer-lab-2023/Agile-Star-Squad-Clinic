@@ -45,8 +45,8 @@ exports.getPatientPrescriptions = catchAsync(async (req, res, next) => {
   const patient = await Patient.findById(req.params.patientId).populate(
     'prescription'
   );
-  patient.prescription.forEach((appointment) => {
-    if (isDateInFuture(appointment.dateOfAppointment)) myApps.push(appointment);
+  patient.prescription.forEach((prescription) => {
+    myApps.push(prescription);
   });
   res.status(200).json({
     status: 'success',
