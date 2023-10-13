@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import DataTable from "../../shared/components/DataTable/DataTable";
-import AppointmentDetails from "./AppointmentDetails";
-import myInfo from "./myInfo";
-import PatientDetails from "./PatientDetails";
+import { useEffect, useState } from 'react';
+import DataTable from '../../shared/components/DataTable/DataTable';
+import AppointmentDetails from './appointmentDetails';
+import MyInfo from './myInfo';
+import PatientDetails from './patientDetails';
 
-const DUMMY_DOCTOR_ID = "65270f436a48cd31d535b963";
+const DUMMY_DOCTOR_ID = '65270f436a48cd31d535b963';
 
 const DoctorHome = () => {
   const [users, setUsers] = useState([]);
@@ -14,7 +14,7 @@ const DoctorHome = () => {
   const [showUser, setShowUser] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-  const [patientSearchField, setPatientSearchField] = useState("");
+  const [patientSearchField, setPatientSearchField] = useState('');
   const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
@@ -24,27 +24,27 @@ const DoctorHome = () => {
   }, []);
 
   const upcomingCols = [
-    { field: "username", headerName: "Patient Name" },
-    { field: "mobileNumber", headerName: "Mobile Number" },
-    { field: "dateOfAppointment", headerName: "Date of Appointment" },
+    { field: 'username', headerName: 'Patient Name' },
+    { field: 'mobileNumber', headerName: 'Mobile Number' },
+    { field: 'dateOfAppointment', headerName: 'Date of Appointment' },
   ];
 
   const patientCols = [
-    { field: "username", headerName: "Username" },
-    { field: "name", headerName: "Name" },
-    { field: "appointments", headerName: "Date of Appointment" },
-    { field: "status", headerName: "Appointment Status" },
+    { field: 'username', headerName: 'Username' },
+    { field: 'name', headerName: 'Name' },
+    { field: 'appointments', headerName: 'Date of Appointment' },
+    { field: 'status', headerName: 'Appointment Status' },
   ];
 
   const infoCols = [
     //khaliha text
-    { field: "username", headerName: "Username" },
-    { field: "name", headerName: "Name" },
-    { field: "mobileNumber", headerName: "Mobile Number" },
-    { field: "speciality", headerName: "Speciality" },
-    { field: "email", headerName: "Email" },
-    { field: "hourlyRate", headerName: "Hourly Rate" },
-    { field: "affiliation", headerName: "Affiliation" },
+    { field: 'username', headerName: 'Username' },
+    { field: 'name', headerName: 'Name' },
+    { field: 'mobileNumber', headerName: 'Mobile Number' },
+    { field: 'speciality', headerName: 'Speciality' },
+    { field: 'email', headerName: 'Email' },
+    { field: 'hourlyRate', headerName: 'Hourly Rate' },
+    { field: 'affiliation', headerName: 'Affiliation' },
   ];
 
   const fetchMyPatients = () => {
@@ -56,34 +56,35 @@ const DoctorHome = () => {
         setUsers(
           patientsJson.map((patient) => {
             return {
-              id: patient["_id"],
-              username: patient["username"],
-              name: patient["name"],
-              email: patient["email"],
-              dateOfBirth: patient["dateOfBirth"],
-              gender: patient["gender"],
-              mobileNumber: patient["mobileNumber"],
-              emergencyContact: patient["emergencyContact"],
-              doctor: patient["doctor"],
-              familyMembers: patient["familyMembers"],
+              id: patient['_id'],
+              username: patient['username'],
+              name: patient['name'],
+              email: patient['email'],
+              dateOfBirth: patient['dateOfBirth'],
+              gender: patient['gender'],
+              mobileNumber: patient['mobileNumber'],
+              emergencyContact: patient['emergencyContact'],
+              doctor: patient['doctor'],
+              familyMembers: patient['familyMembers'],
             };
           })
         );
         setFilteredPatients(
           patientsJson.map((patient) => {
             return {
-              id: patient["_id"],
-              username: patient["username"],
-              name: patient["name"],
-              email: patient["email"],
-              dateOfBirth: patient["dateOfBirth"],
-              gender: patient["gender"],
-              mobileNumber: patient["mobileNumber"],
-              emergencyContact: patient["emergencyContact"],
-              doctor: patient["doctor"],
-              familyMembers: patient["familyMembers"],
+              id: patient['_id'],
+              username: patient['username'],
+              name: patient['name'],
+              email: patient['email'],
+              dateOfBirth: patient['dateOfBirth'],
+              gender: patient['gender'],
+              mobileNumber: patient['mobileNumber'],
+              emergencyContact: patient['emergencyContact'],
+              doctor: patient['doctor'],
+              familyMembers: patient['familyMembers'],
             };
-          }));
+          })
+        );
       }
     );
   };
@@ -98,9 +99,9 @@ const DoctorHome = () => {
       setAppointments(
         appointmentsJson.map((appointment) => {
           return {
-            id: appointment["patient"],
-            dateOfAppointment: appointment["dateOfAppointment"],
-            status: appointment["status"],
+            id: appointment['patient'],
+            dateOfAppointment: appointment['dateOfAppointment'],
+            status: appointment['status'],
           };
         })
       );
@@ -153,10 +154,12 @@ const DoctorHome = () => {
   const patientSearchHandler = (event) => {
     const searchValue = event.target.value;
     setPatientSearchField(searchValue);
-    if (searchValue === "") {
+    if (searchValue === '') {
       setFilteredPatients(users);
     } else {
-      const newPatients = users.filter((patient) => patient.name.includes(searchValue));
+      const newPatients = users.filter((patient) =>
+        patient.name.includes(searchValue)
+      );
       console.log(newPatients);
       setFilteredPatients(newPatients);
     }
@@ -239,7 +242,6 @@ const DoctorHome = () => {
             onRowClick={showUserModal}
           />
         </>
-
       )}
       {!isUserTab && (
         <DataTable

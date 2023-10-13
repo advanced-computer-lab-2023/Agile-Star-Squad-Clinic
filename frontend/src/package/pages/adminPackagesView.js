@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import {Link} from 'react-router-dom';
-import PackageList from "../components/packageList";
-import './adminPackagesView.css'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import PackageList from '../components/packageList';
+import './adminPackagesView.css';
 
 const AdminPackagesView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,10 +12,9 @@ const AdminPackagesView = () => {
     const sendRequest = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/packages/");
+        const response = await fetch('http://localhost:3000/packages/');
         const responseData = await response.json();
-        
-        
+
         if (!response.ok) {
           throw new Error(responseData.message); // Fix the message parameter
         }
@@ -28,21 +27,23 @@ const AdminPackagesView = () => {
 
     sendRequest();
   }, []);
-  const placeDeletedHandler = deletedPlaceId => {
-    setLoadedPackages(prevPackages =>
-      prevPackages.filter(responseData => responseData.id !== "652921afe42b08743e42f87f")
+  const placeDeletedHandler = (deletedPlaceId) => {
+    setLoadedPackages((prevPackages) =>
+      prevPackages.filter((prevPackage) => prevPackage._id !== deletedPlaceId)
     );
   };
-  
- 
+
   return (
     <div>
       <div className="header">
-      <h1>Packages</h1>
-      <Link to = "/addPack">
-      <button className="btn btn-primary sm">Add Package</button></Link>
+        <h1>Packages</h1>
+        <Link to="/addPackage">
+          <button id ="addingbutton"className="btn btn-primary sm">Add Package</button>
+        </Link>
       </div>
-      {loadedPackages && <PackageList items={loadedPackages} onDeletePlace={placeDeletedHandler}/>}
+      {loadedPackages && (
+        <PackageList items={loadedPackages} onDelete={placeDeletedHandler} />
+      )}
     </div>
   );
 };

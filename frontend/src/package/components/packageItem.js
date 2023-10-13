@@ -1,15 +1,19 @@
 import React from "react";
 import Card from "../../shared/components/Card/Card";
+import { Link } from "react-router-dom";
+// import UpdatePackage from "../pages/UpdatePackage";
+
 
 const PackageItem = (props) => {
   const confirmDeleteHandler = async () => {
     try {
-      // await fetch(`http://localhost:3000/packages/${props.id}`, {
-      await fetch(`http://localhost:3000/packages/652921afe42b08743e42f87f`, {
+      await fetch(`http://localhost:3000/packages/${props.id}`, {
+      
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });
-      props.onDeletePlace(props.id); // Use onDeletePlace prop
+      props.onDelete(props.id);
+       // Use onDeletePlace prop
     } catch (err) {
       // Handle errors, if needed
     }
@@ -27,8 +31,11 @@ const PackageItem = (props) => {
           <p>Description: {props.description}</p>
         </div>
         <div className="package-item__actions">
-          <button> Edit</button>
-          <button onClick={confirmDeleteHandler}> Delete</button>
+          
+          <Link to ={`/updatePackage/${props.id}`}>
+          <button className="btn btn-primary sm"> Edit </button>
+          </Link>
+          <button className="btn btn-primary sm"onClick={confirmDeleteHandler}> Delete</button>
         </div>
       </Card>
     </li>

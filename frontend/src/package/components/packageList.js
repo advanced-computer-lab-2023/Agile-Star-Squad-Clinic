@@ -17,19 +17,23 @@ const PackageList = (props) => {
           </div>
         );
       }
+      
   return (
    
     <ul className='package-list'>
-      {props.items.map((place) => (
+      {props.items.map((pkg) => (
+        
         <PackageItem 
-          key={place._id}
-            name={place.name}
-            pricePerYear={place.pricePerYear}
-            doctorSessionDiscount={place.doctorSessionDiscount}
-            medicineDiscount={place.medicineDiscount}
-            familyMemberDiscount={place.familyMemberDiscount}
-            description={place.description}
-            onDelete={props.onDeletePlace}
+          key={pkg._id}
+            id= {pkg._id}
+            name={pkg.name}
+            pricePerYear={pkg.pricePerYear}
+            doctorSessionDiscount={pkg.doctorSessionDiscount}
+            medicineDiscount={pkg.medicineDiscount}
+            familyMemberDiscount={pkg.familyMemberDiscount}
+            description={pkg.description}
+            onDelete={props.onDelete}
+
         />
       ))}
     </ul>    

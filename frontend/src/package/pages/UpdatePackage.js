@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useParams,useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/Card/Card';
 
 const UpdatePackage = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [name, setName] = useState('');
   const [pricePerYear, setPricePerYear] = useState('');
   const [doctorSessionDiscount, setDoctorSessionDiscount] = useState('');
@@ -11,10 +14,11 @@ const UpdatePackage = () => {
 
   // Fetch package data from the backend
   useEffect(() => {
+   
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3000/packages/6527157f77b75cc614f306af'
+          `http://localhost:3000/packages/${id}`
         ); // Replace {package_id} with the actual package ID.
         if (response.ok) {
           const data = await response.json();
@@ -26,12 +30,7 @@ const UpdatePackage = () => {
             familyMemberDiscount,
             description,
           } = data.data.package; // Assuming the API response matches the data structure.
-          console.log('Data: ', data);
-          console.log('Data.data: ', data.data);
-          console.log(name);
-
-
-
+         
           // Set the state variables with the retrieved data
           setName(name);
           setPricePerYear(pricePerYear);
@@ -40,22 +39,19 @@ const UpdatePackage = () => {
           setFamilyMemberDiscount(familyMemberDiscount);
           setDescription(description);
         } else {
-          // Handle errors if the server response is not ok
           alert('Failed to fetch package data.');
         }
       } catch (error) {
-        // Handle network errors
+       
         alert('Network error: ' + error.message);
       }
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   const submitHandler = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
-
-    // You can use the state variables to send updated data to the server
+    event.preventDefault(); 
     const data = {
       name,
       pricePerYear,
@@ -67,8 +63,8 @@ const UpdatePackage = () => {
 
     try {
       const response = await fetch(
-        // 'http://localhost:3000/packages/{package_id}',
-        'http://localhost:3000/packages/6527157f77b75cc614f306af',
+        `http://localhost:3000/packages/${id}`,
+        
         {
           method: 'PATCH', // Use the appropriate HTTP method (e.g., PUT or POST) for updating data
           headers: { 'Content-Type': 'application/json' },
@@ -78,8 +74,8 @@ const UpdatePackage = () => {
 
       if (response.ok) {
         // Handle a successful response
-        alert('Data updated successfully.');
-        // You can also redirect or perform other actions here.
+        alert('Package updated successfully.');
+        navigate('/packages');
       } else {
         // Handle errors if the server response is not ok
         alert('Failed to update data.');

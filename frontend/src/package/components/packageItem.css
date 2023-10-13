@@ -33,7 +33,9 @@
   padding: 1rem;
   text-align: center;
   border-top: 1px solid #ccc;
+  align-items: space-between;
 }
+
 
 .package-item__modal-content {
   padding: 0;

@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import Card from "../Card/Card";
+import { useNavigate } from "react-router-dom";
+
+import Card from '../Card/Card';
 
 const NewPackage = () => {
-  // Define state variables to store form data
-  const [name, setName] = useState("");
-  const [pricePerYear, setPricePerYear] = useState("");
-  const [doctorSessionDiscount, setDoctorSessionDiscount] = useState("");
-  const [medicineDiscount, setMedicineDiscount] = useState("");
-  const [familyMemberDiscount, setFamilyMemberDiscount] = useState("");
-  const [description, setDescription] = useState("");
+  const navigate = useNavigate();
+
+  const [name, setName] = useState('');
+  const [pricePerYear, setPricePerYear] = useState('');
+  const [doctorSessionDiscount, setDoctorSessionDiscount] = useState('');
+  const [medicineDiscount, setMedicineDiscount] = useState('');
+  const [familyMemberDiscount, setFamilyMemberDiscount] = useState('');
+  const [description, setDescription] = useState('');
 
   const submitHandler = async (event) => {
     event.preventDefault(); // Prevent the default form submission
@@ -22,11 +25,10 @@ const NewPackage = () => {
       !medicineDiscount ||
       !familyMemberDiscount
     ) {
-      alert("Please fill in all required fields.");
+      alert('Please fill in all required fields.');
       return;
     }
 
-    // Create a data object to send to the server
     const data = {
       name,
       pricePerYear,
@@ -35,26 +37,26 @@ const NewPackage = () => {
       familyMemberDiscount,
       description,
     };
-    	
-    // Send the data to your server using fetch or an XMLHttpRequest
+
     try {
-      const response = await fetch("http://localhost:3000/packages", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
+      const response = await fetch('http://localhost:3000/packages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
       if (response.ok) {
         // Handle a successful response
-        alert("Data sent successfully.");
-        // You can also redirect or perform other actions here.
+        alert('Package Added Succesfully');
+
+        navigate('/packages');
       } else {
         // Handle errors if the server response is not ok
-        alert("Failed to send data.");
+        alert('Failed to send data.');
       }
     } catch (error) {
       // Handle network errors
-      alert("Network error: " + error.message);
+      alert('Network error: ' + error.message);
     }
   };
   return (
@@ -65,7 +67,7 @@ const NewPackage = () => {
             Name:
           </label>
           <input
-            key={"name"}
+            key={'name'}
             type="text"
             class="form-control"
             placeholder="Enter a Name"
