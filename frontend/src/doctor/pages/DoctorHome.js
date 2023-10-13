@@ -12,7 +12,7 @@ const DoctorHome = () => {
   const [isUserTab, setUserTab] = useState(true);
   const [showAppointment, setShowAppointment] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
+  const [info, setInfo] = useState({});
   const [selectedRow, setSelectedRow] = useState({});
   const [patientSearchField, setPatientSearchField] = useState('');
   const [filteredPatients, setFilteredPatients] = useState([]);
@@ -36,16 +36,16 @@ const DoctorHome = () => {
     { field: 'status', headerName: 'Appointment Status' },
   ];
 
-  const infoCols = [
-    //khaliha text
-    { field: 'username', headerName: 'Username' },
-    { field: 'name', headerName: 'Name' },
-    { field: 'mobileNumber', headerName: 'Mobile Number' },
-    { field: 'speciality', headerName: 'Speciality' },
-    { field: 'email', headerName: 'Email' },
-    { field: 'hourlyRate', headerName: 'Hourly Rate' },
-    { field: 'affiliation', headerName: 'Affiliation' },
-  ];
+  // const infoCols = [
+  //   //khaliha text
+  //   { field: "username", headerName: "Username" },
+  //   { field: "name", headerName: "Name" },
+  //   { field: "mobileNumber", headerName: "Mobile Number" },
+  //   { field: "speciality", headerName: "Speciality" },
+  //   { field: "email", headerName: "Email" },
+  //   { field: "hourlyRate", headerName: "Hourly Rate" },
+  //   { field: "affiliation", headerName: "Affiliation" },
+  // ];
 
   const fetchMyPatients = () => {
     //hardcode id
@@ -54,6 +54,22 @@ const DoctorHome = () => {
         const json = await response.json();
         const patientsJson = json.data.patients; //check
         setUsers(
+          patientsJson.map((patient) => {
+            return {
+              id: patient['_id'],
+              username: patient['username'],
+              name: patient['name'],
+              email: patient['email'],
+              dateOfBirth: patient['dateOfBirth'],
+              gender: patient['gender'],
+              mobileNumber: patient['mobileNumber'],
+              emergencyContact: patient['emergencyContact'],
+              doctor: patient['doctor'],
+              familyMembers: patient['familyMembers'],
+            };
+          })
+        );
+        setFilteredPatients(
           patientsJson.map((patient) => {
             return {
               id: patient['_id'],
@@ -137,11 +153,8 @@ const DoctorHome = () => {
       async (response) => {
         const json = await response.json();
         const doctor = json.data.doctor; //check
-        setShowInfo({
-          id: doctor._id,
-          username: doctor.username,
-          name: doctor.name,
-          mobileNumber: doctor.mobileNumber,
+        setInfo({
+          ...doctor,
         });
       }
     );
@@ -213,7 +226,7 @@ const DoctorHome = () => {
       {showAppointment && (
         <AppointmentDetails data={selectedRow} exit={exitAppointmentModal} />
       )}
-      {/* {showInfo && <myInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
+      {/* {showInfo && <MyInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
       {showUser && <PatientDetails data={selectedRow} exit={exitUserModal} />}
       {/* onDelete={deleteUser} */}
       <div>
@@ -225,7 +238,7 @@ const DoctorHome = () => {
         </span>
       </div>
       {isUserTab && <h3>Patients and Upcoming Appointments</h3>}
-      {!isUserTab && <h3>My Info</h3>}
+      {!isUserTab && <MyInfo info={info} />}
       {isUserTab && (
         <>
           <span>
@@ -243,13 +256,7 @@ const DoctorHome = () => {
           />
         </>
       )}
-      {!isUserTab && (
-        <DataTable
-          columns={upcomingCols}
-          rows={appointments}
-          onRowClick={showAppointmentModal}
-        />
-      )}
+
       <div>
         {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
       </div>
