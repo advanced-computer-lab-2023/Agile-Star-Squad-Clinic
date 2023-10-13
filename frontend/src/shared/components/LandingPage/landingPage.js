@@ -9,11 +9,11 @@ class LandingPage extends Component {
   render() {
     // let navigate = useNavigate();
     // const routeChangeLogin = () => {
-    //     let LoginPath = `newPath`;
+    //     let LoginPath = newPath;
     //     navigate(LoginPath);
     // }
     // const routeChangeRegister = () => {
-    //     let registerPath = `newPath`;
+    //     let registerPath = newPath;
     //     navigate(registerPath);
     // }
 

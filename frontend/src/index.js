@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-// import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
-  Switch,
+ Routes
 } from 'react-router-dom';
 
 import App from './App';
@@ -20,24 +18,25 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     {/* <div id="backdrop-root"></div>
-    <DoctorHome /> */}
-    <Router>
-      <Switch>
+    <DoctorHome /> /}
+    {/ <Router>
+      <Routes>
         <Route path="/" exact>
           <LandingPage />
         </Route>
         <Route path="/patientRegisterForm" exact>
           <PatientRegisterForm />
-        </Route>
-        {/* <Route path="/places/new" exact>
+        </Route> /}
+        {/ <Route path="/places/new" exact>
         <NewPlace />
       </Route>
       <Route path="/:userId/places" exact>
-        <UserPlaces /> */
-        /* </Route> */}
-        <Redirect to="/" />
-      </Switch>
-    </Router>
+        <UserPlaces /> /
+        / </Route> /}
+        {/ </Routes>
+
+    </Router> */}
+    <App />
   </>
 );
 
