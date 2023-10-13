@@ -1,8 +1,10 @@
+import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import LandingPage from './shared/pages/landingPage';
-import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
-import DoctorRegiterForm from './shared/components/FormElements/doctorRequestForm';
+import PatientRegisterForm from './patient/pages/patientRegister';
+import PatientHome from './patient/pages/PatientHome';
+import DoctorRegiterForm from './doctor/pages/doctorRequest';
 import DoctorHome from './doctor/pages/DoctorHome';
 import './App.css';
 
@@ -18,6 +20,7 @@ function App() {
             element={<PatientRegisterForm />}
             exact
           />
+          <Route path="/patient/login" element={<PatientHome />} exact />
           <Route
             path="/doctor/register"
             element={<DoctorRegiterForm />}

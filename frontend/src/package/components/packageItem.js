@@ -1,5 +1,5 @@
-import React from "react";
-import Card from "../../shared/components/Card/Card";
+import React from 'react';
+import Card from '../../shared/components/Card/Card';
 
 const PackageItem = (props) => {
   const confirmDeleteHandler = async () => {

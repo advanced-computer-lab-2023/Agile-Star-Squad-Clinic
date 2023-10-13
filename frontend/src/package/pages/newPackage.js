@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Card from "../Card/Card";
+import Card from "../../shared/components/Card/Card";
 
 const NewPackage = () => {
   // Define state variables to store form data
