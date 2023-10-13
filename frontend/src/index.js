@@ -1,39 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import PatientRegisterForm from './patientRegisterForm';
+import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
+import DoctorHome from './doctor/pages/DoctorHome';
 
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import PatientRegisterForm from "./patientRegisterForm";
-import ManageUsersPage from "./admin/pages/ManageUsers/ManageUsersPage";
-import DoctorHome from "./doctor/pages/DoctorHome";
-import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-    {/* <div id="backdrop-root"></div>
-    <DoctorHome /> */}
-    <Switch>
-      <Route path="/" exact>
-        <LandingPage />
-      </Route>
-      <Route path="/patientRegisterForm" exact>
-        <PatientRegisterForm />
-      </Route>
-      {/* <Route path="/places/new" exact>
-        <NewPlace />
-      </Route>
-      <Route path="/:userId/places" exact>
-        <UserPlaces /> */
-      /* </Route> */}
-      <Redirect to="/" />
-    </Switch>
+    <div id="backdrop-root"></div>
+    <DoctorHome />
   </>
 );
 
