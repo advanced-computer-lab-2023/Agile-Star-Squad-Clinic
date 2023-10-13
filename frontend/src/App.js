@@ -6,7 +6,7 @@ import AdminHome from './admin/pages/ManageUsers/AdminHome';
 import NewPackage from './package/pages/NewPackage';
 import AdminPackagesView from './package/pages/AdminPackagesView';
 import UpdatePackage from './package/pages/UpdatePackage';
-import PatientRegisterForm from './patient/pages/patientRegister';
+import PatientRegisterForm from './patient/pages/PatientRegister';
 import PatientHome from './patient/pages/PatientHome';
 import DoctorRegisterForm from './doctor/pages/DoctorRequest';
 import DoctorHome from './doctor/pages/DoctorHome';
