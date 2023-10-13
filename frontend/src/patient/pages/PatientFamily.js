@@ -15,7 +15,7 @@ const PatientFamily = () => {
       setFamilyMembers(true);
 
       try {
-        const response = await fetch("http://localhost:3000/patients/6521b46c8e7a4831ac7e6dce/familyMembers");
+        const response = await fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/familyMembers");
         console.log("HAS FETCHED")
         const responseData = await response.json();
         setNewFamilyMember(responseData.data.members)

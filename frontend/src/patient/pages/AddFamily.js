@@ -48,8 +48,7 @@ const AddFamilyForm = (props) => {
             headers: { "Content-type": "application/json; charset=UTF-8", },
             body: JSON.stringify(data)
         };
-        fetch("http://localhost:3000/patients/6521b46c8e7a4831ac7e6dce/addFamilyMember", requestOptions)
-        // fetch(`http://localhost:3000/admins`, requestOptions); ADD YOUR OWN ENDPOINT HERE
+        fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/familyMembers", requestOptions)
 
         props.exit();
     }

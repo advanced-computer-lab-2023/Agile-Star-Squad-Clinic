@@ -91,9 +91,9 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
   });
 
   // Associate the patient with the doctor
-  patient.familyMembers.push(newMember._id);
-  await patient.save();
+  const updatedFamily = [...patient.familyMembers, newMember._id];
   await Family.create(newMember);
+  await Patient.findByIdAndUpdate(patient._id, {familyMembers: updatedFamily});
   res.status(200).json({
     status: 'success',
   });
