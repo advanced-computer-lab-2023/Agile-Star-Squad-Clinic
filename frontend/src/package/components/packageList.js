@@ -2,8 +2,8 @@ import React from 'react';
 
 
 import Card from '../../shared/components/Card/Card';
-import PackageItem from './packageItem';
-import './packageList.css';
+import PackageItem from './PackageItem';
+import './PackageList.css';
 
 
 const PackageList = (props) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import PackageList from '../components/packageList';
-import './adminPackagesView.css';
+import PackageList from '../components/PackageList';
+import './AdminPackagesView.css';
 
 const AdminPackagesView = () => {
   const [isLoading, setIsLoading] = useState(false);

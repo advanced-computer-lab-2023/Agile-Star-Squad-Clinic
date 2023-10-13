@@ -20,6 +20,10 @@ class LandingPage extends Component {
     return (
       <React.Fragment>
         <hr />
+        <Link to="admin/home">
+          <button type="button">Login as an Admin</button>
+        </Link>
+        <hr />
         <Link to="patient/register">
           <button type="button">Register as a Patient</button>
         </Link>
@@ -33,6 +37,7 @@ class LandingPage extends Component {
         <Link to="doctor/login">
           <button type="button">Login as a Doctor</button>
         </Link>
+        <hr />
       </React.Fragment>
     );
   }

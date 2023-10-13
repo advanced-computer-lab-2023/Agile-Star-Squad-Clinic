@@ -1,14 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import LandingPage from './shared/pages/landingPage';
-import NewPackage from './shared/components/FormElements/newPackage';
-import AdminPackagesView from './package/pages/adminPackagesView';
+import LandingPage from './shared/pages/LandingPage';
+import AdminHome from './admin/pages/ManageUsers/AdminHome';
+import NewPackage from './package/pages/NewPackage';
+import AdminPackagesView from './package/pages/AdminPackagesView';
 import UpdatePackage from './package/pages/UpdatePackage';
-import PatientRegisterForm from './patient/pages/patientRegister';
+import PatientRegisterForm from './patient/pages/PatientRegister';
 import PatientHome from './patient/pages/PatientHome';
-import DoctorRegisterForm from './doctor/pages/doctorRequest';
-import DoctorHome from './doctor/pages/doctorHome';
+import DoctorRegisterForm from './doctor/pages/DoctorRequest';
+import DoctorHome from './doctor/pages/DoctorHome';
 import './App.css';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
@@ -19,7 +20,8 @@ function App() {
       <div id="backdrop-root"></div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} exact />
+        <Route path="/" element={<LandingPage />} exact />
+          <Route path="/admin/home" element={<AdminHome />} exact />
           <Route
             path="/patient/register"
             element={<PatientRegisterForm />}

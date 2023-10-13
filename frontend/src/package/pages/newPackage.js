@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import Card from '../Card/Card';
+import Card from '../../shared/components/Card/Card';
 
 const NewPackage = () => {
   const navigate = useNavigate();
