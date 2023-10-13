@@ -226,6 +226,7 @@ const DoctorHome = () => {
         {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
       </div>
       {/* <span>
+      {/* <span>
         <input
           type="text"
           placeholder="Search"
