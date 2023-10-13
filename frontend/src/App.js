@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
@@ -14,14 +14,19 @@ function App() {
 
   return (
     <div className="App">
-    <BrowserRouter>
-      <Routes>
-
-        <Route path="/" element={<LandingPage />} exact />
-        <Route path="/patientRegisterForm" element ={<PatientRegisterForm/>} exact/>
-      </Routes>
-    </BrowserRouter>
-  </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} exact />
+          <Route
+            path="/patientRegisterForm"
+            element={<PatientRegisterForm />}
+            exact
+          />
+          {/*redirect to landing page if wrong url*/}
+          <Route path="*" element={<Navigate to="/" />} />{' '}
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
