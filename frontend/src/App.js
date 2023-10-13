@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
-import LandingPage from './shared/components/LandingPage/landingPage';
+import LandingPage from './shared/pages/landingPage';
 import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
 import './App.css';
 
