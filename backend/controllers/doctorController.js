@@ -36,7 +36,9 @@ exports.getAllDoctors = catchAsync(async (req, res, next) => {
 });
 
 exports.getDoctor = catchAsync(async (req, res, next) => {
-  const doctor = await Doctor.findOne(req.params.id).populate('patients');
+  const doctor = await Doctor.findOne({ _id: req.params.id }).populate(
+    'patients'
+  );
 
   res.status(200).json({
     status: 'success',
