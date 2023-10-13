@@ -17,10 +17,9 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <div id="backdrop-root"></div>
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<LandingPage />} exact />
+          <Route path="/" element={<LandingPage />} exact />
           <Route path="/admin/home" element={<AdminHome />} exact />
           <Route
             path="/patient/register"
