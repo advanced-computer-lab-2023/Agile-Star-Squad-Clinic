@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "../../shared/components/Card/Card";
 import { Link } from "react-router-dom";
-// import UpdatePackage from "../pages/UpdatePackage";
 
 
 const PackageItem = (props) => {

@@ -53,7 +53,8 @@ const patientSchema = new mongoose.Schema({
   },
   MedicalRecord: {
     type: String,
-    required: [true, 'Please provide your medical record']
+    // required: [true, 'Please provide your medical record']
+    default: ""
   },
   package: [
     {

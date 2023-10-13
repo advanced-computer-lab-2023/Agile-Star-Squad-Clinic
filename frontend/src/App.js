@@ -1,12 +1,14 @@
+import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import LandingPage from './shared/pages/landingPage';
-import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
-import DoctorRegiterForm from './shared/components/FormElements/doctorRequestForm';
-import DoctorHome from './doctor/pages/doctorHome';
 import NewPackage from './shared/components/FormElements/newPackage';
 import AdminPackagesView from './package/pages/adminPackagesView';
 import UpdatePackage from './package/pages/UpdatePackage';
+import PatientRegisterForm from './patient/pages/patientRegister';
+import PatientHome from './patient/pages/PatientHome';
+import DoctorRegisterForm from './doctor/pages/doctorRequest';
+import DoctorHome from './doctor/pages/doctorHome';
 import './App.css';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
@@ -23,6 +25,7 @@ function App() {
             element={<PatientRegisterForm />}
             exact
           />
+          <Route path="/patient/login" element={<PatientHome />} exact />
           <Route
             path="/patient/login"
             element={<PatientRegisterForm />}
@@ -30,7 +33,7 @@ function App() {
           />
           <Route
             path="/doctor/register"
-            element={<DoctorRegiterForm />}
+            element={<DoctorRegisterForm />}
             exact
           />
           <Route path="/doctor/login" element={<DoctorHome />} exact />

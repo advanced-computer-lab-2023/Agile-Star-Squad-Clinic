@@ -19,9 +19,14 @@ class LandingPage extends Component {
 
     return (
       <React.Fragment>
+        <hr />
         <Link to="patient/register">
           <button type="button">Register as a Patient</button>
         </Link>
+        <Link to="patient/login">
+          <button type="button">Login as a Patient</button>
+        </Link>
+        <hr />
         <Link to="doctor/register">
           <button type="button">Register as a Doctor</button>
         </Link>

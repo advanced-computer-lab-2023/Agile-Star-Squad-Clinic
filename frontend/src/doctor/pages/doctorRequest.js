@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Card from '../Card/Card';
+import Card from '../../shared/components/Card/Card';
 
 class DoctorRequestForm extends Component {
   constructor(props) {
