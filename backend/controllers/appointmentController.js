@@ -42,20 +42,20 @@ const isDateInFuture = (dateToCompare) => {
   return dateToCompare > currentDate;
 };
 
-exports.upComingAppointments = catchAsync(async (req, res, next) => {
+exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
   const appointments = [];
   const names = [];
   const doctor = await Doctor.findById(req.params.doctorId).populate(
     'appointments'
   );
-  const patients = await Patient.findById(req.body.patient)
-  console.log(patients)
- // const patients = doctor.patients
+  const patients = await Patient.findById(req.body.patient);
+  console.log(patients);
+  // const patients = doctor.patients
   // patients.forEach((name) =>{
   //   names.push(name);
   // })
   doctor.appointments.forEach((appointment) => {
-    console.log(appointment.patient)
+    console.log(appointment.patient);
     if (isDateInFuture(appointment.dateOfAppointment))
       appointments.push(appointment);
   });
@@ -74,22 +74,20 @@ exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
     'appointments'
   );
 
-    for (const app of patient.appointments) {
-      const doctor = await Doctor.findById(app.doctor);
-      const appointment = {
-          _id: app._id,
-          doctorName: doctor.name,
-          doctorId: doctor.id,
-          date: new Date(app.dateOfAppointment).toDateString(),
-          status: app.status
-      }
-      console.log(isDateInFuture(app.dateOfAppointment))
-      if (isDateInFuture(app.dateOfAppointment)) appointments.push(appointment);
+  for (const app of patient.appointments) {
+    const doctor = await Doctor.findById(app.doctor);
+    const appointment = {
+      _id: app._id,
+      doctorName: doctor.name,
+      doctorId: doctor.id,
+      date: new Date(app.dateOfAppointment).toDateString(),
+      status: app.status,
+    };
+    console.log(isDateInFuture(app.dateOfAppointment));
+    if (isDateInFuture(app.dateOfAppointment)) appointments.push(appointment);
   }
 
-
-
-  console.log(appointments)
+  console.log(appointments);
   res.status(200).json({
     status: 'success',
     data: {
