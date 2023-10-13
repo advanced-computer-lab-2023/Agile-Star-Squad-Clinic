@@ -34,13 +34,17 @@ const MyInfo = (props) => {
   };
 
   const editEmailHandler = (event) => {
-    newEmail = event.target.value;
+    if (event.target.value.length !== 0) newEmail = event.target.value;
+    else newEmail = email;
   };
   const editHourlyRateHandler = (event) => {
-    newHourlyRate = event.target.value;
+    if (event.target.value.length !== 0 && event.target.value !== 0)
+      newHourlyRate = event.target.value;
+    else newHourlyRate = hourlyRate;
   };
   const editAffiliationHandler = (event) => {
-    newAffiliation = event.target.value;
+    if (event.target.value.length !== 0) newAffiliation = event.target.value;
+    else newAffiliation = affiliation;
   };
 
   return (
