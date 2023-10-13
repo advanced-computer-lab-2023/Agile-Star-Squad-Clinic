@@ -9,7 +9,8 @@ import {
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import PatientRegisterForm from './patientRegisterForm';
+import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
+import LandingPage from './shared/components/LandingPage/landingPage';
 import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
 import DoctorHome from './doctor/pages/DoctorHome';
 import './index.css';
