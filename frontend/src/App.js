@@ -1,27 +1,33 @@
-import logo from './logo.svg';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
+import LandingPage from './shared/pages/landingPage';
+import PatientRegisterForm from './shared/components/FormElements/patientRegisterForm';
+import DoctorRegiterForm from './shared/components/FormElements/doctorRequestForm';
+import DoctorHome from './doctor/pages/DoctorHome';
 import './App.css';
-// import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
-  // const patients = getAllPatients();
-  // console.log(patients);
-
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="backdrop-root"></div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} exact />
+          <Route
+            path="/patient/register"
+            element={<PatientRegisterForm />}
+            exact
+          />
+          <Route
+            path="/doctor/register"
+            element={<DoctorRegiterForm />}
+            exact
+          />
+          <Route path="/doctor/login" element={<DoctorHome />} exact />
+          {/*redirect to landing page if wrong url*/}
+          <Route path="*" element={<Navigate to="/" />} />{' '}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
