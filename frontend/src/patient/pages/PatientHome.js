@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DataTable from "../../shared/components/DataTable/DataTable";
+import DoctorDetails from './DoctorDetails'
 
 const PatientHome = () => {
     const [doctors, setDoctors] = useState([]);
@@ -17,7 +18,7 @@ const PatientHome = () => {
     const [prescDoctorFilter, setPrescDoctorFilter] = useState("");
     const [showPrescDateFilter, setShowPrescDateFilter] = useState(false);
     const [showPrescDoctorFilter, setShowPrescDoctorFilter] = useState(false);
-
+    const [showDoctor, setShowDoctor] = useState(false);
 
     const [selectedRow, setSelectedRow] = useState({});
 
@@ -152,7 +153,7 @@ const PatientHome = () => {
 
     const onDoctorClick = (selectedRow) => {
         setSelectedRow(selectedRow);
-        // Navigate to doctor info
+        console.log(selectedRow);
     }
 
     const onPrescriptionClick = (selectedRow) => {
@@ -194,7 +195,13 @@ const PatientHome = () => {
     const doctorSearchGroupHandler = (event) => {
         setDoctorSearchGroup(event.target.value);
     };
-
+    const showDoctorModal = (selectedRow) => {
+        setSelectedRow(selectedRow);
+        setShowDoctor(true);
+      };
+      const exitDoctorModal = () => {
+        setShowDoctor(false);
+      };
 
     return <div className="center">
 
@@ -212,6 +219,9 @@ const PatientHome = () => {
             {prescriptionDoctors.map((doc) => <option value={doc}>{doc}</option>)} </select>}
 
         </span>
+        {showDoctor && (
+        <DoctorDetails data={selectedRow} exit={exitDoctorModal} />
+      )}
         <DataTable columns={prescriptionCols} rows={filteredPrescriptions} onRowClick={onPrescriptionClick} />
 
         <h2>Doctors</h2>
@@ -226,7 +236,7 @@ const PatientHome = () => {
                 {doctorSearchGroups}
             </select>
         </span>
-        <DataTable columns={doctorCols} rows={filteredDoctors} onRowClick={onDoctorClick} />
+        <DataTable columns={doctorCols} rows={filteredDoctors} onRowClick={showDoctorModal} />
 
     </div>;
 }
