@@ -14,6 +14,7 @@ const DoctorHome = () => {
   const [showUser, setShowUser] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
+  const [doctorSearchField, setDoctorSearchField] = useState("");
 
   useEffect(() => {
     fetchMyPatients();
@@ -128,6 +129,21 @@ const DoctorHome = () => {
       }
     );
   };
+  const onPatientClick = (selectedRow) => {
+    setSelectedRow(selectedRow);
+    // Navigate to patient info
+}
+
+  const patientSearchHandler = (event) => {
+    const searchValue = event.target.value;
+    setPatientSearchField(searchValue);
+    if (searchValue === "") {
+        setFilteredPatients(patients);
+    } else {
+    //const newPatients = patients.filter((patient) => patient[doctorSearchGroup].includes(searchValue));
+    setFilteredPatients(newPatients);
+    }
+};
 
 
   const showAppointmentModal = (selectedRow) => {
@@ -208,6 +224,18 @@ const DoctorHome = () => {
       <div>
         {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
       </div>
+      <span>
+        <input
+          type="text"
+          placeholder="Search"
+          value={doctorSearchField}
+          onChange={patientSearchHandler}
+        />
+        <select value={doctorSearchGroup} onChange={doctorSearchGroupHandler}>
+                {doctorSearchGroups}
+            </select>
+        </span>
+        <DataTable columns={doctorCols} rows={filteredDoctors} onRowClick={onPatientClick} />
     </div>
   );
 };
