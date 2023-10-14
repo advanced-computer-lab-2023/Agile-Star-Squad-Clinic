@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { setUserRole } from '../DummyUsers';
 
 class LandingPage extends Component {
   constructor(props) {
@@ -28,14 +29,18 @@ class LandingPage extends Component {
           <button type="button">Register as a Patient</button>
         </Link>
         <Link to="patient/home">
-          <button type="button">Login as a Patient</button>
+          <button type="button" onClick={() => setUserRole('patient')}>
+            Login as a Patient
+          </button>
         </Link>
         <hr />
         <Link to="doctor/register">
           <button type="button">Register as a Doctor</button>
         </Link>
         <Link to="doctor/home">
-          <button type="button">Login as a Doctor</button>
+          <button type="button" onClick={() => setUserRole('doctor')}>
+            Login as a Doctor
+          </button>
         </Link>
         <hr />
       </React.Fragment>
