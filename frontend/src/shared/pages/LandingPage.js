@@ -27,14 +27,14 @@ class LandingPage extends Component {
         <Link to="patient/register">
           <button type="button">Register as a Patient</button>
         </Link>
-        <Link to="patient/login">
+        <Link to="patient/home">
           <button type="button">Login as a Patient</button>
         </Link>
         <hr />
         <Link to="doctor/register">
           <button type="button">Register as a Doctor</button>
         </Link>
-        <Link to="doctor/login">
+        <Link to="doctor/home">
           <button type="button">Login as a Doctor</button>
         </Link>
         <hr />
