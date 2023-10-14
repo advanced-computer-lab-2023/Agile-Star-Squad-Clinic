@@ -42,7 +42,7 @@ const PatientRegisterForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:4000/patients', {
+      const response = await fetch('http://localhost:3000/patients', {
         method: 'POST',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
         body: JSON.stringify(formData),

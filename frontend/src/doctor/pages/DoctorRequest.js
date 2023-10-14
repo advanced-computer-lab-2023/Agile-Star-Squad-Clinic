@@ -11,6 +11,7 @@ const DoctorRequestForm = () => {
     hourlyRate: '',
     affiliation: '',
     educationalBackground: '',
+    speciality: '',
   });
 
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const DoctorRequestForm = () => {
         body: JSON.stringify(formData),
       };
       const response = await fetch(
-        'http://localhost:4000/pharmacist',
+        'http://localhost:3000/doctors',
         requestOptions
       );
 
@@ -59,6 +60,7 @@ const DoctorRequestForm = () => {
     hourlyRate,
     affiliation,
     educationalBackground,
+    speciality,
   } = formData;
 
   return (
@@ -132,6 +134,15 @@ const DoctorRequestForm = () => {
           type="text"
           name="educationalBackground"
           value={educationalBackground}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Speciality</label>
+        <input
+          type="text"
+          name="speciality"
+          value={speciality}
           onChange={handleInputChange}
         />
       </div>

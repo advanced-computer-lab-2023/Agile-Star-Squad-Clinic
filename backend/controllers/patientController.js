@@ -4,6 +4,8 @@ const Family = require('../models/familyModel');
 const AppError = require('../utils/appError');
 const Doctor = require('../models/doctorModel');
 const apiFeatures = require('../utils/apiFeatures');
+const Appointment = require('../models/appointmentModel');
+const Prescription = require('../models/prescriptionModel');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newPatient = await Patient.create(req.body)
@@ -14,7 +16,6 @@ exports.signup = catchAsync(async (req, res, next) => {
       console.error('Error creating patient:', error.message);
       throw error; // Re-throw the error for further handling
     });
-
 
   if (newPatient == null) {
     res.status(404).json({
@@ -56,6 +57,12 @@ exports.getAllPatients = catchAsync(async (req, res, next) => {
 
 exports.removePatient = catchAsync(async (req, res, next) => {
   const patient = await Patient.findByIdAndDelete(req.params.id);
+  await Appointment.findAndDelete({
+    patient: req.params.id,
+  });
+  await Prescription.findAndDelete({
+    patient: req.params.id,
+  });
 
   if (!patient) {
     return next(new AppError('No patient found with that ID', 404));
@@ -84,7 +91,9 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
 
   const updatedFamily = [...patient.familyMembers, newMember._id];
   await Family.create(newMember);
-  await Patient.findByIdAndUpdate(patient._id, {familyMembers: updatedFamily});
+  await Patient.findByIdAndUpdate(patient._id, {
+    familyMembers: updatedFamily,
+  });
   res.status(200).json({
     status: 'success',
   });
