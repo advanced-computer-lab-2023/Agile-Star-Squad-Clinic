@@ -22,7 +22,9 @@ class LandingPage extends Component {
       <React.Fragment>
         <hr />
         <Link to="admin/home">
-          <button type="button">Login as an Admin</button>
+          <button type="button" onClick={() => setUserRole('admin')}>
+            Login as an Admin
+          </button>
         </Link>
         <hr />
         <Link to="patient/register">
