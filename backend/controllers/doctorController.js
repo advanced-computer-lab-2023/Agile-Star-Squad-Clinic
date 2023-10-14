@@ -10,7 +10,7 @@ const Appointment = require('../models/appointmentModel');
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   const newRequest = await Request.create(req.body);
   // const newDoctor = await Doctor.create(req.body);
-  
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -88,9 +88,11 @@ exports.updateDoctor = catchAsync(async (req, res, next) => {
 });
 
 exports.removeDoctor = catchAsync(async (req, res, next) => {
-  const Doctor = await Doctor.findByIdAndDelete(req.params.id);
+  const doctor = await Doctor.findByIdAndDelete(req.params.id);
+  await Appointment.findAndDelete({ doctor: req.params.id });
+  await Prescription.findAndDelete({ doctor: req.params.id });
 
-  if (!Doctor) {
+  if (!doctor) {
     return next(new AppError('No doctor found with that ID', 404));
   }
 
