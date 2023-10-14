@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import DataTable from "../../shared/components/DataTable/DataTable";
 import DoctorDetails from './DoctorDetails'
 import PrescriptionDetails from "../../prescriptions/pages/PrescriptionDetails";
@@ -213,6 +214,9 @@ const PatientHome = () => {
       };
 
     return <div className="center">
+        <Link to="/PatientFamily">
+          <button id ="addingbutton"className="formButtons">Family Members</button>
+        </Link>
 
         <h2>Upcoming Appointments</h2>
         <DataTable columns={appointmentCols} rows={upcomingAppointments} />

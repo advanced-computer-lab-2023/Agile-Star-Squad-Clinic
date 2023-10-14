@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import FamilyList from '../components/FamilyList';
 import AddFamilyForm from './AddFamily';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 const PatientFamily = () => {
   const [familyMembers, setFamilyMembers] = useState(false);
   const [error, setError] = useState();
   const [listFamilyMember, setNewFamilyMember] = useState([]);
   const [isShowMemberForm, setShowMemberForm] = useState(false);
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -48,13 +51,18 @@ const PatientFamily = () => {
   }
 
   return (
-    <div
-      className="center">
+    <div className="center">
+    <Link to="/patient/login">
+          <button id ="addingbutton"className="btn btn-primary">Patient Home</button>
+        </Link>
+      
       <h1>My Family Members</h1>
       <button className="btn btn-primary" onClick={showMemberForm}>Add Family Members</button>
       {isShowMemberForm && <AddFamilyForm exit={exitMemberModal} />}
 
       {listFamilyMember && <FamilyList items={listFamilyMember} />}
+      
+      
     </div>
   );
 
