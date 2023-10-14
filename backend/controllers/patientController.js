@@ -34,10 +34,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 exports.getPatient = catchAsync(async (req, res, next) => {
-  const patient = await Patient.findById(req.params.id).populate({
-    path: 'doctor',
-    select: '-__v -dateOfBirth -hourlyRate -affiliation -educationalBackground',
-  }).populate('package');
+  const patient = await Patient.findById(req.params.id).populate('package');
 
   res.status(200).json({
     status: 'success',
@@ -47,7 +44,7 @@ exports.getPatient = catchAsync(async (req, res, next) => {
   });
 });
 exports.getAllPatients = catchAsync(async (req, res, next) => {
-  const patients = await Patient.find().populate('doctor').populate('package');
+  const patients = await Patient.find().populate('package');
 
   res.status(200).json({
     status: 'success',
@@ -73,7 +70,6 @@ exports.removePatient = catchAsync(async (req, res, next) => {
 exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   const memberData = req.body;
-  // Find the doctor by ID
   const patient = await Patient.findById(patientId);
 
   if (!patient) {
@@ -86,7 +82,6 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
     patient: patient._id,
   });
 
-  // Associate the patient with the doctor
   const updatedFamily = [...patient.familyMembers, newMember._id];
   await Family.create(newMember);
   await Patient.findByIdAndUpdate(patient._id, {familyMembers: updatedFamily});

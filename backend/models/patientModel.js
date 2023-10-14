@@ -62,12 +62,6 @@ const patientSchema = new mongoose.Schema({
       ref: 'Package'
     }
   ],
-  doctor: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Doctor',
-    },
-  ],
   prescription: [
     {
       type: mongoose.Schema.ObjectId,

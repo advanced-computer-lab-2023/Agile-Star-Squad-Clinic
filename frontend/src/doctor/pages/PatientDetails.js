@@ -59,12 +59,6 @@ const PatientDetails = (props) => {
         </div>
         <div>
           <span>
-            <h4>Doctors</h4>
-          </span>
-          <span>{props.data["doctor"]}</span>
-        </div>
-        <div>
-          <span>
             <h4>Medical Record</h4>
           </span>
           <span>{props.data["medicalRecord"]}</span>
