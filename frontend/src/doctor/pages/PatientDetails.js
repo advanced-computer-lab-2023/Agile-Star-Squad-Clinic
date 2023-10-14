@@ -67,7 +67,7 @@ const PatientDetails = (props) => {
           <span>
             <h4>Medical Record</h4>
           </span>
-          <span>{props.data["MedicalRecord"]}</span>
+          <span>{props.data["medicalRecord"]}</span>
         </div>
       </React.Fragment>
     );

@@ -70,7 +70,7 @@ const DoctorHome = () => {
               emergencyContact: patient['emergencyContact'],
               doctor: patient['doctor'],
               familyMembers: patient['familyMembers'],
-              MedicalRecord: patient['MedicalRecord'],
+              medicalRecord: patient['medicalRecord'],
             };
           })
         );
@@ -87,7 +87,7 @@ const DoctorHome = () => {
               emergencyContact: patient['emergencyContact'],
               doctor: patient['doctor'],
               familyMembers: patient['familyMembers'],
-              MedicalRecord: patient['MedicalRecord'],
+              medicalRecord: patient['medicalRecord'],
             };
           })
         );
@@ -104,7 +104,7 @@ const DoctorHome = () => {
               emergencyContact: patient['emergencyContact'],
               doctor: patient['doctor'],
               familyMembers: patient['familyMembers'],
-              MedicalRecord: patient['MedicalRecord'],
+              medicalRecord: patient['medicalRecord'],
             };
           })
         );
