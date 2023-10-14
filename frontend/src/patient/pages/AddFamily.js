@@ -2,6 +2,7 @@ import InputField from '../../shared/components/InputField/InputField';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../../shared/components/Modal/Modal';
+import '../../shared/components/InputField/InputField.css'
 
 const AddFamilyForm = (props) => {
   const [name, setName] = useState('');
@@ -53,24 +54,35 @@ const AddFamilyForm = (props) => {
 
   return ReactDOM.createPortal(
     <Modal exit={props.exit}>
-      <InputField label="Name" value={name} onChange={onNameChange} />
-      <InputField
-        label="NationalID"
-        value={NationalID}
-        onChange={onNationalIDChange}
-      />
-      <InputField label="Age" value={age} onChange={onAgeChange} />
-      <InputField label="Gender" value={gender} onChange={onGenderChange} />
-      <InputField
-        label="Relation"
-        value={relation}
-        onChange={onRelationChange}
-      />
+<InputField label="Name" value={name} onChange={onNameChange} />
+  <InputField label="NationalID" value={NationalID} onChange={onNationalIDChange} />
+  <InputField label="Age" value={age} onChange={onAgeChange} />
+  
+  <div className= "inputRow">
+    <label className='inputLabel'>Relation:</label>
+    <select className='input-field' value={relation} onChange={onRelationChange}>
+      <option value="husband">Husband</option>
+      <option value="wife">Wife</option>
+      <option value="son">Son</option>
+      <option value="daughter">Daughter</option>
+    </select>
+  </div>
+  <div className= "inputRow">
+    <label className='inputLabel'>Gender </label>
+    <select className='input-field'
+      name="gender"
+      value={gender}
+      onChange={onGenderChange}
+    >
+      <option  value="male">Male</option>
+      <option  value="female">Female</option>
+    </select>
+  </div>
+        <NewButton onAdd={onAdd} isLoading={isLoading} />
 
-      <NewButton onAdd={onAdd} isLoading={isLoading} />
-    </Modal>,
-    document.getElementById('backdrop-root')
-  );
+
+    </Modal>, document.getElementById("backdrop-root"));
+
 };
 
 export default AddFamilyForm;
