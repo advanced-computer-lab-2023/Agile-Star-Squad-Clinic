@@ -12,6 +12,10 @@ const PatientHome = () => {
   const [doctorSearchGroup, setDoctorSearchGroup] = useState('');
 
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+  const [filteredAppointements, setFilteredAppointements] = useState([]);
+  const [appointmentFilter, setAppointmentFilter] = useState('');
+  const [appDateFilter, setAppDateFilter] = useState('');
+  const [showAppDateFilter, setShowAppDateFilter] = useState(false);
 
   const [prescriptions, setPrescriptions] = useState([]);
   const [filteredPrescriptions, setFilteredPrescriptions] = useState([]);
@@ -61,6 +65,25 @@ const PatientHome = () => {
       }
     }
   }, [prescriptionFilter]);
+  useEffect(() => {
+    if (upcomingAppointments.length != 0) {
+      let newAppointements;
+      setShowAppDateFilter(false);
+
+      switch (appointmentFilter) {
+        case 'date':
+          setShowAppDateFilter(true);
+          break;
+        default:
+          newAppointements = upcomingAppointments.filter(
+            (appoint) => appoint.status == appointmentFilter
+          );
+          setFilteredAppointements(newAppointements);
+
+          break;
+      }
+    }
+  }, [appointmentFilter]);
 
   const appointmentCols = [
     { field: 'doctorName', headerName: 'Name' },
@@ -87,6 +110,13 @@ const PatientHome = () => {
     <option value={'filled'}>Filled</option>,
     <option value={'unfilled'}>Unfilled</option>,
   ];
+  const appointmentFilters = [
+    <option value={'date'}>By Date</option>,
+    <option value={'vaccant'}>Vaccant</option>,
+    <option value={'reserved'}>Reserved</option>,
+    <option value={'passed'}>Passed</option>,
+  ];
+
   const doctorSearchGroups = [
     <option value={'name'}>Name</option>,
     <option value={'speciality'}>Specialty</option>,
@@ -167,19 +197,22 @@ const PatientHome = () => {
           };
         })
       );
+      setFilteredAppointements(
+        appointmentsJson.map((appointment) => {
+          return {
+            id: appointment['_id'],
+            ...appointment,
+          };
+        })
+      );
     });
-  };
-
-  const onDoctorClick = (selectedRow) => {
-    setSelectedRow(selectedRow);
-  };
-
-  const onPrescriptionClick = (selectedRow) => {
-    setSelectedRow(selectedRow);
   };
 
   const prescriptionDropdownHandler = (event) => {
     setPrescriptionFilter(event.target.value);
+  };
+  const appDropdownHandler = (event) => {
+    setAppointmentFilter(event.target.value);
   };
 
   const prescDateFilterHandler = (event) => {
@@ -190,6 +223,15 @@ const PatientHome = () => {
       return pickedDate.toDateString() == date.toDateString();
     });
     setFilteredPrescriptions(newPrescriptions);
+  };
+  const appDateFilterHandler = (event) => {
+    const pickedDate = event.target.value;
+    setAppDateFilter(pickedDate);
+    const newAppointements = upcomingAppointments.filter((appoint) => {
+      const date = new Date(appoint['dateOfCreation']);
+      return pickedDate.toDateString() == date.toDateString();
+    });
+    setFilteredAppointements(newAppointements);
   };
 
   const prescDoctorDropdownHandler = (event) => {
@@ -239,8 +281,20 @@ const PatientHome = () => {
           Family Members
         </button>
       </Link>
-      <h2>Upcoming Appointments</h2>
-      <DataTable columns={appointmentCols} rows={upcomingAppointments} />
+      <span>
+        <h2>Upcoming Appointments</h2>
+        <select value={appointmentFilter} onChange={appDropdownHandler}>
+          {appointmentFilters}
+        </select>
+        {showAppDateFilter && (
+          <input
+            type="date"
+            value={appDateFilter}
+            onChange={appDateFilterHandler}
+          />
+        )}
+      </span>
+      <DataTable columns={appointmentCols} rows={filteredAppointements} />
       <span>
         <h2>My Prescriptions</h2>
         <select
