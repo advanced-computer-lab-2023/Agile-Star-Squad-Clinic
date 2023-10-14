@@ -9,7 +9,6 @@ const FamilyList = props => {
   const [familyMembers, setFamilyMembers] = useState([]);
 
   useEffect(() =>{
-    console.log(props?.items?.data?.members)
     setFamilyMembers(props?.items?.data?.members);
   }, [props]);
 

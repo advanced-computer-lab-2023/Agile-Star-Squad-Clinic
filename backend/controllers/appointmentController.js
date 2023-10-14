@@ -49,13 +49,11 @@ exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
     'appointments'
   );
   const patients = await Patient.findById(req.body.patient);
-  console.log(patients);
   // const patients = doctor.patients
   // patients.forEach((name) =>{
   //   names.push(name);
   // })
   doctor.appointments.forEach((appointment) => {
-    console.log(appointment.patient);
     if (isDateInFuture(appointment.dateOfAppointment))
       appointments.push(appointment);
   });
@@ -83,11 +81,9 @@ exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
       date: new Date(app.dateOfAppointment).toDateString(),
       status: app.status,
     };
-    console.log(isDateInFuture(app.dateOfAppointment));
     if (isDateInFuture(app.dateOfAppointment)) appointments.push(appointment);
   }
 
-  console.log(appointments);
   res.status(200).json({
     status: 'success',
     data: {

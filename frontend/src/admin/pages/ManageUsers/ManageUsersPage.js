@@ -97,7 +97,6 @@ const ManageUsersPage = () => {
     const fetchRequests = () => {
         fetch("http://localhost:3000/admins/requests").then(async (response) => {
             const json = await response.json();
-            console.log(json.data);
             const requestsJson = json.data.requests;
             setRequests((val) => [...val, ...requestsJson.map((request) => {
                 return {
@@ -147,7 +146,6 @@ const ManageUsersPage = () => {
 
     const deleteUser = (username) => {
         const user = users.find((value) => value.username === username)
-        console.log(user)
         if (user.role === 'Patient') {
             fetch(`http://localhost:3000/patients/${user.id}`, {method: 'DELETE'})
         } else if (user.role === 'Doctor') {

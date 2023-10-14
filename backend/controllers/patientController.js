@@ -6,11 +6,8 @@ const Doctor = require('../models/doctorModel');
 const apiFeatures = require('../utils/apiFeatures');
 
 exports.signup = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-
   const newPatient = await Patient.create(req.body)
     .then((result) => {
-      console.log('New patient created:', result);
       return result; // Forward the result for further processing
     })
     .catch((error) => {
@@ -18,7 +15,6 @@ exports.signup = catchAsync(async (req, res, next) => {
       throw error; // Re-throw the error for further handling
     });
 
-  console.log('ERR');
 
   if (newPatient == null) {
     res.status(404).json({

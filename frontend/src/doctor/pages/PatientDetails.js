@@ -13,7 +13,6 @@ const PatientDetails = (props) => {
   };
 
   const getPatientBody = () => {
-    console.log(props.data);
     return (
       <React.Fragment>
         <div>
