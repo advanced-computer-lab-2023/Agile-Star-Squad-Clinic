@@ -6,10 +6,18 @@ import PrescriptionDetails from "../../prescriptions/pages/PrescriptionDetails";
 const PatientHome = () => {
     const [doctors, setDoctors] = useState([]);
     const [filteredDoctors, setFilteredDoctors] = useState([]);
-    const [doctorSearchField, setDoctorSearchField] = useState("");
-    const [doctorSearchGroup, setDoctorSearchGroup] = useState("");
+    const [doctorSearchNameValue, setDoctorSearchName] = useState("");
+    const [doctorSearchSpecialtyValue, setDoctorSearchSpecialty] = useState("");
+    const [doctorSearchDateValue, setDoctorSearchDate] = useState("");
+    const [doctorSpecialtyFilter, setDoctorSpecialtyFilter] = useState("Select");
+    const [specialtyFilters, setSpecialtyFilters] = useState([]);
+    const [showDoctorDateFilter, setShowDoctorDateFilter] = useState(false);
 
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+    const [filteredAppointements, setFilteredAppointements] = useState([]);
+    const [appointmentFilter, setAppointmentFilter] = useState('');
+    const [appDateFilter, setAppDateFilter] = useState('');
+    const [showAppDateFilter, setShowAppDateFilter] = useState(false);
 
     const [prescriptions, setPrescriptions] = useState([]);
     const [filteredPrescriptions, setFilteredPrescriptions] = useState([]);
@@ -31,10 +39,13 @@ const PatientHome = () => {
     }, [])
 
     useEffect(() => {
-        if (prescriptions.length != 0) {
+        setShowPrescDateFilter(false);
+        setShowPrescDoctorFilter(false);
+        if (prescriptionFilter === "select") {
+            setFilteredPrescriptions(prescriptions)
+        }
+        else if (prescriptions.length != 0) {
             let newPrescriptions;
-            setShowPrescDateFilter(false);
-            setShowPrescDoctorFilter(false);
             switch (prescriptionFilter) {
                 case "filled":
                     newPrescriptions = prescriptions.filter((presc) => presc.status == "Filled");
@@ -56,10 +67,13 @@ const PatientHome = () => {
         }
     }, [prescriptionFilter]);
 
+    useEffect(() => {
+        applySearch();
+    }, [doctorSearchNameValue, doctorSearchSpecialtyValue, doctorSearchDateValue, doctorSpecialtyFilter]);
 
     const appointmentCols = [
-        { field: "doctorName", headerName: "Name" },
-        { field: "date", headerName: "Date", width: 200 },
+        { field: "doctorName", headerName: "Doctor" },
+        { field: "date", headerName: "Date", width: 240 },
         { field: "status", headerName: "Status" },
     ]
 
@@ -73,29 +87,34 @@ const PatientHome = () => {
     const prescriptionCols = [
         { field: "doctorName", headerName: "Doctor" },
         { field: "body", headerName: "Prescription", width: 300 },
-        { field: 'status', headerName: "Status"}
+        { field: 'status', headerName: "Status" }
     ]
 
     const prescriptionFilters = [
+        <option value={'select'}>Select</option>,
         <option value={'date'}>By Date</option>,
         <option value={'doctor'}>By Doctor</option>,
         <option value={'filled'}>Filled</option>,
         <option value={'unfilled'}>Unfilled</option>
     ]
+
+
     const doctorSearchGroups = [
         <option value={'name'}>Name</option>,
         <option value={'speciality'}>Specialty</option>,
+        <option value={'date'}>Date</option>,
     ]
 
     const fetchDoctors = () => {
         fetch("http://localhost:3000/doctors/").then(async (response) => {
             const json = await response.json();
             const doctorsJson = json.data.doctors;
-
+            const specialties = new Set();
             setDoctors(doctorsJson.map((doctor) => {
                 const hourlyRate = doctor['hourlyRate'];
                 const patientDiscount = 0.2;
                 const sessionPrice = hourlyRate * 1.1 * (1 - patientDiscount);
+                specialties.add(doctor.speciality);
                 return {
                     id: doctor["_id"],
                     sessionPrice: sessionPrice,
@@ -112,6 +131,8 @@ const PatientHome = () => {
                     ...doctor
                 }
             }));
+            const specialtyList = ["Select", ...Array.from(specialties)]
+            setSpecialtyFilters(specialtyList.map((spec) => <option value={spec}>{spec}</option>));
         });
     }
 
@@ -121,20 +142,20 @@ const PatientHome = () => {
             const prescriptionsJson = json.data.prescriptions;
             const prescDoctors = new Set();
             setPrescriptions(prescriptionsJson.map((prescription) => {
-                prescDoctors.add(prescription['doctor']);
                 return {
                     id: prescription["_id"],
                     ...prescription
                 }
             }));
             setFilteredPrescriptions(prescriptionsJson.map((prescription) => {
-                prescDoctors.add(prescription['doctor']);
+                prescDoctors.add(prescription['doctorName']);
                 return {
                     id: prescription["_id"],
                     ...prescription
                 }
             }));
-            setPrescriptionDoctors(Array.from(prescDoctors));
+            const doctorsList = ["Select", ...Array.from(prescDoctors)]
+            setPrescriptionDoctors(doctorsList);
         });
     }
 
@@ -148,7 +169,7 @@ const PatientHome = () => {
                     ...appointment
                 }
             }));
-            
+
         });
     }
 
@@ -173,42 +194,71 @@ const PatientHome = () => {
         });
         setFilteredPrescriptions(newPrescriptions);
     }
+    const applyDateFilter = () => {
+        const pickedISODate = new Date(doctorSearchDateValue).toISOString();
+        const newDoctors = filteredDoctors.filter((doctor) => {
+            const appointments = doctor.appointments;
+            const isNotFree = appointments.some((app) => {
+                let start = new Date(app.dateOfAppointment)
+                const end = new Date(start.getTime() + 1000 * 60 * 60).toISOString() // ADDS 1 HOUR
+                start = start.toISOString()
+                return pickedISODate > start && pickedISODate < end;
+            });
+            return !isNotFree
+        });
+        setFilteredDoctors(newDoctors);
+    }
 
     const prescDoctorDropdownHandler = (event) => {
         const chosenDoctor = event.target.value;
         setPrescDoctorFilter(chosenDoctor);
-        const newPrescriptions = prescriptions.filter((presc) => presc['doctor'] === chosenDoctor);
-        setFilteredPrescriptions(newPrescriptions);
+        if (chosenDoctor === "Select") {
+            setFilteredPrescriptions(prescriptions)
+        } else {
+            const newPrescriptions = prescriptions.filter((presc) => presc['doctorName'] === chosenDoctor);
+            setFilteredPrescriptions(newPrescriptions);
+        }
     }
 
-    const doctorSearchHandler = (event) => {
-        const searchValue = event.target.value;
-        setDoctorSearchField(searchValue);
-        if (searchValue === "") {
-            setFilteredDoctors(doctors);
-        } else {
-        const newDoctors = doctors.filter((doctor) => doctor[doctorSearchGroup].includes(searchValue));
-        setFilteredDoctors(newDoctors);
+    const applySearch = () => {
+        let newDoctors = [...doctors];
+        if (doctorSearchNameValue !== "") {
+            newDoctors = newDoctors.filter((doc) => doc.name.toLowerCase().includes(doctorSearchNameValue));
         }
-    };
+        if (doctorSearchSpecialtyValue !== "") {
+            newDoctors = newDoctors.filter((doc) => doc.speciality.toLowerCase().includes(doctorSearchSpecialtyValue));
+        }
+        if (doctorSpecialtyFilter !== "Select") {
+            newDoctors = newDoctors.filter((doc) => doc.speciality === doctorSpecialtyFilter);
+        }
+        setFilteredDoctors(newDoctors);
+        if (doctorSearchDateValue !== "") {
+            applyDateFilter();
+        }
+    }
 
-    const doctorSearchGroupHandler = (event) => {
-        setDoctorSearchGroup(event.target.value);
-    };
+    const doctorSpecialtyDropdownHandler = (event) => {
+        setDoctorSpecialtyFilter(event.target.value);
+    }
+
+    const clearDoctorDateFilter = () => {
+        setDoctorSearchDate("");
+    }
+
     const showDoctorModal = (selectedRow) => {
         setSelectedRow(selectedRow);
         setShowDoctor(true);
-      };
-      const showPrescModal = (selectedRow) => {
+    };
+    const showPrescModal = (selectedRow) => {
         setSelectedRow(selectedRow);
         setShowPresc(true);
-      };
-      const exitDoctorModal = () => {
+    };
+    const exitDoctorModal = () => {
         setShowDoctor(false);
-      };
-      const exitPrescModal = () => {
-        setShowDoctor(false);
-      };
+    };
+    const exitPrescModal = () => {
+        setShowPresc(false);
+    };
 
     return <div className="center">
 
@@ -220,30 +270,60 @@ const PatientHome = () => {
             <select value={prescriptionFilter} onChange={prescriptionDropdownHandler}>
                 {prescriptionFilters}
             </select>
-            {showPrescDateFilter && <input type="date" value={prescDateFilter} onChange={prescDateFilterHandler}/>}
+            {showPrescDateFilter && <input type="date" value={prescDateFilter} onChange={prescDateFilterHandler} />}
 
-            {showPrescDoctorFilter && <select value={prescDoctorFilter} onChange={prescDoctorDropdownHandler}> 
-            {prescriptionDoctors.map((doc) => <option value={doc}>{doc}</option>)} </select>}
+            {showPrescDoctorFilter && <select value={prescDoctorFilter} onChange={prescDoctorDropdownHandler}>
+                {prescriptionDoctors.map((doc) => <option value={doc}>{doc}</option>)} </select>}
 
         </span>
         {showDoctor && (
-        <DoctorDetails data={selectedRow} exit={exitDoctorModal} />
-      )} {showPresc && (
-        <PrescriptionDetails data={selectedRow} exit={exitPrescModal} />
-      )}
+            <DoctorDetails data={selectedRow} exit={exitDoctorModal} />
+        )} {showPresc && (
+            <PrescriptionDetails data={selectedRow} exit={exitPrescModal} />
+        )}
         <DataTable columns={prescriptionCols} rows={filteredPrescriptions} onRowClick={showPrescModal} />
 
         <h2>Doctors</h2>
         <span>
-        <input
-          type="text"
-          placeholder="Search"
-          value={doctorSearchField}
-          onChange={doctorSearchHandler}
-        />
-        <select value={doctorSearchGroup} onChange={doctorSearchGroupHandler}>
+
+            {/* {!showDoctorDateFilter &&
+                
+
+            } */}
+            <div>
+                <span>Search by Name </span>
+                <input
+                    type="text"
+                    placeholder="Search"
+                    value={doctorSearchNameValue}
+                    onChange={(event) => { setDoctorSearchName(event.target.value) }}
+                /></div>
+            <span>Search by Specialty </span>
+
+            <input
+                type="text"
+                placeholder="Search"
+                value={doctorSearchSpecialtyValue}
+                onChange={(event) => setDoctorSearchSpecialty(event.target.value)}
+            />
+
+            <div>
+                <span>Availabilty Date </span>
+                <input type="datetime-local" value={doctorSearchDateValue} onChange={(event) => { setDoctorSearchDate(event.target.value) }} />
+                <button onClick={clearDoctorDateFilter}>Cancel</button>
+            </div>
+
+
+            <div>
+                <span>Filter by Specialty </span>
+                <select value={doctorSpecialtyFilter} onChange={doctorSpecialtyDropdownHandler}>
+                    {specialtyFilters}
+                </select>
+                <button onClick={() => setDoctorSpecialtyFilter("Select")}>Cancel</button>
+            </div>
+            {/* <select value={doctorSearchGroup} onChange={doctorSearchGroupHandler}>
                 {doctorSearchGroups}
-            </select>
+            </select> */}
         </span>
         <DataTable columns={doctorCols} rows={filteredDoctors} onRowClick={showDoctorModal} />
 

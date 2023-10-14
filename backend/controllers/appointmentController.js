@@ -74,11 +74,12 @@ exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
 
   for (const app of patient.appointments) {
     const doctor = await Doctor.findById(app.doctor);
+    const date = new Date(app.dateOfAppointment);
     const appointment = {
       _id: app._id,
       doctorName: doctor.name,
       doctorId: doctor.id,
-      date: new Date(app.dateOfAppointment).toDateString(),
+      date: `${date.toLocaleTimeString()} ${date.toDateString()}`,
       status: app.status,
     };
     if (isDateInFuture(app.dateOfAppointment)) appointments.push(appointment);
