@@ -9,15 +9,10 @@ const PatientHome = () => {
     const [doctorSearchNameValue, setDoctorSearchName] = useState("");
     const [doctorSearchSpecialtyValue, setDoctorSearchSpecialty] = useState("");
     const [doctorSearchDateValue, setDoctorSearchDate] = useState("");
-    const [doctorSpecialtyFilter, setDoctorSpecialtyFilter] = useState("Select");
-    const [specialtyFilters, setSpecialtyFilters] = useState([]);
+    const [doctorSpecialtyFilter, setDoctorSpecialtyFilter] = useState("");
     const [showDoctorDateFilter, setShowDoctorDateFilter] = useState(false);
 
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-    const [filteredAppointements, setFilteredAppointements] = useState([]);
-    const [appointmentFilter, setAppointmentFilter] = useState('');
-    const [appDateFilter, setAppDateFilter] = useState('');
-    const [showAppDateFilter, setShowAppDateFilter] = useState(false);
 
     const [prescriptions, setPrescriptions] = useState([]);
     const [filteredPrescriptions, setFilteredPrescriptions] = useState([]);
@@ -39,13 +34,10 @@ const PatientHome = () => {
     }, [])
 
     useEffect(() => {
-        setShowPrescDateFilter(false);
-        setShowPrescDoctorFilter(false);
-        if (prescriptionFilter === "select") {
-            setFilteredPrescriptions(prescriptions)
-        }
-        else if (prescriptions.length != 0) {
+        if (prescriptions.length != 0) {
             let newPrescriptions;
+            setShowPrescDateFilter(false);
+            setShowPrescDoctorFilter(false);
             switch (prescriptionFilter) {
                 case "filled":
                     newPrescriptions = prescriptions.filter((presc) => presc.status == "Filled");
@@ -91,14 +83,11 @@ const PatientHome = () => {
     ]
 
     const prescriptionFilters = [
-        <option value={'select'}>Select</option>,
         <option value={'date'}>By Date</option>,
         <option value={'doctor'}>By Doctor</option>,
         <option value={'filled'}>Filled</option>,
         <option value={'unfilled'}>Unfilled</option>
     ]
-
-
     const doctorSearchGroups = [
         <option value={'name'}>Name</option>,
         <option value={'speciality'}>Specialty</option>,
@@ -109,12 +98,11 @@ const PatientHome = () => {
         fetch("http://localhost:3000/doctors/").then(async (response) => {
             const json = await response.json();
             const doctorsJson = json.data.doctors;
-            const specialties = new Set();
+
             setDoctors(doctorsJson.map((doctor) => {
                 const hourlyRate = doctor['hourlyRate'];
                 const patientDiscount = 0.2;
                 const sessionPrice = hourlyRate * 1.1 * (1 - patientDiscount);
-                specialties.add(doctor.speciality);
                 return {
                     id: doctor["_id"],
                     sessionPrice: sessionPrice,
@@ -131,8 +119,6 @@ const PatientHome = () => {
                     ...doctor
                 }
             }));
-            const specialtyList = ["Select", ...Array.from(specialties)]
-            setSpecialtyFilters(specialtyList.map((spec) => <option value={spec}>{spec}</option>));
         });
     }
 
@@ -154,8 +140,7 @@ const PatientHome = () => {
                     ...prescription
                 }
             }));
-            const doctorsList = ["Select", ...Array.from(prescDoctors)]
-            setPrescriptionDoctors(doctorsList);
+            setPrescriptionDoctors(Array.from(prescDoctors));
         });
     }
 
@@ -212,12 +197,8 @@ const PatientHome = () => {
     const prescDoctorDropdownHandler = (event) => {
         const chosenDoctor = event.target.value;
         setPrescDoctorFilter(chosenDoctor);
-        if (chosenDoctor === "Select") {
-            setFilteredPrescriptions(prescriptions)
-        } else {
-            const newPrescriptions = prescriptions.filter((presc) => presc['doctorName'] === chosenDoctor);
-            setFilteredPrescriptions(newPrescriptions);
-        }
+        const newPrescriptions = prescriptions.filter((presc) => presc['doctorName'] === chosenDoctor);
+        setFilteredPrescriptions(newPrescriptions);
     }
 
     const applySearch = () => {
@@ -228,7 +209,7 @@ const PatientHome = () => {
         if (doctorSearchSpecialtyValue !== "") {
             newDoctors = newDoctors.filter((doc) => doc.speciality.toLowerCase().includes(doctorSearchSpecialtyValue));
         }
-        if (doctorSpecialtyFilter !== "Select") {
+        if (doctorSpecialtyFilter !== "") {
             newDoctors = newDoctors.filter((doc) => doc.speciality === doctorSpecialtyFilter);
         }
         setFilteredDoctors(newDoctors);
@@ -319,7 +300,6 @@ const PatientHome = () => {
                 <select value={doctorSpecialtyFilter} onChange={doctorSpecialtyDropdownHandler}>
                     {specialtyFilters}
                 </select>
-                <button onClick={() => setDoctorSpecialtyFilter("Select")}>Cancel</button>
             </div>
             {/* <select value={doctorSearchGroup} onChange={doctorSearchGroupHandler}>
                 {doctorSearchGroups}

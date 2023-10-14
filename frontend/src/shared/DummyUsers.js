@@ -6,7 +6,7 @@ const DUMMY_USERS = {
     _id: '652a5b90eac17dc9a6d5d3f4',
     role: 'admin',
   },
-  patient: { _id: '6521fc7bb512c918531f7e0b', role: 'patient' },
+  patient: { _id: '65270df9cfa9abe7a31a4d88', role: 'patient' },
   doctor: { _id: '65217eef62c9a70ae7636191', role: 'doctor' },
 };
 
