@@ -36,7 +36,12 @@ const AdminPackagesView = () => {
   return (
     <div>
       <div className="header">
+     
         <h1>Packages</h1>
+        <Link to="/admin/home">
+          <button id ="addingbutton"className="btn btn-primary sm">Back to Home</button>
+        </Link>
+        
         <Link to="/addPackage">
           <button id ="addingbutton"className="btn btn-primary sm">Add Package</button>
         </Link>
