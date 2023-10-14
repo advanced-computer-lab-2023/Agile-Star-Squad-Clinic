@@ -9,12 +9,17 @@ const DUMMY_DOCTOR_ID = '65270f436a48cd31d535b963';
 const DoctorHome = () => {
   const [users, setUsers] = useState([]);
   const [appointments, setAppointments] = useState([]);
-  const [isUserTab, setUserTab] = useState(true);
+
+  const [currentTab, setCurrentTab] = useState('patients');
+
   const [showAppointment, setShowAppointment] = useState(false);
   const [showUser, setShowUser] = useState(false);
+
   const [info, setInfo] = useState({});
   const [selectedRow, setSelectedRow] = useState({});
+
   const [patientSearchField, setPatientSearchField] = useState('');
+
   const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
@@ -23,16 +28,15 @@ const DoctorHome = () => {
     fetchMyInfo();
   }, []);
 
-  const upcomingCols = [
-    { field: 'username', headerName: 'Patient Name' },
-    { field: 'mobileNumber', headerName: 'Mobile Number' },
-    { field: 'dateOfAppointment', headerName: 'Date of Appointment' },
-  ];
-
   const patientCols = [
     { field: 'username', headerName: 'Username' },
     { field: 'name', headerName: 'Name' },
-    { field: 'appointments', headerName: 'Date of Appointment' },
+  ];
+
+  const appointmentCols = [
+    { field: 'username', headerName: 'Patient Name' },
+    { field: 'mobileNumber', headerName: 'Mobile Number' },
+    { field: 'dateOfAppointment', headerName: 'Date of Appointment' },
     { field: 'status', headerName: 'Appointment Status' },
   ];
 
@@ -66,6 +70,7 @@ const DoctorHome = () => {
               emergencyContact: patient['emergencyContact'],
               doctor: patient['doctor'],
               familyMembers: patient['familyMembers'],
+              medicalRecord: patient['medicalRecord'],
             };
           })
         );
@@ -82,6 +87,7 @@ const DoctorHome = () => {
               emergencyContact: patient['emergencyContact'],
               doctor: patient['doctor'],
               familyMembers: patient['familyMembers'],
+              medicalRecord: patient['medicalRecord'],
             };
           })
         );
@@ -98,6 +104,7 @@ const DoctorHome = () => {
               emergencyContact: patient['emergencyContact'],
               doctor: patient['doctor'],
               familyMembers: patient['familyMembers'],
+              medicalRecord: patient['medicalRecord'],
             };
           })
         );
@@ -115,9 +122,10 @@ const DoctorHome = () => {
       setAppointments(
         appointmentsJson.map((appointment) => {
           return {
-            id: appointment['patient'],
+            id: appointment['_id'],
             dateOfAppointment: appointment['dateOfAppointment'],
             status: appointment['status'],
+            patient: appointment['patient'],
           };
         })
       );
@@ -173,7 +181,6 @@ const DoctorHome = () => {
       const newPatients = users.filter((patient) =>
         patient.name.includes(searchValue)
       );
-      console.log(newPatients);
       setFilteredPatients(newPatients);
     }
   };
@@ -199,25 +206,21 @@ const DoctorHome = () => {
   // const exitAdminModal = () => {
   //     setShowAdminForm(false);
   // }
-
-  const usersAndTheirAppointments = filteredPatients.map((user) => {
-    const userAppointments = appointments.filter(
-      (appointment) => appointment.id == user.id
-    );
-    const appointmentList = userAppointments.map((appointment) => {
-      return {
-        appointments: appointment.dateOfAppointment,
-        status: appointment.status,
-      };
+  const upComingAppointments = appointments.map((appointment) => {
+    let user = filteredPatients.filter((user) => {
+      return user.id == appointment.patient;
     });
-    const appointmentJSONObject =
-      appointmentList.length === 0 ? {} : appointmentList[0];
+    if (user.length == 0) {
+      return {};
+    } else {
+      user = user[0];
+    }
     return {
-      id: user.id, // Add a unique id for the user
+      id: appointment.id,
       username: user.username,
-      name: user.name,
-      ...appointmentJSONObject,
-      ...user,
+      mobileNumber: user.mobileNumber,
+      dateOfAppointment: appointment.dateOfAppointment,
+      status: appointment.status,
     };
   });
 
@@ -231,16 +234,21 @@ const DoctorHome = () => {
       {/* onDelete={deleteUser} */}
       <div>
         <span>
-          <button onClick={() => setUserTab(true)}>My Patients</button>
+          <button onClick={() => setCurrentTab('patients')}>My Patients</button>
         </span>
         <span>
-          <button onClick={() => setUserTab(false)}>Account Info</button>
+          <button onClick={() => setCurrentTab('my-info')}>Account Info</button>
+        </span>
+        <span>
+          <button onClick={() => setCurrentTab('appointments')}>
+            Appointments
+          </button>
         </span>
       </div>
-      {isUserTab && <h3>Patients and Upcoming Appointments</h3>}
-      {!isUserTab && <MyInfo info={info} />}
-      {isUserTab && (
+      {currentTab === 'my-info' && <MyInfo info={info} />}
+      {currentTab === 'patients' && (
         <>
+          <h3>Patients</h3>
           <span>
             <input
               type="text"
@@ -251,8 +259,18 @@ const DoctorHome = () => {
           </span>
           <DataTable
             columns={patientCols}
-            rows={usersAndTheirAppointments}
+            rows={filteredPatients}
             onRowClick={showUserModal}
+          />
+        </>
+      )}
+      {currentTab === 'appointments' && (
+        <>
+          <h3>Upcoming Appointments</h3>
+          <DataTable
+            columns={appointmentCols}
+            rows={upComingAppointments}
+            onRowClick={showAppointmentModal}
           />
         </>
       )}

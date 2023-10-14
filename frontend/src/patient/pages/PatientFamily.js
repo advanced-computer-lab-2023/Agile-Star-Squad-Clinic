@@ -14,15 +14,12 @@ const PatientFamily = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      console.log("SENDING REQUEST")
       setFamilyMembers(true);
 
       try {
         const response = await fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/familyMembers");
-        console.log("HAS FETCHED")
         const responseData = await response.json();
         setNewFamilyMember(responseData.data.members)
-        console.log(responseData.data.members)
 
         if (!response.ok) {
           throw new Error(responseData.message); // Fix the message parameter
@@ -30,8 +27,6 @@ const PatientFamily = () => {
         setNewFamilyMember(responseData);
       } catch (error) {
         console.log("HAS NOT FETCHED")
-        // console.log("fekuhfefiheiufdu");
-        // console.log(response === null);
         setError(error.message);
       }
       setFamilyMembers(false);

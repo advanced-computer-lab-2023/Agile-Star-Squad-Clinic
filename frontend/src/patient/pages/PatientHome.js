@@ -120,7 +120,6 @@ const PatientHome = () => {
         fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/prescriptions").then(async (response) => {
             const json = await response.json();
             const prescriptionsJson = json.data.prescriptions;
-            console.log(prescriptionsJson);
             const prescDoctors = new Set();
             setPrescriptions(prescriptionsJson.map((prescription) => {
                 prescDoctors.add(prescription['doctor']);
@@ -156,7 +155,6 @@ const PatientHome = () => {
 
     const onDoctorClick = (selectedRow) => {
         setSelectedRow(selectedRow);
-        console.log(selectedRow);
     }
 
     const onPrescriptionClick = (selectedRow) => {

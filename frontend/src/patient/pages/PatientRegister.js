@@ -51,7 +51,7 @@ const PatientRegisterForm = () => {
       if (response.ok) {
         // Handle a successful response
         setUserRole('patient');
-        navigate('/pharmacy/home');
+        navigate('/patient/home');
       } else {
         // Handle errors if the server response is not ok
         alert('Registration Failed!');

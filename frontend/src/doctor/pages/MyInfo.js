@@ -10,7 +10,18 @@ const MyInfo = (props) => {
   let newHourlyRate = hourlyRate;
   const [affiliation, setAffiliation] = useState(info.affiliation);
   let newAffiliation = affiliation;
-
+  const [username, setUsername] = useState(info.username);
+  let newUsername = username;
+  const [name, setName] = useState(info.name);
+  let newName = name;
+  const [dateOfBirth, setDateOfBirth] = useState(info.dateOfBirth);
+  let newDateOfBirth = dateOfBirth;
+  const [mobileNumber, setMobileNumber] = useState(info.mobileNumber);
+  let newMobileNumber = mobileNumber;
+  const [educationalBackground, setEducationalBackground] = useState(info.educationalBackground);
+  let newEducationalBackground = educationalBackground;
+  const [speciality, setSpeciality] = useState(info.speciality);
+  let newSpeciality = speciality;
   const onSubmitHandler = (event) => {
     event.preventDefault();
     const requestOptions = {
@@ -28,6 +39,12 @@ const MyInfo = (props) => {
           setEmail(newEmail);
           setHourlyRate(newHourlyRate);
           setAffiliation(newAffiliation);
+          setDateOfBirth(dateOfBirth);
+          setEducationalBackground(educationalBackground);
+          setMobileNumber(mobileNumber);
+          setName(name);
+          setUsername(username);
+          setSpeciality(speciality);
         }
       }
     );
@@ -76,6 +93,30 @@ const MyInfo = (props) => {
       <div>
         <h4>Affiliation</h4>
         <span>{affiliation}</span>
+      </div>
+      <div>
+        <h4>Name</h4>
+        <span>{name}</span>
+      </div>
+      <div>
+        <h4>Educational Background</h4>
+        <span>{educationalBackground}</span>
+      </div>
+      <div>
+        <h4>Username</h4>
+        <span>{username}</span>
+      </div>
+      <div>
+        <h4>Speciality</h4>
+        <span>{speciality}</span>
+      </div>
+      <div>
+        <h4>Mobile Number</h4>
+        <span>{mobileNumber}</span>
+      </div>
+      <div>
+        <h4>Date Of Birth</h4>
+        <span>{dateOfBirth}</span>
       </div>
       <hr />
       <hr />

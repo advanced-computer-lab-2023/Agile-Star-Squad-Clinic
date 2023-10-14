@@ -29,18 +29,13 @@ function App() {
             element={<PatientRegisterForm />}
             exact
           />
-          <Route path="/patient/login" element={<PatientHome />} exact />
-          <Route
-            path="/patient/login"
-            element={<PatientRegisterForm />}
-            exact
-          />
+          <Route path="/patient/home" element={<PatientHome />} exact />
           <Route
             path="/doctor/register"
             element={<DoctorRegisterForm />}
             exact
           />
-          <Route path="/doctor/login" element={<DoctorHome />} exact />
+          <Route path="/doctor/home" element={<DoctorHome />} exact />
           <Route path="/admin/home" element={<AdminHome />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
