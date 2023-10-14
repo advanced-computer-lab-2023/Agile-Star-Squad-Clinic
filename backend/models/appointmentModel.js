@@ -19,7 +19,6 @@ const appointmentSchema = new mongoose.Schema({
   dateOfAppointment: {
     type: Date,
     required: [true, 'Please provide a date'],
-    default: Date.now,
   },
 
   status: {

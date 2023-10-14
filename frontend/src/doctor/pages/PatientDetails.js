@@ -13,7 +13,6 @@ const PatientDetails = (props) => {
   };
 
   const getPatientBody = () => {
-    console.log(props.data);
     return (
       <React.Fragment>
         <div>
@@ -60,9 +59,9 @@ const PatientDetails = (props) => {
         </div>
         <div>
           <span>
-            <h4>Doctors</h4>
+            <h4>Medical Record</h4>
           </span>
-          <span>{props.data["doctor"]}</span>
+          <span>{props.data["medicalRecord"]}</span>
         </div>
       </React.Fragment>
     );

@@ -211,6 +211,27 @@ const PatientHome = () => {
         doctor[doctorSearchGroup].includes(searchValue)
       );
       setFilteredDoctors(newDoctors);
+    const fetchPrescriptions = () => {
+        fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/prescriptions").then(async (response) => {
+            const json = await response.json();
+            const prescriptionsJson = json.data.prescriptions;
+            const prescDoctors = new Set();
+            setPrescriptions(prescriptionsJson.map((prescription) => {
+                prescDoctors.add(prescription['doctor']);
+                return {
+                    id: prescription["_id"],
+                    ...prescription
+                }
+            }));
+            setFilteredPrescriptions(prescriptionsJson.map((prescription) => {
+                prescDoctors.add(prescription['doctor']);
+                return {
+                    id: prescription["_id"],
+                    ...prescription
+                }
+            }));
+            setPrescriptionDoctors(Array.from(prescDoctors));
+        });
     }
   };
 
@@ -294,5 +315,5 @@ const PatientHome = () => {
     </div>
   );
 };
-
+};
 export default PatientHome;

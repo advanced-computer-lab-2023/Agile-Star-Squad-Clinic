@@ -11,7 +11,6 @@ const UserDetails = (props) => {
 
     const userDetails = () => {
         const role = props.data.role;
-        console.log(role)
         if (role === 'Patient') {
             return getPatientBody();
         } else if (role === 'Admin') {
@@ -22,7 +21,6 @@ const UserDetails = (props) => {
     }
 
     const getPatientBody = () => {
-        console.log(props.data)
         return <React.Fragment>
             <div>
                 <span><h4>Username</h4></span>

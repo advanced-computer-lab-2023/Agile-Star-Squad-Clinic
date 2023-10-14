@@ -1,239 +1,143 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import Card from '../../shared/components/Card/Card';
+const DoctorRequestForm = () => {
+  const [formData, setFormData] = useState({
+    username: '',
+    name: '',
+    email: '',
+    password: '',
+    dateOfBirth: '',
+    hourlyRate: '',
+    affiliation: '',
+    educationalBackground: '',
+  });
 
-class DoctorRequestForm extends Component {
-  constructor(props) {
-    super(props);
+  const navigate = useNavigate();
 
-    this.state = {
-      username: '',
-      name: '',
-      email: '',
-      password: '',
-      dateOfBirth: '',
-      hourlyRate: '',
-      affiliation: '',
-      educationalBackground: '',
-      mobileNumber: '',
-      speciality: '',
-    };
-  }
-
-  handleUsernameChange = (event) => {
-    this.setState({
-      username: event.target.value,
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
   };
 
-  handleNameChange = (event) => {
-    this.setState({
-      name: event.target.value,
-    });
-  };
-
-  handleEmailChange = (event) => {
-    this.setState({
-      email: event.target.value,
-    });
-  };
-
-  handlePasswordChange = (event) => {
-    this.setState({
-      password: event.target.value,
-    });
-  };
-
-  handleDateOfBirthChange = (event) => {
-    this.setState({
-      dateOfBirth: event.target.value,
-    });
-  };
-
-  handleHourlyRateChange = (event) => {
-    this.setState({
-      hourlyRate: event.target.value,
-    });
-  };
-
-  handleAffiliationChange = (event) => {
-    this.setState({
-      affiliation: event.target.value,
-    });
-  };
-
-  handleMobileNumberChange = (event) => {
-    this.setState({
-      mobileNumber: event.target.value,
-    });
-  };
-
-  handleEducationalBackgroundChange = (event) => {
-    this.setState({
-      educationalBackground: event.target.value,
-    });
-  };
-
-  handleSpecialityChange = (event) => {
-    this.setState({
-      speciality: event.target.value,
-    });
-  };
-  //
-  //PharmacistSignup is temp till we make a request function
-  //
-  handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify(this.state),
-    };
-    fetch('http://localhost:3000/doctors', requestOptions);
-    // doctorSignup(`${this.state.username}
-    // ${this.state.name}
-    // ${this.state.email}
-    // ${this.state.password}
-    // ${this.state.dateOfBirth}
-    // ${this.state.hourlyRate}
-    // ${this.state.affiliation}
-    // ${this.state.educationalBackground}`)
-    // event.preventDefault()
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify(formData),
+      };
+      const response = await fetch(
+        'http://localhost:4000/pharmacist',
+        requestOptions
+      );
+
+      if (response.ok) {
+        // Handle a successful response
+        alert('Request is pending...');
+        navigate('/');
+      } else {
+        // Handle errors if the server response is not ok
+        alert('Registration Failed!');
+      }
+    } catch (error) {
+      // Handle network errors
+      alert('Network error: ' + error.message);
+    }
   };
 
-  render() {
-    const {
-      username,
-      name,
-      email,
-      password,
-      mobileNumber,
-      dateOfBirth,
-      hourlyRate,
-      affiliation,
-      educationalBackground,
-      speciality,
-    } = this.state;
-    return (
-      <Card>
-        <form onSubmit={this.handleSubmit}>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Username
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={username}
-              onChange={this.handleUsernameChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Name
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={name}
-              onChange={this.handleNameChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={email}
-              onChange={this.handleEmailChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Password
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={password}
-              onChange={this.handlePasswordChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Mobile Number
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={mobileNumber}
-              onChange={this.handleMobileNumberChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              value={dateOfBirth}
-              class="form-control"
-              onChange={this.handleDateOfBirthChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Hourly Rate
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={hourlyRate}
-              onChange={this.handleHourlyRateChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Affiliation
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={affiliation}
-              onChange={this.handleAffiliationChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Educational Background
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={educationalBackground}
-              onChange={this.handleEducationalBackgroundChange}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
-              Speciality
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              value={speciality}
-              onChange={this.handleSpecialityChange}
-            />
-          </div>
-          <button class="btn btn-primary lg" id="subbutton2" type="submit">
-            Request registeration
-          </button>
-        </form>
-      </Card>
-    );
-  }
-}
+  const {
+    username,
+    name,
+    email,
+    password,
+    dateOfBirth,
+    hourlyRate,
+    affiliation,
+    educationalBackground,
+  } = formData;
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Username</label>
+        <input
+          type="text"
+          name="username"
+          value={username}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Name</label>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Email</label>
+        <input
+          type="text"
+          name="email"
+          value={email}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Password</label>
+        <input
+          type="text"
+          name="password"
+          value={password}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Date of Birth</label>
+        <input
+          type="date"
+          name="dateOfBirth"
+          value={dateOfBirth}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Hourly Rate</label>
+        <input
+          type="text"
+          name="hourlyRate"
+          value={hourlyRate}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Affiliation</label>
+        <input
+          type="text"
+          name="affiliation"
+          value={affiliation}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Educational Background</label>
+        <input
+          type="text"
+          name="educationalBackground"
+          value={educationalBackground}
+          onChange={handleInputChange}
+        />
+      </div>
+      <button type="submit">Request registration</button>
+    </form>
+  );
+};
 
 export default DoctorRequestForm;

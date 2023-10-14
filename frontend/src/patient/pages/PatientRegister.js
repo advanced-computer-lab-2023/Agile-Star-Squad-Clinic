@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { setUserRole } from '../../shared/DummyUsers';
 import { useNavigate } from 'react-router-dom';
 
 const PatientRegisterForm = () => {
-  const [state, setState] = useState({
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
     username: '',
     name: '',
     email: '',
@@ -12,163 +15,118 @@ const PatientRegisterForm = () => {
     mobileNumber: '',
     emergencyContact: {
       fullName: '',
-      phoneNumber: '',
+      phoneNumber: ''
     },
   });
 
-  const handleUsernameChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        username: event.target.value,
-      };
-    });
-  };
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
 
-  const handleNameChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        name: event.target.value,
-      };
-    });
-  };
-
-  const handleEmailChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        email: event.target.value,
-      };
-    });
-  };
-
-  const handlePasswordChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        password: event.target.value,
-      };
-    });
-  };
-
-  const handleDateOfBirthChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        dateOfBirth: event.target.value,
-      };
-    });
-  };
-
-  const handleGenderChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        gender: event.target.value,
-      };
-    });
-  };
-
-  const handleMoibleNumberChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        mobileNumber: event.target.value,
-      };
-    });
-  };
-
-  const handleEmergencyFullNameChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
+    if (name.startsWith('emergencyContact.')) {
+      const fieldName = name.split('.')[1];
+      setFormData({
+        ...formData,
         emergencyContact: {
-          ...state.emergencyContact,
-          fullName: event.target.value,
+          ...formData.emergencyContact,
+          [fieldName]: value,
         },
-      };
-    });
-  };
-
-  const handleEmergencyNumberChange = (event) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        emergencyContact: {
-          ...state.emergencyContact,
-          phoneNumber: event.target.value,
-        },
-      };
-    });
-  };
-  const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify(state),
-    };
-    fetch('http://localhost:3000/patients', requestOptions)
-      .then((response) => {
-        return response.ok && navigate('/patient/login');
-      })
-      .catch((error) => {
-        return alert('AAAAAAAAAAAAAAA2 failed');
       });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
-  const {
-    username,
-    name,
-    email,
-    password,
-    dateOfBirth,
-    gender,
-    mobileNumber,
-    emergencyContact,
-  } = state;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('http://localhost:4000/patients', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        // Handle a successful response
+        setUserRole('patient');
+        navigate('/patient/home');
+      } else {
+        // Handle errors if the server response is not ok
+        alert('Registration Failed!');
+      }
+    } catch (error) {
+      // Handle network errors
+      alert('Network error: ' + error.message);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label>Username</label>
-        <input type="text" value={username} onChange={handleUsernameChange} />
+        <input
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleInputChange}
+        />
       </div>
       <div>
         <label>Name</label>
-        <input type="text" value={name} onChange={handleNameChange} />
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+        />
       </div>
       <div>
         <label>Email</label>
-        <input type="text" value={email} onChange={handleEmailChange} />
+        <input
+          type="text"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+        />
       </div>
       <div>
         <label>Password</label>
-        <input type="text" value={password} onChange={handlePasswordChange} />
+        <input
+          type="text"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+        />
       </div>
       <div>
         <label>Date of Birth</label>
         <input
           type="date"
-          value={dateOfBirth}
-          onChange={handleDateOfBirthChange}
+          name="dateOfBirth"
+          value={formData.dateOfBirth}
+          onChange={handleInputChange}
         />
       </div>
       <div>
         <label>Gender</label>
-        <select type="text" value={gender} onChange={handleGenderChange}>
+        <select
+          name="gender"
+          value={formData.gender}
+          onChange={handleInputChange}
+        >
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
       </div>
       <div>
-        <label>Moible Number</label>
+        <label>Mobile Number</label>
         <input
           type="text"
-          value={mobileNumber}
-          onChange={handleMoibleNumberChange}
+          name="mobileNumber"
+          value={formData.mobileNumber}
+          onChange={handleInputChange}
         />
       </div>
       <div>
@@ -177,16 +135,18 @@ const PatientRegisterForm = () => {
           <label>Full Name</label>
           <input
             type="text"
-            value={emergencyContact.fullName}
-            onChange={handleEmergencyFullNameChange}
+            name="emergencyContact.fullName"
+            value={formData.emergencyContact.fullName}
+            onChange={handleInputChange}
           />
         </div>
         <div>
-          <label>Moible Number</label>
+          <label>Mobile Number</label>
           <input
             type="text"
-            value={emergencyContact.phoneNumber}
-            onChange={handleEmergencyNumberChange}
+            name="emergencyContact.phoneNumber"
+            value={formData.emergencyContact.phoneNumber}
+            onChange={handleInputChange}
           />
         </div>
       </div>
