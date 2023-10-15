@@ -36,14 +36,8 @@ const DoctorDetails = (props) => {
           <span>{props.data["email"]}</span>
         </div>
         <div>
-          <span>
-            <h4>Mobile Number</h4>
-          </span>
-          <span>{props.data["mobileNumber"]}</span>
-        </div>
-        <div>
-          <h4>Hourly Rate</h4>
-          <span>{props.data["hourlyRate"]}</span>
+          <h4>Session Price</h4>
+          <span>{props.data["sessionPrice"]}</span>
         </div>
         <div>
           <span>

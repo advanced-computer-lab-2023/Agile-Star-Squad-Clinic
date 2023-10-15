@@ -28,7 +28,7 @@ const PrescriptionDetails = (props) => {
           <span>
             <h4>Date of Prescription</h4>
           </span>
-          <span>{props.data["dateofCreation"]}</span>
+          <span>{props.data["dateOfCreation"]}</span>
         </div>
         <div>
           <span>

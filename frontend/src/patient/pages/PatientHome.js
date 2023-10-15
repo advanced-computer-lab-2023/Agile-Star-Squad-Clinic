@@ -124,6 +124,7 @@ const PatientHome = () => {
     const prescriptionCols = [
         { field: "doctorName", headerName: "Doctor" },
         { field: "body", headerName: "Prescription", width: 300 },
+        { field: "dateOfCreation", headerName: "Date Created", width: 250 },
         { field: 'status', headerName: "Status" }
     ]
 
@@ -229,11 +230,18 @@ const PatientHome = () => {
     };
 
     const prescDateFilterHandler = (event) => {
-        const pickedDate = event.target.value;
+        let pickedDate = event.target.value;
         setPrescDateFilter(pickedDate);
         const newPrescriptions = prescriptions.filter((presc) => {
             const date = new Date(presc['dateOfCreation']);
-            return pickedDate.toDateString() == date.toDateString();
+            pickedDate = new Date(pickedDate)
+            console.log(date);
+            console.log(pickedDate);
+            console.log(`${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDate()}` ===
+            `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
+            console.log("\n\n\n")
+            return `${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDate()}` ===
+                `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
         });
         setFilteredPrescriptions(newPrescriptions);
     }
@@ -250,9 +258,9 @@ const PatientHome = () => {
         setFilteredAppointements(newAppointements);
     };
 
-    const applyDateFilter = () => {
+    const applyDateFilter = (doctorList) => {
         const pickedISODate = new Date(doctorSearchDateValue).toISOString();
-        const newDoctors = filteredDoctors.filter((doctor) => {
+        const newDoctors = doctorList.filter((doctor) => {
             const appointments = doctor.appointments;
             const isNotFree = appointments.some((app) => {
                 let start = new Date(app.dateOfAppointment)
@@ -262,7 +270,7 @@ const PatientHome = () => {
             });
             return !isNotFree
         });
-        setFilteredDoctors(newDoctors);
+        return newDoctors;
     }
 
     const prescDoctorDropdownHandler = (event) => {
@@ -287,10 +295,10 @@ const PatientHome = () => {
         if (doctorSpecialtyFilter !== "Select") {
             newDoctors = newDoctors.filter((doc) => doc.speciality === doctorSpecialtyFilter);
         }
-        setFilteredDoctors(newDoctors);
         if (doctorSearchDateValue !== "") {
-            applyDateFilter();
+            newDoctors = applyDateFilter(newDoctors);
         }
+        setFilteredDoctors(newDoctors);
     }
 
     const doctorSpecialtyDropdownHandler = (event) => {
