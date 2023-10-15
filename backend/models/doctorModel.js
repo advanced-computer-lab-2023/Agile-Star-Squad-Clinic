@@ -10,13 +10,13 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide a username.'],
       unique: true,
-      maxlength: [30, 'A username must have less or equal then 30 characters'],
-      minlength: [8, 'A username must have more or equal to 8 characters'],
+      // maxlength: [30, 'A username must have less or equal then 30 characters'],
+      // minlength: [8, 'A username must have more or equal to 8 characters'],
     },
     name: {
       type: String,
       required: [true, 'Please provide your name.'],
-      validate: [validator.isAlpha, 'Name must only contain letters'],
+      // validate: [validator.isAlpha, 'Name must only contain letters'],
     },
     email: {
       type: String,
@@ -27,7 +27,7 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide a password'],
       select: false,
-      minLength: 8,
+      // minLength: 8,
     },
     dateOfBirth: Date,
     hourlyRate: {

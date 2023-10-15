@@ -79,7 +79,7 @@ exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
       _id: app._id,
       doctorName: doctor.name,
       doctorId: doctor.id,
-      date: `${date.toLocaleTimeString()} ${date.toDateString()}`,
+      date: date,
       status: app.status,
     };
     if (isDateInFuture(app.dateOfAppointment)) appointments.push(appointment);
