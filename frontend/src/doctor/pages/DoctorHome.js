@@ -8,7 +8,12 @@ const DUMMY_DOCTOR_ID = '65270f436a48cd31d535b963';
 
 const DoctorHome = () => {
   const [users, setUsers] = useState([]);
+
   const [appointments, setAppointments] = useState([]);
+  const [filteredAppointements, setFilteredAppointements] = useState([]);
+  const [appointmentFilter, setAppointmentFilter] = useState('');
+  const [appDateFilter, setAppDateFilter] = useState('');
+  const [showAppDateFilter, setShowAppDateFilter] = useState(false);
 
   const [currentTab, setCurrentTab] = useState('patients');
 
@@ -28,6 +33,29 @@ const DoctorHome = () => {
     fetchMyInfo();
   }, []);
 
+  useEffect(() => {
+    setShowAppDateFilter(false);
+    if (appointmentFilter === 'select') {
+        setFilteredAppointements(appointments);
+    } else
+        if (appointments.length != 0) {
+            let newAppointements;
+
+            switch (appointmentFilter) {
+                case 'date':
+                    setShowAppDateFilter(true);
+                    break;
+                default:
+                    newAppointements = appointments.filter(
+                        (appoint) => appoint.status == appointmentFilter
+                    );
+                    setFilteredAppointements(newAppointements);
+
+                    break;
+            }
+        }
+}, [appointmentFilter]);
+
   const patientCols = [
     { field: 'username', headerName: 'Username' },
     { field: 'name', headerName: 'Name' },
@@ -40,6 +68,14 @@ const DoctorHome = () => {
     { field: 'status', headerName: 'Appointment Status' },
   ];
 
+  
+  const appointmentFilters = [
+    <option value={'select'}>Select</option>,
+    <option value={'date'}>By Date</option>,
+    <option value={'vaccant'}>Vaccant</option>,
+    <option value={'reserved'}>Reserved</option>,
+    <option value={'passed'}>Passed</option>,
+];
   // const infoCols = [
   //   //khaliha text
   //   { field: "username", headerName: "Username" },
@@ -129,6 +165,16 @@ const DoctorHome = () => {
           };
         })
       );
+      setFilteredAppointements(
+        appointmentsJson.map((appointment) => {
+          return {
+            id: appointment['_id'],
+            dateOfAppointment: appointment['dateOfAppointment'],
+            status: appointment['status'],
+            patient: appointment['patient'],
+          };
+        })
+      );
     });
   };
 
@@ -167,6 +213,11 @@ const DoctorHome = () => {
       }
     );
   };
+
+  const appDropdownHandler = (event) => {
+    setAppointmentFilter(event.target.value);
+};
+
   const onPatientClick = (selectedRow) => {
     setSelectedRow(selectedRow);
     // Navigate to patient info
@@ -184,6 +235,18 @@ const DoctorHome = () => {
       setFilteredPatients(newPatients);
     }
   };
+
+  const appDateFilterHandler = (event) => {
+    let pickedDate = event.target.value;
+    setAppDateFilter(pickedDate);
+    const newAppointements = appointments.filter((appoint) => {
+        const date = new Date(appoint['dateOfAppointment']);
+        pickedDate = new Date(pickedDate)
+        return `${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDay()}` ===
+            `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+    });
+    setFilteredAppointements(newAppointements);
+};
 
   const showAppointmentModal = (selectedRow) => {
     setSelectedRow(selectedRow);
@@ -206,7 +269,7 @@ const DoctorHome = () => {
   // const exitAdminModal = () => {
   //     setShowAdminForm(false);
   // }
-  const upComingAppointments = appointments.map((appointment) => {
+  const upComingAppointments = filteredAppointements.map((appointment) => {
     let user = filteredPatients.filter((user) => {
       return user.id == appointment.patient;
     });
@@ -267,6 +330,16 @@ const DoctorHome = () => {
       {currentTab === 'appointments' && (
         <>
           <h3>Upcoming Appointments</h3>
+          <select value={appointmentFilter} onChange={appDropdownHandler}>
+                {appointmentFilters}
+            </select>
+            {showAppDateFilter && (
+                <input
+                    type="date"
+                    value={appDateFilter}
+                    onChange={appDateFilterHandler}
+                />
+            )}
           <DataTable
             columns={appointmentCols}
             rows={upComingAppointments}

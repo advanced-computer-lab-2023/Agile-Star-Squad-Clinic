@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import DataTable from "../../shared/components/DataTable/DataTable";
 import DoctorDetails from './DoctorDetails'
 import PrescriptionDetails from "../../prescriptions/pages/PrescriptionDetails";
+import { DUMMY_USER } from "../../shared/DummyUsers";
 
 const PatientHome = () => {
     const [doctors, setDoctors] = useState([]);
@@ -9,10 +11,16 @@ const PatientHome = () => {
     const [doctorSearchNameValue, setDoctorSearchName] = useState("");
     const [doctorSearchSpecialtyValue, setDoctorSearchSpecialty] = useState("");
     const [doctorSearchDateValue, setDoctorSearchDate] = useState("");
-    const [doctorSpecialtyFilter, setDoctorSpecialtyFilter] = useState("");
+    const [doctorSpecialtyFilter, setDoctorSpecialtyFilter] = useState("Select");
+    const [specialtyFilters, setSpecialtyFilters] = useState([]);
     const [showDoctorDateFilter, setShowDoctorDateFilter] = useState(false);
 
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+
+    const [filteredAppointements, setFilteredAppointements] = useState([]);
+    const [appointmentFilter, setAppointmentFilter] = useState('');
+    const [appDateFilter, setAppDateFilter] = useState('');
+    const [showAppDateFilter, setShowAppDateFilter] = useState(false);
 
     const [prescriptions, setPrescriptions] = useState([]);
     const [filteredPrescriptions, setFilteredPrescriptions] = useState([]);
@@ -27,17 +35,23 @@ const PatientHome = () => {
 
     const [selectedRow, setSelectedRow] = useState({});
 
+    const patientId = DUMMY_USER._id;
+    // const [patientDiscount, setPatientDiscount] = useState(0.0);
+
     useEffect(() => {
+        fetchPatientAndDoctors();
         fetchUpcomingAppointments();
-        fetchDoctors();
         fetchPrescriptions();
     }, [])
 
     useEffect(() => {
-        if (prescriptions.length != 0) {
+        setShowPrescDateFilter(false);
+        setShowPrescDoctorFilter(false);
+        if (prescriptionFilter === "select") {
+            setFilteredPrescriptions(prescriptions)
+        }
+        else if (prescriptions.length != 0) {
             let newPrescriptions;
-            setShowPrescDateFilter(false);
-            setShowPrescDoctorFilter(false);
             switch (prescriptionFilter) {
                 case "filled":
                     newPrescriptions = prescriptions.filter((presc) => presc.status == "Filled");
@@ -60,6 +74,29 @@ const PatientHome = () => {
     }, [prescriptionFilter]);
 
     useEffect(() => {
+        setShowAppDateFilter(false);
+        if (appointmentFilter === 'select') {
+            setFilteredAppointements(upcomingAppointments);
+        } else
+            if (upcomingAppointments.length != 0) {
+                let newAppointements;
+
+                switch (appointmentFilter) {
+                    case 'date':
+                        setShowAppDateFilter(true);
+                        break;
+                    default:
+                        newAppointements = upcomingAppointments.filter(
+                            (appoint) => appoint.status == appointmentFilter
+                        );
+                        setFilteredAppointements(newAppointements);
+
+                        break;
+                }
+            }
+    }, [appointmentFilter]);
+
+    useEffect(() => {
         applySearch();
     }, [doctorSearchNameValue, doctorSearchSpecialtyValue, doctorSearchDateValue, doctorSpecialtyFilter]);
 
@@ -68,6 +105,14 @@ const PatientHome = () => {
         { field: "date", headerName: "Date", width: 240 },
         { field: "status", headerName: "Status" },
     ]
+
+    const appointmentFilters = [
+        <option value={'select'}>Select</option>,
+        <option value={'date'}>By Date</option>,
+        <option value={'vaccant'}>Vaccant</option>,
+        <option value={'reserved'}>Reserved</option>,
+        <option value={'passed'}>Passed</option>,
+    ];
 
     const doctorCols = [
         { field: "username", headerName: "Username" },
@@ -83,26 +128,34 @@ const PatientHome = () => {
     ]
 
     const prescriptionFilters = [
+        <option value={'select'}>Select</option>,
         <option value={'date'}>By Date</option>,
         <option value={'doctor'}>By Doctor</option>,
         <option value={'filled'}>Filled</option>,
         <option value={'unfilled'}>Unfilled</option>
     ]
-    const doctorSearchGroups = [
-        <option value={'name'}>Name</option>,
-        <option value={'speciality'}>Specialty</option>,
-        <option value={'date'}>Date</option>,
-    ]
 
-    const fetchDoctors = () => {
+    const fetchPatientAndDoctors = async () => {
+        await fetch(`http://localhost:3000/patients/${patientId}`).then(async (response) => {
+            const json = await response.json();
+            const patientJson = json.data.patient;
+            if (patientJson.package) {
+                return fetchDoctors(patientJson.package.doctorSessionDiscount / 100);
+            } else {
+                return fetchDoctors(0);
+            }
+        })
+    }
+
+    const fetchDoctors = async (patientDiscount) => {
         fetch("http://localhost:3000/doctors/").then(async (response) => {
             const json = await response.json();
             const doctorsJson = json.data.doctors;
-
+            const specialties = new Set();
             setDoctors(doctorsJson.map((doctor) => {
                 const hourlyRate = doctor['hourlyRate'];
-                const patientDiscount = 0.2;
                 const sessionPrice = hourlyRate * 1.1 * (1 - patientDiscount);
+                specialties.add(doctor.speciality);
                 return {
                     id: doctor["_id"],
                     sessionPrice: sessionPrice,
@@ -111,7 +164,6 @@ const PatientHome = () => {
             }));
             setFilteredDoctors(doctorsJson.map((doctor) => {
                 const hourlyRate = doctor['hourlyRate'];
-                const patientDiscount = 0.2;
                 const sessionPrice = hourlyRate * 1.1 * (1 - patientDiscount);
                 return {
                     id: doctor["_id"],
@@ -119,6 +171,8 @@ const PatientHome = () => {
                     ...doctor
                 }
             }));
+            const specialtyList = ["Select", ...Array.from(specialties)]
+            setSpecialtyFilters(specialtyList.map((spec) => <option value={spec}>{spec}</option>));
         });
     }
 
@@ -140,7 +194,8 @@ const PatientHome = () => {
                     ...prescription
                 }
             }));
-            setPrescriptionDoctors(Array.from(prescDoctors));
+            const doctorsList = ["Select", ...Array.from(prescDoctors)]
+            setPrescriptionDoctors(doctorsList);
         });
     }
 
@@ -154,21 +209,24 @@ const PatientHome = () => {
                     ...appointment
                 }
             }));
-
+            setFilteredAppointements(
+                appointmentsJson.map((appointment) => {
+                    return {
+                        id: appointment['_id'],
+                        ...appointment,
+                    };
+                })
+            );
         });
-    }
-
-    const onDoctorClick = (selectedRow) => {
-        setSelectedRow(selectedRow);
-    }
-
-    const onPrescriptionClick = (selectedRow) => {
-        setSelectedRow(selectedRow);
     }
 
     const prescriptionDropdownHandler = (event) => {
         setPrescriptionFilter(event.target.value);
     }
+
+    const appDropdownHandler = (event) => {
+        setAppointmentFilter(event.target.value);
+    };
 
     const prescDateFilterHandler = (event) => {
         const pickedDate = event.target.value;
@@ -179,6 +237,19 @@ const PatientHome = () => {
         });
         setFilteredPrescriptions(newPrescriptions);
     }
+
+    const appDateFilterHandler = (event) => {
+        let pickedDate = event.target.value;
+        setAppDateFilter(pickedDate);
+        const newAppointements = upcomingAppointments.filter((appoint) => {
+            const date = new Date(appoint['date']);
+            pickedDate = new Date(pickedDate)
+            return `${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDay()}` ===
+                `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+        });
+        setFilteredAppointements(newAppointements);
+    };
+
     const applyDateFilter = () => {
         const pickedISODate = new Date(doctorSearchDateValue).toISOString();
         const newDoctors = filteredDoctors.filter((doctor) => {
@@ -197,8 +268,12 @@ const PatientHome = () => {
     const prescDoctorDropdownHandler = (event) => {
         const chosenDoctor = event.target.value;
         setPrescDoctorFilter(chosenDoctor);
-        const newPrescriptions = prescriptions.filter((presc) => presc['doctorName'] === chosenDoctor);
-        setFilteredPrescriptions(newPrescriptions);
+        if (chosenDoctor === "Select") {
+            setFilteredPrescriptions(prescriptions)
+        } else {
+            const newPrescriptions = prescriptions.filter((presc) => presc['doctorName'] === chosenDoctor);
+            setFilteredPrescriptions(newPrescriptions);
+        }
     }
 
     const applySearch = () => {
@@ -209,7 +284,7 @@ const PatientHome = () => {
         if (doctorSearchSpecialtyValue !== "") {
             newDoctors = newDoctors.filter((doc) => doc.speciality.toLowerCase().includes(doctorSearchSpecialtyValue));
         }
-        if (doctorSpecialtyFilter !== "") {
+        if (doctorSpecialtyFilter !== "Select") {
             newDoctors = newDoctors.filter((doc) => doc.speciality === doctorSpecialtyFilter);
         }
         setFilteredDoctors(newDoctors);
@@ -243,8 +318,24 @@ const PatientHome = () => {
 
     return <div className="center">
 
-        <h2>Upcoming Appointments</h2>
-        <DataTable columns={appointmentCols} rows={upcomingAppointments} />
+        <Link to="/PatientFamily">
+            <button id="addingbutton" className="formButtons">Family Members</button>
+        </Link>
+
+        <span>
+            <h2>Upcoming Appointments</h2>
+            <select value={appointmentFilter} onChange={appDropdownHandler}>
+                {appointmentFilters}
+            </select>
+            {showAppDateFilter && (
+                <input
+                    type="date"
+                    value={appDateFilter}
+                    onChange={appDateFilterHandler}
+                />
+            )}
+        </span>
+        <DataTable columns={appointmentCols} rows={filteredAppointements} />
 
         <span>
             <h2>My Prescriptions</h2>
@@ -300,6 +391,7 @@ const PatientHome = () => {
                 <select value={doctorSpecialtyFilter} onChange={doctorSpecialtyDropdownHandler}>
                     {specialtyFilters}
                 </select>
+                <button onClick={() => setDoctorSpecialtyFilter("Select")}>Cancel</button>
             </div>
             {/* <select value={doctorSearchGroup} onChange={doctorSearchGroupHandler}>
                 {doctorSearchGroups}
