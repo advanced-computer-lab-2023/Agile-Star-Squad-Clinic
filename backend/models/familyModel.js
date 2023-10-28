@@ -6,7 +6,7 @@ const familySchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please provide your name.'],
-    validate: [validator.isAlpha, 'Name must only contain letters'],
+    // validate: [validator.isAlpha, 'Name must only contain letters'],
   },
   NationalID: {
     type: Number,

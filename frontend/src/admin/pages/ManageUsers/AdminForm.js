@@ -1,6 +1,6 @@
 import InputField from '../../../shared/components/InputField/InputField';
-import {useState} from 'react';
-import ReactDOM  from 'react-dom';
+import { useState } from 'react';
+import ReactDOM from 'react-dom';
 import Modal from '../../../shared/components/Modal/Modal';
 
 const AdminForm = (props) => {
@@ -34,9 +34,16 @@ const AdminForm = (props) => {
             headers: { "Content-type": "application/json; charset=UTF-8", },
             body: JSON.stringify(data)
         };
-        fetch(`http://localhost:3000/admins`, requestOptions).then(() => props.refresh());
 
+        const result = await fetch(`http://localhost:3000/admins`, requestOptions)
         props.exit();
+        if (result.status === 403) {
+            alert((await result.json()).message)
+        } else {
+            props.refresh()
+        }
+
+
     }
 
     return ReactDOM.createPortal(

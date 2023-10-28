@@ -4,14 +4,24 @@ const catchAsync = require('../utils/catchAsync');
 const Request = require('../models/requestModel');
 
 exports.createAdmin = catchAsync(async (req, res, next) => {
-  const newAdmin = await Admin.create(req.body);
+  try {
+    const newAdmin = await Admin.create(req.body);
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      admin: newAdmin,
-    },
-  });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        admin: newAdmin,
+      },
+    });
+  } catch (error) {
+    const message = error.errors.password.properties.message;
+    res.status(403).json(
+      {
+        status: 'failure',
+        message: message
+      }
+    );
+  }
 });
 
 exports.getAllAdmins = catchAsync(async (req, res, next) => {
