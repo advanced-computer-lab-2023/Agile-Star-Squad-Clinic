@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { setUserRole } from '../DummyUsers';
+import NavBar from '../components/NavBar/NavBar';
 
 class LandingPage extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class LandingPage extends Component {
 
     return (
       <React.Fragment>
+        <NavBar></NavBar>
         <hr />
         <Link to="admin/home">
           <button type="button" onClick={() => setUserRole('admin')}>

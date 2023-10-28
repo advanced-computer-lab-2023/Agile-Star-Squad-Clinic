@@ -14,6 +14,7 @@ import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage'
 import './App.css';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
+import NavBar from './shared/components/NavBar/NavBar';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -23,6 +24,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} exact />
+          {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
             path="/patient/register"
