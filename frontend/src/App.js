@@ -15,6 +15,7 @@ import './App.css';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
+import HomePage from './patient/pages/HomePage';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -23,7 +24,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} exact />
+          <Route path="/" element={<HomePage />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
