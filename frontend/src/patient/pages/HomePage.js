@@ -23,22 +23,24 @@ const HomePage = () => {
 const Dashboard = (props) => {
     return <section className={classes.dashSection}>
         <div className={classes.dashContainers}>
-            {/* <div className="col-2"/> */}
-            <div className={`col-7 ${classes.appointmentWrapper}`}>
+            <div className="col-1"/>
+            <div className={`col-5 ${classes.appointmentWrapper}`}>
                 <h3>UPCOMING APPOINTMENTS</h3>
                 <div className={classes.appointmentContainer}></div>
             </div>
-            <div className="col-5">
+            <div className="col-1"/>
+            <div className="col-4">
                 <h3>ACTIVE PRESCRIPTIONS</h3>
                 <div className={classes.prescriptionContainer}></div>
             </div>
+            <div className="col-1"/>
         </div>
     </section>
 }
 
 const Greeting = (props) => {
     return <div className={classes.greetingContainer}>
-        <img src={props.imageUrl}/>
+        <img src={props.imageUrl} />
         <div>
             <h1 className={classes.name}>{props.name}</h1>
             <div className={classes.subtitle}>WELCOME BACK, WE'RE HAPPY<br/>TO SEE YOU AGAIN</div>
