@@ -1,0 +1,28 @@
+.name{
+    margin-top: 20px;
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.image {
+    display: block;
+    width: 300px;
+    height: 300px;
+    border-radius: 30px;
+    margin: 20px auto;
+}
+.doctor-info{
+    display: flex;
+    justify-content: space-between;
+    margin: 0% 20%;
+}
+.info {
+    flex: 1;
+}
+.doctor-background{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 15%;
+}
