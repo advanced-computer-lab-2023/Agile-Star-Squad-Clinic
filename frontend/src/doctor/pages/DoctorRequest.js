@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 
 const DoctorRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -27,8 +29,41 @@ const DoctorRequestForm = () => {
     });
   };
 
+  const handleFileChange = (event) => {
+    setImage(event.target.files);
+    setImageUrl(files !== "" ? URL.createObjectURL(file) : "");
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    let idDownloadUrl;
+    let licenseDownloadUrl;
+    let degreeDownloadUrl;
+
+    if (idImage !== "") {
+        const imageRef = ref(storage, `${idImage.name}`);
+        await uploadBytesResumable(imageRef, idImage).then(async (snapshot) => {
+          idDownloadUrl = await getDownloadURL(snapshot.ref);
+        });
+    }
+
+    if (medicalLicense !== "") {
+        const avatarRef = ref(storage, `${avatar.name}`);
+        await uploadBytesResumable(avatarRef, avatar).then(async (snapshot) => {
+            licenseDownloadUrl = await getDownloadURL(snapshot.ref) });
+    }
+
+    if (medicalDegree !== "") {
+      const avatarRef = ref(storage, `${avatar.name}`);
+      await uploadBytesResumable(avatarRef, avatar).then(async (snapshot) => {
+          degreeDownloadUrl = await getDownloadURL(snapshot.ref) });
+  }
+
+  formData.idImage = idDownloadUrl;
+  formData.medicalLicense = licenseDownloadUrl;
+  formData.medicalDegree = degreeDownloadUrl;
+
     try {
       const requestOptions = {
         method: 'POST',
@@ -155,28 +190,28 @@ const DoctorRequestForm = () => {
       <div>
         <label>ID</label>
         <input
-          type="text"
+          type="file"
           name="idImage"
           value={idImage}
-          onChange={handleInputChange}
+          onChange={handleFileChange}
         />
       </div>
       <div>
         <label>Medical License</label>
         <input
-          type="text"
+          type="file"
           name="medicalLicense"
           value={medicalLicense}
-          onChange={handleInputChange}
+          onChange={handleFileChange}
         />
       </div>
       <div>
         <label>Medical Degree</label>
         <input
-          type="text"
+          type="file"
           name="medicalDegree"
           value={medicalDegree}
-          onChange={handleInputChange}
+          onChange={handleFileChange}
         />
       </div>
       <button type="submit">Request registration</button>
