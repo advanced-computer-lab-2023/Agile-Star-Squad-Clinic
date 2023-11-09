@@ -12,6 +12,9 @@ const DoctorRequestForm = () => {
     affiliation: '',
     educationalBackground: '',
     speciality: '',
+    idImage: '',
+    medicalLicense: '',
+    medicalDegree: ''
   });
 
   const navigate = useNavigate();
@@ -61,6 +64,9 @@ const DoctorRequestForm = () => {
     affiliation,
     educationalBackground,
     speciality,
+    idImage,
+    medicalLicense,
+    medicalDegree
   } = formData;
 
   return (
@@ -143,6 +149,33 @@ const DoctorRequestForm = () => {
           type="text"
           name="speciality"
           value={speciality}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>ID</label>
+        <input
+          type="text"
+          name="idImage"
+          value={idImage}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Medical License</label>
+        <input
+          type="text"
+          name="medicalLicense"
+          value={medicalLicense}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Medical Degree</label>
+        <input
+          type="text"
+          name="medicalDegree"
+          value={medicalDegree}
           onChange={handleInputChange}
         />
       </div>

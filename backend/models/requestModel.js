@@ -55,6 +55,18 @@ const requestSchema = new mongoose.Schema(
       enum: ['rejected', 'accepted', 'pending'],
       default: 'pending',
     },
+    idImage: {
+      type: String,
+      required: [true, "Please provide your ID."],
+    },
+    medicalLicense: {
+      type: String,
+      required: [true, "Please provide your medical license."],
+    },
+    MedicalDegree: {
+      type: String,
+      required: [true, "Please provide your medical degree."],
+    },
     // patients: [
     //   {
     //     type: mongoose.Schema.ObjectId,
