@@ -34,3 +34,28 @@ body{
     margin-top: 60px;
     margin-bottom: 70px;
 }
+
+.create-account{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    color:#6B6A6A;
+    margin-top: 40px;
+}
+.signup-link{
+    text-decoration: none;
+    color: #91B3B5;
+}
+.signup-link:hover{
+    color: #219ca3;
+}
+.forget-pass{
+    font-size: 13px;
+    text-decoration: none;
+    margin-top: -40px;
+}
+.forget-password{
+    text-align: right;
+    padding-right: 130px;
+    margin-top: -50px;
+    margin-bottom: 40px;
+}

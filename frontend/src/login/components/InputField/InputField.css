@@ -1,25 +1,12 @@
-.inputRow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-inline: 3rem;
-    margin-block: 1rem;
+.inputField{
+width: 250px;
+  border: none; 
+  border-bottom: 1px solid #a0a0a0; 
+  outline: none; 
 }
-
-.input-field {
-    display: flex;
-    height: 56px;
-    width: 300px;
-    border: 1px solid #e0e3eb;
-    align-items: center;
-    justify-content: start;
-    padding-left: 20px;
-    border-radius: 32px;
-    padding-right: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-}
-
-.inputLabel {
-    font-size: 18px;
-    font-weight: 500;
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
 }
