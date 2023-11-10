@@ -2,6 +2,7 @@ import React from 'react';
 
 import Card from '../../components/card/Card';
 import AppointmentInfo from '../../components/appointmentInfo/AppointmentInfo';
+import NavBar from '../../../shared/components/NavBar/NavBar';
 import './Appointment.css';
 
 const dummyDoctor = {
@@ -46,6 +47,7 @@ const dummyDoctor = {
 const Appointment = (props) => {
   return (
     <div>
+      <NavBar />
       <div className="card">
         <Card
           // doctor={{

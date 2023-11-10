@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
+import CalendarItem from '../CalendarDay/CalendarItem';
+import './Calendar.css';
+
 const Calendar = () => {
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
   const currentDate = new Date();
   const [currentDateState, setCurrentDate] = useState(currentDate);
+  const [chosenDate, setChosenDate] = useState();
 
   const goToDesiredWeek = (sign) => {
     const nextWeek = new Date(currentDateState);
@@ -17,37 +21,53 @@ const Calendar = () => {
   };
 
   const currentYear = currentDateState.getFullYear();
+  const currentMonth = currentDateState.getMonth();
+
+  const chooseDay = (date) => {
+    setChosenDate(date);
+  };
 
   return (
     <div>
       <h1>{currentYear}</h1>
+      <h1>{currentMonth}</h1>
       <button onClick={() => goToDesiredWeek(-1)}>Previous Week</button>
       <button onClick={() => goToDesiredWeek(1)}>Next Week</button>
-      <table>
-        <thead>
-          <tr>
-            {days.map((day) => (
-              <th key={day}>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {days.map((_, index) => {
-              let dayOfMonth = currentDateState.getDate() + index;
-              let lastDayOfMonth = getLastDayOfDesiredMonth(
-                currentDateState.getFullYear(),
-                currentDateState.getMonth() + 1
-              );
-              if (dayOfMonth > lastDayOfMonth) {
-                dayOfMonth -= lastDayOfMonth;
+      <br />
+      <div className="calendar">
+        {days.map((dayOfWeek, index) => {
+          let dayOfMonth = currentDateState.getDate() + index;
+          let lastDayOfMonth = getLastDayOfDesiredMonth(
+            currentDateState.getFullYear(),
+            currentDateState.getMonth() + 1
+          );
+          let month = currentDateState.getMonth();
+          let year = currentDateState.getFullYear();
+          if (dayOfMonth > lastDayOfMonth) {
+            dayOfMonth -= lastDayOfMonth;
+            month++;
+            if (month > 12 || month === 1) {
+              year++;
+            }
+          }
+          let date = new Date(year, month, dayOfMonth);
+          return (
+            <CalendarItem
+              class={
+                chosenDate != null
+                  ? chosenDate.getDate() === dayOfMonth
+                    ? 'chosen'
+                    : 'not-chosen'
+                  : 'not-chosen'
               }
-
-              return <td key={dayOfMonth}>{dayOfMonth}</td>;
-            })}
-          </tr>
-        </tbody>
-      </table>
+              onChooseDay={chooseDay}
+              dayOfWeek={dayOfWeek}
+              date={date}
+              isDisabled={false}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
