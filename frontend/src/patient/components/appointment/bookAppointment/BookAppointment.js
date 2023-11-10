@@ -77,6 +77,17 @@ const BookAppointment = (props) => {
     navigate('/patient/checkout');
   };
 
+  let displayDate;
+  if (chosenDate === undefined) {
+    displayDate = 'please choose a date and time';
+  } else if (chosenTime === undefined) {
+    displayDate = 'please choose a time';
+  } else {
+    displayDate = `${dayOfWeek} ${getOrdinalSuffix(
+      dayOfMonth
+    )} of ${monthOfYear} ${year} ${chosenTime}`;
+  }
+
   return (
     <div>
       <p className={styles.text}>Appointment</p>
@@ -98,13 +109,7 @@ const BookAppointment = (props) => {
             : null
         }
       >
-        {chosenDate === undefined
-          ? 'please choose a date and time'
-          : chosenTime === undefined
-          ? 'please choose a time'
-          : `${dayOfWeek} ${getOrdinalSuffix(
-              dayOfMonth
-            )} of ${monthOfYear} ${year} ${chosenTime}`}
+        {displayDate}
       </p>
       <button
         className={styles.bookButton}
