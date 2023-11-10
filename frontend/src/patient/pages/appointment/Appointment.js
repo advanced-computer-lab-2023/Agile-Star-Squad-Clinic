@@ -3,7 +3,7 @@ import React from 'react';
 import Card from '../../components/appointment/card/Card';
 import AppointmentInfo from '../../components/appointment/appointmentInfo/AppointmentInfo';
 import NavBar from '../../../shared/components/NavBar/NavBar';
-import './Appointment.css';
+import styles from './Appointment.module.css';
 
 const dummyDoctor = {
   _id: {
@@ -48,7 +48,7 @@ const Appointment = (props) => {
   return (
     <div>
       <NavBar />
-      <div className="card">
+      <div className={styles.card}>
         <Card
           // doctor={{
           //   name: 'William Janus',
@@ -61,7 +61,7 @@ const Appointment = (props) => {
           doctor={dummyDoctor}
         />
       </div>
-      <div className="appointment-info">
+      <div className={styles.appointmentInfo}>
         <AppointmentInfo />
       </div>
     </div>

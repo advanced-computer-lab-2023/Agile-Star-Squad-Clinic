@@ -1,7 +1,8 @@
 import React from 'react';
-import './Card.css';
+
 import DoctorInfo from '../doctorInfo/DoctorInfo';
 import DoctorBackground from '../doctorBackground/DoctorBackground';
+import styles from './Card.module.css';
 
 const Card = (props) => {
   const doctor = props.doctor;
@@ -95,36 +96,36 @@ const Card = (props) => {
 
   return (
     <div>
-      <h1 className="name">{doctor.name}</h1>
+      <h1 className={styles.name}>{doctor.name}</h1>
       <img
-        className="image"
+        className={styles.image}
         src={
           doctor.image ??
           'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'
         }
         alt="profile picture"
       />
-      <div className="doctor-info">
+      <div className={styles.doctorInfo}>
         <DoctorInfo
-          className="info"
+          className={styles.info}
           svg={patientsSvg}
           number={patients + '+'}
           description="Patients"
         />
         <DoctorInfo
-          className="info"
+          className={styles.info}
           svg={yearsSvg}
           number={years + '+'}
           description="Years"
         />
         <DoctorInfo
-          className="info"
+          className={styles.info}
           svg={ratingSvg}
           number={rating}
           description="Rating"
         />
       </div>
-      <div className="doctor-background">
+      <div className={styles.doctorBackground}>
         <DoctorBackground
           attribute={doctor.speciality}
           description="Speciality"

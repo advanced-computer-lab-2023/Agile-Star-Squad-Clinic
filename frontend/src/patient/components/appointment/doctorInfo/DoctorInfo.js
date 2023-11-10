@@ -1,13 +1,13 @@
 import React from 'react';
 
-import './DoctorInfo.css';
+import styles from './DoctorInfo.module.css';
 
 const DoctorInfo = (props) => {
   return (
     <div>
       {props.svg}
-      <p className="number">{props.number}</p>
-      <p className="description">{props.description}</p>
+      <p className={styles.number}>{props.number}</p>
+      <p className={styles.description}>{props.description}</p>
     </div>
   );
 };

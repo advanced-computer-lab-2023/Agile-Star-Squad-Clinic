@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import CalendarItem from '../calendarDay/CalendarItem';
-import './Calendar.css';
+import styles from './Calendar.module.css';
 
 const Calendar = () => {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
@@ -34,7 +34,7 @@ const Calendar = () => {
       <button onClick={() => goToDesiredWeek(-1)}>Previous Week</button>
       <button onClick={() => goToDesiredWeek(1)}>Next Week</button>
       <br />
-      <div className="calendar">
+      <div className={styles.calendar}>
         {days.map((dayOfWeek, index) => {
           let dayOfMonth = currentDateState.getDate() + index;
           let lastDayOfMonth = getLastDayOfDesiredMonth(
@@ -53,12 +53,10 @@ const Calendar = () => {
           let date = new Date(year, month, dayOfMonth);
           return (
             <CalendarItem
-              class={
+              isChosen={
                 chosenDate != null
-                  ? chosenDate.getDate() === dayOfMonth
-                    ? 'chosen'
-                    : 'not-chosen'
-                  : 'not-chosen'
+                  ? chosenDate.getDate() === dayOfMonth ?? false
+                  : false
               }
               onChooseDay={chooseDay}
               dayOfWeek={dayOfWeek}

@@ -1,17 +1,22 @@
 import React from 'react';
 
-import './CalendarItem.css';
+import styles from './CalendarItem.module.css';
 
 const CalendarItem = (props) => {
-  console.log(props.class + '-p');
   return (
     <button
-      className={`day-card ${props.class}`}
+      className={`${styles.dayCard} ${
+        props.isChosen ? styles.chosen : styles.notChosen
+      }`}
       onClick={() => props.onChooseDay(props.date)}
       disabled={props.isDisabled}
     >
-      <p className={props.class + '-p'}>{props.dayOfWeek}</p>
-      <p className={props.class + '-p'}>{props.date.getDate()}</p>
+      <p className={props.isChosen ? styles.chosenP : styles.notChosenP}>
+        {props.dayOfWeek}
+      </p>
+      <p className={props.isChosen ? styles.chosenP : styles.notChosenP}>
+        {props.date.getDate()}
+      </p>
     </button>
   );
 };
