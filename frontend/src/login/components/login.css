@@ -1,21 +1,19 @@
 body{
     background-color: #96B7C7;
-    height: 100vh;
-    overflow: hidden;
+    height:100vh;
+    overflow:hidden;
 }
 .sama3a{
     width:70%;
+    height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1;
-    margin-top: -100px;
 }
 .white-box{
-    width: 150%;
-    height: 68%;
+    width: 110%;
+    height:100vh;
 }
 
-#right-col{
-    width: 41%;
-}
+
