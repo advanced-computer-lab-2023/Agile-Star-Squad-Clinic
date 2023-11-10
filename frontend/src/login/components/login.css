@@ -1,5 +1,7 @@
 body{
     background-color: #96B7C7;
+    height: 100vh;
+    overflow: hidden;
 }
 .sama3a{
     width:70%;
@@ -7,7 +9,13 @@ body{
     top: 0;
     left: 0;
     z-index: 1;
+    margin-top: -100px;
 }
 .white-box{
-    z-index:-1;
+    width: 150%;
+    height: 68%;
+}
+
+#right-col{
+    width: 41%;
 }
