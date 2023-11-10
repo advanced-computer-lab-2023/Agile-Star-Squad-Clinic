@@ -5,12 +5,36 @@ import styles from './Calendar.module.css';
 
 const Calendar = (props) => {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
-  const currentDate = new Date();
-  const [currentDateState, setCurrentDate] = useState(currentDate);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  // Check if the current day is Sunday (0 is Sunday)
+  if (currentDate.getDay() === 0) {
+    // Do nothing, as it's already Sunday
+  } else if (currentDate.getDay() === 5 || currentDate.getDay() === 6) {
+    // Calculate the difference in days between the current day and the next Sunday
+    const daysUntilNextSunday = 7 - currentDate.getDay();
+
+    // Set the date to the next Sunday
+    const nextSunday = new Date(currentDate);
+    nextSunday.setDate(currentDate.getDate() + daysUntilNextSunday);
+
+    // Update the state with the adjusted date
+    setCurrentDate(nextSunday);
+  } else {
+    // Calculate the difference in days between the current day and the previous Sunday
+    const daysUntilPreviousSunday = currentDate.getDay();
+
+    // Set the date to the previous Sunday
+    const previousSunday = new Date(currentDate);
+    previousSunday.setDate(currentDate.getDate() - daysUntilPreviousSunday);
+
+    // Update the state with the adjusted date
+    setCurrentDate(previousSunday);
+  }
 
   const weekArrowButtonClickHandler = (sign) => {
-    const nextWeek = new Date(currentDateState);
-    nextWeek.setDate(currentDateState.getDate() + 7 * sign);
+    const nextWeek = new Date(currentDate);
+    nextWeek.setDate(currentDate.getDate() + 7 * sign);
     setCurrentDate(nextWeek);
   };
 
@@ -19,8 +43,8 @@ const Calendar = (props) => {
     return nextMonth.getDate();
   };
 
-  const currentYear = currentDateState.getFullYear();
-  const currentMonth = currentDateState.getMonth();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
 
   const arrow = (className) => {
     return (
@@ -54,13 +78,13 @@ const Calendar = (props) => {
           {arrow(styles.backwards)}
         </button>
         {days.map((dayOfWeek, index) => {
-          let dayOfMonth = currentDateState.getDate() + index;
+          let dayOfMonth = currentDate.getDate() + index;
           let lastDayOfMonth = getLastDayOfDesiredMonth(
-            currentDateState.getFullYear(),
-            currentDateState.getMonth() + 1
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1
           );
-          let month = currentDateState.getMonth();
-          let year = currentDateState.getFullYear();
+          let month = currentDate.getMonth();
+          let year = currentDate.getFullYear();
           if (dayOfMonth > lastDayOfMonth) {
             dayOfMonth -= lastDayOfMonth;
             month++;

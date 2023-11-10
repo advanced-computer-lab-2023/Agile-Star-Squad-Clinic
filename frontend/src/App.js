@@ -15,6 +15,7 @@ import './App.css';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
+import Appointment from './patient/pages/appointment/Appointment';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -23,7 +24,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} exact />
+          <Route path="/" element={<Appointment />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           <Route
             path="/patient/register"
@@ -31,6 +32,11 @@ function App() {
             exact
           />
           <Route path="/patient/home" element={<PatientHome />} exact />
+          <Route
+            path="/patient/appointment/book"
+            element={<Appointment />}
+            exact
+          />
           <Route
             path="/doctor/register"
             element={<DoctorRegisterForm />}

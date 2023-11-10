@@ -22,8 +22,14 @@
 .chosenP{
     color: white;
 }
-
-.dayCard:hover{
+.dayCard:disabled{
+    border-radius: 5px;
+    border: 1px solid #9C9C9C;
+}
+.disabledText{
+    color: #9C9C9C;
+}
+.dayCard:hover:not([disabled]){
     position: relative;
     top: -1px;
     border-radius: 5px;
