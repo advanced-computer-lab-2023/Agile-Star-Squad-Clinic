@@ -20,3 +20,18 @@
 .forwards{
     transform: rotate(270deg);
 }
+.month{
+    display: inline;
+    margin-right: 60%;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000000;
+}
+.year{
+    display: inline;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 36px;
+}

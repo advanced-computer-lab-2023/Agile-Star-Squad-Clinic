@@ -43,8 +43,23 @@ const Calendar = (props) => {
     return nextMonth.getDate();
   };
 
+  const monthsOfYear = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
   const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
+  const currentMonth = monthsOfYear[currentDate.getMonth()];
 
   const arrow = (className) => {
     return (
@@ -68,8 +83,8 @@ const Calendar = (props) => {
 
   return (
     <div>
-      {/* <h1>{currentYear}</h1>
-      <h1>{currentMonth}</h1> */}
+      <p className={styles.month}>{currentMonth}</p>
+      <p className={styles.year}>{currentYear}</p>
       <div className={styles.calendar}>
         <button
           className={styles.arrowButton}

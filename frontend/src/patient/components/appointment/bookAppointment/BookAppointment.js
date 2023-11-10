@@ -99,7 +99,7 @@ const BookAppointment = (props) => {
         chosenTime={chosenTime}
         isDisabled={chosenDate === undefined}
       />
-      <p className={styles.text} style={{ marginTop: '70px' }}>
+      <p className={styles.text} style={{ marginTop: '50px' }}>
         Date Chosen
       </p>
       <p
