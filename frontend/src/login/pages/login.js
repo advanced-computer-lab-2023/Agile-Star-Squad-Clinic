@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import img from '../images/login-image.png';
+import img2 from '../images/Rectangle1.png'
 import '../components/login.css';
 
 const Login = () => {
@@ -12,7 +13,7 @@ const Login = () => {
           </div>
             
           <div class="col-md-5">
-            <p>hello</p>
+            <img className='white-box' src={img2} alt='white-box' width='120%'></img>
           </div>
         </div>
       </div>

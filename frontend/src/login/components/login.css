@@ -2,5 +2,12 @@ body{
     background-color: #96B7C7;
 }
 .sama3a{
-    padding-top: '100px';
+    width:70%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.white-box{
+    z-index:-1;
 }
