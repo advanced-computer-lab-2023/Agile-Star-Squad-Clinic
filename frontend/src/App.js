@@ -14,8 +14,10 @@ import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage'
 import './App.css';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
+import RejectedRequest from './requests/rejectedRequest';
 import NavBar from './shared/components/NavBar/NavBar';
-
+import PendingRequest from './requests/pendingRequest';
+import AcceptedRequest from './requests/acceptedRequest';
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
@@ -23,7 +25,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} exact />
+          <Route path="/" element={<AcceptedRequest />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
@@ -44,6 +46,7 @@ function App() {
           <Route path="/packages" element={<AdminPackagesView />} exact />
           <Route path="admin/manage" element={<ManageUsersPage/>}/>
           <Route path="/PatientFamily" element={<PatientFamily />} exact />
+          <Route path="/rejectedRequest" element={<RejectedRequest />} exact />
           {/*redirect to landing page if wrong url*/}
           <Route path="*" element={<Navigate to="/" />} />{' '}
         </Routes>

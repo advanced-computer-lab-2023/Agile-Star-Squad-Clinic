@@ -1,0 +1,133 @@
+.mainBackground{
+    background-color: #96B7C7;
+    height: 100vh;   
+}
+
+.background{
+    background-color: #96B7C7;
+}
+.secondBackground {
+    position: relative;
+    background-color: #FFFFFF;
+    height: 100vh;
+    border-top-left-radius: 62px;
+    border-bottom-left-radius: 62px;
+    align-content: center;
+  }
+
+.customText {
+    position: absolute;
+    line-height: 24px;
+    color: #0F172A;
+    margin-left: 30%;
+    margin-top: 20%;
+  }
+
+.logo{
+    position: absolute;
+    top: 43px;
+    left: 65px;
+    width: 100px;
+    height: 35px;
+}
+
+.doctorImage{
+    position: absolute;
+    bottom:0;
+    left: 0;
+    width: 50%;
+    z-index: 5px;
+}
+
+.button {
+    width: 401px;
+    height: 55.52px;
+    background-color: #193842;
+    color: #ffffff; 
+    border: none;
+    border-radius: 5px;
+    font-size: 16px; 
+    cursor: pointer;
+  }
+
+.p1 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 36px;
+    letter-spacing: 10%;
+    font-weight: bolder;
+    height: 24px;
+    width: 497px;
+}
+
+.p2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    letter-spacing: -1%;
+    size: 20px;
+    height: 20px;
+    width: 497px;
+}
+
+.terms {
+    position: absolute; 
+    font-size: 24px;
+    color: #010101;
+    font-weight: bolder;
+    margin-left: -50%;
+    margin-top: 25%;
+  }
+  
+  .agreement {
+    position: absolute;
+    font-size: 18px;
+    color: #010101;
+    margin-left: -50%;
+    margin-top: 38%;
+  }
+  
+.container {
+    position: absolute;
+    height: 40vh;
+    width: 70vh;
+    background-color: #ffffff;
+    border-radius: 33px;
+    font-size: 17px;
+    color: #6B6B6B;
+    line-height: 150%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    margin-left: -50%;
+    margin-top: 60%;
+  }
+  
+.agreeButton {
+    width: 110px;
+    height: 29px;
+    background-color: #193842;
+    color: #ffffff;
+    border: none;
+    border-radius: 7.25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+.cancelButton {
+    width: 110px;
+    height: 29px;
+    background-color: #ffffff;
+    color: black; 
+    border: none;
+    border-radius: 7.25px;
+    font-size: 16px; 
+    cursor: pointer;
+  }
+
+.buttonsDiv {
+    position: relative;
+    margin-top: 210%;
+    margin-right: -100%;
+}
+
