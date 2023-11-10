@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '../../components/appointment/card/Card';
-import AppointmentInfo from '../../components/appointment/appointmentInfo/AppointmentInfo';
+import BookAppointment from '../../components/appointment/bookAppointment/BookAppointment';
 import NavBar from '../../../shared/components/NavBar/NavBar';
 import styles from './Appointment.module.css';
 
@@ -80,7 +80,7 @@ const Appointment = (props) => {
         <Card doctor={dummyDoctor} />
       </div>
       <div className={styles.appointmentInfo}>
-        <AppointmentInfo />
+        <BookAppointment />
       </div>
     </div>
   );

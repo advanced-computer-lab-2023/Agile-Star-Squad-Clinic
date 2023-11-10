@@ -1,0 +1,33 @@
+.table{
+    margin: 20px 115px;
+    margin-bottom: 0px;
+    width: 70%;
+    height: 100px;
+}
+.button{
+    padding: 0px;
+    margin: 1px 6px;
+    border: none;
+    background-color: white;
+}
+.timeItem{
+    width: 125px;
+    margin: 20px;
+    box-shadow: 0px 7px 15px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.chosenCell{
+    background-color: #193842;
+    color: white;
+}
+.button:disabled{
+    border-radius: 15px;
+    border: 1px solid #9C9C9C;
+    color: #9C9C9C;
+}
+.button:hover:not([disabled]){
+    position: relative;
+    top: -1px;
+}

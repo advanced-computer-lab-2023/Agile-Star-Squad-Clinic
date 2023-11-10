@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import CalendarItem from '../calendarDay/CalendarItem';
+import CalendarItem from '../calendarItem/CalendarItem';
 import styles from './Calendar.module.css';
 
 const Calendar = (props) => {
@@ -44,9 +44,8 @@ const Calendar = (props) => {
 
   return (
     <div>
-      <h1>{currentYear}</h1>
-      <h1>{currentMonth}</h1>
-      <br />
+      {/* <h1>{currentYear}</h1>
+      <h1>{currentMonth}</h1> */}
       <div className={styles.calendar}>
         <button
           className={styles.arrowButton}
@@ -77,10 +76,9 @@ const Calendar = (props) => {
                   ? props.chosenDate.getDate() === dayOfMonth ?? false
                   : false
               }
-              onChooseDay={props.onChooseDay}
+              onChooseDate={props.onChooseDate}
               dayOfWeek={dayOfWeek}
               date={date}
-              isDisabled={false}
             />
           );
         })}

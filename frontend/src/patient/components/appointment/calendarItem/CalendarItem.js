@@ -8,13 +8,20 @@ const CalendarItem = (props) => {
       className={`${styles.dayCard} ${
         props.isChosen ? styles.chosen : styles.notChosen
       }`}
-      onClick={() => props.onChooseDay(props.date)}
-      disabled={props.isDisabled}
+      onClick={() => props.onChooseDate(props.date)}
     >
-      <p className={props.isChosen ? styles.chosenP : styles.notChosenP}>
+      <p
+        className={`${styles.p} ${
+          props.isChosen ? styles.chosenP : styles.notChosenP
+        }`}
+      >
         {props.dayOfWeek}
       </p>
-      <p className={props.isChosen ? styles.chosenP : styles.notChosenP}>
+      <p
+        className={`${styles.p} ${
+          props.isChosen ? styles.chosenP : styles.notChosenP
+        }`}
+      >
         {props.date.getDate()}
       </p>
     </button>
