@@ -9,11 +9,19 @@
 }
 
 .appointmentInfo {
-    position: fixed;
-    top: 0;
     left: 30%;
     display: inline-block;
     width: 70%;
     margin-top: 58px;
     float: left;
+}
+.button{
+    border: none;
+    background-color: white;
+}
+.backArrow{
+    position: absolute;
+    transform: rotate(90deg);
+    top: 28px;
+    left: 10px;
 }

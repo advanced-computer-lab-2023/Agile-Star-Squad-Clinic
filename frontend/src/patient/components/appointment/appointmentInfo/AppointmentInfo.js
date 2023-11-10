@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Calendar from '../calender/Calendar';
 
 const AppointmentInfo = (props) => {
-  return <Calendar />;
+  const [chosenDate, setChosenDate] = useState();
+
+  const chooseDay = (date) => {
+    setChosenDate(date);
+  };
+  return <Calendar onChooseDay={chooseDay} chosenDate={chosenDate} />;
 };
 
 export default AppointmentInfo;

@@ -3,13 +3,12 @@ import React, { useState } from 'react';
 import CalendarItem from '../calendarDay/CalendarItem';
 import styles from './Calendar.module.css';
 
-const Calendar = () => {
+const Calendar = (props) => {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
   const currentDate = new Date();
   const [currentDateState, setCurrentDate] = useState(currentDate);
-  const [chosenDate, setChosenDate] = useState();
 
-  const goToDesiredWeek = (sign) => {
+  const weekArrowButtonClickHandler = (sign) => {
     const nextWeek = new Date(currentDateState);
     nextWeek.setDate(currentDateState.getDate() + 7 * sign);
     setCurrentDate(nextWeek);
@@ -23,18 +22,38 @@ const Calendar = () => {
   const currentYear = currentDateState.getFullYear();
   const currentMonth = currentDateState.getMonth();
 
-  const chooseDay = (date) => {
-    setChosenDate(date);
+  const arrow = (className) => {
+    return (
+      <svg
+        className={className}
+        xmlns="http://www.w3.org/2000/svg"
+        width="23"
+        height="14"
+        viewBox="0 0 23 14"
+        fill="none"
+      >
+        <path
+          d="M1.59583 1.53345L11.9077 11.9807L22.2571 1.57064"
+          stroke="black"
+          stroke-opacity="0.6"
+          stroke-width="2.04827"
+        />
+      </svg>
+    );
   };
 
   return (
     <div>
       <h1>{currentYear}</h1>
       <h1>{currentMonth}</h1>
-      <button onClick={() => goToDesiredWeek(-1)}>Previous Week</button>
-      <button onClick={() => goToDesiredWeek(1)}>Next Week</button>
       <br />
       <div className={styles.calendar}>
+        <button
+          className={styles.arrowButton}
+          onClick={() => weekArrowButtonClickHandler(-1)}
+        >
+          {arrow(styles.backwards)}
+        </button>
         {days.map((dayOfWeek, index) => {
           let dayOfMonth = currentDateState.getDate() + index;
           let lastDayOfMonth = getLastDayOfDesiredMonth(
@@ -54,17 +73,23 @@ const Calendar = () => {
           return (
             <CalendarItem
               isChosen={
-                chosenDate != null
-                  ? chosenDate.getDate() === dayOfMonth ?? false
+                props.chosenDate != null
+                  ? props.chosenDate.getDate() === dayOfMonth ?? false
                   : false
               }
-              onChooseDay={chooseDay}
+              onChooseDay={props.onChooseDay}
               dayOfWeek={dayOfWeek}
               date={date}
               isDisabled={false}
             />
           );
         })}
+        <button
+          className={styles.arrowButton}
+          onClick={() => weekArrowButtonClickHandler(1)}
+        >
+          {arrow(styles.forwards)}
+        </button>
       </div>
     </div>
   );

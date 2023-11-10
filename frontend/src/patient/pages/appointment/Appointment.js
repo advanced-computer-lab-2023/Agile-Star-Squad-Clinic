@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '../../components/appointment/card/Card';
 import AppointmentInfo from '../../components/appointment/appointmentInfo/AppointmentInfo';
@@ -44,22 +45,39 @@ const dummyDoctor = {
   rating: 0,
 };
 
+const arrow = (
+  <svg
+    className={styles.backArrow}
+    xmlns="http://www.w3.org/2000/svg"
+    width="23"
+    height="14"
+    viewBox="0 0 23 14"
+    fill="none"
+  >
+    <path
+      d="M1.59583 1.53345L11.9077 11.9807L22.2571 1.57064"
+      stroke="black"
+      strokeOpacity="0.6"
+      strokeWidth="2.04827"
+    />
+  </svg>
+);
+
 const Appointment = (props) => {
+  const navigate = useNavigate();
+
+  const backButtonClickHandler = () => {
+    navigate('/patient/home');
+  };
+
   return (
     <div>
       <NavBar />
+      <button className={styles.button} onClick={backButtonClickHandler}>
+        {arrow}
+      </button>
       <div className={styles.card}>
-        <Card
-          // doctor={{
-          //   name: 'William Janus',
-          //   affiliation: 'Shitty Wok',
-          //   speciality: 'Therapy',
-          //   educationalBackground: 'PHD',
-          //   image:
-          //     'https://www.giantbomb.com/a/uploads/square_small/17/174460/2642491-3639297626-6_23_.jpg',
-          // }}
-          doctor={dummyDoctor}
-        />
+        <Card doctor={dummyDoctor} />
       </div>
       <div className={styles.appointmentInfo}>
         <AppointmentInfo />
