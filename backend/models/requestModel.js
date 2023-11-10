@@ -63,7 +63,7 @@ const requestSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide your medical license."],
     },
-    MedicalDegree: {
+    medicalDegree: {
       type: String,
       required: [true, "Please provide your medical degree."],
     },

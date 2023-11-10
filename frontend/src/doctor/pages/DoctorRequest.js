@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import storage from '../../index';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 
 const DoctorRequestForm = () => {
@@ -14,10 +15,10 @@ const DoctorRequestForm = () => {
     affiliation: '',
     educationalBackground: '',
     speciality: '',
-    idImage: '',
-    medicalLicense: '',
-    medicalDegree: ''
-  });
+   });
+  const [idImageForm, setIdImage] = useState("");
+  const [medicalLicenseForm, setLicenseImage] = useState("");
+  const [medicalDegreeForm, setDegreeImage] = useState("");
 
   const navigate = useNavigate();
 
@@ -29,10 +30,19 @@ const DoctorRequestForm = () => {
     });
   };
 
-  const handleFileChange = (event) => {
-    setImage(event.target.files);
-    setImageUrl(files !== "" ? URL.createObjectURL(file) : "");
+  const onIdImageChange = (file) => {
+    setIdImage(file);
   }
+
+  const onMedicalLicenseChange = (file) => {
+    setLicenseImage(file);
+  }
+
+  const onMedicalDegreeChange = (file) => {
+    setDegreeImage(file);
+  }
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,34 +51,57 @@ const DoctorRequestForm = () => {
     let licenseDownloadUrl;
     let degreeDownloadUrl;
 
-    if (idImage !== "") {
-        const imageRef = ref(storage, `${idImage.name}`);
-        await uploadBytesResumable(imageRef, idImage).then(async (snapshot) => {
-          idDownloadUrl = await getDownloadURL(snapshot.ref);
-        });
+    if (idImageForm !== "") {
+      const idImageRef = ref(storage, `${idImageForm.name}`);
+      await uploadBytesResumable(idImageRef, idImageForm).then(async (snapshot) => {
+        idDownloadUrl = await getDownloadURL(snapshot.ref);
+      });
     }
 
-    if (medicalLicense !== "") {
-        const avatarRef = ref(storage, `${avatar.name}`);
-        await uploadBytesResumable(avatarRef, avatar).then(async (snapshot) => {
-            licenseDownloadUrl = await getDownloadURL(snapshot.ref) });
+    if (medicalLicenseForm !== "") {
+      const medicalLicenseRef = ref(storage, `${medicalLicenseForm.name}`);
+      await uploadBytesResumable(medicalLicenseRef, medicalLicenseForm).then(async (snapshot) => {
+        licenseDownloadUrl = await getDownloadURL(snapshot.ref)
+      });
     }
 
-    if (medicalDegree !== "") {
-      const avatarRef = ref(storage, `${avatar.name}`);
-      await uploadBytesResumable(avatarRef, avatar).then(async (snapshot) => {
-          degreeDownloadUrl = await getDownloadURL(snapshot.ref) });
-  }
+    if (medicalDegreeForm !== "") {
+      const medicalDegreeRef = ref(storage, `${medicalDegreeForm.name}`);
+      await uploadBytesResumable(medicalDegreeRef, medicalDegreeForm).then(async (snapshot) => {
+        degreeDownloadUrl = await getDownloadURL(snapshot.ref)
+      });
+    }
+    
+    setIdImage(idDownloadUrl);
+    setLicenseImage(licenseDownloadUrl);
+    setDegreeImage(degreeDownloadUrl);
 
-  formData.idImage = idDownloadUrl;
-  formData.medicalLicense = licenseDownloadUrl;
-  formData.medicalDegree = degreeDownloadUrl;
+    const data = {
+      "username": formData.username,
+      "name": formData.name,
+      "email": formData.email,
+      "password": formData.password,
+      "dateOfBirth": formData.dateOfBirth,
+      "hourlyRate": formData.hourlyRate,
+      "affiliation": formData.affiliation,
+      "educationalBackground": formData.educationalBackground,
+      "speciality": formData.speciality,
+      "idImage": idImageForm,
+      "medicalLicense": medicalLicenseForm,
+      "medicalDegree": medicalDegreeForm
+
+    }
+
+
 
     try {
+      alert(JSON.stringify(data));
+      console.log((data));
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
+      
       };
       const response = await fetch(
         'http://localhost:3000/doctors',
@@ -99,10 +132,11 @@ const DoctorRequestForm = () => {
     affiliation,
     educationalBackground,
     speciality,
-    idImage,
-    medicalLicense,
-    medicalDegree
   } = formData;
+  const {idImage} = idImageForm;
+  const {medicalLicense} = medicalLicenseForm;
+  const {medicalDegree} = medicalDegreeForm;
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -193,7 +227,7 @@ const DoctorRequestForm = () => {
           type="file"
           name="idImage"
           value={idImage}
-          onChange={handleFileChange}
+          onChange={onIdImageChange}
         />
       </div>
       <div>
@@ -202,7 +236,7 @@ const DoctorRequestForm = () => {
           type="file"
           name="medicalLicense"
           value={medicalLicense}
-          onChange={handleFileChange}
+          onChange={onMedicalLicenseChange}
         />
       </div>
       <div>
@@ -211,7 +245,7 @@ const DoctorRequestForm = () => {
           type="file"
           name="medicalDegree"
           value={medicalDegree}
-          onChange={handleFileChange}
+          onChange={onMedicalDegreeChange}
         />
       </div>
       <button type="submit">Request registration</button>
