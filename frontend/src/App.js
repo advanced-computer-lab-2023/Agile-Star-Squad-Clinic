@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import Login from './login/pages/login';
 import LandingPage from './shared/pages/LandingPage';
 import AdminHome from './admin/pages/ManageUsers/AdminHome';
 import NewPackage from './package/pages/NewPackage';
@@ -23,7 +24,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} exact />
+          <Route path="/" element={<Login />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
