@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Card from '../../components/card/Card';
-import AppointmentInfo from '../../components/appointmentInfo/AppointmentInfo';
+import Card from '../../components/appointment/card/Card';
+import AppointmentInfo from '../../components/appointment/appointmentInfo/AppointmentInfo';
 import NavBar from '../../../shared/components/NavBar/NavBar';
 import './Appointment.css';
 
