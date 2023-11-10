@@ -67,24 +67,13 @@ const requestSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide your medical degree."],
     },
-    // patients: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'Patient',
-    //   },
-    // ],
+
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
-
-// doctorSchema.virtual('patients', {
-//   ref: 'Patient',
-//   foreignField: 'doctor',
-//   localField: '_id',
-// });
 
 const Request = mongoose.model('Request', requestSchema);
 

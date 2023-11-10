@@ -95,8 +95,6 @@ const DoctorRequestForm = () => {
 
 
     try {
-      alert(JSON.stringify(data));
-      console.log((data));
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
