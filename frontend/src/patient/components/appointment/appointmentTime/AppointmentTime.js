@@ -4,8 +4,8 @@ import styles from './AppointmentTime.module.css';
 
 const AppointmentTime = (props) => {
   const timeList = [
-    ['9:00am', '9:30am', '10:00am', '10:30am'],
-    ['11:00am', '11:30am', '12:00pm', '12:30pm'],
+    ['9:00 am', '9:30 am', '10:00 am', '10:30 am'],
+    ['11:00 am', '11:30 am', '12:00 pm', '12:30 pm'],
   ];
   return (
     <table className={styles.table}>
@@ -13,6 +13,7 @@ const AppointmentTime = (props) => {
         <tr key={rowIndex}>
           {row.map((time, columnIndex) => (
             <button
+              key={columnIndex}
               disabled={
                 props.isDisabled || props.unavailableTimes.includes(time)
               }

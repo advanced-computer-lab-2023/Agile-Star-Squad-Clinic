@@ -24,7 +24,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Appointment />} exact />
+          <Route path="/" element={<LandingPage />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           <Route
             path="/patient/register"

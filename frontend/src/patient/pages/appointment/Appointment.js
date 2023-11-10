@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import Card from '../../components/appointment/card/Card';
 import BookAppointment from '../../components/appointment/bookAppointment/BookAppointment';
@@ -64,6 +65,22 @@ const arrow = (
 );
 
 const Appointment = (props) => {
+  // alert(
+  //   `https://localhost:3000/doctors/${dummyDoctor._id.$oid}/upComingAppointments`
+  // );
+  const getUpcomingAppointments = async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:3000/doctors/65270f436a48cd31d535b963/upcomingAppointments'
+      );
+      setUpComingAppointments(response.data.data.appointments);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const [upcomingAppointments, setUpComingAppointments] = useState();
+  getUpcomingAppointments();
   const navigate = useNavigate();
 
   const backButtonClickHandler = () => {
@@ -80,7 +97,7 @@ const Appointment = (props) => {
         <Card doctor={dummyDoctor} />
       </div>
       <div className={styles.appointmentInfo}>
-        <BookAppointment />
+        <BookAppointment upcomingAppointments={upcomingAppointments} />
       </div>
     </div>
   );

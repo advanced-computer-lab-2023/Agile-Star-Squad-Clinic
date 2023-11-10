@@ -54,6 +54,25 @@ const BookAppointment = (props) => {
     return number + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
   };
 
+  const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+
+  let unavailableTimes = [];
+
+  if (props.upcomingAppointments !== undefined && chosenDate !== undefined) {
+    unavailableTimes = props.upcomingAppointments.filter(
+      (app) =>
+        new Date(app.dateOfAppointment).getFullYear() ===
+          chosenDate.getFullYear() &&
+        new Date(app.dateOfAppointment).getMonth() === chosenDate.getMonth() &&
+        new Date(app.dateOfAppointment).getDate() === chosenDate.getDate()
+    );
+    unavailableTimes = unavailableTimes.map((app) =>
+      new Date(app.dateOfAppointment)
+        .toLocaleTimeString(undefined, options)
+        .toLowerCase()
+    );
+  }
+
   const bookAppointmentHandler = () => {
     navigate('/patient/checkout');
   };
@@ -64,7 +83,7 @@ const BookAppointment = (props) => {
       <Calendar onChooseDate={chooseDate} chosenDate={chosenDate} />
       <p className={styles.text}>Available Time</p>
       <AppointmentTime
-        unavailableTimes={['9:00am']}
+        unavailableTimes={unavailableTimes}
         onChooseTime={chooseTime}
         chosenTime={chosenTime}
         isDisabled={chosenDate === undefined}
