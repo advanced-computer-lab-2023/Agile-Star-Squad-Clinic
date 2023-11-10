@@ -18,14 +18,13 @@ const Login = () => {
           </div>
 
           <div class="col-md-5" id="right-col">
+            <div className='title'>
+              <p><strong>Nice To See You Again</strong></p>
+            </div>
+            <div className='input'>
             <InputField />
             <InputField />
-            <InputField />
-            <InputField />
-            <InputField />
-            <InputField />
-            <InputField />
-            <InputField />
+            </div>
           </div>
         </div>
       </div>
