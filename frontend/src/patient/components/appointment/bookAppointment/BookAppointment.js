@@ -9,7 +9,7 @@ import axios from 'axios';
 const BookAppointment = (props) => {
   const navigate = useNavigate();
 
-  const dummyUser = {
+  const dummyDummyUser = {
     _id: {
       $oid: '65270df9cfa9abe7a31a4d88',
     },
@@ -84,9 +84,24 @@ const BookAppointment = (props) => {
     medicalRecord: 'MR',
   };
 
+  const [dummyUser, setDummyUser] = useState(dummyDummyUser);
+
+  const getPatient = async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88'
+      );
+      setDummyUser(response.data.data.patient);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  getPatient();
+
   const [chosenDate, setChosenDate] = useState();
   const [chosenTime, setChosenTime] = useState();
-  const [selectedOption, setSelectedOption] = useState(dummyUser._id);
+  const [selectedOption, setSelectedOption] = useState(dummyUser._id.$oid);
   const [familyMembers, setFamilyMembers] = useState([]);
 
   const getFamilyMembers = async () => {
@@ -181,7 +196,7 @@ const BookAppointment = (props) => {
     const packageToUse = dummyUser.package;
     let patientName;
     let addAppointmentTo;
-    if (JSON.stringify(selectedOption) === JSON.stringify(dummyUser._id)) {
+    if (selectedOption === dummyUser._id) {
       patientName = dummyUser.name;
       addAppointmentTo = dummyUser._id;
     } else {
