@@ -65,9 +65,7 @@ const arrow = (
 );
 
 const Appointment = (props) => {
-  // alert(
-  //   `https://localhost:3000/doctors/${dummyDoctor._id.$oid}/upComingAppointments`
-  // );
+  // const { doctor } = props.location.state;
   const getUpcomingAppointments = async () => {
     try {
       const response = await axios.get(

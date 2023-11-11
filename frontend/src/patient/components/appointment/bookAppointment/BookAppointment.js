@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import Calendar from '../calender/Calendar';
 import AppointmentTime from '../appointmentTime/AppointmentTime';
 import styles from './BookAppoinment.module.css';
+import axios from 'axios';
 
 const BookAppointment = (props) => {
   const navigate = useNavigate();
 
   const [chosenDate, setChosenDate] = useState();
   const [chosenTime, setChosenTime] = useState();
+  const [selectedOption, setSelectedOption] = useState('myself');
+  const [familyMembers, setFamilyMembers] = useState([]);
 
   const chooseDate = (date) => {
     setChosenTime();
@@ -73,10 +76,6 @@ const BookAppointment = (props) => {
     );
   }
 
-  const bookAppointmentHandler = () => {
-    navigate('/patient/checkout');
-  };
-
   let displayDate;
   if (chosenDate === undefined) {
     displayDate = 'please choose a date and time';
@@ -88,20 +87,48 @@ const BookAppointment = (props) => {
     )} of ${monthOfYear} ${year} ${chosenTime}`;
   }
 
+  const getFamilyMembers = async () => {
+    const members = await axios.get(
+      'http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a'
+    );
+  };
+
+  const handleDropdownChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+  const bookAppointmentHandler = () => {
+    navigate('/patient/checkout');
+  };
+
   return (
     <div>
-      <p className={styles.text}>Appointment</p>
+      <div style={{ textAlign: 'start' }}>
+        <p className={styles.text}>Appointment for</p>
+        <div className={styles.dropDown}>
+          <select
+            className={`${styles.text} ${styles.dropDown}`}
+            id="myDropdown"
+            value={selectedOption}
+            onChange={handleDropdownChange}
+          >
+            <option value="me">Me</option>
+          </select>
+        </div>
+      </div>
       <Calendar onChooseDate={chooseDate} chosenDate={chosenDate} />
-      <p className={styles.text}>Available Time</p>
-      <AppointmentTime
-        unavailableTimes={unavailableTimes}
-        onChooseTime={chooseTime}
-        chosenTime={chosenTime}
-        isDisabled={chosenDate === undefined}
-      />
-      <p className={styles.text} style={{ marginTop: '50px' }}>
-        Date Chosen
-      </p>
+      <div style={{ textAlign: 'start' }}>
+        <p className={styles.text}>Available Time</p>
+        <AppointmentTime
+          unavailableTimes={unavailableTimes}
+          onChooseTime={chooseTime}
+          chosenTime={chosenTime}
+          isDisabled={chosenDate === undefined}
+        />
+        <p className={styles.text} style={{ marginTop: '30px' }}>
+          Date Chosen
+        </p>
+      </div>
       <p
         className={
           chosenDate === undefined || chosenTime === undefined

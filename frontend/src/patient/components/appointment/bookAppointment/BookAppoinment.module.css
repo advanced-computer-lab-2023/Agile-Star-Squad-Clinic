@@ -1,12 +1,13 @@
 .text{
     position: relative;
-    left: -200px;
+    left: 150px;
     color: #1E1F2E;
     font-size: 15px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
     margin-bottom: 10px;
+    display: inline-block;
 }
 .bookButton{
     margin-top: 10px;
@@ -21,7 +22,12 @@
     font-weight: 600;
     line-height: normal;
 }
-
+div.dropDown{
+    display: inline-block;
+}
+.dropDown{
+    border: none;
+}
 .bookButton:disabled {
     background-color: #9C9C9C;
 }
