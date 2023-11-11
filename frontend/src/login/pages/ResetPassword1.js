@@ -31,12 +31,12 @@ const ResetPassword = () => {
 
           <div className="col-md-7" id={styles.rightCol}>
             <div className={styles.titleResetPass}>
-              <p>
+              <p className={styles.text}>
                 <strong>Forgot Password</strong>
               </p>
             </div>
             <div>
-              <p>
+              <p className={styles.text}>
                 <strong>
                   Provide your account's email for which you want to reset your
                   password
@@ -44,7 +44,7 @@ const ResetPassword = () => {
               </p>
             </div>
             <InputField
-              style={{ width: '500px', height: '28px' }}
+              style={{ width: '500px', height: '28px' , marginTop: '20px'}}
               type="email"
               placeholder="Email Address"
               onChange={handleEmailChange}

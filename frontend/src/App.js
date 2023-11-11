@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import Login from './login/pages/login';
-import ResetPassword from './login/pages/ResetPassword5'
+import ResetPassword from './login/pages/ResetPassword1'
 import LandingPage from './shared/pages/LandingPage';
 import AdminHome from './admin/pages/ManageUsers/AdminHome';
 import NewPackage from './package/pages/NewPackage';
