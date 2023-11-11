@@ -10,83 +10,83 @@ const BookAppointment = (props) => {
   const navigate = useNavigate();
 
   const dummyUser = {
-    "_id": {
-      "$oid": "65270df9cfa9abe7a31a4d88"
+    _id: {
+      $oid: '65270df9cfa9abe7a31a4d88',
     },
-    "username": "mariam1234",
-    "name": "mariam",
-    "email": "mariam@gmail.com",
-    "password": "test1234",
-    "dateOfBirth": {
-      "$date": "2001-05-05T00:00:00.000Z"
+    username: 'mariam1234',
+    name: 'mariam',
+    email: 'mariam@gmail.com',
+    password: 'test1234',
+    dateOfBirth: {
+      $date: '2001-05-05T00:00:00.000Z',
     },
-    "gender": "male",
-    "mobileNumber": "12986575676",
-    "emergencyContact": {
-      "fullName": "ahmed",
-      "phoneNumber": "12744784"
+    gender: 'male',
+    mobileNumber: '12986575676',
+    emergencyContact: {
+      fullName: 'ahmed',
+      phoneNumber: '12744784',
     },
-    "prescription": [
+    prescription: [
       {
-        "$oid": "65215f72fc0fccb3a2b49633"
+        $oid: '65215f72fc0fccb3a2b49633',
       },
       {
-        "$oid": "652161250d517c8b2484dbf9"
-      }
+        $oid: '652161250d517c8b2484dbf9',
+      },
     ],
-    "familyMembers": [
+    familyMembers: [
       {
-        "$oid": "65294322dc8e607dd51e8753"
+        $oid: '65294322dc8e607dd51e8753',
       },
       {
-        "$oid": "6529434b777d3bdb73d40914"
+        $oid: '6529434b777d3bdb73d40914',
       },
       {
-        "$oid": "65294533719784c8d8c742c5"
+        $oid: '65294533719784c8d8c742c5',
       },
       {
-        "$oid": "652aadad17e30cdff35a3666"
+        $oid: '652aadad17e30cdff35a3666',
       },
       {
-        "$oid": "652ad7e617e30cdff35a373f"
+        $oid: '652ad7e617e30cdff35a373f',
       },
       {
-        "$oid": "652ae63f13660e383accda46"
+        $oid: '652ae63f13660e383accda46',
       },
       {
-        "$oid": "652ae65d13660e383accda4f"
+        $oid: '652ae65d13660e383accda4f',
       },
       {
-        "$oid": "652ae99d0d76955ea353fc64"
+        $oid: '652ae99d0d76955ea353fc64',
       },
       {
-        "$oid": "652b4645677e678137712f8b"
+        $oid: '652b4645677e678137712f8b',
       },
       {
-        "$oid": "652d088e263d88f43ea92b7d"
-      }
+        $oid: '652d088e263d88f43ea92b7d',
+      },
     ],
-    "appointments": [
+    appointments: [
       {
-        "$oid": "65270f9d6a48cd31d535b965"
+        $oid: '65270f9d6a48cd31d535b965',
       },
       {
-        "$oid": "652abeb5c7ba60367f827576"
+        $oid: '652abeb5c7ba60367f827576',
       },
       {
-        "$oid": "652abf8708de3ef77f26ef6d"
-      }
+        $oid: '652abf8708de3ef77f26ef6d',
+      },
     ],
-    "__v": 5,
-    "package": {
-      "$oid": "652b334947959480072bcd09"
+    __v: 5,
+    package: {
+      $oid: '652b334947959480072bcd09',
     },
-    "medicalRecord": "MR"
+    medicalRecord: 'MR',
   };
 
   const [chosenDate, setChosenDate] = useState();
   const [chosenTime, setChosenTime] = useState();
-  const [selectedOption, setSelectedOption] = useState('myself');
+  const [selectedOption, setSelectedOption] = useState(dummyUser._id);
   const [familyMembers, setFamilyMembers] = useState([]);
 
   const getFamilyMembers = async () => {
@@ -173,6 +173,7 @@ const BookAppointment = (props) => {
   }
 
   const handleDropdownChange = (event) => {
+    console.log(event.target.value);
     setSelectedOption(event.target.value);
   };
 
@@ -180,24 +181,31 @@ const BookAppointment = (props) => {
     const packageToUse = dummyUser.package;
     let patientName;
     let addAppointmentTo;
-
-    if(selectedOption._id === dummyUser._id) {
+    if (JSON.stringify(selectedOption) === JSON.stringify(dummyUser._id)) {
       patientName = dummyUser.name;
       addAppointmentTo = dummyUser._id;
     } else {
-      const familyMemberPatientAccount = await axios.get(`http://localhost:3000/patients/${selectedOption._id}`);
-      patientName = selectedOption.name;
-      if(familyMemberPatientAccount === undefined || familyMemberPatientAccount === null) {
+      const member = familyMembers.find((member) => {
+        return JSON.stringify(member._id) === JSON.stringify(selectedOption);
+      });
+      patientName = member.name;
+      const familyMemberPatientAccount = await axios
+        .get(
+          `http://localhost:3000/patients/getByNationalId/${member.nationalId}`
+        )
+        .catch();
+      if (familyMemberPatientAccount) {
         addAppointmentTo = dummyUser._id;
+      } else {
+        addAppointmentTo = familyMemberPatientAccount._id;
       }
-      addAppointmentTo = familyMemberPatientAccount._id;
     }
-
     const dataToSend = {
-      key: 'value',
-      someNumber: 42,
+      packageToUse,
+      patientName,
+      addAppointmentTo,
     };
-    navigate('/patient/checkout', { state: dataToSend });
+    navigate('/patient/home', { state: dataToSend });
   };
 
   return (
@@ -208,13 +216,13 @@ const BookAppointment = (props) => {
           <select
             className={`${styles.text} ${styles.dropDown}`}
             id="myDropdown"
-            value={selectedOption}
+            value={selectedOption.name}
             onChange={handleDropdownChange}
           >
-            <option value={{_id: dummyUser._id, name: dummyUser.name}}>Me</option>
+            <option value={dummyUser._id}>Me</option>
             {familyMembers !== undefined &&
               familyMembers.map((member) => (
-                <option value={{_id: member._id, name: dummyUser.name}}>{member.name}</option>
+                <option value={member._id}>{member.name}</option>
               ))}
           </select>
         </div>

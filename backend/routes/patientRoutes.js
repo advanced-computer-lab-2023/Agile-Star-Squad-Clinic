@@ -19,18 +19,23 @@ router
   .post(patientController.addFamilyMember);
 
 router
-  .route('/')
-  .get(patientController.getAllPatients)
-  .post(patientController.signup);
+.route('/')
+.get(patientController.getAllPatients)
+.post(patientController.signup);
 
 router
-  .route('/:id')
-  .get(patientController.getPatient)
-  .delete(patientController.removePatient);
+.route('/:id')
+.get(patientController.getPatient)
+.delete(patientController.removePatient);
 
-  router
+router
+.route('/getByNationalId/:nationalId')
+.get(patientController.getPatientByNationalId);
+  
+router
   .route('/:patientId/prescriptions')
   .get(prescriptionController.getPatientPrescriptions);
+
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
