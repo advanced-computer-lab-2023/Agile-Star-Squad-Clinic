@@ -9,6 +9,81 @@ import axios from 'axios';
 const BookAppointment = (props) => {
   const navigate = useNavigate();
 
+  const dummyUser = {
+    "_id": {
+      "$oid": "65270df9cfa9abe7a31a4d88"
+    },
+    "username": "mariam1234",
+    "name": "mariam",
+    "email": "mariam@gmail.com",
+    "password": "test1234",
+    "dateOfBirth": {
+      "$date": "2001-05-05T00:00:00.000Z"
+    },
+    "gender": "male",
+    "mobileNumber": "12986575676",
+    "emergencyContact": {
+      "fullName": "ahmed",
+      "phoneNumber": "12744784"
+    },
+    "prescription": [
+      {
+        "$oid": "65215f72fc0fccb3a2b49633"
+      },
+      {
+        "$oid": "652161250d517c8b2484dbf9"
+      }
+    ],
+    "familyMembers": [
+      {
+        "$oid": "65294322dc8e607dd51e8753"
+      },
+      {
+        "$oid": "6529434b777d3bdb73d40914"
+      },
+      {
+        "$oid": "65294533719784c8d8c742c5"
+      },
+      {
+        "$oid": "652aadad17e30cdff35a3666"
+      },
+      {
+        "$oid": "652ad7e617e30cdff35a373f"
+      },
+      {
+        "$oid": "652ae63f13660e383accda46"
+      },
+      {
+        "$oid": "652ae65d13660e383accda4f"
+      },
+      {
+        "$oid": "652ae99d0d76955ea353fc64"
+      },
+      {
+        "$oid": "652b4645677e678137712f8b"
+      },
+      {
+        "$oid": "652d088e263d88f43ea92b7d"
+      }
+    ],
+    "appointments": [
+      {
+        "$oid": "65270f9d6a48cd31d535b965"
+      },
+      {
+        "$oid": "652abeb5c7ba60367f827576"
+      },
+      {
+        "$oid": "652abf8708de3ef77f26ef6d"
+      }
+    ],
+    "__v": 5,
+    "package": {
+      "$oid": "652b334947959480072bcd09"
+    },
+    "medicalRecord": "MR"
+  };
+
   const [chosenDate, setChosenDate] = useState();
   const [chosenTime, setChosenTime] = useState();
   const [selectedOption, setSelectedOption] = useState('myself');
@@ -101,9 +176,29 @@ const BookAppointment = (props) => {
     setSelectedOption(event.target.value);
   };
 
-  // const bookAppointmentHandler = () => {
-  //   navigate('/patient/checkout');
-  // };
+  const bookAppointmentHandler = async () => {
+    const packageToUse = dummyUser.package;
+    let patientName;
+    let addAppointmentTo;
+
+    if(selectedOption._id === dummyUser._id) {
+      patientName = dummyUser.name;
+      addAppointmentTo = dummyUser._id;
+    } else {
+      const familyMemberPatientAccount = await axios.get(`http://localhost:3000/patients/${selectedOption._id}`);
+      patientName = selectedOption.name;
+      if(familyMemberPatientAccount === undefined || familyMemberPatientAccount === null) {
+        addAppointmentTo = dummyUser._id;
+      }
+      addAppointmentTo = familyMemberPatientAccount._id;
+    }
+
+    const dataToSend = {
+      key: 'value',
+      someNumber: 42,
+    };
+    navigate('/patient/checkout', { state: dataToSend });
+  };
 
   return (
     <div>
@@ -116,10 +211,10 @@ const BookAppointment = (props) => {
             value={selectedOption}
             onChange={handleDropdownChange}
           >
-            <option value="me">Me</option>
+            <option value={{_id: dummyUser._id, name: dummyUser.name}}>Me</option>
             {familyMembers !== undefined &&
               familyMembers.map((member) => (
-                <option value={member._id}>{member.name}</option>
+                <option value={{_id: member._id, name: dummyUser.name}}>{member.name}</option>
               ))}
           </select>
         </div>
@@ -146,15 +241,13 @@ const BookAppointment = (props) => {
       >
         {displayDate}
       </p>
-      <Link to={{ pathname: '/patient/checkout', state: {} }}>
-        <button
-          className={styles.bookButton}
-          // onClick={bookAppointmentHandler}
-          disabled={chosenDate === undefined || chosenTime === undefined}
-        >
-          Book Appoinment
-        </button>
-      </Link>
+      <button
+        className={styles.bookButton}
+        onClick={bookAppointmentHandler}
+        disabled={chosenDate === undefined || chosenTime === undefined}
+      >
+        Book Appoinment
+      </button>
     </div>
   );
 };
