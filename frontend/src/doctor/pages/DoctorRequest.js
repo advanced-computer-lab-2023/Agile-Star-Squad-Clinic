@@ -31,15 +31,15 @@ const DoctorRequestForm = () => {
   };
 
   const onIdImageChange = (file) => {
-    setIdImage(file);
+    setIdImage(file.target.files[0]);
   }
 
   const onMedicalLicenseChange = (file) => {
-    setLicenseImage(file);
+    setLicenseImage(file.target.files[0]);
   }
 
   const onMedicalDegreeChange = (file) => {
-    setDegreeImage(file);
+    setDegreeImage(file.target.files[0]);
   }
 
 
@@ -50,15 +50,23 @@ const DoctorRequestForm = () => {
     let idDownloadUrl;
     let licenseDownloadUrl;
     let degreeDownloadUrl;
+    console.log("3ayesh?");
+    console.log(idImageForm);
 
-    if (idImageForm !== "") {
-      const idImageRef = ref(storage, `${idImageForm.name}`);
-      await uploadBytesResumable(idImageRef, idImageForm).then(async (snapshot) => {
-        idDownloadUrl = await getDownloadURL(snapshot.ref);
-      });
-    }
+      if (idImageForm !== "") {
+        console.log(idImageForm.path);
+        const idImageRef = ref(storage, `${idImageForm.name}`);
+        await uploadBytesResumable(idImageRef, idImageForm).then(async (snapshot) => {
+          idDownloadUrl = await getDownloadURL(snapshot.ref);
+          console.log(idDownloadUrl);
+        });
+      }
+    console.log(idDownloadUrl);
 
     if (medicalLicenseForm !== "") {
+      // console.log(medicalLicenseForm);
+    
+      // const imageExtension = medicalLicenseForm['path'].substring(medicalLicenseForm['path'].lastIndexOf('.'));
       const medicalLicenseRef = ref(storage, `${medicalLicenseForm.name}`);
       await uploadBytesResumable(medicalLicenseRef, medicalLicenseForm).then(async (snapshot) => {
         licenseDownloadUrl = await getDownloadURL(snapshot.ref)
@@ -66,6 +74,8 @@ const DoctorRequestForm = () => {
     }
 
     if (medicalDegreeForm !== "") {
+      console.log(medicalDegreeForm);
+      // const imageExtension = medicalDegreeForm['path'].substring(medicalDegreeForm['path'].lastIndexOf('.'));
       const medicalDegreeRef = ref(storage, `${medicalDegreeForm.name}`);
       await uploadBytesResumable(medicalDegreeRef, medicalDegreeForm).then(async (snapshot) => {
         degreeDownloadUrl = await getDownloadURL(snapshot.ref)
