@@ -34,5 +34,9 @@ router
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
+  
+router
+  .route('/:patientId/appointments')
+  .get(appointmentController.allAppointmentsForPatients);
 
 module.exports = router;
