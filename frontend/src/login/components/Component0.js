@@ -3,16 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
 import InputField from './InputField/InputField';
 import Button from './Button/Button';
+import axios from 'axios';
 
-function Component0({ setTab }){
+function Component0({ setTab }) {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleRequestLink= (e) => {
-    setEmail(e.target.value);
+  const handleRequestLink = (e) => {
     setTab(true);
+    axios.post('http://localhost:3000/resetPassword', { email: email });
   };
-
+  const handleInput = (e) => {
+    setEmail(e.target.value);
+  };
   const handleEmailCancel = () => {
     navigate('/');
   };
@@ -35,8 +38,7 @@ function Component0({ setTab }){
         style={{ width: '500px', height: '28px', marginTop: '20px' }}
         type="email"
         placeholder="Email Address"
-        onChange={handleRequestLink}
-        value={email}
+        onChange={handleInput}
       />
       <Button
         style={{ width: '400px', height: '40.541px' }}
@@ -54,6 +56,6 @@ function Component0({ setTab }){
       />
     </div>
   );
-};
+}
 
 export default Component0;

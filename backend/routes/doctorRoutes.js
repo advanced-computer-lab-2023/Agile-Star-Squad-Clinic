@@ -9,6 +9,7 @@ router
   .route('/appointments')
   .get(appointmentController.getAllAppointments)
   .post(appointmentController.createAppointment);
+  
 router
   .route('/')
   .get(doctorController.getAllDoctors)

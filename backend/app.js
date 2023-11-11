@@ -10,6 +10,7 @@ const prescriptionRouter = require('./routes/prescriptionRoutes');
 const packageRouter = require('./routes/packageRoutes');
 const Prescription = require('./models/prescriptionModel');
 const patientController = require('./controllers/patientController');
+const authController = require('./controllers/authController');
 const {
   addPackage,
   getPackages,
@@ -44,6 +45,7 @@ app.use('/doctors', doctorRouter);
 app.use('/patients', patientRouter);
 app.use('/prescriptions', prescriptionRouter);
 app.use('/packages', packageRouter);
+app.post('/resetPassword', authController.forgotPassword)
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));
