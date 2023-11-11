@@ -12,9 +12,6 @@ const ResetPassword = () => {
   const [tab, setTab] = useState(false);
   const [tab2, setTab2] = useState(false);
   const [tab3, setTab3] = useState(false);
-  const [email, setEmail] = useState('');
-  const navigate = useNavigate();
-
 
   return (
     <body>

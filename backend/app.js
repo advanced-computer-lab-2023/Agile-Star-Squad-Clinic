@@ -1,5 +1,4 @@
 const express = require('express');
-const dotenv = require('dotenv');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -8,8 +7,6 @@ const patientRouter = require('./routes/patientRoutes');
 const doctorRouter = require('./routes/doctorRoutes');
 const prescriptionRouter = require('./routes/prescriptionRoutes');
 const packageRouter = require('./routes/packageRoutes');
-const Prescription = require('./models/prescriptionModel');
-const patientController = require('./controllers/patientController');
 const authController = require('./controllers/authController');
 const {
   addPackage,
@@ -45,7 +42,7 @@ app.use('/doctors', doctorRouter);
 app.use('/patients', patientRouter);
 app.use('/prescriptions', prescriptionRouter);
 app.use('/packages', packageRouter);
-app.post('/resetPassword', authController.forgotPassword)
+app.post('/resetPassword/:email', authController.forgotPassword);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));

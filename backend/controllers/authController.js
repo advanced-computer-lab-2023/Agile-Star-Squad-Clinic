@@ -6,11 +6,14 @@ const Patient = require('../models/patientModel');
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //1)Get doctor based on POSTed email
-  const doctor = await Doctor.findOne({ email: req.body.email });
-  const patient = await Patient.findOne({ email: req.body.email });
+  const doctor = await Doctor.findOne({ email: req.params.email });
+  const patient = await Patient.findOne({ email: req.params.email });
 
   if (!doctor && !patient) {
-    return next(new AppError('This email does not exist', 404));
+    res.status(404).json({
+      status: 'failed',
+      message: 'Email not found!',
+    });
   }
   let user;
   if (doctor) {

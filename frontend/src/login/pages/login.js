@@ -54,7 +54,7 @@ const Login = () => {
               value={password}
             />
             <div className={styles.forgetPassword}>
-              <a className={styles.forgetPass} href="http://localhost:3000/resetPassword">
+              <a className={styles.forgetPass} href="/resetPassword">
                 Forget Password
               </a>
             </div>

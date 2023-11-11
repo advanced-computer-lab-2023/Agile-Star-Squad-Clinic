@@ -9,9 +9,15 @@ function Component0({ setTab }) {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleRequestLink = (e) => {
-    setTab(true);
-    axios.post('http://localhost:3000/resetPassword', { email: email });
+  const handleRequestLink = async (e) => {
+    const response = await axios
+      .post(`http://localhost:3000/resetPassword/${email}`)
+      .then((res) => {
+        setTab(true);
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
   };
   const handleInput = (e) => {
     setEmail(e.target.value);
