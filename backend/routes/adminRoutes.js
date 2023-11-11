@@ -8,7 +8,10 @@ router
   .get(adminController.getAllAdmins)
   .post(adminController.createAdmin);
 
-router.route('/requests').get(adminController.viewAllRequests);
+router
+.route('/requests')
+.get(adminController.viewAllRequests)
+.post(adminController.acceptRequest);
 
 router
   .route('/:id')

@@ -70,7 +70,7 @@ const ManageUsersPage = () => {
                     hourlyRate: doctor['hourlyRate'],
                     affiliation: doctor['affiliation'],
                     educationalBackground: doctor['educationalBackground'],
-                    specialty: doctor['specialty'],
+                    speciality: doctor['speciality'],
                     mobileNumber: doctor["mobileNumber"] ?? "-",
                     role: "Doctor"
                 }
@@ -107,7 +107,7 @@ const ManageUsersPage = () => {
                     dateOfBirth: request['dateOfBirth'],
                     hourlyRate: request['hourlyRate'],
                     affiliation: request['affiliation'],
-                    specialty: request['speciality'],
+                    speciality: request['speciality'],
                     educationalBackground: request['educationalBackground'],
                     status: request['status']
                 }
