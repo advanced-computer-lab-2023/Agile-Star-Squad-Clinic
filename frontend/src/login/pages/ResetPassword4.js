@@ -3,19 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../components/login.module.css';
 import logo from '../images/logo.svg';
 import img from '../images/Bandage.png';
-import InputField from '../components/InputField/InputField';
+import OTP from '../components/OTP/OTP';
 import Button from '../components/Button/Button';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleChangeEmail = (e) => {
-    
-  };
+  const handleVerifyCode = (e) => {};
 
-  const handleEmailCancel = () => {
-    navigate('/');
+  const handleResendCode = () => {
   };
 
   return (
@@ -32,26 +29,30 @@ const ResetPassword = () => {
           <div className="col-md-7" id={styles.rightCol}>
             <div className={styles.titleResetPass}>
               <p>
-                <strong>Forgot Password</strong>
+                <strong>Link Expired</strong>
               </p>
             </div>
             <div className={styles.p1}>
               <p>
                 <strong>
-                  You will receive an email with a link to reset your password.
-                  Please check your inbox.
+                  Enter OTP (One-time password) sent to user@email.com
                 </strong>
               </p>
             </div>
+            <OTP />
             <Button
-              style={{ width: '300px', height: '40.541px', marginBottom:"-40px" }}
-              onClick={this.handleSendVerification}
-              name="Change email ID"
+              style={{ width: '400px', height: '40.541px' }}
+              onClick={handleVerifyCode}
+              name="Verify Code"
             />
             <Button
-              style={{ width: '300px', height: '40.541px' }}
-              onClick={handleEmailCancel}
-              name="Resend verification code"
+              style={{
+                backgroundColor: 'white',
+                color: '#193842',
+                borderStyle: 'none',
+              }}
+              onClick={handleResendCode}
+              name="Resend Code"
             />
           </div>
         </div>

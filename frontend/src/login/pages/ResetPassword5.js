@@ -10,13 +10,12 @@ const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleChangeEmail = (e) => {
-    
-  };
+  const handleNewPassword = (e) => {};
 
   const handleEmailCancel = () => {
     navigate('/');
   };
+  const handleSubmit = (e) => {};
 
   return (
     <body>
@@ -43,15 +42,33 @@ const ResetPassword = () => {
                 </strong>
               </p>
             </div>
-            <Button
-              style={{ width: '300px', height: '40.541px', marginBottom:"-40px" }}
-              onClick={this.handleSendVerification}
-              name="Change email ID"
+            <InputField
+              style={{ width: '500px', height: '28px' }}
+              type="password"
+              placeholder="New Password"
+              onChange={handleNewPassword}
+              value={email}
+            />
+            <InputField
+              style={{ width: '500px', height: '28px'}}
+              type="password"
+              placeholder="Re-type Password"
+              onChange={handleNewPassword}
+              value={email}
             />
             <Button
-              style={{ width: '300px', height: '40.541px' }}
+              style={{ width: '300px', height: '40.541px',marginTop:"-40px" }}
+              onClick={handleSubmit}
+              name="Submit"
+            />
+            <Button
+              style={{
+                backgroundColor: 'white',
+                color: '#193842',
+                borderStyle: 'none',
+              }}
               onClick={handleEmailCancel}
-              name="Resend verification code"
+              name="Cancel"
             />
           </div>
         </div>
