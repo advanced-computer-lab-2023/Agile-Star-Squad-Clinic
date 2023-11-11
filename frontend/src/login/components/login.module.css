@@ -1,9 +1,10 @@
 body{
+    font-family: "Telex";
     background-color: #96B7C7;
     height:100vh;
     overflow:hidden;
 }
-.sama3a{
+.stethoscope{
     width:70%;
     height: 100%;
     position: absolute;
@@ -11,11 +12,7 @@ body{
     left: 0;
     z-index: 1;
 }
-.white-box{
-    width: 110%;
-    height:100vh;
-}
-#right-col {
+#rightCol {
     height:100vh;
     border-radius: 50px 0 0 50px ;
     background-image: url('../images/Rectangle1.png'); 
@@ -35,27 +32,47 @@ body{
     margin-bottom: 70px;
 }
 
-.create-account{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
+.createAccount{
+    font-size: 18px;
     color:#6B6A6A;
     margin-top: 40px;
 }
-.signup-link{
+.signupLink{
     text-decoration: none;
     color: #91B3B5;
 }
-.signup-link:hover{
+.signupLink:hover{
     color: #219ca3;
 }
-.forget-pass{
+.forgetPass{
     font-size: 13px;
     text-decoration: none;
     margin-top: -40px;
 }
-.forget-password{
+.forgetPassword{
     text-align: right;
     padding-right: 130px;
     margin-top: -50px;
     margin-bottom: 40px;
+}
+
+.bandage{
+    width:55%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.titleResetPass{
+    padding-left: 90px;
+    text-align: left;
+    font-size:30px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+.p1{
+    padding-left: 80px;
+    margin-bottom: 70px;
 }

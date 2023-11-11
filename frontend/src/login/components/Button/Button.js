@@ -1,9 +1,9 @@
-import './Button.css';
+import styles from './Button.module.css';
 
 const Button = (props) => {
   return (
     <div>
-      <button className='submitButton' onClick={props.onClick}>{props.name}</button>
+      <button className={styles.submitButton} style={props.style} onClick={props.onClick}>{props.name}</button>
     </div>
   );
 };

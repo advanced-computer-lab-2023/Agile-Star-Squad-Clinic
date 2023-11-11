@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import Login from './login/pages/login';
+import ResetPassword from './login/pages/ResetPassword2'
 import LandingPage from './shared/pages/LandingPage';
 import AdminHome from './admin/pages/ManageUsers/AdminHome';
 import NewPackage from './package/pages/NewPackage';
@@ -16,6 +17,7 @@ import './App.css';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
+import ResetPassword1 from './login/pages/ResetPassword1';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -25,6 +27,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} exact />
+          <Route path="/resetPassword" element={<ResetPassword/>}exact/>
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
