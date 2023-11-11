@@ -35,8 +35,8 @@
     position: absolute;
     bottom:0;
     left: 0;
-    width: 50%;
-    z-index: 5px;
+    width: 52%;
+    z-index: 1;
 }
 
 .button {
@@ -89,7 +89,7 @@
 .container {
     position: absolute;
     height: 40vh;
-    width: 70vh;
+    width: 80vh;
     background-color: #ffffff;
     border-radius: 33px;
     font-size: 17px;
@@ -111,7 +111,7 @@
     border-radius: 7.25px;
     font-size: 16px;
     cursor: pointer;
-    margin-left: 10px;
+    padding-left: 10px;
   }
 
 .cancelButton {
