@@ -6,15 +6,28 @@ import Button from './Button/Button';
 
 function Component2({ setTab3 }) {
   const navigate = useNavigate();
-  const handleNewPassword = (e) => {};
+  const handleNewPassword = (e) => { };
+  const [newPassword, setNewPassword] = useState('');
+  const [retypePassword, setRetypePassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const handleEmailCancel = () => {
     navigate('/');
   };
 
   const handleSubmit = (e) => {
-    setTab3(true);
+    if (newPassword === retypePassword) {
+      setTab3(true);
+      setPasswordError('');
+    } else {
+      setPasswordError("Passwords do not match");
+      setNewPassword('');
+      setRetypePassword('');
+    }
   };
+
+  {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+  
 
   return (
     <div className="col-md-7" id={styles.rightCol}>
@@ -39,13 +52,15 @@ function Component2({ setTab3 }) {
         style={{ width: '500px', height: '28px' }}
         type="password"
         placeholder="New Password"
-        onChange={handleNewPassword}
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
       />
       <InputField
         style={{ width: '500px', height: '28px' }}
         type="password"
         placeholder="Re-type Password"
-        onChange={handleNewPassword}
+        value={retypePassword} 
+        onChange={(e) => setRetypePassword(e.target.value)}
       />
       <Button
         style={{ width: '300px', height: '40.541px', marginTop: '-40px' }}
