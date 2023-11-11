@@ -70,25 +70,23 @@
 }
 
 .terms {
-    position: absolute; 
     font-size: 24px;
     color: #010101;
     font-weight: bolder;
-    margin-left: -50%;
-    margin-top: 25%;
+    margin-left: -100%;
+    margin-top: 0%;
   }
   
   .agreement {
-    position: absolute;
     font-size: 18px;
     color: #010101;
-    margin-left: -50%;
-    margin-top: 38%;
+    margin-left: -135%;
+    margin-top: 15%;
   }
   
 .container {
     position: absolute;
-    height: 40vh;
+    height: 48vh;
     width: 80vh;
     background-color: #ffffff;
     border-radius: 33px;
@@ -99,10 +97,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     margin-left: -50%;
-    margin-top: 60%;
+    margin-top: 20%;
+
   }
   
 .agreeButton {
+    position: relative;
     width: 110px;
     height: 29px;
     background-color: #193842;
@@ -111,7 +111,7 @@
     border-radius: 7.25px;
     font-size: 16px;
     cursor: pointer;
-    padding-left: 10px;
+    margin-right: -55%;
   }
 
 .cancelButton {
@@ -123,11 +123,61 @@
     border-radius: 7.25px;
     font-size: 16px; 
     cursor: pointer;
+    margin-right: 55%;
   }
 
 .buttonsDiv {
-    position: relative;
-    margin-top: 210%;
-    margin-right: -100%;
+    position: absolute;
+    bottom: -570%;
 }
 
+.selecttimeslots {
+  font-size: 18px;
+  color: #010101;
+  margin-left: -135%;
+  margin-top: 15%;
+}
+
+.timeslots{
+  position: absolute;
+  left:32%;
+  font-size: 24px;
+  color: #010101;
+  font-weight: bolder;
+  margin-left: -100%;
+  margin-top: 0%;
+}
+.containerleft {
+  position: absolute;
+  height: 48vh;
+  width: 50vh;
+  background-color: #ffffff;
+  border-radius: 33px;
+  font-size: 17px;
+  color: #6B6B6B;
+  line-height: 150%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  margin-left: -50%;
+  margin-top: 20%;
+}
+.containerRight {
+  position: absolute;
+  height: 48vh;
+  width: 30vh;
+  background-color: #ffffff;
+  border-radius: 33px;
+  font-size: 17px;
+  color: #6B6B6B;
+  line-height: 150%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  margin-left: 111%;
+  margin-top: 20%;
+}
+
+.twoContainers{
+  display: flex;
+}
