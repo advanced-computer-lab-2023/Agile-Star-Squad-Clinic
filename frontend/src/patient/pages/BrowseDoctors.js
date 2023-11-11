@@ -52,11 +52,8 @@ const BrowseDoctors = () => {
   };
 
   const handleDoctorClick = (doctor) => {
-    // Get the current pathname
-    const currentPathname = location.pathname;
-
-    // Use navigate to go to the new route
-    navigate(`/patient/appointment/book/`, { state: { from: currentPathname } });
+   
+    navigate(`/patient/appointment/book/`, { state: doctor });
   };
  
   
