@@ -1,6 +1,7 @@
 import React from "react";
 import './NavBar.css';
 import logo from '../../../logo.png'
+import { Link } from "react-router-dom";
 const NavBar = ()=>{
 
     return(
@@ -32,10 +33,12 @@ const NavBar = ()=>{
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">Doctors</a>
+              <a className="nav-link" aria-current="page" href="#">Doctors</a>
             </li>
             <li className="nav-item">
+              <Link to="/healthPackages" style={{all:"unset"}}>
               <a className="nav-link " href="#">Health Packages</a>
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">About us</a>
