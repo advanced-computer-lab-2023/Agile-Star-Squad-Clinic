@@ -45,7 +45,7 @@ const ResetPassword = () => {
             </div>
             <Button
               style={{ width: '300px', height: '40.541px', marginBottom:"-40px" }}
-              onClick={this.handleSendVerification}
+              onClick={handleChangeEmail}
               name="Change email ID"
             />
             <Button
