@@ -10,10 +10,7 @@ const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleVerifyCode = (e) => {};
-
-  const handleResendCode = () => {
-  };
+  
 
   return (
     <body>
@@ -26,35 +23,7 @@ const ResetPassword = () => {
             <img className={styles.bandage} src={img} alt="login" />
           </div>
 
-          <div className="col-md-7" id={styles.rightCol}>
-            <div className={styles.titleResetPass}>
-              <p>
-                <strong>Link Expired</strong>
-              </p>
-            </div>
-            <div className={styles.p3}>
-              <p>
-                <strong>
-                  Enter OTP (One-time password) sent to user@email.com
-                </strong>
-              </p>
-            </div>
-            <OTP />
-            <Button
-              style={{ width: '400px', height: '40.541px' }}
-              onClick={handleVerifyCode}
-              name="Verify Code"
-            />
-            <Button
-              style={{
-                backgroundColor: 'white',
-                color: '#193842',
-                borderStyle: 'none',
-              }}
-              onClick={handleResendCode}
-              name="Resend Code"
-            />
-          </div>
+          
         </div>
       </div>
     </body>
