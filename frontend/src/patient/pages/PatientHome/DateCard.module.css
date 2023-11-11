@@ -2,13 +2,13 @@
     width: 220px;
     height: 290px;
     border-radius: 14px;
-    inset: 7px 7px 3px rgba(0,0,0,0.5);
+    box-shadow: 7px -6px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }
 
 .top {
     display: flex;
     flex-direction: column;
-    margin-top: 25px;
+    padding-top: 25px;
     color: #454545;
 }
 

@@ -60,12 +60,17 @@ h3 {
     /* margin-right: 40px; */
 }
 .appointmentContainer {
-    position: relative;
     background-color: #F2F2F2;
     height: 320px;
     max-width: 690px;
     border-radius: 52px;
     filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
+}
+
+.appointmentItem {
+    /* position: relative; */
+    height: 320px;
+    max-width: 690px;
 }
 .dateText {
     position: absolute;
@@ -127,7 +132,9 @@ h3 {
 .prescriptionContainer {
     height: 320px;
     max-width: 470px;
+    overflow: auto;
     background-color: #2B303A;
+    padding-bottom: 25px;
     border-radius: 52px;
     padding-inline: 50px;
     padding-top: 1px;
@@ -151,6 +158,10 @@ h3 {
     font-size: 18px;
     font-weight: 700;
     color: #35E251;
+}
+
+.unfilledColor {
+    color: #62C8F4!important;
 }
 
 .prescriptionDate {
@@ -189,12 +200,12 @@ h3 {
 }
 
 .prescriptionName {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
 }
 
 .prescriptionDosage {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
 }
 

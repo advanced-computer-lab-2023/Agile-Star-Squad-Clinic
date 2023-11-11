@@ -15,7 +15,7 @@ import './App.css';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
-import HomePage from './patient/pages/HomePage';
+import HomePage from './patient/pages/PatientHome/HomePage';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
