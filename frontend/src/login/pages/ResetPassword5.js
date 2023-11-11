@@ -29,18 +29,20 @@ const ResetPassword = () => {
           </div>
 
           <div className="col-md-7" id={styles.rightCol}>
-            <div className={styles.titleResetPass}>
+            <div className={styles.title2}>
               <p>
-                <strong>Forgot Password</strong>
+                <strong>NEW CREDENTIALS</strong>
               </p>
             </div>
             <div className={styles.p1}>
-              <p>
+              <ul className={styles.rules}>
                 <strong>
-                  You will receive an email with a link to reset your password.
-                  Please check your inbox.
+                <li>Password must be at least 8 characters long.</li>
+                <li>Password must contain at least one upper case.</li>
+                <li>One lower case letter.</li>
+                <li>Password must contain at least one number or special character</li>
                 </strong>
-              </p>
+              </ul>
             </div>
             <InputField
               style={{ width: '500px', height: '28px' }}

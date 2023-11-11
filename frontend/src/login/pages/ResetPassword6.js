@@ -3,16 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../components/login.module.css';
 import logo from '../images/logo.svg';
 import img from '../images/Bandage.png';
-import OTP from '../components/OTP/OTP';
+import InputField from '../components/InputField/InputField';
 import Button from '../components/Button/Button';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleVerifyCode = (e) => {};
-
-  const handleResendCode = () => {
+  const handleLogin = (e) => {
+    navigate('/')
   };
 
   return (
@@ -27,32 +26,22 @@ const ResetPassword = () => {
           </div>
 
           <div className="col-md-7" id={styles.rightCol}>
-            <div className={styles.titleResetPass}>
+            <div className={styles.title}>
               <p>
-                <strong>Link Expired</strong>
+                <strong>PASSWORD UPDATED</strong>
               </p>
             </div>
-            <div className={styles.p3}>
+            <div className={styles.p4}>
               <p>
                 <strong>
-                  Enter OTP (One-time password) sent to user@email.com
+                  Your password has been updated!
                 </strong>
               </p>
             </div>
-            <OTP />
             <Button
-              style={{ width: '400px', height: '40.541px' }}
-              onClick={handleVerifyCode}
-              name="Verify Code"
-            />
-            <Button
-              style={{
-                backgroundColor: 'white',
-                color: '#193842',
-                borderStyle: 'none',
-              }}
-              onClick={handleResendCode}
-              name="Resend Code"
+              style={{ width: '300px', height: '40.541px', marginBottom:"-40px" }}
+              onClick={handleLogin}
+              name="LOGIN"
             />
           </div>
         </div>

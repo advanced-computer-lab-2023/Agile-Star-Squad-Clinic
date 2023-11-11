@@ -10,6 +10,8 @@ const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
+  const reset2 = true;
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -28,7 +30,6 @@ const ResetPassword = () => {
             </div>
             <img className={styles.bandage} src={img} alt="login" />
           </div>
-
           <div className="col-md-7" id={styles.rightCol}>
             <div className={styles.titleResetPass}>
               <p className={styles.text}>

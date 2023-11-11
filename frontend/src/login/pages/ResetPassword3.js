@@ -36,7 +36,7 @@ const ResetPassword = () => {
                   <strong>Link Expired</strong>
                 </p>
               </div>
-              <div className={styles.p1}>
+              <div className={styles.p2}>
                 <p>
                   <strong>
                   Your link has expired, because you haven't used it. Reset password link expires in every 24 hours and can be used only once. You can create one by clicking the button below.
