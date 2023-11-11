@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Calendar from '../calender/Calendar';
 import AppointmentTime from '../appointmentTime/AppointmentTime';
@@ -13,6 +13,16 @@ const BookAppointment = (props) => {
   const [chosenTime, setChosenTime] = useState();
   const [selectedOption, setSelectedOption] = useState('myself');
   const [familyMembers, setFamilyMembers] = useState([]);
+
+  const getFamilyMembers = async () => {
+    const patientId = '65270df9cfa9abe7a31a4d88';
+    const members = await axios.get(
+      `http://localhost:3000/patients/${patientId}/familyMembers`
+    );
+    setFamilyMembers(members.data.data.members);
+  };
+
+  getFamilyMembers();
 
   const chooseDate = (date) => {
     setChosenTime();
@@ -87,19 +97,13 @@ const BookAppointment = (props) => {
     )} of ${monthOfYear} ${year} ${chosenTime}`;
   }
 
-  const getFamilyMembers = async () => {
-    const members = await axios.get(
-      'http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a'
-    );
-  };
-
   const handleDropdownChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
-  const bookAppointmentHandler = () => {
-    navigate('/patient/checkout');
-  };
+  // const bookAppointmentHandler = () => {
+  //   navigate('/patient/checkout');
+  // };
 
   return (
     <div>
@@ -113,6 +117,10 @@ const BookAppointment = (props) => {
             onChange={handleDropdownChange}
           >
             <option value="me">Me</option>
+            {familyMembers !== undefined &&
+              familyMembers.map((member) => (
+                <option value={member._id}>{member.name}</option>
+              ))}
           </select>
         </div>
       </div>
@@ -138,13 +146,15 @@ const BookAppointment = (props) => {
       >
         {displayDate}
       </p>
-      <button
-        className={styles.bookButton}
-        onClick={bookAppointmentHandler}
-        disabled={chosenDate === undefined || chosenTime === undefined}
-      >
-        Book Appoinment
-      </button>
+      <Link to={{ pathname: '/patient/checkout', state: {} }}>
+        <button
+          className={styles.bookButton}
+          // onClick={bookAppointmentHandler}
+          disabled={chosenDate === undefined || chosenTime === undefined}
+        >
+          Book Appoinment
+        </button>
+      </Link>
     </div>
   );
 };
