@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DUMMY_USER } from "../../shared/DummyUsers";
-import { Form, Link } from 'react-router-dom';
+import { Form, useLocation, useNavigate } from 'react-router-dom';
 import './BrowseDoctors.css';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import filter from '../../2877849.png';
@@ -34,6 +34,8 @@ const BrowseDoctors = () => {
     const patientId = DUMMY_USER._id;
     const [searchText, setSearchText] = useState('');
     const pickedISODate = new Date(doctorSearchDateValue).toLocaleString();
+    const navigate = useNavigate();
+    const location =useLocation();
 
   
 
@@ -48,14 +50,18 @@ const BrowseDoctors = () => {
       // Handle specialty option
     }
   };
+
+  const handleDoctorClick = (doctor) => {
+    // Get the current pathname
+    const currentPathname = location.pathname;
+
+    // Use navigate to go to the new route
+    navigate(`/patient/appointment/book/`, { state: { from: currentPathname } });
+  };
  
   
   const handleSearch = (e) => {
     e.preventDefault();
-  
-    // Implement your search logic here
-    // console.log('Search text:', searchText);
-  
     // Use the selectedDropdown state to determine the search criteria
     if (selectedDropdown === 'name') {
       const filteredByName = doctors.filter((doctor) =>
@@ -167,8 +173,7 @@ const BrowseDoctors = () => {
       
         // Filter doctors based on the selected specialty
         const filteredDoctors = doctors.filter((doctor) => doctor.speciality === specialty);
-        //console.log("Filtered Doctors:", filteredDoctors);
-      
+
         setFilteredDoctors(filteredDoctors);
       };
       
@@ -364,9 +369,7 @@ const fetchDoctors = async (patientDiscount) => {
         ) : (
           filteredDoctors.map((doctor) => (
             <div className="col-12 col-md-4" key={doctor.id}>
-              <Link to={`/patient/appointment/book/${doctor}`} className="doctor-link">
-                {/* Entire card content wrapped in Link */}
-                <div className="doctors">
+              <div className="doctors" onClick={() => handleDoctorClick(doctor)}>
                   <p className="name">{doctor.name}</p>
                   <p className="spec"> {doctor.speciality}</p>
                   <p className="rate"> ${doctor.hourlyRate}/session</p>
@@ -415,8 +418,7 @@ const fetchDoctors = async (patientDiscount) => {
                     />
                   </div>
                 </div>
-              </Link>
-            </div>
+              </div>
           ))
         )}
       </div>
