@@ -12,6 +12,7 @@ const packageRouter = require('./routes/packageRoutes');
 const paymentRouter = require('./routes/paymentRoutes');
 const Prescription = require('./models/prescriptionModel');
 const patientController = require('./controllers/patientController');
+const YOUR_DOMAIN = 'http://localhost:3000';
 const {
   addPackage,
   getPackages,
@@ -41,7 +42,27 @@ app.use((req, res, next) => {
 
   next();
 });
+app.post('/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+        price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
+        quantity: 1,
+      },{
+        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+        price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
+        quantity: 2,
+      }
+    ],
+    mode: 'payment',
+    
+    success_url: `${YOUR_DOMAIN}?success=true`,
+    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+  });
 
+  res.redirect(303, session.url);
+});
 app.use('/admins', adminRouter);
 app.use('/doctors', doctorRouter);
 app.use('/patients', patientRouter);

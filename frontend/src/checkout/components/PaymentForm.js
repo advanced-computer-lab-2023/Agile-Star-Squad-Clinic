@@ -76,7 +76,7 @@ const PaymentForm =() =>{
             
     //     </>
     
-        <form >
+        <form>
           <PaymentElement />
           <button>Submit</button>
         </form>

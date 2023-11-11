@@ -17,7 +17,7 @@ const ProductDisplay = () => (
       <h5>$20.00</h5>
       </div>
     </div>
-    <form action="http://localhost:4242/create-checkout-session" method="POST" >
+    <form action="http://localhost:3000/create-checkout-session" method="POST" >
     
       <button type="submit" >
         Checkout
@@ -32,6 +32,7 @@ const Message = ({ message }) => (
 );
 const AddingInfo = () => {
   const [showItem, setShowItem] = useState(false);
+  const [showDelivery, setShowDelivery]= useState(false);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -77,12 +78,13 @@ const AddingInfo = () => {
         
         </div>
         <div className="col" id="card2">
+          <Card>
         message ? (
     <Message message={message} />
   ) : (
     <ProductDisplay />
   );
-
+</Card>
             </div>
       </div>
     </div>
