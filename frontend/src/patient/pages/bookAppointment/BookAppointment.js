@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import Card from '../../components/appointment/card/Card';
-import BookAppointment from '../../components/appointment/bookAppointment/BookAppointment';
+import Card from '../../components/bookAppointment/card/Card';
+import BookImplementation from '../../components/bookAppointment/bookImplementation/BookImplementation';
 import NavBar from '../../../shared/components/NavBar/NavBar';
-import styles from './Appointment.module.css';
+import styles from './BookAppointment.module.css';
 
 const arrow = (
   <svg
@@ -25,7 +25,7 @@ const arrow = (
   </svg>
 );
 
-const Appointment = (props) => {
+const BookAppointment = (props) => {
   const dummyDummyDoctor = {
     _id: {
       $oid: '65270f436a48cd31d535b963',
@@ -109,10 +109,10 @@ const Appointment = (props) => {
         <Card doctor={dummyDoctor} />
       </div>
       <div className={styles.appointmentInfo}>
-        <BookAppointment upcomingAppointments={upcomingAppointments} />
+        <BookImplementation upcomingAppointments={upcomingAppointments} />
       </div>
     </div>
   );
 };
 
-export default Appointment;
+export default BookAppointment;

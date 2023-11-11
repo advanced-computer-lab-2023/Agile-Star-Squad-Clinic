@@ -15,7 +15,7 @@ import './App.css';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
-import Appointment from './patient/pages/appointment/Appointment';
+import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -34,7 +34,7 @@ function App() {
           <Route path="/patient/home" element={<PatientHome />} exact />
           <Route
             path="/patient/appointment/book"
-            element={<Appointment />}
+            element={<BookAppointment />}
             exact
           />
           <Route

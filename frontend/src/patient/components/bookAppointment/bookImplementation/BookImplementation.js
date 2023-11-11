@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import Calendar from '../calender/Calendar';
 import AppointmentTime from '../appointmentTime/AppointmentTime';
-import styles from './BookAppoinment.module.css';
+import styles from './BookImplementation.module.css';
 import axios from 'axios';
 
-const BookAppointment = (props) => {
+const BookImplementation = (props) => {
   const navigate = useNavigate();
 
   const dummyDummyUser = {
@@ -275,4 +275,4 @@ const BookAppointment = (props) => {
   );
 };
 
-export default BookAppointment;
+export default BookImplementation;
