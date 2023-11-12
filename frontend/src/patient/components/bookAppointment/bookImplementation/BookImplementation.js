@@ -157,23 +157,28 @@ const BookImplementation = (props) => {
     return number + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
   };
 
-  const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-
-  let unavailableTimes = [];
-
-  if (props.upcomingAppointments !== undefined && chosenDate !== undefined) {
-    unavailableTimes = props.upcomingAppointments.filter(
+  let unavailableTimes = props.upcomingAppointments;
+  if (unavailableTimes !== undefined && chosenDate !== undefined) {
+    // alert(JSON.stringify(unavailableTimes));
+    unavailableTimes = unavailableTimes.filter(
       (app) =>
         new Date(app.dateOfAppointment).getFullYear() ===
           chosenDate.getFullYear() &&
         new Date(app.dateOfAppointment).getMonth() === chosenDate.getMonth() &&
         new Date(app.dateOfAppointment).getDate() === chosenDate.getDate()
     );
-    unavailableTimes = unavailableTimes.map((app) =>
-      new Date(app.dateOfAppointment)
-        .toLocaleTimeString(undefined, options)
-        .toLowerCase()
-    );
+    if (unavailableTimes !== undefined) {
+      unavailableTimes = unavailableTimes.map((app) => {
+        const timeString = new Date(app.dateOfAppointment)
+          .toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          })
+          .toLowerCase();
+        return timeString;
+      });
+    }
   }
 
   let displayDate;
@@ -222,7 +227,21 @@ const BookImplementation = (props) => {
     };
     navigate('/patient/home', { state: dataToSend });
   };
+  function expandTimeRange(timeRange) {
+    const [startTime, endTime] = timeRange;
+    const startHour = parseInt(startTime.split(':')[0]);
+    const endHour = parseInt(endTime.split(':')[0]);
 
+    const expandedTimeRange = Array.from(
+      { length: endHour - startHour + 1 },
+      (_, index) => {
+        const hour = startHour + index;
+        return `${hour.toString().padStart(2, '0')}:00`;
+      }
+    );
+
+    return expandedTimeRange;
+  }
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
@@ -245,12 +264,17 @@ const BookImplementation = (props) => {
       <Calendar onChooseDate={chooseDate} chosenDate={chosenDate} />
       <div style={{ textAlign: 'start' }}>
         <p className={styles.text}>Available Time</p>
-        <AppointmentTime
-          unavailableTimes={unavailableTimes}
-          onChooseTime={chooseTime}
-          chosenTime={chosenTime}
-          isDisabled={chosenDate === undefined}
-        />
+        {chosenDate !== undefined && (
+          <AppointmentTime
+            availableTimes={expandTimeRange(
+              props.availableTimes[chosenDate.getDay()]
+            )}
+            unavailableTimes={unavailableTimes}
+            onChooseTime={chooseTime}
+            chosenTime={chosenTime}
+            isDisabled={chosenDate === undefined}
+          />
+        )}
         <p className={styles.text} style={{ marginTop: '30px' }}>
           Date Chosen
         </p>

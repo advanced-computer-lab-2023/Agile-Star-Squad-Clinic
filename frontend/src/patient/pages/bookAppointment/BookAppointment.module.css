@@ -1,4 +1,6 @@
 .card {
+    position: fixed;
+    left: 0px;
     display: inline-block;
     width: 30%;
     height: 530px;
@@ -10,6 +12,7 @@
 }
 
 .appointmentInfo {
+    position: relative;
     left: 30%;
     display: inline-block;
     width: 70%;

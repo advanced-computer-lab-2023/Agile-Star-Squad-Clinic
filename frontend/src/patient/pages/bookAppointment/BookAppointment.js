@@ -63,21 +63,28 @@ const BookAppointment = (props) => {
     image:
       'https://www.giantbomb.com/a/uploads/square_small/17/174460/2642491-3639297626-6_23_.jpg',
     rating: 0,
+    availableTimes: [
+      ['09:00', '14:00'],
+      ['09:00', '20:00'],
+      ['00:00', '24:00'],
+      ['16:00', '17:00'],
+      ['18:00', '19:00'],
+    ],
   };
   const [dummyDoctor, setDummyDoctor] = useState(dummyDummyDoctor);
 
-  const getDoctor = async () => {
-    try {
-      const response = await axios.get(
-        'http://localhost:3000/doctors/65270f436a48cd31d535b963'
-      );
-      setDummyDoctor(response.data.data.doctor);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  // const getDoctor = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       'http://localhost:3000/doctors/65270f436a48cd31d535b963'
+  //     );
+  //     setDummyDoctor(response.data.data.doctor);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
 
-  getDoctor();
+  // getDoctor();
 
   // const { doctor } = props.location.state;
   const getUpcomingAppointments = async () => {
@@ -98,7 +105,6 @@ const BookAppointment = (props) => {
   const backButtonClickHandler = () => {
     navigate('/patient/home');
   };
-
   return (
     <div>
       <NavBar />
@@ -109,7 +115,10 @@ const BookAppointment = (props) => {
         <Card doctor={dummyDoctor} />
       </div>
       <div className={styles.appointmentInfo}>
-        <BookImplementation upcomingAppointments={upcomingAppointments} />
+        <BookImplementation
+          availableTimes={dummyDoctor.availableTimes}
+          upcomingAppointments={upcomingAppointments}
+        />
       </div>
     </div>
   );
