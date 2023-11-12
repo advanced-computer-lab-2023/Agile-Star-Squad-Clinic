@@ -3,6 +3,7 @@ const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
+const randomNumber=0;
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //1)Get doctor based on POSTed email
@@ -24,7 +25,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   //2)Generate the random reset number
   const min = 100000;
   const max = 999999;
-  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
   await user.save({ validateBeforeSave: false });
 
@@ -41,6 +42,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'Token sent to email!',
+      code: randomNumber,
     });
   } catch (err) {
     await user.save({ validateBeforeSave: false });
@@ -51,3 +53,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     );
   }
 });
+
+exports.getOTP = catchAsync(async(req,res,next)=>{
+    res.status(200).json({
+        code:randomNumber,
+    })
+})

@@ -13,6 +13,7 @@ function Component0({ setTab }) {
     const response = await axios
       .post(`http://localhost:3000/resetPassword/${email}`)
       .then((res) => {
+        
         setTab(true);
       })
       .catch((err) => {
