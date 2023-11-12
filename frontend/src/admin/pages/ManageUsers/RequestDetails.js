@@ -1,9 +1,12 @@
 import Modal from '../../../shared/components/Modal/Modal';
 import ReactDOM from "react-dom";
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
 
 const RequestDetails = (props) => {
     const navigate = useNavigate();
+
+    const [status, setStatus] = useState(props.data['status']);
 
     const onAccept = async () => {
         try {
@@ -23,7 +26,8 @@ const RequestDetails = (props) => {
             if (response.ok) {
                 // Handle a successful response
                 alert('Doctor accepted successfully!');
-                navigate('/admin/manage');
+                setStatus('Accepted');
+                props.onStatusChange(props.data['id'], 'Accepted'); 
             } else {
                 // Handle errors if the server response is not ok
                 alert('Accepting request Failed!');
@@ -50,7 +54,8 @@ const RequestDetails = (props) => {
             if (response.ok) {
                 // Handle a successful response
                 alert('Doctor rejected!');
-                navigate('/admin/manage');
+                setStatus('Rejected');
+                props.onStatusChange(props.data['id'], 'Rejected');
             } else {
                 // Handle errors if the server response is not ok
                 alert('Rejecting request Failed!');
@@ -93,9 +98,9 @@ const RequestDetails = (props) => {
             </div>
             <div>
                 <span><h4>Status</h4></span>
-                <span>{props.data['status']}</span>
+                <span>{status}</span>
             </div>
-            {props.data['status'] === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
+            {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
         </Modal>, document.getElementById("backdrop-root")
     );
 }
