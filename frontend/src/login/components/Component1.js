@@ -46,7 +46,7 @@ function Component1({ setTab2 , email }) {
       </div>
       <div className={styles.p3}>
         <p>
-          <strong>Enter OTP (One-time password) sent to your email</strong>
+          <strong>Enter OTP (One-time password) sent to {email}</strong>
         </p>
       </div>
       <OTP onOTPChange={handleOTPChange} />
