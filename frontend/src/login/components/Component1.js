@@ -5,21 +5,31 @@ import InputField from './InputField/InputField';
 import Button from './Button/Button';
 import OTP from './OTP/OTP';
 import axios from 'axios';
+let otp = 0;
 
 
 function Component1({ setTab2 }) {
 
-  const handleVerifyCode = async(e) => {
+  const [otp, setOtp] = useState('');
+
+  const handleVerifyCode = async (e) => {
+
     const response = await axios
-      .get(`'http://localhost:3000/resetPassword`)
+      .get('http://localhost:3000/resetPassword')
       .then((res) => {
-        setTab2(true);
-        console.log(res.data);
+        otp = res.data.code;
+        // setTab2(true);
       })
 
   };
 
-  const handleResendCode = () => {};
+  const handleOTPChange = (otpValue) => {
+    setOtp(otpValue);
+    console.log(otp);
+  };
+
+
+  const handleResendCode = () => { };
 
   return (
     <div className="col-md-7" id={styles.rightCol}>
@@ -33,7 +43,7 @@ function Component1({ setTab2 }) {
           <strong>Enter OTP (One-time password) sent to user@email.com</strong>
         </p>
       </div>
-      <OTP />
+      <OTP onOTPChange={handleOTPChange} />
       <Button
         style={{ width: '400px', height: '40.541px' }}
         onClick={handleVerifyCode}
