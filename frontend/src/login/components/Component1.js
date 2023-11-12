@@ -41,7 +41,7 @@ function Component1({ setTab2 , email }) {
     <div className="col-md-7" id={styles.rightCol}>
       <div className={styles.titleResetPass}>
         <p>
-          <strong>Link Expired</strong>
+          <strong>Verify OTP</strong>
         </p>
       </div>
       <div className={styles.p3}>
