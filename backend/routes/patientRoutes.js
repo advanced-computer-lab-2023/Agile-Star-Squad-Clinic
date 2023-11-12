@@ -26,9 +26,11 @@ router
 router
   .route('/:id')
   .get(patientController.getPatient)
-  .delete(patientController.removePatient);
+  .delete(patientController.removePatient)
+  .post(patientController.removeSubscription);
 
-  router
+
+router
   .route('/:patientId/prescriptions')
   .get(prescriptionController.getPatientPrescriptions);
 router

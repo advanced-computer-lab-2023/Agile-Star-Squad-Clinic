@@ -326,10 +326,9 @@ const PatientHome = () => {
 
     return <div className="center">
 
-        <Link to="/PatientFamily">
+        <Link to="/PatientAccountSettings">
             <button id="addingbutton" className="formButtons">Family Members</button>
         </Link>
-
         <span>
             <h2>Upcoming Appointments</h2>
             <select value={appointmentFilter} onChange={appDropdownHandler}>

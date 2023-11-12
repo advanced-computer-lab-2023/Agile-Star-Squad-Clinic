@@ -26,7 +26,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PatientAccountSettings />} exact />
+          <Route path="/" element={<LandingPage />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
@@ -48,6 +48,7 @@ function App() {
           <Route path="admin/manage" element={<ManageUsersPage/>}/>
           <Route path="/PatientFamily" element={<PatientFamily />} exact />
           <Route path="/rejectedRequest" element={<RejectedRequest />} exact />
+          <Route path="/PatientAccountSettings" element={<PatientAccountSettings />} exact />
           {/*redirect to landing page if wrong url*/}
           <Route path="*" element={<Navigate to="/" />} />{' '}
         </Routes>

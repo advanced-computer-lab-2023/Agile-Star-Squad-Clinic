@@ -6,6 +6,7 @@ const Doctor = require('../models/doctorModel');
 const apiFeatures = require('../utils/apiFeatures');
 const Appointment = require('../models/appointmentModel');
 const Prescription = require('../models/prescriptionModel');
+const { response } = require('express');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newPatient = await Patient.create(req.body)
@@ -128,6 +129,28 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       doctor,
+    },
+  });
+});
+exports.removeSubscription = catchAsync(async (req, res, next) => {
+  const updatedPatient= await Patient.findByIdAndUpdate(
+    req.params.id,
+    {package:null},
+    // {
+    //   new: true,
+    //   runValidators: true,
+    // }
+  ).catch(error=>{console.log(error)
+  });
+  if(!updatedPatient){
+  res.status(404).json({error})
+  }
+
+  console.log("ehna hena2");
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
     },
   });
 });
