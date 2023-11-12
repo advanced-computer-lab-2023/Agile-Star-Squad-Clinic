@@ -5,7 +5,7 @@ import InputField from './InputField/InputField';
 import Button from './Button/Button';
 import axios from 'axios';
 
-function Component0({ setTab }) {
+function Component0({ setTab , setEmail2 }) {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
@@ -24,6 +24,7 @@ function Component0({ setTab }) {
   };
   const handleInput = (e) => {
     setEmail(e.target.value);
+    setEmail2(e.target.value);
   };
   const handleEmailCancel = () => {
     navigate('/');

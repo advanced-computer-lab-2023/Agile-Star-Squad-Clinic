@@ -44,6 +44,8 @@ app.use('/prescriptions', prescriptionRouter);
 app.use('/packages', packageRouter);
 app.get('/resetPassword',authController.getOTP);
 app.post('/resetPassword/:email', authController.forgotPassword);
+app.get('/resetPassword/:email', authController.getUserByEmail);
+app.patch('/resetPassword/:id', authController.updatePassword);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));

@@ -3,7 +3,8 @@ const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
-let randomNumber=0;
+const Admin = require('../models/adminModel');
+let randomNumber = 0;
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //1)Get doctor based on POSTed email
@@ -54,8 +55,69 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.getOTP = catchAsync(async(req,res,next)=>{
+exports.getOTP = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    code: randomNumber,
+  })
+});
+
+exports.getUserByEmail = catchAsync(async (req, res, next) => {
+  const email = req.params.email;
+  const query = {};
+  query.email = { $regex: email, $options: 'i', $eq: email };
+  let user;
+
+  const doctor = await Doctor.find(query);
+  const patient = await Patient.find(query);
+  const admin = await Admin.find(query);
+
+  if(doctor){
+    user = doctor;
+  }
+  else if(patient){
+    user = patient;
+  }
+  else{
+    user = admin;
+  }
+  res.status(200).json({
+    status: 'success',
+    data:{
+      user,
+    }
+  })
+});
+
+exports.updatePassword = catchAsync(async(req,res,next) => {
+  const id = req.params.id;
+  const newPassword = req.body.password;
+  const doctor = await Doctor.findById(id);
+  const patient = await Patient.findById(id);
+  const admin = await Admin.findById(id);
+
+  if(doctor){
+    console.log("DOOOOOOCCCC")
+    await Doctor.findByIdAndUpdate(id , {
+      password: newPassword
+    });
+    console.log("LOOOOOOOOOOOOOOOOOOOOL")
+
+  }
+  else if(patient){
+    await Patient.findByIdAndUpdate(id , {
+      password: newPassword
+    });
+  }
+  else if(admin){
+    await Admin.findByIdAndUpdate(id , {
+      password: newPassword
+    });
+  }
+  else{
+    res.status(404);
+  }
     res.status(200).json({
-        code:randomNumber,
-    })
-})
+      status : 'success',
+    });
+
+});

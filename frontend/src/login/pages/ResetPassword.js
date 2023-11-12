@@ -12,6 +12,7 @@ const ResetPassword = () => {
   const [tab, setTab] = useState(false);
   const [tab2, setTab2] = useState(false);
   const [tab3, setTab3] = useState(false);
+  const [email , setEmail] = useState('');
 
   return (
     <body>
@@ -23,9 +24,9 @@ const ResetPassword = () => {
             </div>
             <img className={styles.bandage} src={img} alt="login" />
           </div>
-          {!tab && (<Component0 setTab={setTab} />)}
+          {!tab && (<Component0 setTab={setTab} setEmail2={setEmail} />)}
           {tab && (!tab2 && (<Component1 setTab2={setTab2}/>)) }
-          {tab2 && (!tab3 && (<Component2 setTab3={setTab3}/>))}
+          {tab2 && (!tab3 && (<Component2 setTab3={setTab3} email={email}/>))}
           {tab3 && (<Component3/>)}
           
         </div>
