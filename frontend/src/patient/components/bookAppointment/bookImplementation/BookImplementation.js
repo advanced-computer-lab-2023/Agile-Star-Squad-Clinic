@@ -159,7 +159,6 @@ const BookImplementation = (props) => {
 
   let unavailableTimes = props.upcomingAppointments;
   if (unavailableTimes !== undefined && chosenDate !== undefined) {
-    // alert(JSON.stringify(unavailableTimes));
     unavailableTimes = unavailableTimes.filter(
       (app) =>
         new Date(app.dateOfAppointment).getFullYear() ===
@@ -227,20 +226,26 @@ const BookImplementation = (props) => {
     };
     navigate('/patient/home', { state: dataToSend });
   };
-  function expandTimeRange(timeRange) {
-    const [startTime, endTime] = timeRange;
-    const startHour = parseInt(startTime.split(':')[0]);
-    const endHour = parseInt(endTime.split(':')[0]);
+  function expandTimeRange(timeRanges) {
+    const expandedTimeRanges = [];
 
-    const expandedTimeRange = Array.from(
-      { length: endHour - startHour + 1 },
-      (_, index) => {
-        const hour = startHour + index;
-        return `${hour.toString().padStart(2, '0')}:00`;
-      }
-    );
+    timeRanges.forEach((timeRange) => {
+      const { from, to } = timeRange;
+      const startHour = parseInt(from.split(':')[0]);
+      const endHour = parseInt(to.split(':')[0]);
 
-    return expandedTimeRange;
+      const expandedTimeRange = Array.from(
+        { length: endHour - startHour + 1 },
+        (_, index) => {
+          const hour = startHour + index;
+          return `${hour.toString().padStart(2, '0')}:00`;
+        }
+      );
+
+      expandedTimeRanges.push(expandedTimeRange);
+    });
+
+    return expandedTimeRanges.flat(); // Use flat() to flatten the array of arrays
   }
   return (
     <div>

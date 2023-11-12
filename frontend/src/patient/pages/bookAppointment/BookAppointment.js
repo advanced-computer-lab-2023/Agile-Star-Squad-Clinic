@@ -64,11 +64,26 @@ const BookAppointment = (props) => {
       'https://www.giantbomb.com/a/uploads/square_small/17/174460/2642491-3639297626-6_23_.jpg',
     rating: 0,
     availableTimes: [
-      ['09:00', '14:00'],
-      ['09:00', '20:00'],
-      ['00:00', '24:00'],
-      ['16:00', '17:00'],
-      ['18:00', '19:00'],
+      [
+        { from: '09:00', to: '14:00' },
+        { from: '00:00', to: '04:00' },
+      ],
+      [
+        { from: '09:00', to: '20:00' },
+        { from: '00:00', to: '04:00' },
+      ],
+      [
+        { from: '00:00', to: '24:00' },
+        { from: '00:00', to: '04:00' },
+      ],
+      [
+        { from: '10:00', to: '17:00' },
+        { from: '00:00', to: '04:00' },
+      ],
+      [
+        { from: '18:00', to: '19:00' },
+        { from: '00:00', to: '04:00' },
+      ],
     ],
   };
   const [dummyDoctor, setDummyDoctor] = useState(dummyDummyDoctor);
