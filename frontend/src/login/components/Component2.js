@@ -45,7 +45,7 @@ function Component2({ setTab3, email }) {
         const user = await axios
           .get(`http://localhost:3000/resetPassword/${email}`)
           .then((res) => {
-            setId(res.data.data.user[0]._id);
+            setId(res.data.data.user._id);
           });
 
         console.log(id);
@@ -54,9 +54,10 @@ function Component2({ setTab3, email }) {
         fetch(`http://localhost:3000/resetPassword/${id}`, {
           method: 'PATCH',
           headers: {
-            'Content-Type': 'application/json', // Set the content type to JSON
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ newPassword: newPassword }), // Convert data to JSON format
+          mode: 'no-cors',
         })
           .catch((error) => {
             console.error('Error:', error);

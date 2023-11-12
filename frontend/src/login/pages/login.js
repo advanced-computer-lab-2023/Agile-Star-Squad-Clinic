@@ -5,11 +5,14 @@ import styles from '../components/login.module.css';
 import InputField from '../components/InputField/InputField';
 import React, { useState } from 'react';
 import Button from '../components/Button/Button';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
+  const navigate = useNavigate();
+  let page;
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -19,8 +22,27 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+
+    const response = await axios
+    .get(`http://localhost:3000/${username}/${password}`)
+    .then((res) => {
+      page = res.data.data.role;
+      console.log(res.data.data.token); 
+      if(page == "doctor"){
+        navigate('/doctor/home')
+      }
+      else if(page == "patient"){
+        navigate('/patient/home')
+      }
+      else if(page == "admin"){
+        navigate('/admin/home')
+      }
+    })
+    .catch((err) => {
+      alert(err.response.data.message);
+    });
+
     // You can handle form submission here, e.g., send the data to a server or perform client-side validation.
   };
 

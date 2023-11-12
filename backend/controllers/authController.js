@@ -4,7 +4,9 @@ const sendEmail = require('../utils/email');
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
 const Admin = require('../models/adminModel');
+const jwt = require('jsonwebtoken');
 let randomNumber = 0;
+const maxAge = 3 * 24 * 60 * 60;
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //1)Get doctor based on POSTed email
@@ -67,57 +69,166 @@ exports.getUserByEmail = catchAsync(async (req, res, next) => {
   query.email = { $regex: email, $options: 'i', $eq: email };
   let user;
 
-  const doctor = await Doctor.find(query);
-  const patient = await Patient.find(query);
-  const admin = await Admin.find(query);
+  const doctor = await Doctor.findOne(query);
+  const patient = await Patient.findOne(query);
+  const admin = await Admin.findOne(query);
 
-  if(doctor){
+  if (doctor) {
     user = doctor;
   }
-  else if(patient){
+  else if (patient) {
     user = patient;
   }
-  else{
+  else {
     user = admin;
   }
   res.status(200).json({
     status: 'success',
-    data:{
+    data: {
       user,
     }
   })
 });
 
-exports.updatePassword = catchAsync(async(req,res,next) => {
+exports.updatePassword = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   const newPassword = req.body.password;
   const doctor = await Doctor.findById(id);
   const patient = await Patient.findById(id);
   const admin = await Admin.findById(id);
 
-  if(doctor){
+  if (doctor) {
     console.log("DOOOOOOCCCC")
-    await Doctor.findByIdAndUpdate(id , {
+    await Doctor.findByIdAndUpdate(id, {
       password: newPassword
     });
     console.log("LOOOOOOOOOOOOOOOOOOOOL")
 
   }
-  else if(patient){
-    await Patient.findByIdAndUpdate(id , {
+  else if (patient) {
+    await Patient.findByIdAndUpdate(id, {
       password: newPassword
     });
   }
-  else if(admin){
-    await Admin.findByIdAndUpdate(id , {
+  else if (admin) {
+    await Admin.findByIdAndUpdate(id, {
       password: newPassword
     });
   }
-  else{
-    res.status(404);
+  else {
+    return next(new AppError('Id not found', 404));
   }
-    res.status(200).json({
-      status : 'success',
-    });
+  res.status(200).json({
+    status: 'success',
+  });
+
+});
+
+const createToken = (id, role) => {
+  const payload = {
+    id,
+    role,
+  };
+
+  const options = {
+    expiresIn: "3d",
+  };
+
+  return jwt.sign(payload, "supersecret", options);
+};
+
+
+// const login = async (req, res) => {
+//   const { name, password } = req.body;
+//   try {
+//     const user = await userModel.findOne({ name: name });
+
+//     if (user === null) {
+//       return res.status(401).json({ error: "Invalid name" });
+//     }
+
+//     const dbHashedPassword = user.password;
+
+//     const passwordIsCorrect = await bcrypt.compare(password, dbHashedPassword);
+
+//     if (passwordIsCorrect) {
+//       // Assuming user.role is the field representing the user's role
+//       const { name, role } = user;
+
+//       const token = createToken(name, role);
+//       res.cookie("jwt", token, { httpOnly: true, expiresIn: maxAge * 1000 });
+//       res.status(200).json({ name, role });
+//     } else {
+//       return res.status(401).json({ error: "Invalid password" });
+//     }
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+
+exports.protect = catchAsync(async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+  if (!token) {
+    return next(
+      new AppError('You are not logged in! Please login to get access', 401),
+    );
+  }
+
+  next();
+});
+
+
+exports.logIn = catchAsync(async (req, res, next) => {
+  const username = req.params.username;
+  const password = req.params.password;
+
+  let role = "";
+  let user;
+
+  const query = {};
+  query.username = { $regex: username, $options: 'i', $eq: username };
+  query.password = { $regex: password, $options: 'i', $eq: password };
+
+  const doctor = await Doctor.findOne(query);
+  const patient = await Patient.findOne(query);
+  const admin = await Admin.findOne(query);
+
+  if (doctor) {
+    role = "doctor"
+    user = doctor
+  }
+  else if (patient) {
+    role = "patient"
+    user = patient;
+  }
+  else if (admin) {
+    role = "admin"
+    user = admin;
+  }
+  else {
+    return next(new AppError('Username or Password is incorrect ', 404));
+  }
+
+    const token = createToken(user._id, role);
+
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      userId: user._id,
+      role,
+      token,
+    }
+  })
 
 });

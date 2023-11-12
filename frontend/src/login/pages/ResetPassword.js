@@ -25,7 +25,7 @@ const ResetPassword = () => {
             <img className={styles.bandage} src={img} alt="login" />
           </div>
           {!tab && (<Component0 setTab={setTab} setEmail2={setEmail} />)}
-          {tab && (!tab2 && (<Component1 setTab2={setTab2}/>)) }
+          {tab && (!tab2 && (<Component1 setTab2={setTab2} email={email}/>)) }
           {tab2 && (!tab3 && (<Component2 setTab3={setTab3} email={email}/>))}
           {tab3 && (<Component3/>)}
           

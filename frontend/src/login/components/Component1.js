@@ -7,7 +7,7 @@ import OTP from './OTP/OTP';
 import axios from 'axios';
 let otpBackend = 0;
 
-function Component1({ setTab2 }) {
+function Component1({ setTab2 , email }) {
   const [otp, setOtp] = useState('');
 
   const handleVerifyCode = async (e) => {
@@ -28,7 +28,14 @@ function Component1({ setTab2 }) {
   };
 
   const handleResendCode = async (e) => {
-    
+    const response = await axios
+    .post(`http://localhost:3000/resetPassword/${email}`)
+    .then((res) => {
+    })
+    .catch((err) => {
+      alert(err.response.data.message);
+    });
+    alert('An OTP has been sent to your email!');
   };
   return (
     <div className="col-md-7" id={styles.rightCol}>
