@@ -11,7 +11,7 @@ function Component0({ setTab }) {
 
   const handleRequestLink = async (e) => {
     if (email === '') {
-      return;
+      return alert("Please provide your email");
     }
     const response = await axios
       .post(`http://localhost:3000/resetPassword/${email}`)

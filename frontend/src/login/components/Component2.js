@@ -6,27 +6,29 @@ import Button from './Button/Button';
 
 function Component2({ setTab3 }) {
   const navigate = useNavigate();
-  const handleNewPassword = (e) => { };
   const [newPassword, setNewPassword] = useState('');
   const [retypePassword, setRetypePassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
 
   const handleEmailCancel = () => {
     navigate('/');
   };
 
+  const handleNewPassword = (e) => { 
+    setNewPassword(e.target.value);
+  };
+  const handleRetypePassword = (e)=>{
+    setRetypePassword(e.target.value);
+  }  
   const handleSubmit = (e) => {
     if (newPassword === retypePassword) {
       setTab3(true);
-      setPasswordError('');
     } else {
-      setPasswordError("Passwords do not match");
       setNewPassword('');
       setRetypePassword('');
+      alert("Passwords do not match");
     }
   };
 
-  {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
   
 
   return (
@@ -53,14 +55,14 @@ function Component2({ setTab3 }) {
         type="password"
         placeholder="New Password"
         value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
+        onChange={(e) => handleNewPassword()}
       />
       <InputField
         style={{ width: '500px', height: '28px' }}
         type="password"
         placeholder="Re-type Password"
         value={retypePassword} 
-        onChange={(e) => setRetypePassword(e.target.value)}
+        onChange={(e) => handleRetypePassword()}
       />
       <Button
         style={{ width: '300px', height: '40.541px', marginTop: '-40px' }}

@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
 import InputField from './InputField/InputField';
 import Button from './Button/Button';
 import OTP from './OTP/OTP';
 import axios from 'axios';
-let otp = 0;
-
+let otpBackend = 0;
 
 function Component1({ setTab2 }) {
-
   const [otp, setOtp] = useState('');
 
   const handleVerifyCode = async (e) => {
-
     const response = await axios
       .get('http://localhost:3000/resetPassword')
       .then((res) => {
-        otp = res.data.code;
-        // setTab2(true);
-      })
-
+        otpBackend = res.data.code;
+        if (otpBackend == otp) {
+          setTab2(true);
+        } else {
+          return alert('Incorrect OTP');
+        }
+      });
   };
 
   const handleOTPChange = (otpValue) => {
     setOtp(otpValue);
-    console.log(otp);
   };
 
-
-  const handleResendCode = () => { };
-
+  const handleResendCode = async (e) => {
+    
+  };
   return (
     <div className="col-md-7" id={styles.rightCol}>
       <div className={styles.titleResetPass}>
@@ -40,7 +39,7 @@ function Component1({ setTab2 }) {
       </div>
       <div className={styles.p3}>
         <p>
-          <strong>Enter OTP (One-time password) sent to user@email.com</strong>
+          <strong>Enter OTP (One-time password) sent to your email</strong>
         </p>
       </div>
       <OTP onOTPChange={handleOTPChange} />
@@ -60,6 +59,6 @@ function Component1({ setTab2 }) {
       />
     </div>
   );
-};
+}
 
 export default Component1;

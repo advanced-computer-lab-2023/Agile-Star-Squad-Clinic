@@ -1,12 +1,17 @@
 // OTPInput.js
-import React, { useState, createRef } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import styles from './OTP.module.css';
 
 function OTPInput({ onOTPChange }) {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const otpInputs = Array.from({ length: 6 }, (_, index) => index);
+  let code = '';
 
   const inputRefs = otpInputs.map(() => createRef());
+
+  useEffect(() => {
+    onOTPChange(otp.join(''));
+  }, [otp]);
 
   const handleInputChange = (e, index) => {
     const value = e.target.value;
@@ -19,14 +24,10 @@ function OTPInput({ onOTPChange }) {
     updatedOtp[index] = value;
     setOtp(updatedOtp);
 
-    onOTPChange(updatedOtp.join(''));
-
-
     // Move to the next input field, if available
     if (value !== '' && index < otpInputs.length - 1) {
       inputRefs[index + 1].current.focus();
     }
-
   };
 
   return (
