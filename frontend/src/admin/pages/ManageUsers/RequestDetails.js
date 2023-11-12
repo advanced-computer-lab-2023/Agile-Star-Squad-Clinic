@@ -7,32 +7,58 @@ const RequestDetails = (props) => {
 
     const onAccept = async () => {
         try {
+            
             const requestOptions = {
-              method: 'POST',
-              headers: { 'Content-type': 'application/json; charset=UTF-8' },
-              body: JSON.stringify({...props.data}),
+                
+                method: 'POST',
+                headers: { 'Content-type': 'application/json; charset=UTF-8' },
+                body: JSON.stringify({ ...props.data }),
             };
+           
             const response = await fetch(
-              'http://localhost:3000/admins/requests',
-              requestOptions
+                'http://localhost:3000/admins/requests',
+                requestOptions
             );
-      
+
             if (response.ok) {
-              // Handle a successful response
-              alert('Doctor accepted successfully!');
-              navigate('/admin/manage');
+                // Handle a successful response
+                alert('Doctor accepted successfully!');
+                navigate('/admin/manage');
             } else {
-              // Handle errors if the server response is not ok
-              alert('Accepting request Failed!');
+                // Handle errors if the server response is not ok
+                alert('Accepting request Failed!');
             }
-          } catch (error) {
+        } catch (error) {
             // Handle network errors
             alert('Network error: ' + error.message);
-          }
+        }
     }
 
-    const onReject = () => {
+    const onReject = async () => {
+        try {
+            const requestOptions = {
+                method: 'PATCH',
+                headers: { 'Content-type': 'application/json; charset=UTF-8' },
+                body: JSON.stringify({ ...props.data }),
+            };
+            const response = await fetch(
+                'http://localhost:3000/admins/requests',
+                requestOptions
+            );
+            console.log(response);
 
+            if (response.ok) {
+                // Handle a successful response
+                alert('Doctor rejected!');
+                navigate('/admin/manage');
+            } else {
+                // Handle errors if the server response is not ok
+                alert('Rejecting request Failed!');
+            }
+        } catch (error) {
+            // Handle network errors
+            alert('Network error: ' + error.message);
+        }
     }
 
     return ReactDOM.createPortal(
@@ -69,7 +95,7 @@ const RequestDetails = (props) => {
                 <span><h4>Status</h4></span>
                 <span>{props.data['status']}</span>
             </div>
-            {props.data['status'] === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept}/>}
+            {props.data['status'] === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
         </Modal>, document.getElementById("backdrop-root")
     );
 }

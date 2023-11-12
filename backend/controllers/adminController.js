@@ -70,6 +70,8 @@ exports.viewAllRequests = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+
 async function getPasswordFromDatabase(id) {
   // You need to implement the logic to retrieve the password from your database
   // This might involve making a database query using a database library (e.g., Mongoose for MongoDB)
@@ -137,6 +139,14 @@ exports.acceptRequest = catchAsync(async (req, res, next) => {
       // Send an error response to the client with an appropriate status code and message.
     }
   }
+});
 
 
+exports.rejectRequest = catchAsync(async (req, res, next) => {
+  await Request.findByIdAndUpdate(req.body.id, { status: 'Rejected' }, { new: true });
+
+  res.status(200).json({
+    status: 'success',
+    data: null,
+  });
 });

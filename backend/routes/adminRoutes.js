@@ -11,7 +11,9 @@ router
 router
 .route('/requests')
 .get(adminController.viewAllRequests)
-.post(adminController.acceptRequest);
+.post(adminController.acceptRequest)
+.put(adminController.rejectRequest)
+.patch(adminController.rejectRequest);
 
 router
   .route('/:id')
