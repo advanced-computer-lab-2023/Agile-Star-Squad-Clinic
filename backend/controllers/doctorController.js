@@ -165,3 +165,23 @@ exports.addPatient = catchAsync(async (req, res, next) => {
     status: 'success',
   });
 });
+
+exports.setTimeSlots = catchAsync(async (req, res, next) => {
+  const doctorId = req.params.doctorId;
+
+  // Find the doctor by ID
+  const doctor = await Doctor.findById(doctorId);
+
+  if (!doctor) {
+    return next(new AppError('Doctor not found', 404));
+  }
+
+  // Find the patient by ID
+  doctor.timeSlots = req.body.timeSlots;
+
+  // Associate the patient with the doctor
+  await doctor.save();
+  res.status(200).json({
+    status: 'success',
+  });
+});

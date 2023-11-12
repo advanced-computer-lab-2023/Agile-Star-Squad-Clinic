@@ -13,6 +13,7 @@
     border-top-left-radius: 62px;
     border-bottom-left-radius: 62px;
     align-content: center;
+    font-family: 'Telex', sans-serif;
   }
 
 .customText {
@@ -22,6 +23,12 @@
     margin-left: 30%;
     margin-top: 20%;
   }
+
+.slotSelectStyle {
+  position: static!important;
+  margin: 0!important;
+  height: 100%;
+}
 
 .logo{
     position: absolute;
@@ -56,8 +63,8 @@
     font-size: 36px;
     letter-spacing: 10%;
     font-weight: bolder;
-    height: 24px;
-    width: 497px;
+    /* height: 24px; */
+    /* width: 497px; */
 }
 
 .p2 {
@@ -65,8 +72,8 @@
     margin-bottom: 1rem;
     letter-spacing: -1%;
     size: 20px;
-    height: 20px;
-    width: 497px;
+    /* height: 20px;
+    width: 497px; */
 }
 
 .terms {
@@ -139,32 +146,19 @@
 }
 
 .timeslots{
-  position: absolute;
-  left:32%;
-  font-size: 24px;
+  font-size: 36px;
   color: #010101;
-  font-weight: bolder;
-  margin-left: -100%;
-  margin-top: 0%;
 }
 .containerleft {
-  position: absolute;
-  height: 48vh;
-  width: 50vh;
   background-color: #ffffff;
-  border-radius: 33px;
-  font-size: 17px;
-  color: #6B6B6B;
-  line-height: 150%;
+  border-radius: 35px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  margin-left: -50%;
-  margin-top: 20%;
+  margin-top: 60px;
 }
 .containerRight {
-  position: absolute;
-  height: 48vh;
+  /* position: absolute; */
+  /* height: 48vh; */
   width: 30vh;
   background-color: #ffffff;
   border-radius: 33px;
@@ -180,4 +174,142 @@
 
 .twoContainers{
   display: flex;
+}
+
+.timeSlotLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: start;
+}
+
+.slotsSubtitle {
+  font-size: 18px;
+  color: #132F41;
+  line-height: 26px;
+}
+
+.slotHeader {
+  font-size: 14px;
+  margin-top: 10px;
+  color: rgba(0, 0, 0, 0.4);
+  margin-bottom: 30px;
+}
+
+.dateTimeContainer {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.daySelect {
+  border-right: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.daySelectHeader {
+  padding-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #193842;
+  text-align: center;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.dayText {
+  font-size: 14px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.55);
+  margin-inline: 15px;
+  padding-top: 9px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.dayText:hover {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.selectedDayText {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
+}
+.selectedDayText:hover{
+  color: rgba(0, 0, 0, 1);
+}
+
+.timeSelect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeContainer {
+  width: 100%;
+  margin-block: 10px;
+  padding-left: 15px;
+}
+
+.timeContainer p {
+  font-size: 12px;
+  margin-bottom: 4px;
+  line-height: 12px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.addButton {
+  display: flex;
+  justify-content: end;
+  margin-top: 12px;
+  margin-right: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #193842;
+}
+
+.addButton:hover {
+  color: #092933;
+}
+
+.slotSection {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+}
+
+.rightContainer {
+  margin-top: 93px;
+  height: 442px;
+  width: 100%;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border-radius: 35px;
+  padding-top: 35px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+}
+
+.addedSlot {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 10px;
+  padding-inline: 20px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.slotSubmit {
+  background-color: #193842;
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+  margin-right: 20px;
+  border-radius: 8px;
+  padding-inline: 50px;
+  padding-block: 10px;
+  border: none;
 }

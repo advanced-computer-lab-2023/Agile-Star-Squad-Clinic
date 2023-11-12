@@ -62,6 +62,11 @@ const doctorSchema = new mongoose.Schema(
         ref: 'Patient',
       },
     ],
+    timeSlots: [
+      {
+        type: Array,
+      }
+    ]
   },
   {
     toJSON: { virtuals: true },

@@ -28,6 +28,10 @@ router
 router.route('/:id/patient').get(doctorController.getMyPatient);
 
 router
+  .route('/:doctorId/timeSlots')
+  .post(doctorController.setTimeSlots);
+
+router
   .route('/:doctorId/upComingAppointments')
   .get(appointmentController.upComingAppointmentsForDoctors);
 module.exports = router;
