@@ -64,7 +64,8 @@ const AcceptedRequest = (props) => {
                 <h1 className={classes.timeslots}>Time Slots</h1>
                 <div className={classes.agreement}>Select your available time slots</div>
                 <div className={classes.twoContainers}>
-                <div className={classes.containerleft}></div>
+                <div className={classes.containerleft}>
+                </div>
                 <div className={classes.containerRight}></div>
                 </div>
                 </>
