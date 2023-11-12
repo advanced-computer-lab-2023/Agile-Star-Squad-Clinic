@@ -18,6 +18,7 @@ import RejectedRequest from './requests/rejectedRequest';
 import NavBar from './shared/components/NavBar/NavBar';
 import PendingRequest from './requests/pendingRequest';
 import AcceptedRequest from './requests/acceptedRequest';
+import PatientAccountSettings from './patient/pages/PatientAccountSettings';
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AcceptedRequest />} exact />
+          <Route path="/" element={<PatientAccountSettings />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
