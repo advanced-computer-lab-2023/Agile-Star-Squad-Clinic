@@ -3,7 +3,7 @@ const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
-const randomNumber=0;
+let randomNumber=0;
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //1)Get doctor based on POSTed email

@@ -10,10 +10,12 @@ function Component0({ setTab }) {
   const navigate = useNavigate();
 
   const handleRequestLink = async (e) => {
+    if (email === '') {
+      return;
+    }
     const response = await axios
       .post(`http://localhost:3000/resetPassword/${email}`)
       .then((res) => {
-        
         setTab(true);
       })
       .catch((err) => {
