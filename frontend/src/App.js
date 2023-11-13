@@ -16,6 +16,8 @@ import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
 import HomePage from './patient/pages/PatientHome/HomePage';
+import HealthPackages from './patient/pages/healthPackages/HealthPackages';
+import BrowseDoctors from './patient/pages/BrowseDoctors';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -32,12 +34,13 @@ function App() {
             element={<PatientRegisterForm />}
             exact
           />
-          <Route path="/patient/home" element={<PatientHome />} exact />
+          <Route path="/patient/home" element={<BrowseDoctors />} exact />
           <Route
             path="/doctor/register"
             element={<DoctorRegisterForm />}
             exact
           />
+          <Route path="/healthPackages" element={<HealthPackages/>} exact />
           <Route path="/doctor/home" element={<DoctorHome />} exact />
           <Route path="/admin/home" element={<AdminHome />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />

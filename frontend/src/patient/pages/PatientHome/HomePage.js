@@ -5,6 +5,7 @@ import classes from "./HomePage.module.css";
 import "./HomePage.css";
 import { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
+import BrowseDoctors from "../BrowseDoctors";
 
 const imageUrl = "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
 
@@ -103,11 +104,11 @@ const Dashboard = (props) => {
             <div className={`${classes.prescriptionStatus} ${filledColor}`}>{item.status === "Filled" ? "FILLED" : "UNFILLED"}</div>
             <div className={classes.prescriptionDate}>21/8 - 10/9</div>
             {item.status !== "Filled" && <div className={classes.prescriptionCart}>
-                <img width={24} height={24} src={require("../../../assets/shoppingCart.png")} />
+                <img width={24} height={24} src={require("../../../assets/patientHomepage/shoppingCart.png")} />
             </div>
             }
             <div className={classes.prescriptionDetails}>
-                <img src={require("../../../assets/pill.png")} />
+                <img src={require("../../../assets/patientHomepage/pill.png")} />
                 <div className="d-flex flex-column align-items-start">
                     <div className={classes.prescriptionName}>{item.name}</div>
                     <div className={classes.prescriptionDosage}>{item.dosage} | {item.frequency}</div>
@@ -116,7 +117,8 @@ const Dashboard = (props) => {
         </div>;
     }
 
-    return <section className={classes.dashSection}>
+    return <>
+     <section className={classes.dashSection}>
         <div className={classes.dashContainers}>
             <div className="col-1" />
             <div className={`col-5 ${classes.appointmentWrapper}`}>
@@ -139,9 +141,12 @@ const Dashboard = (props) => {
             <div className="col-1" />
         </div>
         <div className={classes.calendar}>
-            {/* <DateCard /> */}
         </div>
     </section>
+    <section>
+        <BrowseDoctors/>
+    </section>
+    </>
 }
 
 const Greeting = (props) => {
