@@ -50,15 +50,15 @@ const DoctorRequestForm = () => {
     let idDownloadUrl;
     let licenseDownloadUrl;
     let degreeDownloadUrl;
-    console.log("3ayesh?");
+    // console.log("3ayesh?");
 
       if (idImageForm !== "") {
-        console.log("ID")
-        console.log(idImageForm);
+        // console.log("ID")
+        // console.log(idImageForm);
         const idImageRef = ref(storage, `${idImageForm.name}`);
         await uploadBytesResumable(idImageRef, idImageForm).then(async (snapshot) => {
           idDownloadUrl = await getDownloadURL(snapshot.ref);
-          console.log(idDownloadUrl);
+          // console.log(idDownloadUrl);
         });
       }
 
@@ -81,7 +81,7 @@ const DoctorRequestForm = () => {
       const medicalDegreeRef = ref(storage, `${medicalDegreeForm.name}`);
       await uploadBytesResumable(medicalDegreeRef, medicalDegreeForm).then(async (snapshot) => {
         degreeDownloadUrl = await getDownloadURL(snapshot.ref)
-        console.log(degreeDownloadUrl);
+        // console.log(degreeDownloadUrl);
       });
     }
     
