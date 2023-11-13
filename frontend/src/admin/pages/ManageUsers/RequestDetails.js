@@ -97,6 +97,18 @@ const RequestDetails = (props) => {
                 <span><h4>Status</h4></span>
                 <span>{status}</span>
             </div>
+            <div>
+                <span><h4>ID Image</h4></span>
+                <img src={props.data['idImage']} />
+            </div>
+            <div>
+                <span><h4>Medical License</h4></span>
+                <img src={props.data['medicalLicense']} />
+            </div>
+            <div>
+                <span><h4>Medical Degree</h4></span>
+                <img src={props.data['medicalDegree']} />
+            </div>
             {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
         </Modal>, document.getElementById("backdrop-root")
     );

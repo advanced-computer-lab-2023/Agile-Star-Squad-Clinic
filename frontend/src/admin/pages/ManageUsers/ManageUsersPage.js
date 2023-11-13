@@ -109,7 +109,10 @@ const ManageUsersPage = () => {
                     affiliation: request['affiliation'],
                     speciality: request['speciality'],
                     educationalBackground: request['educationalBackground'],
-                    status: request['status']
+                    status: request['status'],
+                    idImage: request['idImage'],
+                    medicalLicense: request['medicalLicense'],
+                    medicalDegree: request['medicalDegree']
                 }
             })]);
         });
