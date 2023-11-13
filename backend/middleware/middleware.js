@@ -12,8 +12,8 @@ exports.requireAuth = (req, res, next) => {
         res.status(401).json({ message: 'You are not logged in.' });
         // res.redirect('/login');
       } else {
-        console.log('henaa');
-        console.log(decodedToken);
+        // console.log('henaa');
+        // console.log(decodedToken);
         next();
       }
     });

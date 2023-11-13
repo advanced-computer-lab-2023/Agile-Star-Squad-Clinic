@@ -60,7 +60,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 exports.getOTP = catchAsync(async (req, res, next) => {
   res.status(200).json({
     code: randomNumber,
-  })
+  });
 });
 
 exports.getUserByEmail = catchAsync(async (req, res, next) => {
@@ -75,19 +75,17 @@ exports.getUserByEmail = catchAsync(async (req, res, next) => {
 
   if (doctor) {
     user = doctor;
-  }
-  else if (patient) {
+  } else if (patient) {
     user = patient;
-  }
-  else {
+  } else {
     user = admin;
   }
   res.status(200).json({
     status: 'success',
     data: {
       user,
-    }
-  })
+    },
+  });
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -98,30 +96,25 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   const admin = await Admin.findById(id);
 
   if (doctor) {
-    console.log("DOOOOOOCCCC")
+    console.log('DOOOOOOCCCC');
     await Doctor.findByIdAndUpdate(id, {
-      password: newPassword
+      password: newPassword,
     });
-    console.log("LOOOOOOOOOOOOOOOOOOOOL")
-
-  }
-  else if (patient) {
+    console.log('LOOOOOOOOOOOOOOOOOOOOL');
+  } else if (patient) {
     await Patient.findByIdAndUpdate(id, {
-      password: newPassword
+      password: newPassword,
     });
-  }
-  else if (admin) {
+  } else if (admin) {
     await Admin.findByIdAndUpdate(id, {
-      password: newPassword
+      password: newPassword,
     });
-  }
-  else {
+  } else {
     return next(new AppError('Id not found', 404));
   }
   res.status(200).json({
     status: 'success',
   });
-
 });
 
 const createToken = (id, role) => {
@@ -131,12 +124,11 @@ const createToken = (id, role) => {
   };
 
   const options = {
-    expiresIn: "3d",
+    expiresIn: '3d',
   };
 
-  return jwt.sign(payload, "supersecret", options);
+  return jwt.sign(payload, 'supersecret', options);
 };
-
 
 // const login = async (req, res) => {
 //   const { name, password } = req.body;
@@ -179,19 +171,18 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   if (!token) {
     return next(
-      new AppError('You are not logged in! Please login to get access', 401),
+      new AppError('You are not logged in! Please login to get access', 401)
     );
   }
 
   next();
 });
 
-
 exports.logIn = catchAsync(async (req, res, next) => {
   const username = req.params.username;
   const password = req.params.password;
 
-  let role = "";
+  let role = '';
   let user;
 
   const query = {};
@@ -203,31 +194,43 @@ exports.logIn = catchAsync(async (req, res, next) => {
   const admin = await Admin.findOne(query);
 
   if (doctor) {
-    role = "doctor"
-    user = doctor
-  }
-  else if (patient) {
-    role = "patient"
+    role = 'doctor';
+    user = doctor;
+  } else if (patient) {
+    role = 'patient';
     user = patient;
-  }
-  else if (admin) {
-    role = "admin"
+  } else if (admin) {
+    role = 'admin';
     user = admin;
-  }
-  else {
+  } else {
     return next(new AppError('Username or Password is incorrect ', 404));
   }
 
-    const token = createToken(user._id, role);
+  const token = createToken(user._id, role);
 
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+  res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
 
   res.status(200).json({
     status: 'success',
     data: {
       userId: user._id,
       role,
-      token,   
-    }
-  })
+      token,
+    },
+  });
 });
+
+exports.getRole = (req, res, next) => {
+  const token = req.cookies.jwt;
+  // check json web token exists & is verified
+  let role = 'guest';
+  if (token) {
+    jwt.verify(token, 'supersecret', (err, decodedToken) => {
+      if (!err) {
+        // console.log(`decoded token ${decodedToken.role}`);
+        role = decodedToken.role;
+      }
+    });
+  }
+  res.status(200).json({ role });
+};
