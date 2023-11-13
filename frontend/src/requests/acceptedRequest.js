@@ -165,15 +165,57 @@ const AcceptedRequest = (props) => {
                 <>
                   {!isButtonPressed2 && (
                     <>
-                      <div className={classes.terms}>Terms & Conditions</div>
+                      <div className={classes.terms}>Employment Contract</div>
                       <div className={classes.agreement}>Your agreement</div>
-                      <div className={classes.container}>Last Revised: December 16, 2013
-                        Welcome to www.lorem-ipsum.info. This site is provided as a service to our visitors and may be used for informational purposes only. Because the Terms and Conditions contain legal obligations, please read them carefully.
-                        1. YOUR AGREEMENT
-                        By using this Site, you agree to be bound by, and to comply with, these Terms and Conditions. If you do not agree to these Terms and Conditions, please do not use this site.
-                        PLEASE NOTE: We reserve the right, at our sole discretion, to change, modify or otherwise alter these Terms and Conditions at any time. Unless otherwise indicated, amendments will become effective immediately. Please review these Terms and Conditions periodically. Your continued use of the Site following the posting of changes and/or modifications will constitute your acceptance of the revised Terms and Conditions and the reasonableness of these standards for notice of changes. For your information, this page was last updated as of the date at the top of these terms and conditions.
-                        2. PRIVACY
-                        Please review our Privacy Policy, which also governs your visit to this Site, to understandation provided to or gathered by us with respect to such use.
+                      <div className={`${classes.container} text-start`}>Last Revised: November 14, 2023<br/>
+                      By registering as a doctor on our virtual clinic platform, you agree to adhere to the following terms and conditions:
+<br/><br/>
+1.Eligibility and Registration Approval:
+<br/>
+You must hold a valid medical license and meet the eligibility criteria specified by the relevant medical authorities.
+Your registration request will be subject to review by our administrative team, who reserves the right to accept or reject your application based on your credentials, specialty, medical background, and other relevant factors.
+<br/><br/>
+2.Professional Conduct:
+<br/>
+As a registered doctor, you agree to uphold the highest standards of professional conduct and ethical behavior.
+You will provide medical advice and services within the scope of your expertise and in compliance with all applicable laws and regulations.
+<br/><br/>
+3. Availability and Appointment Scheduling:
+<br/>
+You commit to maintaining accurate availability information on the platform and ensuring that you are available during the times you designate for appointments.
+Patients may book video appointments with you through the platform, and you agree to conduct these appointments in a timely and professional manner.
+<br/><br/>
+4. Follow-up Appointments:
+<br/>
+You may schedule follow-up appointments with patients as necessary for continued care. The platform will facilitate these appointments, and you agree to honor scheduled follow-ups as per the patient's needs.
+<br/><br/>
+5. Fees and Payments:
+<br/>
+The platform will add a 10% service fee on top of the rate you set for each appointment. You agree to this fee structure.
+Payments for your services will be processed by the platform, and you will receive your earnings, minus the service fee, in a timely manner.
+<br/><br/>
+6. Confidentiality:
+<br/>
+You must maintain the confidentiality of patient information in accordance with applicable privacy laws and regulations.
+Any patient-related information obtained through the platform must be used solely for the purpose of providing medical services and must not be disclosed or used for any other purpose.
+<br/><br/>
+7. Termination of Registration:
+<br/>
+The platform reserves the right to terminate your registration at any time if you violate these terms and conditions, engage in unprofessional conduct, or for any other reason deemed appropriate by the administrative team.
+<br/><br/>
+8. Updates and Communication:
+<br/>
+You agree to receive communications from the platform, including updates, announcements, and other relevant information.
+It is your responsibility to keep your contact information up to date on the platform.
+<br/><br/>
+9. Indemnification:
+<br/>
+You agree to indemnify and hold harmless the virtual clinic platform, its administrators, and affiliates from any claims, losses, or damages arising out of your use of the platform or your provision of medical services.
+<br/><br/>
+10. Changes to Terms and Conditions:
+<br/>
+The platform reserves the right to update these terms and conditions at any time. You will be notified of any changes, and continued use of the platform constitutes acceptance of the revised terms.
+By registering as a doctor on our virtual clinic platform, you acknowledge that you have read, understood, and agreed to these terms and conditions. Failure to comply with these terms may result in the termination of your registration and access to the platform.
                       </div>
                       <div className={classes.buttonsDiv}>
                         <button className={classes.cancelButton} >Cancel</button>
