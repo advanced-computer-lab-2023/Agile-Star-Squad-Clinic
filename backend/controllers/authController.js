@@ -232,6 +232,11 @@ exports.logIn = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.logout = (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.status(200).json({ status: 'success' });
+};
+
 exports.getRole = (req, res, next) => {
   const token = req.cookies.jwt;
   // check json web token exists & is verified

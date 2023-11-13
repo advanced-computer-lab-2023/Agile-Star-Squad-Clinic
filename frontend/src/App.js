@@ -22,9 +22,67 @@ import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState({
-    role: 'guest',
+    role: null,
     userId: null,
   });
+  const [routes, setRoutes] = useState();
+
+  const getUserRoutes = () => {
+    if (user.role === 'patient') {
+      setRoutes(
+        <Routes>
+          <Route path="/patient/home" element={<PatientHome />} exact />
+          <Route path="*" element={<Navigate to="/patient/home" />} />
+        </Routes>
+      );
+    } else if (user.role === 'doctor') {
+      setRoutes(
+        <Routes>
+          <Route path="/doctor/home" element={<DoctorHome />} exact />
+          <Route path="*" element={<Navigate to="/doctor/home" />} />
+        </Routes>
+      );
+    } else if (user.role === 'admin') {
+      setRoutes(
+        <Routes>
+          <Route path="/admin/home" element={<AdminHome user={user} />} exact />
+          ;
+          <Route path="/addPackage" element={<NewPackage />} exact />
+          <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
+          <Route path="/packages" element={<AdminPackagesView />} exact />
+          <Route path="admin/manage" element={<ManageUsersPage />} />
+          <Route path="*" element={<Navigate to="/admin/home" />} />
+        </Routes>
+      );
+    } else {
+      setRoutes(
+        <Routes>
+          <Route path="/" element={<Login setUser={setUser} />} exact />
+          <Route path="/resetPassword" element={<ResetPassword />} exact />
+          <Route
+            path="/patient/register"
+            element={<PatientRegisterForm />}
+            exact
+          />
+
+          <Route
+            path="/doctor/register"
+            element={<DoctorRegisterForm />}
+            exact
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      );
+    }
+    console.log('dakhal');
+    console.log(routes);
+    console.log('kharaj');
+  };
+
+  useEffect(() => {
+    getUserRoutes();
+    console.log(routes);
+  }, []);
 
   useEffect(() => {
     if (user.role === 'guest' || user.userId === null) return;
@@ -40,46 +98,47 @@ function App() {
 
         console.log(res.data.data);
       });
+    getUserRoutes();
   }, [user.role, user.userId]);
+
+  const logoutHandler = async () => {
+    await axios.get('http://localhost:3000/logout');
+    setUser({ role: 'guest', userId: null });
+    window.location.href = '/';
+  };
 
   return (
     <div className="App">
-      <button
-        onClick={() => {
-          alert(JSON.stringify(user));
-        }}
-      >
-        props
-      </button>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login setUser={setUser} />} exact />
-          <Route path="/resetPassword" element={<ResetPassword />} exact />
-          {/* <Route path="/" element={<NavBar />} exact /> */}
-          <Route
-            path="/patient/register"
-            element={<PatientRegisterForm />}
-            exact
-          />
-          <Route path="/patient/home" element={<PatientHome />} exact />
-          <Route
-            path="/doctor/register"
-            element={<DoctorRegisterForm />}
-            exact
-          />
-          <Route path="/doctor/home" element={<DoctorHome />} exact />
-          <Route path="/admin/home" element={<AdminHome user={user} />} exact />
-          <Route path="/addPackage" element={<NewPackage />} exact />
-          <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
-          <Route path="/packages" element={<AdminPackagesView />} exact />
-          <Route path="admin/manage" element={<ManageUsersPage />} />
-          <Route path="/PatientFamily" element={<PatientFamily />} exact />
-          {/*redirect to landing page if wrong url*/}
-          <Route path="*" element={<Navigate to="/" />} />{' '}
-        </Routes>
-      </BrowserRouter>
+      <button onClick={logoutHandler}>logout</button>
+      <BrowserRouter>{routes}</BrowserRouter>
     </div>
   );
 }
 
 export default App;
+
+// <Routes>
+// <Route path="/" element={<Login setUser={setUser} />} exact />
+// <Route path="/resetPassword" element={<ResetPassword />} exact />
+// {/* <Route path="/" element={<NavBar />} exact /> */}
+// <Route
+//   path="/patient/register"
+//   element={<PatientRegisterForm />}
+//   exact
+// />
+// <Route path="/patient/home" element={<PatientHome />} exact />
+// <Route
+//   path="/doctor/register"
+//   element={<DoctorRegisterForm />}
+//   exact
+// />
+// <Route path="/doctor/home" element={<DoctorHome />} exact />
+// <Route path="/admin/home" element={<AdminHome user={user} />} exact />
+// <Route path="/addPackage" element={<NewPackage />} exact />
+// <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
+// <Route path="/packages" element={<AdminPackagesView />} exact />
+// <Route path="admin/manage" element={<ManageUsersPage />} />
+// <Route path="/PatientFamily" element={<PatientFamily />} exact />
+// {/*redirect to landing page if wrong url*/}
+// <Route path="*" element={<Navigate to="/" />} />{' '}
+// </Routes>

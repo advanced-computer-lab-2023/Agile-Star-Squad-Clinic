@@ -44,6 +44,7 @@ app.post('/resetPassword/:email', authController.forgotPassword);
 app.get('/resetPassword/:email', authController.getUserByEmail);
 app.patch('/resetPassword/:id', authController.updatePassword);
 app.get('/:username/:password', authController.logIn);
+app.get('/logout', authController.logout);
 app.get('/role', authController.getRole);
 
 app.all('*', (req, res, next) => {
