@@ -65,12 +65,12 @@ const BookAppointment = (props) => {
     rating: 0,
     availableTimes: [
       [
-        { from: '09:00', to: '14:00' },
-        { from: '00:00', to: '04:00' },
+        { from: '00:00', to: '24:00' },
+        { from: '00:00', to: '24:00' },
       ],
       [
-        { from: '09:00', to: '20:00' },
-        { from: '00:00', to: '04:00' },
+        { from: '00:00', to: '01:00' },
+        { from: '04:00', to: '05:00' },
       ],
       [
         { from: '00:00', to: '24:00' },
@@ -121,19 +121,23 @@ const BookAppointment = (props) => {
     navigate('/patient/home');
   };
   return (
-    <div>
-      <NavBar />
-      <button className={styles.button} onClick={backButtonClickHandler}>
-        {arrow}
-      </button>
-      <div className={styles.card}>
-        <Card doctor={dummyDoctor} />
+    <div style={{ height: '100vh' }}>
+      <div className={styles.navBar}>
+        <NavBar />
       </div>
-      <div className={styles.appointmentInfo}>
-        <BookImplementation
-          availableTimes={dummyDoctor.availableTimes}
-          upcomingAppointments={upcomingAppointments}
-        />
+      <div style={{ marginTop: '100px' }}>
+        <button className={styles.button} onClick={backButtonClickHandler}>
+          {arrow}
+        </button>
+        <div className={styles.card}>
+          <Card doctor={dummyDoctor} />
+        </div>
+        <div className={styles.appointmentInfo}>
+          <BookImplementation
+            availableTimes={dummyDoctor.availableTimes}
+            upcomingAppointments={upcomingAppointments}
+          />
+        </div>
       </div>
     </div>
   );

@@ -226,7 +226,7 @@ const BookImplementation = (props) => {
     };
     navigate('/patient/home', { state: dataToSend });
   };
-  function expandTimeRange(timeRanges) {
+  const expandTimeRange = (timeRanges) => {
     const expandedTimeRanges = [];
 
     timeRanges.forEach((timeRange) => {
@@ -235,7 +235,7 @@ const BookImplementation = (props) => {
       const endHour = parseInt(to.split(':')[0]);
 
       const expandedTimeRange = Array.from(
-        { length: endHour - startHour + 1 },
+        { length: endHour - startHour },
         (_, index) => {
           const hour = startHour + index;
           return `${hour.toString().padStart(2, '0')}:00`;
@@ -246,7 +246,22 @@ const BookImplementation = (props) => {
     });
 
     return expandedTimeRanges.flat(); // Use flat() to flatten the array of arrays
-  }
+  };
+
+  const removeDuplicatesFromArray = (array) => {
+    const uniqueArray = [];
+    const set = new Set();
+
+    array.forEach((item) => {
+      if (!set.has(item)) {
+        set.add(item);
+        uniqueArray.push(item);
+      }
+    });
+
+    return uniqueArray;
+  };
+
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
@@ -271,8 +286,8 @@ const BookImplementation = (props) => {
         <p className={styles.text}>Available Time</p>
         {chosenDate !== undefined && (
           <AppointmentTime
-            availableTimes={expandTimeRange(
-              props.availableTimes[chosenDate.getDay()]
+            availableTimes={removeDuplicatesFromArray(
+              expandTimeRange(props.availableTimes[chosenDate.getDay()])
             )}
             unavailableTimes={unavailableTimes}
             onChooseTime={chooseTime}
