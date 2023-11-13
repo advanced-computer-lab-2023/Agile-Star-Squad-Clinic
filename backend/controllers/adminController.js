@@ -75,8 +75,8 @@ exports.viewAllRequests = catchAsync(async (req, res, next) => {
 async function getPasswordFromDatabase(id) {
   // You need to implement the logic to retrieve the password from your database
   // This might involve making a database query using a database library (e.g., Mongoose for MongoDB)
-  console.log(id);
-  console.log("henaa");
+  // console.log(id);
+  // console.log("henaa");
 
   // For example, if you are using Mongoose, you might do something like this:
   const user = await Request.findById(id).select("password"); // Replace 'User' with your model name

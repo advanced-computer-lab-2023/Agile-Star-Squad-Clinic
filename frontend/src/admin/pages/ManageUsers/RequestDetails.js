@@ -1,6 +1,6 @@
 import Modal from '../../../shared/components/Modal/Modal';
 import ReactDOM from "react-dom";
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const RequestDetails = (props) => {
 
@@ -8,14 +8,13 @@ const RequestDetails = (props) => {
 
     const onAccept = async () => {
         try {
-            
+
             const requestOptions = {
-                
                 method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8' },
                 body: JSON.stringify({ ...props.data }),
             };
-           
+
             const response = await fetch(
                 'http://localhost:3000/admins/requests',
                 requestOptions
@@ -25,7 +24,7 @@ const RequestDetails = (props) => {
                 // Handle a successful response
                 alert('Doctor accepted successfully!');
                 setStatus('Accepted');
-                props.onStatusChange(props.data['id'], 'Accepted'); 
+                props.onStatusChange(props.data['id'], 'Accepted');
             } else {
                 // Handle errors if the server response is not ok
                 alert('Accepting request Failed!');
@@ -113,7 +112,6 @@ const RequestDetails = (props) => {
         </Modal>, document.getElementById("backdrop-root")
     );
 }
-
 
 const ActionButtons = (props) => {
     return (
