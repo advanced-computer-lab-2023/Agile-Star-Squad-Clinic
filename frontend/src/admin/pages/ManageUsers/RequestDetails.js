@@ -1,10 +1,8 @@
 import Modal from '../../../shared/components/Modal/Modal';
 import ReactDOM from "react-dom";
-import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react'
 
 const RequestDetails = (props) => {
-    const navigate = useNavigate();
 
     const [status, setStatus] = useState(props.data['status']);
 
@@ -49,7 +47,6 @@ const RequestDetails = (props) => {
                 'http://localhost:3000/admins/requests',
                 requestOptions
             );
-            console.log(response);
 
             if (response.ok) {
                 // Handle a successful response

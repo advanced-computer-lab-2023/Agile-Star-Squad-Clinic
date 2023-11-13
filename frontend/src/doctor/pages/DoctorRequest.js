@@ -51,40 +51,47 @@ const DoctorRequestForm = () => {
     let licenseDownloadUrl;
     let degreeDownloadUrl;
     console.log("3ayesh?");
-    console.log(idImageForm);
 
       if (idImageForm !== "") {
-        console.log(idImageForm.path);
+        console.log("ID")
+        console.log(idImageForm);
         const idImageRef = ref(storage, `${idImageForm.name}`);
         await uploadBytesResumable(idImageRef, idImageForm).then(async (snapshot) => {
           idDownloadUrl = await getDownloadURL(snapshot.ref);
           console.log(idDownloadUrl);
         });
       }
-    console.log(idDownloadUrl);
 
     if (medicalLicenseForm !== "") {
-      // console.log(medicalLicenseForm);
+      console.log("License");
+      console.log(medicalLicenseForm);
     
       // const imageExtension = medicalLicenseForm['path'].substring(medicalLicenseForm['path'].lastIndexOf('.'));
       const medicalLicenseRef = ref(storage, `${medicalLicenseForm.name}`);
       await uploadBytesResumable(medicalLicenseRef, medicalLicenseForm).then(async (snapshot) => {
         licenseDownloadUrl = await getDownloadURL(snapshot.ref)
+        console.log(licenseDownloadUrl);
       });
     }
 
     if (medicalDegreeForm !== "") {
+      console.log("Degree");
       console.log(medicalDegreeForm);
       // const imageExtension = medicalDegreeForm['path'].substring(medicalDegreeForm['path'].lastIndexOf('.'));
       const medicalDegreeRef = ref(storage, `${medicalDegreeForm.name}`);
       await uploadBytesResumable(medicalDegreeRef, medicalDegreeForm).then(async (snapshot) => {
         degreeDownloadUrl = await getDownloadURL(snapshot.ref)
+        console.log(degreeDownloadUrl);
       });
     }
     
-    setIdImage(idDownloadUrl);
-    setLicenseImage(licenseDownloadUrl);
-    setDegreeImage(degreeDownloadUrl);
+    // setIdImage(idDownloadUrl);
+    // setLicenseImage(licenseDownloadUrl);
+    // setDegreeImage(degreeDownloadUrl);
+
+    // console.log(idImageForm);
+    // console.log(medicalLicenseForm);
+    // console.log(medicalDegreeForm);
 
     const data = {
       "username": formData.username,
@@ -96,25 +103,25 @@ const DoctorRequestForm = () => {
       "affiliation": formData.affiliation,
       "educationalBackground": formData.educationalBackground,
       "speciality": formData.speciality,
-      "idImage": idImageForm,
-      "medicalLicense": medicalLicenseForm,
-      "medicalDegree": medicalDegreeForm
-
+      "idImage": idDownloadUrl,
+      "medicalLicense": licenseDownloadUrl,
+      "medicalDegree": degreeDownloadUrl
     }
-
-
+    console.log(data);
 
     try {
+      console.log(data);
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
         body: JSON.stringify(data),
-      
       };
       const response = await fetch(
         'http://localhost:3000/doctors',
         requestOptions
       );
+      console.log("response");
+      console.log(response);
 
       if (response.ok) {
         // Handle a successful response

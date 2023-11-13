@@ -8,6 +8,8 @@ const Request = require('../models/requestModel');
 const Appointment = require('../models/appointmentModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
+  console.log("fe ehhh");
+  console.log(req.body);
   try {
     const newRequest = await Request.create(req.body);
     res.status(200).json({
