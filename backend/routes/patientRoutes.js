@@ -1,10 +1,11 @@
 const express = require('express');
 const patientController = require('../controllers/patientController');
 const doctorRouter = require('./doctorRoutes');
-const appointmentController = require('../controllers/appointmentController')
-const prescriptionController = require('../controllers/prescriptionController')
+const appointmentController = require('../controllers/appointmentController');
+const prescriptionController = require('../controllers/prescriptionController');
 
 const router = express.Router();
+
 
 router
   .route('/appointments')
@@ -28,7 +29,7 @@ router
   .get(patientController.getPatient)
   .delete(patientController.removePatient);
 
-  router
+router
   .route('/:patientId/prescriptions')
   .get(prescriptionController.getPatientPrescriptions);
 router

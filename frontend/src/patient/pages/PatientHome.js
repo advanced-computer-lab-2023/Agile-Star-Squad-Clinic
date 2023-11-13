@@ -37,6 +37,29 @@ const PatientHome = () => {
 
     const patientId = DUMMY_USER._id;
     // const [patientDiscount, setPatientDiscount] = useState(0.0);
+    const[token,setToken] = useState(null);
+
+    useEffect(() => {
+        alert("hena");
+        // Function to get the cookie by name
+        const getCookie = (name) => {
+          const value = `;${document.cookie}`;
+          const parts = value.split(`;${name}=`);
+          console.log(value);
+          console.log(parts);
+          if (parts.length === 2) return parts.pop().split(';').shift();
+        };
+    
+        // Check if the token exists in cookies
+        const jwtCookie = getCookie('jwt');
+    
+        if (jwtCookie) {
+          setToken(jwtCookie);
+        }
+    
+      }, []);
+
+      
 
     useEffect(() => {
         fetchPatientAndDoctors();

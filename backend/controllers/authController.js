@@ -227,8 +227,7 @@ exports.logIn = catchAsync(async (req, res, next) => {
     data: {
       userId: user._id,
       role,
-      token,
+      token,   
     }
   })
-
 });
