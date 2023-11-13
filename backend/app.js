@@ -45,7 +45,6 @@ app.get('/resetPassword/:email', authController.getUserByEmail);
 app.patch('/resetPassword/:id', authController.updatePassword);
 app.get('/:username/:password', authController.logIn);
 app.get('/logout', authController.logout);
-app.get('/role', authController.getRole);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));
