@@ -15,12 +15,10 @@ exports.createAdmin = catchAsync(async (req, res, next) => {
     });
   } catch (error) {
     const message = error.errors.password.properties.message;
-    res.status(403).json(
-      {
-        status: 'failure',
-        message: message
-      }
-    );
+    res.status(403).json({
+      status: 'failure',
+      message: message,
+    });
   }
 });
 

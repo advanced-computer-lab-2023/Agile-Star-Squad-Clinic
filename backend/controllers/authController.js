@@ -178,6 +178,13 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+// function setCookie(cname, cvalue, exdays) {
+//   const d = new Date();
+//   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+//   let expires = 'expires=' + d.toUTCString();
+//   document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+// }
+
 exports.logIn = catchAsync(async (req, res, next) => {
   const username = req.params.username;
   const password = req.params.password;
@@ -207,8 +214,13 @@ exports.logIn = catchAsync(async (req, res, next) => {
   }
 
   const token = createToken(user._id, role);
-
-  res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+  // setCookie('jwt', token, 3);
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    maxAge: maxAge * 1000,
+    domain: 'localhost',
+    path: '/',
+  });
 
   res.status(200).json({
     status: 'success',

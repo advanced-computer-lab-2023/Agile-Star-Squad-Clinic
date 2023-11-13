@@ -41,23 +41,25 @@ const Login = (props) => {
   };
 
   const handleSubmit = async (e) => {
-    const response = await axios
-      .get(`http://localhost:3000/${username}/${password}`)
-      .then((res) => {
-        page = res.data.data.role;
-        // console.log(res);
-        props.setRole(page);
-        if (page == 'doctor') {
-          navigate('/doctor/home');
-        } else if (page == 'patient') {
-          navigate('/patient/home');
-        } else if (page == 'admin') {
-          navigate('/admin/home');
-        }
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/${username}/${password}`
+      );
+      const { role, userId } = response.data.data;
+      // Store the token in state or wherever you manage your application state
+      props.setUser({ role, userId });
+      // You may also want to store the token in a more persistent way (e.g., localStorage)
+
+      if (role === 'doctor') {
+        navigate('/doctor/home');
+      } else if (role === 'patient') {
+        navigate('/patient/home');
+      } else if (role === 'admin') {
+        navigate('/admin/home');
+      }
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
 
   return (

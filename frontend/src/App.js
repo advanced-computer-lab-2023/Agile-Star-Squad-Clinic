@@ -21,26 +21,23 @@ import ResetPassword1 from './login/pages/ResetPassword';
 import axios from 'axios';
 
 function App() {
-  const [role, setRole] = useState();
-
-  const getRole = async () => {
-    await axios.get('http://localhost:3000/role').then((res) => {
-      setRole(res.data.role);
-    });
-  };
-
-  useEffect(() => {
-    getRole();
-  }, []);
+  const [user, setUser] = useState({
+    role: 'guest',
+    userId: null,
+  });
 
   return (
     <div className="App">
-      {/* <button onClick={() => console.log(role)} style={{ zIndex: 100 }}>
-        Get Role
-      </button> */}
+      <button
+        onClick={() => {
+          console.log(user);
+        }}
+      >
+        props
+      </button>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login setRole={setRole} />} exact />
+          <Route path="/" element={<Login setUser={setUser} />} exact />
           <Route path="/resetPassword" element={<ResetPassword />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           <Route

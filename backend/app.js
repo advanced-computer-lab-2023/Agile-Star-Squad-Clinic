@@ -39,19 +39,18 @@ app.use((req, res, next) => {
 
   next();
 });
-app.get('/resetPassword', authController.getOTP);
-app.post('/resetPassword/:email', authController.forgotPassword);
-app.get('/resetPassword/:email', authController.getUserByEmail);
-app.patch('/resetPassword/:id', authController.updatePassword);
-app.get('/:username/:password', authController.logIn);
-
-app.get('/role', authController.getRole);
-
 app.use('/admins', middleware.adminAuth, adminRouter);
 app.use('/doctors', doctorRouter);
 app.use('/patients', patientRouter);
 app.use('/prescriptions', prescriptionRouter);
 app.use('/packages', packageRouter);
+
+app.get('/resetPassword', authController.getOTP);
+app.post('/resetPassword/:email', authController.forgotPassword);
+app.get('/resetPassword/:email', authController.getUserByEmail);
+app.patch('/resetPassword/:id', authController.updatePassword);
+app.get('/:username/:password', authController.logIn);
+app.get('/role', authController.getRole);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));
