@@ -26,11 +26,27 @@ function App() {
     userId: null,
   });
 
+  useEffect(() => {
+    if (user.role === 'guest' || user.userId === null) return;
+    axios
+      .get(`http://localhost:3000/${user.role}s/${user.userId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUser((prev) => ({
+          ...prev,
+          user: { ...res.data.data.admin },
+        }));
+
+        console.log(res.data.data);
+      });
+  }, [user.role, user.userId]);
+
   return (
     <div className="App">
       <button
         onClick={() => {
-          console.log(user);
+          alert(JSON.stringify(user));
         }}
       >
         props
@@ -52,7 +68,7 @@ function App() {
             exact
           />
           <Route path="/doctor/home" element={<DoctorHome />} exact />
-          <Route path="/admin/home" element={<AdminHome />} exact />
+          <Route path="/admin/home" element={<AdminHome user={user} />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />

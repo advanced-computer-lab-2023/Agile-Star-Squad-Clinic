@@ -21,7 +21,10 @@ exports.doctorSignup = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Doctor.find().populate('appointments'), req.query)
+  const features = new APIFeatures(
+    Doctor.find().populate('appointments'),
+    req.query
+  )
     .filter()
     .sort()
     .fieldLimit()

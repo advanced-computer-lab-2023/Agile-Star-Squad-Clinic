@@ -68,6 +68,7 @@ exports.adminAuth = (req, res, next) => {
     jwt.verify(token, 'supersecret', (err, decodedToken) => {
       if (!err) {
         // res send status 401 you are not logged in
+        
         if (decodedToken.role === 'admin') {
           next();
         } else {

@@ -221,8 +221,8 @@ exports.logIn = catchAsync(async (req, res, next) => {
     domain: 'localhost',
     path: '/',
   });
-
-  res.status(200).json({
+  console.log('hena');
+  return res.status(200).json({
     status: 'success',
     data: {
       userId: user._id,
