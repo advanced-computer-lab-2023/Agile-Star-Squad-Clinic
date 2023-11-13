@@ -90,22 +90,20 @@ exports.getUserByEmail = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const id = req.params.id;
-  const newPassword = req.body.password;
+  const newPassword = req.body.newPassword;
   const doctor = await Doctor.findById(id);
   const patient = await Patient.findById(id);
   const admin = await Admin.findById(id);
 
-  if (doctor) {
-    console.log('DOOOOOOCCCC');
+  if (doctor !== null) {
     await Doctor.findByIdAndUpdate(id, {
       password: newPassword,
     });
-    console.log('LOOOOOOOOOOOOOOOOOOOOL');
-  } else if (patient) {
+  } else if (patient !== null) {
     await Patient.findByIdAndUpdate(id, {
       password: newPassword,
     });
-  } else if (admin) {
+  } else if (admin !== null) {
     await Admin.findByIdAndUpdate(id, {
       password: newPassword,
     });

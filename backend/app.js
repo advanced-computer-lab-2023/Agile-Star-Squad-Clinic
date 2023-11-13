@@ -8,7 +8,7 @@ const patientRouter = require('./routes/patientRoutes');
 const doctorRouter = require('./routes/doctorRoutes');
 const prescriptionRouter = require('./routes/prescriptionRoutes');
 const packageRouter = require('./routes/packageRoutes');
-const authController = require('./controllers/authController');
+const authRouter = require('./routes/authRouter');
 const {
   addPackage,
   getPackages,
@@ -38,13 +38,7 @@ app.use('/doctors', doctorRouter);
 app.use('/patients', patientRouter);
 app.use('/prescriptions', prescriptionRouter);
 app.use('/packages', packageRouter);
-
-app.get('/resetPassword', authController.getOTP);
-app.post('/resetPassword/:email', authController.forgotPassword);
-app.get('/resetPassword/:email', authController.getUserByEmail);
-app.patch('/resetPassword/:id', authController.updatePassword);
-app.get('/:username/:password', authController.logIn);
-app.get('/logout', authController.logout);
+app.use('/auth', authRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));

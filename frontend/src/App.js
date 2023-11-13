@@ -102,7 +102,7 @@ function App() {
   }, [user.role, user.userId]);
 
   const logoutHandler = async () => {
-    await axios.get('http://localhost:3000/logout');
+    await axios.get('http://localhost:3000/auth/logout');
     setUser({ role: 'guest', userId: null });
     window.location.href = '/';
   };

@@ -43,7 +43,7 @@ const Login = (props) => {
   const handleSubmit = async (e) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/${username}/${password}`,
+        `http://localhost:3000/auth/${username}/${password}`,
         { withCredentials: true }
       );
       const { role, userId } = response.data.data;

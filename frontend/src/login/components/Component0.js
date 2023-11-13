@@ -14,7 +14,7 @@ function Component0({ setTab , setEmail2 }) {
       return alert("Please provide your email");
     }
     const response = await axios
-      .post(`http://localhost:3000/resetPassword/${email}`)
+      .post(`http://localhost:3000/auth/resetPassword/${email}`)
       .then((res) => {
         setTab(true);
       })

@@ -20,7 +20,7 @@ function Component2({ setTab3, email }) {
   };
   const handleRetypePassword = (e) => {
     setRetypePassword(e.target.value);
-  }
+  };
 
   const isPasswordValid = () => {
     // Password validation checks
@@ -29,54 +29,42 @@ function Component2({ setTab3, email }) {
     const lowercaseCheck = /[a-z]/.test(newPassword);
     const specialCharOrDigitCheck = /[0-9!@#$%^&*]/.test(newPassword);
 
-
     return (
-      lengthCheck &&
-      uppercaseCheck &&
-      lowercaseCheck &&
-      specialCharOrDigitCheck
+      lengthCheck && uppercaseCheck && lowercaseCheck && specialCharOrDigitCheck
     );
   };
 
-
   const handleSubmit = async (e) => {
-    if ((newPassword === retypePassword)) {
+    if (newPassword === retypePassword) {
       if (isPasswordValid()) {
         const user = await axios
-          .get(`http://localhost:3000/resetPassword/${email}`)
+          .get(`http://localhost:3000/auth/resetPassword/${email}`)
           .then((res) => {
             setId(res.data.data.user._id);
           });
 
         console.log(id);
         console.log(newPassword);
-
-        fetch(`http://localhost:3000/resetPassword/${id}`, {
+        fetch(`http://localhost:3000/auth/resetPassword/${id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ newPassword: newPassword }), // Convert data to JSON format
-          mode: 'no-cors',
-        })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
 
-
-        // setTab3(true);
-      }
-      else {
-        alert("Your password does not match the criteria");
+        setTab3(true);
+      } else {
+        alert('Your password does not match the criteria');
       }
     } else {
       setNewPassword('');
       setRetypePassword('');
-      alert("Passwords do not match");
+      alert('Passwords do not match');
     }
   };
-
-
 
   return (
     <div className="col-md-7" id={styles.rightCol}>
