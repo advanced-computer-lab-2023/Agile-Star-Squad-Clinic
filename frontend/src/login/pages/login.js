@@ -3,37 +3,35 @@ import logo from '../images/logo.svg';
 import img from '../images/login-image.png';
 import styles from '../components/login.module.css';
 import InputField from '../components/InputField/InputField';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
-  const[token,setToken] = useState(null);
+const Login = (props) => {
+  // const [token, setToken] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   let page;
 
-  useEffect(() => {
-    // Function to get the cookie by name
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-     
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    };
+  // useEffect(() => {
+  //   // Function to get the cookie by name
+  //   const getCookie = (name) => {
+  //     const value = `; ${document.cookie}`;
+  //     const parts = value.split(`; ${name}=`);
 
-    // Check if the token exists in cookies
-    const jwtCookie = getCookie('jwt');
+  //     if (parts.length === 2) return parts.pop().split(';').shift();
+  //   };
 
-    if (jwtCookie) {
-      setToken(jwtCookie);
-    }
+  //   // Check if the token exists in cookies
+  //   const jwtCookie = getCookie('jwt');
 
-  }, []);
+  //   if (jwtCookie) {
+  //     setToken(jwtCookie);
+  //   }
+  // }, []);
 
-  
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -43,25 +41,23 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-
     const response = await axios
-    .get(`http://localhost:3000/${username}/${password}`)
-    .then((res) => {
-      page = res.data.data.role;
-      // console.log(res); 
-      if(page == "doctor"){
-        navigate('/doctor/home')
-      }
-      else if(page == "patient"){
-        navigate('/patient/home')
-      }
-      else if(page == "admin"){
-        navigate('/admin/home')
-      }
-    })
-    .catch((err) => {
-      alert(err.response.data.message);
-    });
+      .get(`http://localhost:3000/${username}/${password}`)
+      .then((res) => {
+        page = res.data.data.role;
+        // console.log(res);
+        props.setRole(page);
+        if (page == 'doctor') {
+          navigate('/doctor/home');
+        } else if (page == 'patient') {
+          navigate('/patient/home');
+        } else if (page == 'admin') {
+          navigate('/admin/home');
+        }
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
   };
 
   return (

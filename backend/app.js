@@ -46,9 +46,8 @@ app.patch('/resetPassword/:id', authController.updatePassword);
 app.get('/:username/:password', authController.logIn);
 
 app.get('/role', authController.getRole);
-app.use(middleware.requireAuth);
 
-app.use('/admins', adminRouter);
+app.use('/admins', middleware.adminAuth, adminRouter);
 app.use('/doctors', doctorRouter);
 app.use('/patients', patientRouter);
 app.use('/prescriptions', prescriptionRouter);
