@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import Login from './login/pages/login';
@@ -29,11 +29,15 @@ function App() {
     });
   };
 
-  getRole();
-  alert(role);
+  useEffect(() => {
+    getRole();
+  }, []);
 
   return (
     <div className="App">
+      {/* <button onClick={() => console.log(role)} style={{ zIndex: 100 }}>
+        Get Role
+      </button> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login setRole={setRole} />} exact />
