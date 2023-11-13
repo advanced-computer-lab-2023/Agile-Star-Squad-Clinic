@@ -93,6 +93,28 @@ flex-shrink: 0;
   margin-left: 20px;
   
 }
+/* Your existing styles */
+
+.back-button {
+  position: relative;
+  background-color: #FFF;
+  width: 43.862px;
+  height: 72.376px;
+  transform: rotate(-0.206deg);
+  flex-shrink: 0;
+  right: 5%;
+  border: white;
+  bottom :50%;
+}
+.back-image{
+  position: relative;
+  align-items: center;
+  right: 50%;
+  bottom: 80%;
+  height: 100px;
+  width: 60px;
+}
+
 /* Add a custom class for the row to control spacing */
 .custom-row {
   margin-bottom: 20px; /* Adjust the margin as needed */
@@ -263,7 +285,7 @@ p {
   position: absolute;
   top: 25%; /* Adjust the top distance as needed */
   left: 80%; /* Adjust the right distance as needed */
-  background-color: #fff;
+  background-color:transparent;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

@@ -31,9 +31,7 @@ const BrowseDoctors = () => {
     const [doctorSpecialtyFilter, setDoctorSpecialtyFilter] = useState("submit");
     const [specialtyFilters, setSpecialtyFilters] = useState([]);
     const [showDoctorDateFilter, setShowDoctorDateFilter] = useState(false);
-    const patientId = DUMMY_USER._id;
     const [searchText, setSearchText] = useState('');
-    const pickedISODate = new Date(doctorSearchDateValue).toLocaleString();
     const navigate = useNavigate();
     const location =useLocation();
 
@@ -50,166 +48,19 @@ const BrowseDoctors = () => {
       // Handle specialty option
     }
   };
+  const handleBackButtonClick = () => {
+    // Reset all filters to their initial state
+    setDoctorSearchName('');
+    setDoctorSearchSpecialty('');
+    setDoctorSearchDate('');
+    setDoctorSpecialtyFilter('Select');
+  };
 
   const handleDoctorClick = (doctor) => {
    
     navigate(`/patient/appointment/book/`, { state: doctor });
   };
  
-  
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Use the selectedDropdown state to determine the search criteria
-    if (selectedDropdown === 'name') {
-      const filteredByName = doctors.filter((doctor) =>
-        doctor.name.toLowerCase().includes(searchText.toLowerCase())
-      );
-      setFilteredDoctors(filteredByName);
-    } else if (selectedDropdown === 'specialty') {
-      const filteredBySpecialty = doctors.filter((doctor) =>
-        doctor.speciality.toLowerCase().includes(searchText.toLowerCase())
-      );
-      setFilteredDoctors(filteredBySpecialty);
-    }
-  };
-  useEffect(() => {
-    applySearch();
-}, [doctorSearchNameValue, doctorSearchSpecialtyValue, doctorSearchDateValue, doctorSpecialtyFilter]);
-
-
-    // const mockDoctors = [
-    //     {
-    //       id: 1,
-    //       name: "Dr. John Smith",
-    //       speciality: "Cardiology",
-    //       hourlyRate: 100,
-    //       affiliation: "City Hospital",
-    //       mobileNumber: "123-456-7890",
-    //       email: "john.smith@example.com",
-    //       educationalBackground: "MD in Cardiology",
-    //       appointments: [
-    //         { dateOfAppointment: "2023-11-15T08:00" },
-    //         { dateOfAppointment: "2023-11-10T10:30" },
-    //         // Add more appointment objects as needed
-    //       ],
-    //     },
-    //     {
-    //       id: 2,
-    //       name: "Dr. Sarah Johnson",
-    //       speciality: "Dermatology",
-    //       hourlyRate: 90,
-    //       affiliation: "Dermatology Clinic",
-    //       mobileNumber: "987-654-3210",
-    //       email: "sarah.johnson@example.com",
-    //       educationalBackground: "MD in Dermatology",
-    //     },
-    //     {
-    //       id: 3,
-    //       name: "Dr. Michael Lee",
-    //       speciality: "Neurology",
-    //       hourlyRate: 110,
-    //       affiliation: "OrthoCare Hospital",
-    //       mobileNumber: "555-123-4567",
-    //       email: "michael.lee@example.com",
-    //       educationalBackground: "MD in Orthopedics",
-    //     },
-    //     {
-    //         id: 4,
-    //         name: "Dr. Michael Lee",
-    //         speciality: "Dentist",
-    //         hourlyRate: 110,
-    //         affiliation: "OrthoCare Hospital",
-    //         mobileNumber: "555-123-4567",
-    //         email: "michael.lee@example.com",
-    //         educationalBackground: "MD in Orthopedics",
-    //       },
-    //       {
-    //         id: 5,
-    //         name: "Dr. Michael Lee",
-    //         speciality: "Dentist",
-    //         hourlyRate: 110,
-    //         affiliation: "OrthoCare Hospital",
-    //         mobileNumber: "555-123-4567",
-    //         email: "michael.lee@example.com",
-    //         educationalBackground: "MD in Orthopedics",
-    //       },
-          
-     
-    //   ];
-      const applySearch = () => {
-        let newDoctors = [...doctors];
-      
-        if (doctorSearchNameValue !== "" && selectedDropdown === "name") {
-          newDoctors = newDoctors.filter((doc) =>
-            doc.name.toLowerCase().includes(doctorSearchNameValue.toLowerCase())
-          );
-        }
-      
-        if (doctorSearchSpecialtyValue !== "" && selectedDropdown === "specialty") {
-          newDoctors = newDoctors.filter((doc) =>
-            doc.speciality.toLowerCase().includes(doctorSearchSpecialtyValue.toLowerCase())
-          );
-        }
-      
-        if (doctorSpecialtyFilter !== "Select") {
-          newDoctors = newDoctors.filter((doc) => doc.speciality === doctorSpecialtyFilter);
-        }
-      
-        if (doctorSearchDateValue !== "") {
-            
-            newDoctors = applyDateFilter(newDoctors);
-        }
-      
-        setFilteredDoctors(newDoctors);
-      };
-      
-      
-      const applyFilterBySpecialty = (specialty) => {
-        //console.log("Clicked on specialty:", specialty);
-        setDoctorSpecialtyFilter(specialty);
-      
-        // Filter doctors based on the selected specialty
-        const filteredDoctors = doctors.filter((doctor) => doctor.speciality === specialty);
-
-        setFilteredDoctors(filteredDoctors);
-      };
-      
-      const applyDateFilter = (doctorList) => {
-        console.log("doctorSearchDateValue:", doctorSearchDateValue);
-        const pickedISODate = new Date(doctorSearchDateValue);
-        console.log("pickedISODate:", pickedISODate);
-      
-        const newDoctors = doctorList.filter((doctor) => {
-          console.log("Doctor:", doctor);
-          const appointments = doctor.appointments;
-          console.log("Appointments:", appointments);
-          const isNotFree = appointments.some((app) => {
-            let start = new Date(app.dateOfAppointment);
-            const end = new Date(start);
-            end.setHours(end.getHours() + 1); // ADDS 1 HOUR
-            console.log("Start:", start);
-            console.log("End:", end);
-            console.log("Comparison:", pickedISODate > start && pickedISODate < end);
-            return pickedISODate > start && pickedISODate < end;
-          });
-          return !isNotFree;
-        });
-      
-        console.log("Filtered Doctors:", newDoctors);
-        return newDoctors;
-      };
-      
-      
-      
-      
-      
-    
-
-useEffect(() => {
-    // Set doctors to the mock data
-    fetchDoctors();
-  }, []);
-
 const fetchDoctors = async (patientDiscount) => {
   fetch("http://localhost:3000/doctors/").then(async (response) => {
       const json = await response.json();
@@ -226,7 +77,7 @@ const fetchDoctors = async (patientDiscount) => {
               ...doctor
           }
       }));
-    //    setDoctors(mockDoctors);
+  
       setFilteredDoctors(doctorsJson.map((doctor) => {
           const hourlyRate = doctor['hourlyRate'];
           const sessionPrice = hourlyRate * 1.1 * (1 - patientDiscount);
@@ -238,9 +89,118 @@ const fetchDoctors = async (patientDiscount) => {
       }));
       const specialtyList = ["Select", ...Array.from(specialties)]
       setSpecialtyFilters(specialtyList.map((spec) => <option value={spec}>{spec}</option>));
-    //   setFilteredDoctors(mockDoctors);
+
   });
 }
+  
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Use the selectedDropdown state to determine the search criteria
+    if (selectedDropdown === 'name') {
+      const filteredByName = doctors.filter((doctor) =>
+        doctor.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredDoctors(filteredByName);
+    } else if (selectedDropdown === 'specialty') {
+      const filteredBySpecialty = doctors.filter((doctor) =>
+        doctor.speciality.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredDoctors(filteredBySpecialty);
+    }
+    
+  };
+
+  useEffect(() => {
+    applySearch();
+}, [doctorSearchNameValue, doctorSearchSpecialtyValue, doctorSearchDateValue, doctorSpecialtyFilter]);
+
+
+          
+          
+     
+    //   ];
+  
+     
+    //   ];
+    const applySearch = () => {
+      //console.log("9999", [...doctors]);
+      let newDoctors = [...doctors];
+    
+      // Apply other filters first
+      if (doctorSearchNameValue !== "" && selectedDropdown === "name") {
+        newDoctors = newDoctors.filter((doc) =>
+          doc.name.toLowerCase().includes(doctorSearchNameValue.toLowerCase())
+        );
+      }
+     // console.log("1111", newDoctors);
+    
+      if (doctorSearchSpecialtyValue !== "" && selectedDropdown === "specialty") {
+        newDoctors = newDoctors.filter((doc) =>
+          doc.speciality.toLowerCase().includes(doctorSearchSpecialtyValue.toLowerCase())
+        );
+      }
+     // console.log("2222", newDoctors);
+    
+      if (doctorSpecialtyFilter !== "Select") {
+        newDoctors = newDoctors.filter((doc) => doc.speciality === doctorSpecialtyFilter);
+      }
+      //console.log("3333", newDoctors);
+    
+      // Apply date filter last
+      if (doctorSearchDateValue !== "") {
+        newDoctors = applyDateFilter(newDoctors);
+      }
+     // console.log("4444", newDoctors);
+    
+      setFilteredDoctors(newDoctors);
+    };
+    
+    
+    
+    
+      
+      
+      const applyFilterBySpecialty = (specialty) => {
+        //console.log("Clicked on specialty:", specialty);
+        setDoctorSpecialtyFilter(specialty);
+      
+        // Filter doctors based on the selected specialty
+        const filteredDoctors = doctors.filter((doctor) => doctor.speciality === specialty);
+
+        setFilteredDoctors(filteredDoctors);
+      };
+      
+      const applyDateFilter = (doctorList) => {
+        const pickedISODate = new Date(doctorSearchDateValue).toISOString();
+        console.log("222222222222", doctorList);
+        const newDoctors = doctorList.filter((doctor) => {
+          const appointments = doctor.appointments;
+          console.log("Appointments:", appointments);
+          const isNotFree = appointments.some((app) => {
+            let start = new Date(app.dateOfAppointment);
+            const end = new Date(start.getTime() + 1000 * 60 * 60).toISOString(); // ADDS 1 HOUR
+            start = start.toISOString();
+            const result = pickedISODate > start && pickedISODate < end;
+            console.log("Date Filter Result:", result);
+            console.log("pickedISODate:", pickedISODate);
+            console.log("start:", start);
+            console.log("end:", end);
+            return result;
+          });
+          return !isNotFree;
+        });
+      
+        console.log("Filtered Doctors:", newDoctors);
+        return newDoctors;
+      };
+      
+      
+    
+   
+  useEffect(() => {
+    fetchDoctors();
+  }, []);
+
 
 
   return (
@@ -249,9 +209,12 @@ const fetchDoctors = async (patientDiscount) => {
       <h1 className="Browse-Doctors_title">BROWSE DOCTORS</h1>
        <form className="Browse-Doctors_search" onSubmit={handleSearch}>
       <h2 className="Browse-Doctors_speciality">Speciality</h2>
+       <button className="back-button" onClick={handleBackButtonClick}>
+    <img src={arrowImage} alt="" className="back-image" 
+     width="60"
+     height="54"/>
+      </button>
       <div className="input-container">
-  
-
         <img
           src={searchImage}
           alt="Search"
@@ -305,16 +268,14 @@ const fetchDoctors = async (patientDiscount) => {
       </div>
     
     </form>
+  
     <div className="filter-button-container">
   {showDoctorDateFilter ? (
     <div className="appointments">
       <span>Availability Date </span>
-      <input
-    type="datetime-local"
-    className="input-avail"
-    value={doctorSearchDateValue}
-    onChange={(event) => setDoctorSearchDate(event.target.value)}
-/>
+      <input type="datetime-local" 
+      value={doctorSearchDateValue} 
+      onChange={(event) => { setDoctorSearchDate(event.target.value) }} />
       <button onClick={() => setShowDoctorDateFilter(false)}>Apply</button>
     </div>
   ) : (
