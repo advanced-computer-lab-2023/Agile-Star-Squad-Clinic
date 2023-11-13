@@ -18,7 +18,7 @@
   justify-content: center;
   text-align: center;
   margin: 0 auto;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 30px;
 }
 
@@ -34,9 +34,12 @@
   align-items: center;
   border-radius: 15px;
   background: rgba(217, 217, 217, 0.26);
+  border: none;
 }
 
 .input-container input {
+  background: transparent;
+  border: none;
   flex: 1;
   padding: 8px;
 }
@@ -107,12 +110,8 @@ flex-shrink: 0;
   bottom :50%;
 }
 .back-image{
-  position: relative;
-  align-items: center;
-  right: 50%;
-  bottom: 80%;
-  height: 100px;
-  width: 60px;
+  height: 22px;
+  width: 12px;
 }
 
 /* Add a custom class for the row to control spacing */

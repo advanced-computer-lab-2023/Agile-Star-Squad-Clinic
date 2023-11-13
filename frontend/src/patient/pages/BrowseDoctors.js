@@ -5,7 +5,7 @@ import './BrowseDoctors.css';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import filter from '../../2877849.png';
 import searchImage from '../../search.png'; 
-import arrowImage from '../../arrow.png'; 
+import arrowImage from '../../backarrow.png'; 
 import ophthalmology from '../../ophthalmology.png'; 
 import dentist from '../../dentist.png'; 
 import gas from '../../gas.png';
@@ -22,7 +22,7 @@ import Card from '../../shared/components/Card/Card';
 
 const BrowseDoctors = () => {
     const [showDropdown, setShowDropdown] = useState(false);
-    const [selectedDropdown, setSelectedDropdown] = useState('filterBy');
+    const [selectedDropdown, setSelectedDropdown] = useState('name');
     const [doctors, setDoctors] = useState([]);
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [doctorSearchNameValue, setDoctorSearchName] = useState("");
@@ -211,7 +211,7 @@ const fetchDoctors = async (patientDiscount) => {
       <h2 className="Browse-Doctors_speciality">Speciality</h2>
        <button className="back-button" onClick={handleBackButtonClick}>
     <img src={arrowImage} alt="" className="back-image" 
-     width="60"
+     width="54"
      height="54"/>
       </button>
       <div className="input-container">
@@ -219,20 +219,20 @@ const fetchDoctors = async (patientDiscount) => {
           src={searchImage}
           alt="Search"
           width="25"
-          height="20"
+          height="18"
           className="search-icon_image"
         />
      
         <input
           type="text"
-          placeholder=""
+          placeholder="Search..."
           className="search-input"
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => {setSearchText(e.target.value); handleSearch(e);}}
         />
 
 <div className="dropdown-container">
-          {!showDropdown && (
+          {/* {!showDropdown && (
             <button
               type="button"
               className="filter-icon-button"
@@ -247,17 +247,14 @@ const fetchDoctors = async (patientDiscount) => {
                 id="filter"
               />
             </button>
-          )}
+          )} */}
 
-          {showDropdown && (
+          {true && (
             <div className="dropdown-list">
                <select
                 value={selectedDropdown}
                 onChange={handleDropdownChange}
               >
-                <option value="filterBy" disabled>
-                  Filter by
-                </option>
                 <option value="name">Name</option>
                 <option value="specialty">Specialty</option>
               </select>
@@ -284,7 +281,7 @@ const fetchDoctors = async (patientDiscount) => {
     </button>
   )}
 </div>
-      <div className="container-fluid d-flex mx-2">
+      <div className="container-fluid d-flex mx-2 mb-5">
       <div className="row align-items-center">
       <div className="col" onClick={() => applyFilterBySpecialty('Ophthalmology')}>
             <img src={ophthalmology} alt="" className="icons" />
