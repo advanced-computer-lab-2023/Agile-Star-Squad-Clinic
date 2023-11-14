@@ -94,8 +94,8 @@ const UserDetails = (props) => {
                 <span>{props.data['educationalBackground']}</span>
             </div>
             <div>
-                <span><h4>Specialty</h4></span>
-                <span>{props.data['specialty']}</span>
+                <span><h4>speciality</h4></span>
+                <span>{props.data['speciality']}</span>
             </div>
         </React.Fragment>
     }

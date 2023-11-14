@@ -52,27 +52,28 @@ const requestSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['rejected', 'accepted', 'pending'],
-      default: 'pending',
+      enum: ['Rejected', 'Accepted', 'Pending'],
+      default: 'Pending',
     },
-    // patients: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'Patient',
-    //   },
-    // ],
+    idImage: {
+      type: String,
+      required: [true, "Please provide your ID."],
+    },
+    medicalLicense: {
+      type: String,
+      required: [true, "Please provide your medical license."],
+    },
+    medicalDegree: {
+      type: String,
+      required: [true, "Please provide your medical degree."],
+    },
+
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
-
-// doctorSchema.virtual('patients', {
-//   ref: 'Patient',
-//   foreignField: 'doctor',
-//   localField: '_id',
-// });
 
 const Request = mongoose.model('Request', requestSchema);
 

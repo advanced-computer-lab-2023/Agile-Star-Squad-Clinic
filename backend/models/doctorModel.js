@@ -59,12 +59,14 @@ const doctorSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.ObjectId,
         ref: 'Appointment',
+        default: [],
       },
     ],
     patients: [
       {
         type: mongoose.Schema.ObjectId,
         ref: 'Patient',
+        default: [],
       },
     ],
     // role: {
