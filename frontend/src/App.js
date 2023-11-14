@@ -22,7 +22,7 @@ import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
 import PatientAccountSettings from './patient/pages/PatientAccountSettings';
-import HealthPackages from "./patient/pages/healthPackages/HealthPackages"
+import HealthPackages from './patient/pages/healthPackages/HealthPackages';
 import Appointments from './patient/pages/appointments/Appointments';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import PendingRequest from './requests/pendingRequest';
@@ -38,14 +38,18 @@ function App() {
     if (user.role === 'patient') {
       return (
         <Routes>
-        <Route
-          path="/patient/appointment/book"
-          element={<BookAppointment />}
-          exact
-        />
-        <Route path='/healthPackages' element={<HealthPackages/>} exact/>
-        <Route path='/patient/account' element={<PatientAccountSettings/>} exact/>
-        <Route path='/appointments' element={<Appointments/>} exact/>
+          <Route
+            path="/patient/appointment/book"
+            element={<BookAppointment />}
+            exact
+          />
+          <Route path="/healthPackages" element={<HealthPackages />} exact />
+          <Route
+            path="/patient/account"
+            element={<PatientAccountSettings />}
+            exact
+          />
+          <Route path="/appointments" element={<Appointments />} exact />
           <Route path="/patient/home" element={<PatientHomePage />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
@@ -93,7 +97,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} exact />
           <Route path="/resetPassword" element={<ResetPassword />} exact />
-          <Route path="signupOptions" element={<SignupOptions/>} exact/>
+          <Route path="signupOptions" element={<SignupOptions />} exact />
           <Route
             path="/patient/register"
             element={<PatientRegisterForm />}
@@ -145,10 +149,10 @@ function App() {
   };
   return (
     <div className="App">
-        {/* {Object.keys(cookies).length > 0 && (
+      {/* {Object.keys(cookies).length > 0 && (
           <button onClick={logoutHandler}>logout</button>
         )} */}
-        <BrowserRouter>{getUserRoutes()}</BrowserRouter>
+      <BrowserRouter>{getUserRoutes()}</BrowserRouter>
     </div>
   );
 }

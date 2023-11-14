@@ -16,7 +16,11 @@ const AppointmentTime = (props) => {
         <tc key={time}>
           <button
             key={time}
-            disabled={props.isDisabled || props.unavailableTimes.includes(time)}
+            disabled={
+              props.isDisabled ||
+              (props.unavailableTimes !== null &&
+                props.unavailableTimes.includes(time))
+            }
             className={styles.button}
             onClick={() => props.onChooseTime(time)}
           >
