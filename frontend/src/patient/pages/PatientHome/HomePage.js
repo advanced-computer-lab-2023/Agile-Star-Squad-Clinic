@@ -3,20 +3,21 @@ import { DUMMY_USER } from "./../../../shared/DummyUsers";
 import DateCard from "./DateCard";
 import classes from "./HomePage.module.css";
 import "./HomePage.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import BrowseDoctors from "../BrowseDoctors";
+import UserContext from "../../../user-store/user-context";
 
 const imageUrl = "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
 
 
-const HomePage = () => {
+const PatientHomePage = () => {
     const [patient, setPatient] = useState({});
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const [prescriptions, setPrescriptions] = useState([]);
     const [prescriptionsItems, setPrescriptionItems] = useState([]);
 
-    const patientId = DUMMY_USER._id;
+    const patientId = useContext(UserContext).userId;
 
     useEffect(() => {
         fetchPatient();
@@ -161,7 +162,7 @@ const Greeting = (props) => {
     </div>
 }
 
-export default HomePage;
+export default PatientHomePage;
 
 
 const getWeekday = (number) => {

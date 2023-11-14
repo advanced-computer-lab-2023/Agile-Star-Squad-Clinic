@@ -21,9 +21,9 @@ import SignupOptions from './login/pages/SignupOptions';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
-import HomePage from './patient/pages/PatientHome/HomePage';
+import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import HealthPackages from './patient/pages/healthPackages/HealthPackages';
-import BrowseDoctors from './patient/pages/BrowseDoctors';
+import Appointments from "./patient/pages/appointments/Appointments"
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -40,7 +40,9 @@ function App() {
           element={<BookAppointment />}
           exact
         />
-          <Route path="/patient/home" element={<PatientHome />} exact />
+        <Route path='/healthPackages' element={<HealthPackages/>} exact/>
+        <Route path='/appointments' element={<Appointments/>} exact/>
+          <Route path="/patient/home" element={<PatientHomePage />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
@@ -118,9 +120,9 @@ function App() {
   };
   return (
     <div className="App">
-        {Object.keys(cookies).length > 0 && (
+        {/* {Object.keys(cookies).length > 0 && (
           <button onClick={logoutHandler}>logout</button>
-        )}
+        )} */}
         <BrowserRouter>{getUserRoutes()}</BrowserRouter>
     </div>
   );
