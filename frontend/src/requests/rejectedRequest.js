@@ -3,10 +3,17 @@ import classes from './requestsStyle.module.css';
 import doctorImage from './051_Doctor 1.png';
 import ximage from './x.png';
 import logo from './logo.png';
+import { useNavigate } from 'react-router-dom';
 
 
 const RejectedRequest = (props)=>{
-    return(
+  const navigate = useNavigate();
+
+const handleButtonLogout = () => {
+  navigate('/');
+
+}  
+  return(
    
         <body className={classes.background}>
         <div className='d-flex'>
@@ -24,7 +31,7 @@ const RejectedRequest = (props)=>{
             <p className={classes.p2}>Access Denied</p>
             <img src={ximage} alt="BIG X"/>  
             <div>
-            <button className={classes.button}>CLOSE</button>
+            <button className={classes.button}onClick={handleButtonLogout}>CLOSE</button>
             </div>
           </div>
           

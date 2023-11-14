@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AcceptedRequest />} exact />
+          <Route path="/" element={<PendingRequest />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route

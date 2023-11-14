@@ -6,6 +6,8 @@ import doctorImage from './051_Doctor 1.png';
 import tick from './Medicine.png';
 import logo from './logo.png';
 import { DUMMY_USER } from '../shared/DummyUsers';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const AcceptedRequest = (props) => {
@@ -21,6 +23,12 @@ const AcceptedRequest = (props) => {
   const handleButtonClick2 = () => {
     setButtonPressed2(true);
   }
+const navigate = useNavigate();
+
+const handleButtonLogout = () => {
+  navigate('/');
+
+}
 
   const slotSelectStyle = isButtonPressed2 ? classes.slotSelectStyle : "";
 
@@ -218,7 +226,7 @@ The platform reserves the right to update these terms and conditions at any time
 By registering as a doctor on our virtual clinic platform, you acknowledge that you have read, understood, and agreed to these terms and conditions. Failure to comply with these terms may result in the termination of your registration and access to the platform.
                       </div>
                       <div className={classes.buttonsDiv}>
-                        <button className={classes.cancelButton} >Cancel</button>
+                        <button className={classes.cancelButton} onClick={handleButtonLogout} >Logout</button>
                         <button className={classes.agreeButton} onClick={handleButtonClick2}>Agree</button>
                       </div>
                     </>

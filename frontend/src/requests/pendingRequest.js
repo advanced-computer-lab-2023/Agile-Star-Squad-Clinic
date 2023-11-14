@@ -3,10 +3,17 @@ import classes from './requestsStyle.module.css';
 import doctorImage from './051_Doctor 1.png';
 import clock from './Clock.png';
 import logo from './logo.png';
+import { useNavigate } from 'react-router-dom';
 
 
 const PendingRequest = (props)=>{
-    return(
+  const navigate = useNavigate();
+
+const handleButtonLogout = () => {
+  navigate('/');
+
+}  
+  return(
    
       <body className={classes.background}>
       <div className='d-flex'>
@@ -24,7 +31,7 @@ const PendingRequest = (props)=>{
           <p className={classes.p2}>Access Pending</p>
           <img src={clock} alt="BIG CLOCK"/>  
           <div>
-          <button className={classes.button}>CLOSE</button>
+          <button className={classes.button}onClick={handleButtonLogout}>Logout</button>
           </div>
         </div>
         
