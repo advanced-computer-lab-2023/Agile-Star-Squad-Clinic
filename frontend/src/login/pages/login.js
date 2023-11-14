@@ -42,8 +42,8 @@ const Login = (props) => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row">
+    <div className="container-fluid" style={{ backgroundColor: '#96B7C7' }}>
+      <div className="row" style={{ backgroundColor: '#96B7C7' }}>
         <div className="col-md-7">
           <div className={styles.logo}>
             <img src={logo} alt="logo" />
@@ -79,9 +79,7 @@ const Login = (props) => {
             <p>
               Don't have an account?{' '}
               <a className={styles.signupLink} href="#">
-                <Link to="/signupOptions">
-                  Sign Up Now
-                </Link>
+                <Link to="/signupOptions">Sign Up Now</Link>
               </a>
             </p>
           </div>
