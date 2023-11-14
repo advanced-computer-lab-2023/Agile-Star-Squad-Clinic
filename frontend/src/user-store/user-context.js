@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { useCookies } from "react-cookie";
 const { createContext, useState } = require("react");
 
 
@@ -14,6 +14,7 @@ const UserContext = createContext({
 export default UserContext;
 
 export const UserContextProvider = (props) => {
+    const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
     const [user, setUser] = useState({ role: "guest", userId: null, status: null });
 
     const login = (user) => {
@@ -22,6 +23,7 @@ export const UserContextProvider = (props) => {
 
     const logout = async () => {
         await axios.get('http://localhost:3000/auth/logout');
+        removeCookie('jwt', { path: '/' });
         setUser({ role: "guest", id: null });
     }
 
