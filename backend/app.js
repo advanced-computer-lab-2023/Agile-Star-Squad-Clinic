@@ -17,9 +17,6 @@ const {
 } = require('./controllers/packageController');
 const middleware = require('./middleware/middleware.js');
 
-// const patientController = require('./controllers/patientController');
-// const adminController = require('./controllers/adminController');
-
 const app = express();
 const corsOptions = {
   origin: 'http://localhost:3001',
@@ -43,12 +40,6 @@ app.use('/auth', authRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));
 });
-// app.all('*', (req, res, next) =>{
-//     res.status(404).json({
-//         status:'fail',
-//         messaage:`Can't find ${req.originalUrl} on this server!`
-//     })
-// })
 
 app.use(globalErrorHandler);
 

@@ -9,7 +9,6 @@ function Component2({ setTab3, email }) {
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState('');
   const [retypePassword, setRetypePassword] = useState('');
-  const [id, setId] = useState('');
 
   const handleEmailCancel = () => {
     navigate('/');
@@ -37,10 +36,11 @@ function Component2({ setTab3, email }) {
   const handleSubmit = async (e) => {
     if (newPassword === retypePassword) {
       if (isPasswordValid()) {
-        const user = await axios
+        let id = '';
+        await axios
           .get(`http://localhost:3000/auth/resetPassword/${email}`)
           .then((res) => {
-            setId(res.data.data.user._id);
+            id = res.data.data.user._id;
           });
 
         console.log(id);
@@ -55,7 +55,7 @@ function Component2({ setTab3, email }) {
           console.error('Error:', error);
         });
 
-        setTab3(true);
+        // setTab3(true);
       } else {
         alert('Your password does not match the criteria');
       }

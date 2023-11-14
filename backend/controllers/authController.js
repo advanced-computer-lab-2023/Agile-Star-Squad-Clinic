@@ -91,6 +91,10 @@ exports.getUserByEmail = catchAsync(async (req, res, next) => {
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   const newPassword = req.body.newPassword;
+
+  console.log(id);
+  console.log(newPassword);
+
   const doctor = await Doctor.findById(id);
   const patient = await Patient.findById(id);
   const admin = await Admin.findById(id);
