@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -16,10 +16,12 @@ import DoctorHome from './doctor/pages/DoctorHome';
 import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import './App.css';
+import UserContext from './user-store/user-context';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
+  const currentUser = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
   const [user, setUser] = useState({
     role: null,
@@ -121,10 +123,10 @@ function App() {
   };
   return (
     <div className="App">
-      {Object.keys(cookies).length > 0 && (
-        <button onClick={logoutHandler}>logout</button>
-      )}
-      <BrowserRouter>{getUserRoutes()}</BrowserRouter>
+        {Object.keys(cookies).length > 0 && (
+          <button onClick={logoutHandler}>logout</button>
+        )}
+        <BrowserRouter>{getUserRoutes()}</BrowserRouter>
     </div>
   );
 }

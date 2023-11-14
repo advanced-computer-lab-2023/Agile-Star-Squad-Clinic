@@ -5,11 +5,14 @@ import { CookiesProvider } from 'react-cookie';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import { UserContextProvider } from './user-store/user-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <CookiesProvider>
-    <App />
+    <UserContextProvider>
+      <App />
+    </UserContextProvider>
   </CookiesProvider>
 );
 
