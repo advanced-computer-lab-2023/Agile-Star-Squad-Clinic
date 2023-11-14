@@ -35,7 +35,7 @@ const PatientHome = () => {
 
   const [selectedRow, setSelectedRow] = useState({});
 
-  const patientId = DUMMY_USER._id;
+  const patientId = '65270df9cfa9abe7a31a4d88';
   // const [patientDiscount, setPatientDiscount] = useState(0.0);
   const [token, setToken] = useState(null);
 

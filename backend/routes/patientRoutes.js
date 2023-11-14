@@ -26,7 +26,7 @@ router
 
 router
   .route('/:id')
-  .get(middleware.adminAuth, patientController.getPatient)
+  .get(patientController.getPatient)
   .delete(middleware.adminAuth, patientController.removePatient);
 
 router

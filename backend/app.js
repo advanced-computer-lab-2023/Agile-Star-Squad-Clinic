@@ -8,7 +8,7 @@ const patientRouter = require('./routes/patientRoutes');
 const doctorRouter = require('./routes/doctorRoutes');
 const prescriptionRouter = require('./routes/prescriptionRoutes');
 const packageRouter = require('./routes/packageRoutes');
-const authRouter = require('./routes/authRouter');
+const authRouter = require('./routes/authRoutes');
 const {
   addPackage,
   getPackages,

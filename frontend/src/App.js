@@ -34,6 +34,11 @@ function App() {
       return (
         <Routes>
           <Route path="/patient/home" element={<PatientHome />} exact />
+          <Route
+            path="/patient/appointment/book"
+            element={<BookAppointment />}
+            exact
+          />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
@@ -65,12 +70,6 @@ function App() {
             element={<PatientRegisterForm />}
             exact
           />
-
-          <Route
-            path="/patient/appointment/book"
-            element={<BookAppointment />}
-            exact
-          />
           <Route
             path="/doctor/register"
             element={<DoctorRegisterForm />}
@@ -80,11 +79,7 @@ function App() {
         </Routes>
       );
     }
-    // console.log('dakhal');
-    // console.log(routes);
-    // console.log('kharaj');
   };
-
   useEffect(() => {
     axios
       .get('http://localhost:3000/auth/me', { withCredentials: true })
