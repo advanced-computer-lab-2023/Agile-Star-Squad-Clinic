@@ -1,98 +1,26 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Calendar from '../calender/Calendar';
 import AppointmentTime from '../appointmentTime/AppointmentTime';
 import styles from './BookImplementation.module.css';
 import axios from 'axios';
+import UserContext from '../../../../user-store/user-context';
 
 const BookImplementation = (props) => {
   const navigate = useNavigate();
 
-  const dummyDummyUser = {
-    _id: {
-      $oid: '65270df9cfa9abe7a31a4d88',
-    },
-    username: 'mariam1234',
-    name: 'mariam',
-    email: 'mariam@gmail.com',
-    password: 'test1234',
-    dateOfBirth: {
-      $date: '2001-05-05T00:00:00.000Z',
-    },
-    gender: 'male',
-    mobileNumber: '12986575676',
-    emergencyContact: {
-      fullName: 'ahmed',
-      phoneNumber: '12744784',
-    },
-    prescription: [
-      {
-        $oid: '65215f72fc0fccb3a2b49633',
-      },
-      {
-        $oid: '652161250d517c8b2484dbf9',
-      },
-    ],
-    familyMembers: [
-      {
-        $oid: '65294322dc8e607dd51e8753',
-      },
-      {
-        $oid: '6529434b777d3bdb73d40914',
-      },
-      {
-        $oid: '65294533719784c8d8c742c5',
-      },
-      {
-        $oid: '652aadad17e30cdff35a3666',
-      },
-      {
-        $oid: '652ad7e617e30cdff35a373f',
-      },
-      {
-        $oid: '652ae63f13660e383accda46',
-      },
-      {
-        $oid: '652ae65d13660e383accda4f',
-      },
-      {
-        $oid: '652ae99d0d76955ea353fc64',
-      },
-      {
-        $oid: '652b4645677e678137712f8b',
-      },
-      {
-        $oid: '652d088e263d88f43ea92b7d',
-      },
-    ],
-    appointments: [
-      {
-        $oid: '65270f9d6a48cd31d535b965',
-      },
-      {
-        $oid: '652abeb5c7ba60367f827576',
-      },
-      {
-        $oid: '652abf8708de3ef77f26ef6d',
-      },
-    ],
-    __v: 5,
-    package: {
-      $oid: '652b334947959480072bcd09',
-    },
-    medicalRecord: 'MR',
-  };
+  const userCtx = useContext(UserContext);
 
-  const [dummyUser, setDummyUser] = useState(dummyDummyUser);
+  const [user, setUser] = useState();
 
   const getPatient = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88',
+        `http://localhost:3000/patients/${userCtx.userId}`,
         { withCredentials: true }
       );
-      setDummyUser(response.data.data.patient);
+      setUser(response.data.data.patient);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -102,7 +30,7 @@ const BookImplementation = (props) => {
 
   const [chosenDate, setChosenDate] = useState();
   const [chosenTime, setChosenTime] = useState();
-  const [selectedOption, setSelectedOption] = useState(dummyUser._id.$oid);
+  const [selectedOption, setSelectedOption] = useState(userCtx.userId);
   const [familyMembers, setFamilyMembers] = useState([]);
 
   const getFamilyMembers = async () => {
@@ -199,12 +127,12 @@ const BookImplementation = (props) => {
   };
 
   const bookAppointmentHandler = async () => {
-    const packageToUse = dummyUser.package;
+    const packageToUse = user.package;
     let patientName;
     let addAppointmentTo;
-    if (selectedOption === dummyUser._id) {
-      patientName = dummyUser.name;
-      addAppointmentTo = dummyUser._id;
+    if (selectedOption === userCtx.userId) {
+      patientName = user.name;
+      addAppointmentTo = userCtx.userId;
     } else {
       const member = familyMembers.find((member) => {
         return JSON.stringify(member._id) === JSON.stringify(selectedOption);
@@ -217,7 +145,7 @@ const BookImplementation = (props) => {
         )
         .catch();
       if (familyMemberPatientAccount) {
-        addAppointmentTo = dummyUser._id;
+        addAppointmentTo = userCtx.userId;
       } else {
         addAppointmentTo = familyMemberPatientAccount._id;
       }
@@ -247,7 +175,6 @@ const BookImplementation = (props) => {
 
       expandedTimeRanges.push(expandedTimeRange);
     });
-
     return expandedTimeRanges.flat(); // Use flat() to flatten the array of arrays
   };
 
@@ -276,7 +203,7 @@ const BookImplementation = (props) => {
             value={selectedOption.name}
             onChange={handleDropdownChange}
           >
-            <option value={dummyUser._id}>Me</option>
+            <option value={userCtx.userId}>Me</option>
             {familyMembers !== undefined &&
               familyMembers.map((member) => (
                 <option value={member._id}>{member.name}</option>
