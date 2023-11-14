@@ -41,6 +41,11 @@ const patientSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a phone number.'],
   },
+  nationalId: {
+    type: String,
+    unique: true,
+    required: [true, 'Please provide a national ID.'],
+  },
   emergencyContact: {
     fullName: {
       type: String,
@@ -51,16 +56,15 @@ const patientSchema = new mongoose.Schema({
       required: [true, 'Please provide an emergency phone number.'],
     },
   },
-  medicalRecord: {
+  medicalRecord: [{
     type: String,
     // required: [true, 'Please provide your medical record']
-    default: ""
+    default: '',
+  }],
+  package: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Package',
   },
-  package: 
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Package'
-    },
   prescription: [
     {
       type: mongoose.Schema.ObjectId,

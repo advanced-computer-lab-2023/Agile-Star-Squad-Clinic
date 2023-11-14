@@ -23,8 +23,8 @@ const appointmentSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['vaccant', 'reserved', 'passed'],
-    required: [true, 'Please provide status'],  
+    enum: ['upcoming', 'completed', 'cancelled', 'rescheduled'],
+    required: [true, 'Please provide status'],
   },
 });
 

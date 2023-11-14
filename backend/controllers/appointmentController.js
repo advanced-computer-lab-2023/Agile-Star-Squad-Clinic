@@ -68,6 +68,38 @@ exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.allAppointmentsForPatients = catchAsync(async (req, res, next) => {
+  const appointments = [];
+  const patient = await Patient.findById(req.params.patientId).populate(
+    'appointments'
+  );
+
+  for (const app of patient.appointments) {
+    const doctor = await Doctor.findById(app.doctor);
+    const date = new Date(app.dateOfAppointment);
+    let status = app.status;
+    if (app.status === "upcoming" && !isDateInFuture(app.dateOfAppointment)) {
+      Appointment.findByIdAndUpdate(app._id, {status: "completed"})
+      app.status = "completed";
+    }
+    const appointment = {
+      _id: app._id,
+      doctorName: doctor.name,
+      doctorId: doctor.id,
+      date: date,
+      status: status,
+    };
+    appointments.push(appointment);
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      appointments: appointments,
+    },
+  });
+});
+
 exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
   const appointments = [];
   const patient = await Patient.findById(req.params.patientId).populate(

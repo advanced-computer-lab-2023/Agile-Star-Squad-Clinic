@@ -1,14 +1,16 @@
 const express = require('express');
 const doctorController = require('../controllers/doctorController');
 const appointmentController = require('../controllers/appointmentController');
+const middleware = require('../middleware/middleware.js');
 
 const router = express.Router({
   mergeParams: true,
 });
 router
   .route('/appointments')
-  .get(appointmentController.getAllAppointments)
-  .post(appointmentController.createAppointment);
+  .get(middleware.doctorAuth, appointmentController.getAllAppointments)
+  .post(middleware.doctorAuth, appointmentController.createAppointment);
+
 router
   .route('/')
   .get(doctorController.getAllDoctors)
@@ -17,17 +19,22 @@ router
 router
   .route('/:id')
   .get(doctorController.getDoctor)
-  .patch(doctorController.updateDoctor)
+  .patch(middleware.doctorAuth, doctorController.updateDoctor)
   .delete(doctorController.removeDoctor);
 
 router
   .route('/:doctorId/patients')
-  .get(doctorController.getMyPatients)
+  .get(middleware.doctorAuth, doctorController.getMyPatients)
   .post(doctorController.addPatient);
 
-router.route('/:id/patient').get(doctorController.getMyPatient);
+router
+  .route('/:id/patient')
+  .get(middleware.doctorAuth, doctorController.getMyPatient);
 
 router
   .route('/:doctorId/upComingAppointments')
-  .get(appointmentController.upComingAppointmentsForDoctors);
+  .get(
+    middleware.doctorAuth,
+    appointmentController.upComingAppointmentsForDoctors
+  );
 module.exports = router;

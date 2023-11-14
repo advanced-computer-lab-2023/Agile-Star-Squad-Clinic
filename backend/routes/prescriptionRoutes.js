@@ -1,5 +1,7 @@
 const express = require('express');
 const prescriptionController = require('../controllers/prescriptionController');
+const middleware = require('../middleware/middleware.js');
+
 
 const router = express.Router({
   mergeParams: true,
@@ -8,7 +10,7 @@ const router = express.Router({
 router
   .route('/')
   .get(prescriptionController.getAllPrescription)
-  .post(prescriptionController.createPrescription);
+  .post(middleware.doctorAuth,prescriptionController.createPrescription);
 
 // router
 //   .route('/:id')

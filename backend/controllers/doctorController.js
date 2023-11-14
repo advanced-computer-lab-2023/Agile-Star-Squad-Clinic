@@ -8,19 +8,23 @@ const Request = require('../models/requestModel');
 const Appointment = require('../models/appointmentModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
-  const newRequest = await Request.create(req.body);
-  // const newDoctor = await Doctor.create(req.body);
+  // const newRequest = await Request.create(req.body);
+  const newDoctor = await Doctor.create(req.body);
 
   res.status(200).json({
     status: 'success',
     data: {
-      request: newRequest,
+      doctor: newDoctor,
+      // request: newRequest,
     },
   });
 });
 
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Doctor.find().populate('appointments'), req.query)
+  const features = new APIFeatures(
+    Doctor.find().populate('appointments'),
+    req.query
+  )
     .filter()
     .sort()
     .fieldLimit()

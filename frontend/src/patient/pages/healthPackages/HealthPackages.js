@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PackageList from './PackageList';
+import NavBar from '../../../shared/components/NavBar/NavBar';
 
 const HealthPackages = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +35,7 @@ const HealthPackages = () => {
 
   return (
     <div>
+        <NavBar/>
       <div className="header">
      
         <h1>Packages</h1>
