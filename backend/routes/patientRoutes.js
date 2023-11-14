@@ -36,11 +36,15 @@ router
 
 router
   .route('/:id/setHealthRecords')
-  .patch(patientController.removeHealthRecord); 
+  .patch(patientController.removeHealthRecord);
 
 router
   .route('/:patientId/prescriptions')
   .get(middleware.patientAuth, prescriptionController.getPatientPrescriptions);
+
+router
+  .route('/:patientId/appointments')
+  .get(appointmentController.allAppointmentsForPatients);
 
 router
   .route('/:patientId/upcomingAppointments')
@@ -50,7 +54,10 @@ router
   );
 
 router
-  .route('/:patientId/appointments')
-  .get(appointmentController.allAppointmentsForPatients);
+  .route('/:doctorId/doctorUpcomingAppointments')
+  .get(
+    middleware.patientAuth,
+    appointmentController.upComingAppointmentsForDoctors
+  );
 
 module.exports = router;
