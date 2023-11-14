@@ -55,7 +55,7 @@ function Component2({ setTab3, email }) {
           console.error('Error:', error);
         });
 
-        // setTab3(true);
+        setTab3(true);
       } else {
         alert('Your password does not match the criteria');
       }
