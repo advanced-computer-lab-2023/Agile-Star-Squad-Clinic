@@ -35,10 +35,9 @@ const PatientHomePage = () => {
   };
 
   const fetchPrescriptions = () => {
-    fetch(
-      'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/prescriptions',
-      { credentials: 'include' }
-    ).then(async (response) => {
+    fetch(`http://localhost:3000/patients/${patientId}/prescriptions`, {
+      credentials: 'include',
+    }).then(async (response) => {
       const json = await response.json();
       const prescriptionsJson = json.data.prescriptions;
       setPrescriptions(

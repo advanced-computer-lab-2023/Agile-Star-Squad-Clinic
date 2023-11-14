@@ -34,9 +34,8 @@ const BookImplementation = (props) => {
   const [familyMembers, setFamilyMembers] = useState([]);
 
   const getFamilyMembers = async () => {
-    const patientId = '65270df9cfa9abe7a31a4d88';
     const members = await axios.get(
-      `http://localhost:3000/patients/${patientId}/familyMembers`,
+      `http://localhost:3000/patients/${userCtx.userId}/familyMembers`,
       { withCredentials: true }
     );
     setFamilyMembers(members.data.data.members);

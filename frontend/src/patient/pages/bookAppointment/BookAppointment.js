@@ -31,7 +31,7 @@ const BookAppointment = (props) => {
   const getUpcomingAppointments = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/patients/65270f436a48cd31d535b963/doctorUpcomingAppointments',
+        `http://localhost:3000/patients/${doctor._id}/doctorUpcomingAppointments`,
         { withCredentials: true }
       );
       setUpComingAppointments(response.data.data.appointments);
