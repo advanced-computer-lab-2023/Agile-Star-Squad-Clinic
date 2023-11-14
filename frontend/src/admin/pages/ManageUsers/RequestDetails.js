@@ -64,6 +64,7 @@ const RequestDetails = (props) => {
 
     return ReactDOM.createPortal(
         <Modal exit={props.exit} >
+            <div style={{maxHeight: "70vh"}}>
             <div>
                 <span><h4>Username</h4></span>
                 <span>{props.data['username']}</span>
@@ -122,6 +123,7 @@ const RequestDetails = (props) => {
             </div>
 
             {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
+            </div>
         </Modal>, document.getElementById("backdrop-root")
     );
 }
