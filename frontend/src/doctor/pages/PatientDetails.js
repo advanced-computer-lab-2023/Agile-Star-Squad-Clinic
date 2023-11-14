@@ -8,6 +8,7 @@ const PatientDetails = (props) => {
     props.exit();
   };
 
+
   const PatientDetails = () => {
     return getPatientBody();
   };
@@ -61,7 +62,14 @@ const PatientDetails = (props) => {
           <span>
             <h4>Medical Record</h4>
           </span>
-          <span>{props.data["medicalRecord"]}</span>
+          <div className='d-flex flex-row'>
+            {props.data["medicalRecord"].map(url => {
+              return <>
+                {!url.includes("pdf") && <a className="mx-3"  href={url} target="_blank"> <img src={url} width={130} /></a>}
+                {url.includes("pdf") && <div className="mx-3" style={{ width: "130px" }}><a href={url} target="_blank">View PDF</a></div>}
+              </>
+            })}
+          </div>
         </div>
       </React.Fragment>
     );
