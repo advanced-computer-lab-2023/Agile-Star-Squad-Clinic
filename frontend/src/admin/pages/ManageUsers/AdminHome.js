@@ -9,8 +9,13 @@ const AdminHome = (props) => {
 
   const logout = () => {
     userCtx.logout();
-    navigate("/");
-  }
+    navigate('/');
+  };
+
+  const changePasswordHandler = () => {
+    navigate('/changePassword');
+  };
+
   return (
     <>
       <div>
@@ -22,11 +27,16 @@ const AdminHome = (props) => {
         <Link to="/packages">
           <button>Packages Page</button>
         </Link>
+        <button onClick={changePasswordHandler}>change password</button>
       </div>
       <div>
-          <button onClick={logout} id="addingbutton" className="btn btn-primary sm">
-            Logout
-          </button>
+        <button
+          onClick={logout}
+          id="addingbutton"
+          className="btn btn-primary sm"
+        >
+          Logout
+        </button>
       </div>
     </>
   );

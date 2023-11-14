@@ -28,6 +28,7 @@ import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import PendingRequest from './requests/pendingRequest';
 import RejectedRequest from './requests/rejectedRequest';
 import AcceptedRequest from './requests/acceptedRequest';
+import ChangePassword from './login/pages/ChangePassword';
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
     if (user.role === 'patient') {
       return (
         <Routes>
+          <Route path="/patient/home" element={<PatientHomePage />} exact />
           <Route
             path="/patient/appointment/book"
             element={<BookAppointment />}
@@ -50,24 +52,26 @@ function App() {
             exact
           />
           <Route path="/appointments" element={<Appointments />} exact />
-          <Route path="/patient/home" element={<PatientHomePage />} exact />
+          <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
     } else if (user.role === 'doctor') {
-      if (user.status === "accepted") {
-        return <Routes>
-          <Route path='/' element={<AcceptedRequest/>}/>
-        </Routes>
+      if (user.status === 'accepted') {
+        return (
+          <Routes>
+            <Route path="/" element={<AcceptedRequest />} />
+          </Routes>
+        );
       } else {
         return (
-        <Routes>
-          <Route path="/doctor/home" element={<DoctorHome />} exact />
-          <Route path="*" element={<Navigate to="/doctor/home" />} />
-        </Routes>
-      );
+          <Routes>
+            <Route path="/doctor/home" element={<DoctorHome />} exact />
+            <Route path="changePassword" element={<ChangePassword />} exact />
+            <Route path="*" element={<Navigate to="/doctor/home" />} />
+          </Routes>
+        );
       }
-      
     } else if (user.role === 'admin') {
       return (
         <Routes>
@@ -76,22 +80,24 @@ function App() {
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />
           <Route path="admin/manage" element={<ManageUsersPage />} />
+          <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="*" element={<Navigate to="/admin/home" />} />
         </Routes>
       );
     } else if (user.role === 'request') {
-      if (user.status === "Pending") {
-        return <Routes>
-          <Route path='/' element={<PendingRequest/>}/>
-        </Routes>
-      } else if (user.status === "Rejected") {
+      if (user.status === 'Pending') {
         return (
           <Routes>
-            <Route path='/' element={<RejectedRequest/>}/>
+            <Route path="/" element={<PendingRequest />} />
+          </Routes>
+        );
+      } else if (user.status === 'Rejected') {
+        return (
+          <Routes>
+            <Route path="/" element={<RejectedRequest />} />
           </Routes>
         );
       }
-      
     } else {
       return (
         <Routes>
@@ -121,8 +127,11 @@ function App() {
           user.logout();
         } else {
           console.log(res.data.data);
-          user.login({role: res.data.data.role, userId: res.data.data.id, status: res.data.data.status});
-          
+          user.login({
+            role: res.data.data.role,
+            userId: res.data.data.id,
+            status: res.data.data.status,
+          });
         }
       });
   }, []);
