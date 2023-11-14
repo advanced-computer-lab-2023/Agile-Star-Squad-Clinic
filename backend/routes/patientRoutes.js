@@ -27,11 +27,16 @@ router
 router
   .route('/:id')
   .get(patientController.getPatient)
+  .patch(middleware.adminAuth, patientController.addHealthRecord)
   .delete(middleware.adminAuth, patientController.removePatient);
 
 router
   .route('/getByNationalId/:nationalId')
   .get(middleware.patientAuth, patientController.getPatientByNationalId);
+
+router
+  .route('/:id/setHealthRecords')
+  .patch(patientController.removeHealthRecord); 
 
 router
   .route('/:patientId/prescriptions')

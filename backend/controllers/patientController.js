@@ -6,6 +6,7 @@ const Doctor = require('../models/doctorModel');
 const apiFeatures = require('../utils/apiFeatures');
 const Appointment = require('../models/appointmentModel');
 const Prescription = require('../models/prescriptionModel');
+const { response } = require('express');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newPatient = await Patient.create(req.body)
@@ -140,6 +141,76 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       doctor,
+    },
+  });
+});
+exports.removeSubscription = catchAsync(async (req, res, next) => {
+  const updatedPatient= await Patient.findByIdAndUpdate(
+    req.params.id,
+    {package:null},
+    // {
+    //   new: true,
+    //   runValidators: true,
+    // }
+  ).catch(error=>{console.log(error)
+  });
+  if(!updatedPatient){
+  res.status(404).json({error})
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
+    },
+  });
+});
+
+exports.addHealthRecord = catchAsync(async (req, res, next) => {
+  console.log("ehna hena");
+  console.log(req.body);
+  const updatedPatient = await Patient.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: { medicalRecord: req.body.medicalRecord },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!updatedPatient) {
+    return next(new AppError('No patient found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
+    },
+  });
+});
+
+exports.removeHealthRecord = catchAsync(async (req, res, next) => {
+  const updatedPatient = await Patient.findByIdAndUpdate(
+    req.params.id,
+    {
+      medicalRecord: req.body.medicalRecord
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!updatedPatient) {
+    return next(new AppError('No patient found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
     },
   });
 });

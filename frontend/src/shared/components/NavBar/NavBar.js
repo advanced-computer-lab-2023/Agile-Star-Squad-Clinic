@@ -9,15 +9,15 @@ const NavBar = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
         <div className="container-fluid">
           <Link to={"/patient/home"} className="navbar-brand">
-              <img
-                src={logo}
-                alt=""
-                width="30"
-                height="24"
-                className="d-inline-block align-text-top"
-                id="logo"
-              />
-              clinic
+            <img
+              src={logo}
+              alt=""
+              width="30"
+              height="24"
+              className="d-inline-block align-text-top"
+              id="logo"
+            />
+            clinic
           </Link>
           <button
             className="navbar-toggler"
@@ -52,7 +52,9 @@ const NavBar = () => {
               <Link to="/appointments" style={{ all: "unset" }}>
                 <a href="#" className="btn btn-white">Appointments</a>
               </Link>
-              <a href="#" className="btn btn-white" id="last">Account</a>
+              <Link to={"/patient/account"}>
+                <a href="#" className="btn btn-white" id="last">Account</a>
+              </Link>
             </div>
 
 

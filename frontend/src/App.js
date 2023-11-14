@@ -20,11 +20,14 @@ import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
+import RejectedRequest from './requests/rejectedRequest';
 import NavBar from './shared/components/NavBar/NavBar';
+import PendingRequest from './requests/pendingRequest';
+import AcceptedRequest from './requests/acceptedRequest';
+import PatientAccountSettings from './patient/pages/PatientAccountSettings';
+import HealthPackages from "./patient/pages/healthPackages/HealthPackages"
+import Appointments from './patient/pages/appointments/Appointments';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
-import HealthPackages from './patient/pages/healthPackages/HealthPackages';
-import Appointments from "./patient/pages/appointments/Appointments"
-
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
@@ -41,6 +44,7 @@ function App() {
           exact
         />
         <Route path='/healthPackages' element={<HealthPackages/>} exact/>
+        <Route path='/patient/account' element={<PatientAccountSettings/>} exact/>
         <Route path='/appointments' element={<Appointments/>} exact/>
           <Route path="/patient/home" element={<PatientHomePage />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />

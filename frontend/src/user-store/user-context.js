@@ -3,7 +3,7 @@ const { createContext, useState } = require("react");
 
 const UserContext = createContext({
     role: "guest", 
-    id: null, 
+    userId: null, 
     login: (user) => { }, 
     logout: () => { }
 });
