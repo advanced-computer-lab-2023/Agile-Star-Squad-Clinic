@@ -3,7 +3,7 @@ import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import NewPackage from '../../package/pages/NewPackage';
 import Payment from '../components/payment/Payment';
-
+import { useLocation } from 'react-router-dom';
 const DUMMY_APPOINTMENT = [
   {
     date: new Date('October 13, 2014 11:13:00'),
@@ -25,6 +25,9 @@ const AddingInfo = (props) => {
   const [packagePresent,setPackagePresent]= useState(false);
   const price =DUMMY_APPOINTMENT[0].price;
   
+  const location = useLocation()
+  const stateData = location.state;
+  console.log(stateData);
   useEffect(() => {
     const fetchDataPackage = async () => {
       

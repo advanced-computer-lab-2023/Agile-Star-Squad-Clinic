@@ -19,15 +19,12 @@ import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
 import HealthPackages from './patient/pages/healthPackages/HealthPackages';
 import AddingInfo from './checkout/pages/AddingInformation';
-import StripeContainer from './checkout/components/StripeContainer';
-import Trial2 from './checkout/components/Trial2';
 import Payment from "../src/checkout/components/payment/Payment";
 import Completion from "../src/checkout/components/payment/Completion";
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import UserContext from './user-store/user-context';
 import './App.css';
 import Appointments from './patient/pages/appointments/Appointments';
-import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -44,7 +41,6 @@ function App() {
     if (user.role === 'patient') {
       return (
         <Routes>
-          <Route path="/" element={<LandingPage />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           <Route
             path="/patient/register"
@@ -101,9 +97,7 @@ function App() {
           <Route path="/packages" element={<AdminPackagesView />} exact />
           <Route path="admin/manage" element={<ManageUsersPage/>}/>
           <Route path="/PatientFamily" element={<PatientFamily />} exact />
-          <Route path="/payment" element={<StripeContainer />} exact />
-          <Route path="/payment2" element={<Trial2 />} exact />
-          <Route path="/payment3" element={<AddingInfo />} exact />
+          <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/completion" element={<Completion />} exact />
           
           
