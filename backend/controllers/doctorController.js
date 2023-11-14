@@ -193,14 +193,14 @@ exports.setTimeSlots = catchAsync(async (req, res, next) => {
 
 exports.setDoctorAsMember = catchAsync(async (req, res, next) => {
   const doctorId = req.params.doctorId;
-
-  const doctor = await Doctor.findById(doctorId);
+  console.log("here!")
+  const doctor = await Doctor.findByIdAndUpdate(doctorId, {status: "member"});
+  console.log(doctor);
 
   if (!doctor) {
     return next(new AppError('Doctor not found', 404));
   }
 
-  doctor.status = "member";
 
   await doctor.save();
   res.status(200).json({

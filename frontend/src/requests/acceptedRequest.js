@@ -135,10 +135,13 @@ const AcceptedRequest = (props) => {
       method: 'POST',
       headers: { 'Content-type': 'application/json; charset=UTF-8' },
       body: JSON.stringify({timeSlots: finalResults}),
+      credentials: "include"
     };
 
     fetch(`http://localhost:3000/doctors/${doctorId}/timeSlots`, requestOptions)
-    fetch(`http://localhost:3000/doctors/${doctorId}/setAsMember`);
+    fetch(`http://localhost:3000/doctors/${doctorId}/setAsMember`, {
+      credentials: "include"
+    });
     doctor.login({role: doctor.role, userId: doctorId, status: "member"});
     navigate("/");
   }

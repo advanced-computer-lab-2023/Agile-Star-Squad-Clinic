@@ -89,7 +89,8 @@ const DoctorHome = () => {
 
   const fetchMyPatients = () => {
     //hardcode id
-    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/patients`).then(
+    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/patients`, {
+      credentials: "include"}).then(
       async (response) => {
         const json = await response.json();
         const patientsJson = json.data.patients; //check
@@ -151,7 +152,8 @@ const DoctorHome = () => {
   const fetchUpcomingAppointments = () => {
     //hardcode id
     fetch(
-      `http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/upComingAppointments`
+      `http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/upComingAppointments`, {
+        credentials: "include"}
     ).then(async (response) => {
       const json = await response.json();
       const appointmentsJson = json.data.appointments;
@@ -203,7 +205,8 @@ const DoctorHome = () => {
   // };
   const fetchMyInfo = () => {
     //hardcode id
-    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}`).then(
+    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}`, {
+      credentials: "include"}).then(
       async (response) => {
         const json = await response.json();
         const doctor = json.data.doctor; //check

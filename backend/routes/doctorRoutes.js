@@ -23,7 +23,7 @@ router
   .delete(doctorController.removeDoctor);
 
 router
-  .route(':doctorId/setAsMember')
+  .route('/:doctorId/setAsMember')
   .get(doctorController.setDoctorAsMember);
 
 router
