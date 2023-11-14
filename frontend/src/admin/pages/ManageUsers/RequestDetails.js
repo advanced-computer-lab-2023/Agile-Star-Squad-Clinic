@@ -63,7 +63,7 @@ const RequestDetails = (props) => {
     }
 
     return ReactDOM.createPortal(
-        <Modal exit={props.exit}>
+        <Modal exit={props.exit} >
             <div>
                 <span><h4>Username</h4></span>
                 <span>{props.data['username']}</span>
@@ -101,7 +101,7 @@ const RequestDetails = (props) => {
                 {props.data['idImage'].includes('pdf') ? (
                     <a href={props.data['idImage']} target="_blank" rel="noopener noreferrer">Download PDF</a>
                 ) : (
-                    <img src={props.data['idImage']} alt="ID Image" />
+                    <img width={130} src={props.data['idImage']} alt="ID Image" />
                 )}
             </div>
             <div>
@@ -109,7 +109,7 @@ const RequestDetails = (props) => {
                 {props.data['medicalLicense'].includes('pdf') ? (
                     <a href={props.data['medicalLicense']} target="_blank" rel="noopener noreferrer">Download PDF</a>
                 ) : (
-                    <img src={props.data['medicalLicense']} alt="Medical License" />
+                    <img width={130} src={props.data['medicalLicense']} alt="Medical License" />
                 )}
             </div>
             <div>
@@ -117,7 +117,7 @@ const RequestDetails = (props) => {
                 {props.data['medicalDegree'].includes('pdf') ? (
                     <a href={props.data['medicalDegree']} target="_blank" rel="noopener noreferrer">Download PDF</a>
                 ) : (
-                    <img src={props.data['medicalDegree']} alt="Medical Degree" />
+                    <img width={130} src={props.data['medicalDegree']} alt="Medical Degree" />
                 )}
             </div>
 

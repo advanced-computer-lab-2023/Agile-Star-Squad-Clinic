@@ -17,6 +17,7 @@ import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import './App.css';
 import UserContext from './user-store/user-context';
+import SignupOptions from './login/pages/SignupOptions';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
@@ -60,6 +61,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} exact />
           <Route path="/resetPassword" element={<ResetPassword />} exact />
+          <Route path="signupOptions" element={<SignupOptions/>} exact/>
           <Route
             path="/patient/register"
             element={<PatientRegisterForm />}

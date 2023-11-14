@@ -8,6 +8,7 @@ import Button from '../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../../user-store/user-context';
+import { Link } from 'react-router-dom';
 
 const Login = (props) => {
   const userCtx = useContext(UserContext);
@@ -41,50 +42,52 @@ const Login = (props) => {
   };
 
   return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-7">
-            <div className={styles.logo}>
-              <img src={logo} alt="logo" />
-            </div>
-            <img className={styles.stethoscope} src={img} alt="login" />
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-7">
+          <div className={styles.logo}>
+            <img src={logo} alt="logo" />
           </div>
+          <img className={styles.stethoscope} src={img} alt="login" />
+        </div>
 
-          <div className="col-md-5" id={styles.rightCol}>
-            <div className={styles.title}>
-              <p>
-                <strong>Nice To See You Again</strong>
-              </p>
-            </div>
-            <InputField
-              type="text"
-              placeholder="Username"
-              onChange={handleUsernameChange}
-              value={username}
-            />
-            <InputField
-              type="password"
-              placeholder="Password"
-              onChange={handlePasswordChange}
-              value={password}
-            />
-            <div className={styles.forgetPassword}>
-              <a className={styles.forgetPass} href="/resetPassword">
-                Forget Password
-              </a>
-            </div>
-            <Button onClick={handleSubmit} name="Sign In" />
-            <div className={styles.createAccount}>
-              <p>
-                Don't have an account?{' '}
-                <a className={styles.signupLink} href="#">
+        <div className="col-md-5" id={styles.rightCol}>
+          <div className={styles.title}>
+            <p>
+              <strong>Nice To See You Again</strong>
+            </p>
+          </div>
+          <InputField
+            type="text"
+            placeholder="Username"
+            onChange={handleUsernameChange}
+            value={username}
+          />
+          <InputField
+            type="password"
+            placeholder="Password"
+            onChange={handlePasswordChange}
+            value={password}
+          />
+          <div className={styles.forgetPassword}>
+            <a className={styles.forgetPass} href="/resetPassword">
+              Forget Password
+            </a>
+          </div>
+          <Button onClick={handleSubmit} name="Sign In" />
+          <div className={styles.createAccount}>
+            <p>
+              Don't have an account?{' '}
+              <a className={styles.signupLink} href="#">
+                <Link to="/signupOptions">
                   Sign Up Now
-                </a>
-              </p>
-            </div>
+                </Link>
+              </a>
+            </p>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 
