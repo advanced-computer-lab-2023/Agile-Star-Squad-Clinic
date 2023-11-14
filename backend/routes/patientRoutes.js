@@ -27,7 +27,8 @@ router
   .route('/:id')
   .get(patientController.getPatient)
   .delete(patientController.removePatient)
-  .post(patientController.removeSubscription);
+  .post(patientController.removeSubscription)
+  .patch(patientController.addHealthRecord);
 
 
 router

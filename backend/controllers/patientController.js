@@ -145,8 +145,32 @@ exports.removeSubscription = catchAsync(async (req, res, next) => {
   if(!updatedPatient){
   res.status(404).json({error})
   }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
+    },
+  });
+});
 
-  console.log("ehna hena2");
+exports.addHealthRecord = catchAsync(async (req, res, next) => {
+  console.log("ehna hena");
+  console.log(req.body);
+  const updatedPatient = await Patient.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: { medicalRecord: req.body.medicalRecord },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!updatedPatient) {
+    return next(new AppError('No patient found with that ID', 404));
+  }
+
   res.status(200).json({
     status: 'success',
     data: {
