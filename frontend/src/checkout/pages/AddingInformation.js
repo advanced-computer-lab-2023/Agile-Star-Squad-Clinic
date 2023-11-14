@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import NewPackage from '../../package/pages/NewPackage';
-import StripeContainer from '../components/StripeContainer';
-import spatula from '../../logo512.png';
-import PaymentForm from '../components/PaymentForm';
 import Payment from '../components/payment/Payment';
-import Cart from '../../shared/components/Product/Cart';
 
 const DUMMY_APPOINTMENT = [
   {
@@ -18,31 +14,7 @@ const DUMMY_APPOINTMENT = [
     price : 100
   },
 ];
-// const ProductDisplay = () => (
-//   <section>
-//     <div className="product">
-//       <img
-//         src="https://i.imgur.com/EHyR2nP.png"
-//         alt="The cover of Stubborn Attachments"
-//       />
-//       <div className="description">
-//         <h3>Stubborn Attachments</h3>
-//         <h5>$20.00</h5>
-//       </div>
-//     </div>
-//     <form
-//       action="http://localhost:3000/payments/create-checkout-session"
-//       method="POST"
-//     >
-//       <button type="submit">Checkout</button>
-//     </form>
-//   </section>
-// );
-// const Message = ({ message }) => (
-//   <section>
-//     <p>{message}</p>
-//   </section>
-// );
+
 const AddingInfo = (props) => {
   const [showItem, setShowItem] = useState(false);
   const [showDelivery, setShowDelivery] = useState(false);
@@ -61,7 +33,7 @@ const AddingInfo = (props) => {
           try {
         const response = await fetch(
           `http://localhost:3000/packages/${DUMMY_APPOINTMENT[0].package}`,
-          // `http://localhost:3000/packages/652b34379d864872c883a245`,
+  
         );
         if (response.ok) {
           const data = await response.json();

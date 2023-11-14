@@ -25,53 +25,20 @@ export default function CheckoutForm(props) {
     }
 
     setIsProcessing(true);
-    // if (useWallet) {
-    //   try {
-    //     const response = await fetch(
-    //       `http://localhost:3000/packages/${props.id}`,
-          
-    //       {
-    //         method: 'PATCH', 
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify(data),
-    //       }
-    //     );
   
-    //     if (response.ok) {
-    //       // Handle a successful response
-    //       alert('Package updated successfully.');
-    //       navigate('/packages');
-    //     } else {
-    //       // Handle errors if the server response is not ok
-    //       alert('Failed to update data.');
-    //     }
-    //   } catch (error) {
-    //     // Handle network errors
-    //     alert('Network error: ' + error.message);
-    //   }
-    //   const userBalance = await fetchUserBalance(); // Implement this function
-
-    //   // Check if user has enough balance for the payment
-    //   if (userBalance >= props.total) {
-        
-    //     
-    //   } else {
-    //     
-    //   }
-    // } else {
       try{
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
        
-        return_url: `${window.location.origin}/completion`,
+        return_url: navigate(-1),
       },
     });
     
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
     } else {
-        console.log("HELLLOOO")
+        
         let paymentIntentData = {
           
           doctor: props.doctorId,
@@ -92,7 +59,7 @@ export default function CheckoutForm(props) {
         if (!response.ok) {
           throw new Error('Failed to send data to the server.');
         }
-
+        
         setMessage('Payment successful!');
       }
     } catch (error) {
@@ -121,8 +88,9 @@ const responseData=await response.json()
         
               if (response.ok) {
                 // Handle a successful response
-                setMessage("Insufficient balance in your wallet.");
-                navigate('/completion');
+                setMessage("Payment successful via wallet!");
+                alert("Payment successful via wallet!")
+                navigate(-1);
               } else {
                 // Handle errors if the server response is not ok
                 alert('Failed to update data.');

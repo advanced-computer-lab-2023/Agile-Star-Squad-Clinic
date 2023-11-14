@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan= require('morgan')
 const env = require("dotenv").config({ path: "./config.env" });
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-08-01",
@@ -31,6 +32,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static(process.env.STATIC_DIR));
 app.use(cors());
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -85,7 +87,6 @@ app.post("/create-payment-intent", async (req, res) => {
       automatic_payment_methods: { enabled: true },
     });
 
-    // Send publishable key and PaymentIntent details to client
     res.send({
       clientSecret: paymentIntent.client_secret,
     });
