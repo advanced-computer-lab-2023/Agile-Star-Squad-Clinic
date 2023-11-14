@@ -1,0 +1,39 @@
+.navBar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.card {
+    position: fixed;
+    left: 0px;
+    display: inline-block;
+    width: 30%;
+    min-height: 530px;
+    border-radius: 0px 58px 0px 0px;
+    background: #ffffff;
+    box-shadow: 5px 2px 31px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 50px;
+    float: left;
+}
+
+.appointmentInfo {
+    position: relative;
+    left: 30%;
+    display: inline-block;
+    width: 70%;
+    margin-top: 50px;
+    float: left;
+}
+.button{
+    border: none;
+    background-color: white;
+}
+.backArrow{
+    position: fixed;
+    transform: rotate(90deg);
+    top: 28px;
+    left: 10px;
+    z-index: 1;
+}

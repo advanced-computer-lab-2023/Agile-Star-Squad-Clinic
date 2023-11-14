@@ -26,18 +26,27 @@ router
   .route('/:patientId/package')
   .post(patientController.subscribePackage);
 router
-  .route('/:id')
-  .get(patientController.getPatient)
-  .delete(patientController.removePatient);
+.route('/:id')
+.get(patientController.getPatient)
+.delete(patientController.removePatient);
 
-  router
+router
+.route('/getByNationalId/:nationalId')
+.get(patientController.getPatientByNationalId);
+  
+router
   .route('/:patientId/prescriptions')
   .get(prescriptionController.getPatientPrescriptions);
+
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
 router
   .route('/:patientId/wallet')
   .post(patientController.updateWallet);
+  
+router
+  .route('/:patientId/appointments')
+  .get(appointmentController.allAppointmentsForPatients);
 
 module.exports = router;

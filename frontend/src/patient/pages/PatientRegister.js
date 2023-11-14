@@ -13,9 +13,10 @@ const PatientRegisterForm = () => {
     dateOfBirth: '',
     gender: 'male',
     mobileNumber: '',
+    nationalId: '',
     emergencyContact: {
       fullName: '',
-      phoneNumber: ''
+      phoneNumber: '',
     },
   });
 
@@ -126,6 +127,15 @@ const PatientRegisterForm = () => {
           type="text"
           name="mobileNumber"
           value={formData.mobileNumber}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>National ID</label>
+        <input
+          type="text"
+          name="nationalId"
+          value={formData.nationalId}
           onChange={handleInputChange}
         />
       </div>

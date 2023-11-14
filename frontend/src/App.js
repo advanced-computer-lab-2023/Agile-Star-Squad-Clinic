@@ -21,14 +21,18 @@ import Trial2 from './checkout/components/Trial2';
 import Payment from "../src/checkout/components/payment/Payment";
 import Completion from "../src/checkout/components/payment/Completion";
 import './App.css';
+import Appointments from './patient/pages/appointments/Appointments';
+import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
+
+// import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<LandingPage />} exact />
-
+          <Route path="/" element={<LandingPage />} exact />
+          {/* <Route path="/" element={<NavBar />} exact /> */}
           <Route
             path="/patient/register"
             element={<PatientRegisterForm />}
@@ -36,17 +40,23 @@ function App() {
           />
           <Route path="/patient/home" element={<PatientHome />} exact />
           <Route
+            path="/patient/appointment/book"
+            element={<BookAppointment />}
+            exact
+          />
+          <Route
             path="/doctor/register"
             element={<DoctorRegisterForm />}
             exact
           />
           <Route path="/healthPackages" element={<HealthPackages/>} exact />
+          <Route path="/appointments" element={<Appointments/>} exact/>
           <Route path="/doctor/home" element={<DoctorHome />} exact />
           <Route path="/admin/home" element={<AdminHome />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />
-          <Route path="admin/manage" element={<ManageUsersPage/>}/>
+          <Route path="admin/manage" element={<ManageUsersPage />} />
           <Route path="/PatientFamily" element={<PatientFamily />} exact />
           <Route path="/payment" element={<StripeContainer />} exact />
           <Route path="/payment2" element={<Trial2 />} exact />
@@ -63,5 +73,3 @@ function App() {
 
 
 export default App;
-
-

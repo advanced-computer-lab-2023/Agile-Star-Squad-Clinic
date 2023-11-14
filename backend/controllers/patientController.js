@@ -45,6 +45,18 @@ exports.getPatient = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.getPatientByNationalId = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findOne({
+    nationalId: req.params.nationalId,
+  }).populate('package');
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});
 exports.getAllPatients = catchAsync(async (req, res, next) => {
   const patients = await Patient.find().populate('package');
 

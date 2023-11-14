@@ -30,6 +30,7 @@ const doctorSchema = new mongoose.Schema(
       // minLength: 8,
     },
     dateOfBirth: Date,
+    dateOfCreation: { type: Date, default: Date.now },
     hourlyRate: {
       type: Number,
       required: [true, 'Please provide an hourly rate'],
@@ -49,6 +50,10 @@ const doctorSchema = new mongoose.Schema(
     speciality: {
       type: String,
       required: [true, 'Please provide your speciality'],
+    },
+    rating: {
+      type: Number,
+      default: 5,
     },
     appointments: [
       {
