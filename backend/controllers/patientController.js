@@ -136,6 +136,8 @@ exports.removeSubscription = catchAsync(async (req, res, next) => {
   const updatedPatient= await Patient.findByIdAndUpdate(
     req.params.id,
     {package:null},
+    {status:"Cancelled"},
+    {cancellationDate:Date.now()}
     // {
     //   new: true,
     //   runValidators: true,

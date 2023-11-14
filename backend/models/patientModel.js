@@ -86,6 +86,7 @@ const patientSchema = new mongoose.Schema({
     enum: ['Subscribed', 'Unsubscribed', 'Cancelled'],
     default: 'Unsubscribed',
   },
+  cancellationDate:Date,
 
 });
 

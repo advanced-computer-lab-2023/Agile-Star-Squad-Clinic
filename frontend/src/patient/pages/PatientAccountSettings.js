@@ -97,7 +97,7 @@ const PatientAccountSettings = (props) => {
             const requestOptions = {
                 method: 'PATCH',
                 headers: { 'Content-type': 'application/json; charset=UTF-8' },
-                body: JSON.stringify({medicalRecord: newRecords}),
+                body: JSON.stringify({ medicalRecord: newRecords }),
             };
 
             fetch(
@@ -125,68 +125,79 @@ const PatientAccountSettings = (props) => {
                         <div>
                             {
 
-                                healthPackage != null &&(
-                                <div>Category: {(healthPackage.name)}</div>
-        
+                                healthPackage != null && (
+                                    <div>Category: {(healthPackage.name)}</div>
+
                                 )
-                                
+
                             }
                         </div>
                         <div>
                             {
 
-                                healthPackage != null &&(
-                                <div>Price Per Year: {(healthPackage.pricePerYear)}</div>
-        
+                                healthPackage != null && (
+                                    <div>Price Per Year: {(healthPackage.pricePerYear)}</div>
+
                                 )
-                                
+
                             }
                         </div>
                         <div>
                             {
 
-                                healthPackage != null &&(
-                                <div>Doctor Session Discount: {(healthPackage.doctorSessionDiscount)}</div>
-        
+                                healthPackage != null && (
+                                    <div>Doctor Session Discount: {(healthPackage.doctorSessionDiscount)}</div>
+
                                 )
-                                
+
                             }
-                            </div>
-                            <div>
+                        </div>
+                        <div>
                             {
 
-                                healthPackage != null &&(
-                                <div>Medicine Discount: {(healthPackage.medicineDiscount)}</div>
-        
+                                healthPackage != null && (
+                                    <div>Medicine Discount: {(healthPackage.medicineDiscount)}</div>
+
                                 )
-                                
+
                             }
-                            </div>
-                            <div>
+                        </div>
+                        <div>
                             {
 
-                                healthPackage != null &&(
-                                <div>Family Member Discount: {(healthPackage.familyMemberDiscount)}</div>
-        
+                                healthPackage != null && (
+                                    <div>Family Member Discount: {(healthPackage.familyMemberDiscount)}</div>
+
                                 )
-                                
+
                             }
-                            </div>
-                            <div>
+                        </div>
+                        <div>
                             {
 
-                                healthPackage != null &&(
-                                <div>Description: {(healthPackage.description)}</div>
-        
+                                healthPackage != null && (
+                                    <div>Description: {(healthPackage.description)}</div>
+
                                 )
-                                
+
                             }
-                            </div>
+                        </div>
+                    
 
                     </>)}
                 {isButtonPressed && (
                     <>
                         <div>You unsubscribed successfully</div>
+                        <div> 
+                            
+
+                                
+                                    <div>Package Stauts: Cancelled at {new Date().toLocaleDateString('en-GB')}</div>
+
+                            
+
+                            
+                        </div>
                     </>
                 )
 
@@ -196,7 +207,7 @@ const PatientAccountSettings = (props) => {
                 <h3 className='text-start ms-3 my-4'>Health Records</h3>
                 {medicalRecordUrls != null && <div className={classes.healthRecordImages}>
                     {medicalRecordUrls.map((url) => {
-                        return <div className='position-relative mx-4 shadow-sm' style={{width: "130px"}}>
+                        return <div className='position-relative mx-4 shadow-sm' style={{ width: "130px" }}>
                             {!url.includes("pdf") && <img src={url} width={130} />}
                             {url.includes("pdf") && <a href={url} target='_blank'>View PDF</a>}
                             <button className={classes.imageRemove} onClick={(e) => deleteImage(e, url)}>x</button>
