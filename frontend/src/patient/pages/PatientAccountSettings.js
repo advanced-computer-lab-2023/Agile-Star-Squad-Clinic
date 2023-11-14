@@ -5,10 +5,13 @@ import ReactDOM from 'react-dom';
 import classes from "./PatientAccountSettings.module.css";
 import NavBar from '../../shared/components/NavBar/NavBar';
 import UserContext from '../../user-store/user-context';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const PatientAccountSettings = (props) => {
-    const patientId = useContext(UserContext).userId
+    const patient = useContext(UserContext);
+    const navigate = useNavigate();
     const [healthPackage, setPackage] = useState(null);
     const [medicalRecordUrls, setMedicalRecords] = useState(null);
     const [isButtonPressed, setButtonPressed] = useState(false);
@@ -20,8 +23,9 @@ const PatientAccountSettings = (props) => {
 
 
     const fetchPackages = async () => {
-        fetch(`http://localhost:3000/patients/${patientId}`).then(async (response) => {
+        fetch(`http://localhost:3000/patients/${patient.userId}`).then(async (response) => {
             const json = await response.json();
+            console.log(json)
             setMedicalRecords(json.data.patient.medicalRecord);
             setPackage(json.data.patient.package);
         });
@@ -29,7 +33,7 @@ const PatientAccountSettings = (props) => {
     }
     const handeleUnsubscribeButtonclick = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/patients/${patientId}`, {
+            const response = await fetch(`http://localhost:3000/patients/${patient.userId}`, {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
@@ -76,7 +80,7 @@ const PatientAccountSettings = (props) => {
             console.log(requestOptions);
 
             const response = await fetch(
-                `http://localhost:3000/patients/${patientId}`,
+                `http://localhost:3000/patients/${patient.userId}`,
                 requestOptions
             );
             console.log(response);
@@ -106,12 +110,18 @@ const PatientAccountSettings = (props) => {
             };
 
             fetch(
-                `http://localhost:3000/patients/${patientId}/setHealthRecords`,
+                `http://localhost:3000/patients/${patient.userId}/setHealthRecords`,
                 requestOptions
             );
             return newRecords;
         });
 
+    }
+
+    const logout = async () => {
+        await axios.get('http://localhost:3000/auth/logout');
+        patient.logout();
+        navigate("/");
     }
 
     const { healthRecordInput } = healthRecord;
@@ -161,6 +171,10 @@ const PatientAccountSettings = (props) => {
                     />
                 </div>
                 <button onClick={handleHealthRecordUpload}>Upload Health Record</button>
+            </div>
+
+            <div className='mt-5'>
+                    <button onClick={logout}>Logout</button>
             </div>
 
 
