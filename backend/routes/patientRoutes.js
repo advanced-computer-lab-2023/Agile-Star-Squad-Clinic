@@ -30,6 +30,10 @@ router
   .post(patientController.removeSubscription)
   .patch(patientController.addHealthRecord);
 
+router
+  .route('/:id/setHealthRecords')
+  .patch(patientController.removeHealthRecord);    
+
 
 router
   .route('/:patientId/prescriptions')

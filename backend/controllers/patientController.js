@@ -179,4 +179,28 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.removeHealthRecord = catchAsync(async (req, res, next) => {
+  const updatedPatient = await Patient.findByIdAndUpdate(
+    req.params.id,
+    {
+      medicalRecord: req.body.medicalRecord
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!updatedPatient) {
+    return next(new AppError('No patient found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
+    },
+  });
+});
+
 // Modules.exports = {createPatient}
