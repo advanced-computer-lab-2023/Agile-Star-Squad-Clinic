@@ -18,6 +18,12 @@ import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import './App.css';
 import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
+import AddFamilyForm from './patient/pages/AddFamily';
+import PatientFamily from './patient/pages/PatientFamily';
+import NavBar from './shared/components/NavBar/NavBar';
+import HomePage from './patient/pages/PatientHome/HomePage';
+import HealthPackages from './patient/pages/healthPackages/HealthPackages';
+import BrowseDoctors from './patient/pages/BrowseDoctors';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
