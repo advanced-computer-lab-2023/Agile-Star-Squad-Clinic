@@ -14,31 +14,7 @@ const DUMMY_APPOINTMENT = [
     price : 1000
   },
 ];
-// const ProductDisplay = () => (
-//   <section>
-//     <div className="product">
-//       <img
-//         src="https://i.imgur.com/EHyR2nP.png"
-//         alt="The cover of Stubborn Attachments"
-//       />
-//       <div className="description">
-//         <h3>Stubborn Attachments</h3>
-//         <h5>$20.00</h5>
-//       </div>
-//     </div>
-//     <form
-//       action="http://localhost:3000/payments/create-checkout-session"
-//       method="POST"
-//     >
-//       <button type="submit">Checkout</button>
-//     </form>
-//   </section>
-// );
-// const Message = ({ message }) => (
-//   <section>
-//     <p>{message}</p>
-//   </section>
-// );
+
 const AddingInfo = (props) => {
   const [showItem, setShowItem] = useState(false);
   const [showDelivery, setShowDelivery] = useState(false);
@@ -57,7 +33,7 @@ const AddingInfo = (props) => {
           try {
         const response = await fetch(
           `http://localhost:3000/packages/${DUMMY_APPOINTMENT[0].package}`,
-          // `http://localhost:3000/packages/652b34379d864872c883a245`,
+  
         );
         if (response.ok) {
           const data = await response.json();

@@ -127,8 +127,14 @@ exports.getFamilyMembers = catchAsync(async (req, res, next) => {
 exports.subscribePackage = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   const packageData = req.body;
-
-  const patient = await Patient.findById(patientId);
+ const discount=0;
+  const familyMember=await Family.findById(patientId)
+  if (familyMember !=null){
+     const patient= await Patient.findById(familyMember._id)
+    discount= package.familyMemberDiscount
+  }
+  
+  
 
   if (!patient) {
     return next(new AppError('Patient not found', 404));
@@ -143,6 +149,7 @@ exports.subscribePackage = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    discount
   });
 });
 exports.unsubscribePackage = catchAsync(async (req, res, next) => {

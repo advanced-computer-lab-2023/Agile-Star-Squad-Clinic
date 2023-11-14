@@ -1,22 +1,23 @@
 const express = require('express');
 const patientController = require('../controllers/patientController');
 const doctorRouter = require('./doctorRoutes');
-const appointmentController = require('../controllers/appointmentController')
-const prescriptionController = require('../controllers/prescriptionController')
+const appointmentController = require('../controllers/appointmentController');
+const prescriptionController = require('../controllers/prescriptionController');
+const middleware = require('../middleware/middleware.js');
 
 const router = express.Router();
 
 router
   .route('/appointments')
   .get(appointmentController.getAllAppointments)
-  .post(appointmentController.createAppointment);
+  .post(middleware.patientAuth, appointmentController.createAppointment);
 
-router.use('/:id/doctors', doctorRouter);
+router.use('/:id/doctors', middleware.patientAuth, doctorRouter);
 
 router
   .route('/:patientId/familyMembers')
-  .get(patientController.getFamilyMembers)
-  .post(patientController.addFamilyMember);
+  .get(middleware.patientAuth, patientController.getFamilyMembers)
+  .post(middleware.patientAuth, patientController.addFamilyMember);
 
 router
   .route('/')
@@ -26,25 +27,29 @@ router
   .route('/:patientId/package')
   .post(patientController.subscribePackage);
 router
-.route('/:id')
-.get(patientController.getPatient)
-.delete(patientController.removePatient);
+  .route('/:id')
+  .get(patientController.getPatient)
+  .delete(middleware.adminAuth, patientController.removePatient);
 
 router
-.route('/getByNationalId/:nationalId')
-.get(patientController.getPatientByNationalId);
-  
+  .route('/getByNationalId/:nationalId')
+  .get(middleware.patientAuth, patientController.getPatientByNationalId);
+
 router
   .route('/:patientId/prescriptions')
-  .get(prescriptionController.getPatientPrescriptions);
+  .get(middleware.patientAuth, prescriptionController.getPatientPrescriptions);
 
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
 router
   .route('/:patientId/wallet')
-  .post(patientController.updateWallet);
-  
+  .post(patientController.updateWallet)
+  .get(
+    middleware.patientAuth,
+    appointmentController.upComingAppointmentsForPatients
+  );
+
 router
   .route('/:patientId/appointments')
   .get(appointmentController.allAppointmentsForPatients);

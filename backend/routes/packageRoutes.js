@@ -1,5 +1,7 @@
 const express = require('express');
 const packageController = require('../controllers/packageController');
+const middleware = require('../middleware/middleware.js');
+
 
 const router = express.Router({
   mergeParams: true,
@@ -7,13 +9,13 @@ const router = express.Router({
 
 router
   .route('/')
-  .get(packageController.getPackages)
-  .post(packageController.addPackage);
+  .get(middleware.patientAuth,packageController.getPackages)
+  .post(middleware.adminAuth, packageController.addPackage);
 
 router
   .route('/:id')
   .get(packageController.getPackage)
-  .patch(packageController.editPackage)
-  .delete(packageController.deletePackage);
+  .patch(middleware.adminAuth, packageController.editPackage)
+  .delete(middleware.adminAuth, packageController.deletePackage);
 
 module.exports = router;

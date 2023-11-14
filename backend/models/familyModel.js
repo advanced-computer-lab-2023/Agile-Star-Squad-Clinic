@@ -34,6 +34,7 @@ const familySchema = new mongoose.Schema({
       // required: [true, 'Member must belong to a patient.'],
     },
   ],
+  
 });
 // familySchema.pre(/^find/,function(next){
 //   this.populate({
