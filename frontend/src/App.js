@@ -20,15 +20,11 @@ import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
-import RejectedRequest from './requests/rejectedRequest';
 import NavBar from './shared/components/NavBar/NavBar';
-import PendingRequest from './requests/pendingRequest';
-import AcceptedRequest from './requests/acceptedRequest';
 import PatientAccountSettings from './patient/pages/PatientAccountSettings';
-import HealthPackages from "./patient/pages/healthPackages/HealthPackages"
+import HealthPackages from './patient/pages/healthPackages/HealthPackages';
 import Appointments from './patient/pages/appointments/Appointments';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
-// import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
   const user = useContext(UserContext);
@@ -38,14 +34,18 @@ function App() {
     if (user.role === 'patient') {
       return (
         <Routes>
-        <Route
-          path="/patient/appointment/book"
-          element={<BookAppointment />}
-          exact
-        />
-        <Route path='/healthPackages' element={<HealthPackages/>} exact/>
-        <Route path='/patient/account' element={<PatientAccountSettings/>} exact/>
-        <Route path='/appointments' element={<Appointments/>} exact/>
+          <Route
+            path="/patient/appointment/book"
+            element={<BookAppointment />}
+            exact
+          />
+          <Route path="/healthPackages" element={<HealthPackages />} exact />
+          <Route
+            path="/patient/account"
+            element={<PatientAccountSettings />}
+            exact
+          />
+          <Route path="/appointments" element={<Appointments />} exact />
           <Route path="/patient/home" element={<PatientHomePage />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
@@ -73,7 +73,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} exact />
           <Route path="/resetPassword" element={<ResetPassword />} exact />
-          <Route path="signupOptions" element={<SignupOptions/>} exact/>
+          <Route path="signupOptions" element={<SignupOptions />} exact />
           <Route
             path="/patient/register"
             element={<PatientRegisterForm />}
@@ -96,8 +96,7 @@ function App() {
         if (res.data.data.user === null) {
           user.logout();
         } else {
-          user.login({role: res.data.data.role, userId: res.data.data.id});
-          
+          user.login({ role: res.data.data.role, userId: res.data.data.id });
         }
       });
   }, []);
@@ -124,10 +123,10 @@ function App() {
   };
   return (
     <div className="App">
-        {/* {Object.keys(cookies).length > 0 && (
+      {/* {Object.keys(cookies).length > 0 && (
           <button onClick={logoutHandler}>logout</button>
         )} */}
-        <BrowserRouter>{getUserRoutes()}</BrowserRouter>
+      <BrowserRouter>{getUserRoutes()}</BrowserRouter>
     </div>
   );
 }
