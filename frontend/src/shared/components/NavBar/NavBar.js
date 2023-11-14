@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import './NavBar.css';
 import logo from '../../../logo.png'
 import { Link } from "react-router-dom";
-const NavBar = () => {
+import UserContext from "../../../user-store/user-context";
+
+const NavBar = (props) => {
+  const [walletAmount, setWalletAmount] = useState("");
+  const userCtx = useContext(UserContext);
+
+  useEffect(() => {
+    getWallet();
+  }, []);
+
+  const getWallet = async () => {
+    fetch(`http://localhost:3000/patients/${userCtx.userId}`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      setWalletAmount(json.data.patient.wallet);
+    });
+  }
 
   return (
     <div className="bodyN">
@@ -48,7 +65,7 @@ const NavBar = () => {
           </div>
           <div className="d-flex mx-4">
             <div className="btn-group ">
-              <a href="#" className="btn btn-white">Wallet</a>
+              <a href="#" className="btn btn-white">Wallet: {walletAmount}</a>
               <Link to="/appointments" style={{ all: "unset" }}>
                 <a href="#" className="btn btn-white">Appointments</a>
               </Link>
