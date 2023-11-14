@@ -132,4 +132,31 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.linkPatientAsFamily = catchAsync(async (req, res, next) => {
+  const { email, mobileNumber } = req.body;
+
+  const query = {};
+
+  if (email) {
+    query.email = { $regex: email, $options: 'i', $eq: email };
+  }
+  if (mobileNumber) {
+    query.mobileNumber = { $regex: mobileNumber, $options: 'i', $eq: mobileNumber };
+  }
+  console.log(query.mobileNumber)
+  const familyMember = await Patient.findOne(query);
+
+  if (!familyMember) {
+
+    return next(new AppError('No patient found with that email/phone number', 404));
+
+  }
+
+  else {
+    res.status(200).json({
+      status: 'success'
+    });
+  }
+});
+
 // Modules.exports = {createPatient}

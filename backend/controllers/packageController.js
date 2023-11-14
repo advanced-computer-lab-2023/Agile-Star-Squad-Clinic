@@ -1,6 +1,7 @@
 // #Task route solution
 const Package = require('../models/packageModel');
 const { default: mongoose } = require('mongoose');
+const catchAsync = require('../utils/catchAsync');
 
 const addPackage = async (req, res) => {
   const newPackage = await Package.create(req.body);
@@ -70,6 +71,7 @@ const deletePackage = async (req, res) => {
   });
 };
 
+
 module.exports = {
   addPackage,
   getPackages,
@@ -77,3 +79,4 @@ module.exports = {
   editPackage,
   deletePackage,
 };
+

@@ -166,6 +166,7 @@ const PatientHome = () => {
     await fetch(`http://localhost:3000/patients/${patientId}`).then(
       async (response) => {
         const json = await response.json();
+        console.log(json)
         const patientJson = json.data.patient;
         if (patientJson.package) {
           return fetchDoctors(patientJson.package.doctorSessionDiscount / 100);

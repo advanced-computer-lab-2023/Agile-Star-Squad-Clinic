@@ -31,6 +31,10 @@ router
   .get(middleware.adminAuth,patientController.getPatient)
   .delete(middleware.adminAuth,patientController.removePatient);
 
+  router
+  .route('/:patientId/linkMember')
+  .post(patientController.linkPatientAsFamily);
+
 router
   .route('/:patientId/prescriptions')
   .get(middleware.patientAuth, prescriptionController.getPatientPrescriptions);
