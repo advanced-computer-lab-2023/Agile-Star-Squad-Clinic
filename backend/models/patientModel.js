@@ -81,6 +81,12 @@ const patientSchema = new mongoose.Schema({
       ref: 'Appointment',
     },
   ],
+  packageStatus:{
+    type:String,
+    enum: ['Subscribed', 'Unsubscribed', 'Cancelled'],
+    default: 'Unsubscribed',
+  },
+
 });
 
 // tourSchema.virtual('familyMembers', {

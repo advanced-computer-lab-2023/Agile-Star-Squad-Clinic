@@ -56,8 +56,6 @@ const PatientAccountSettings = (props) => {
         setMedicalRecords(records => {
             return [...records, healthRecordUrl];
         });
-        // const formData = new FormData();
-        // formData.append('medicalRecord', healthRecordUrl);
         const data = {
             medicalRecord: healthRecordUrl
         }
@@ -110,6 +108,10 @@ const PatientAccountSettings = (props) => {
         });
 
     }
+    // const data = {
+    //     "healthPackageName": healthPackage.name,
+    //     "healthPackagePrice": healthPackage.pricePerYear
+    // }
 
     const { healthRecordInput } = healthRecord;
     return (
@@ -123,10 +125,64 @@ const PatientAccountSettings = (props) => {
                         <div>
                             {
 
-                                healthPackage != null &&
-                                <div>{JSON.stringify(healthPackage)}</div>
+                                healthPackage != null &&(
+                                <div>Category: {(healthPackage.name)}</div>
+        
+                                )
+                                
                             }
                         </div>
+                        <div>
+                            {
+
+                                healthPackage != null &&(
+                                <div>Price Per Year: {(healthPackage.pricePerYear)}</div>
+        
+                                )
+                                
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null &&(
+                                <div>Doctor Session Discount: {(healthPackage.doctorSessionDiscount)}</div>
+        
+                                )
+                                
+                            }
+                            </div>
+                            <div>
+                            {
+
+                                healthPackage != null &&(
+                                <div>Medicine Discount: {(healthPackage.medicineDiscount)}</div>
+        
+                                )
+                                
+                            }
+                            </div>
+                            <div>
+                            {
+
+                                healthPackage != null &&(
+                                <div>Family Member Discount: {(healthPackage.familyMemberDiscount)}</div>
+        
+                                )
+                                
+                            }
+                            </div>
+                            <div>
+                            {
+
+                                healthPackage != null &&(
+                                <div>Description: {(healthPackage.description)}</div>
+        
+                                )
+                                
+                            }
+                            </div>
+
                     </>)}
                 {isButtonPressed && (
                     <>
