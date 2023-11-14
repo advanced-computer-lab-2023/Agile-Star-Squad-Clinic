@@ -178,7 +178,7 @@ const PatientHome = () => {
     }
 
     const fetchPrescriptions = () => {
-        fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/prescriptions").then(async (response) => {
+        fetch("http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a/prescriptions").then(async (response) => {
             const json = await response.json();
             const prescriptionsJson = json.data.prescriptions;
             const prescDoctors = new Set();
@@ -201,7 +201,7 @@ const PatientHome = () => {
     }
 
     const fetchUpcomingAppointments = () => {
-        fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/upcomingAppointments").then(async (response) => {
+        fetch("http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a/upcomingAppointments").then(async (response) => {
             const json = await response.json();
             const appointmentsJson = json.data.appointments;
             setUpcomingAppointments(appointmentsJson.map((appointment) => {

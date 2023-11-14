@@ -87,6 +87,8 @@ const patientSchema = new mongoose.Schema({
     default: 'Unsubscribed',
   },
   cancellationDate:Date,
+  subscriptionDate:Date,
+  expiringDate:Date,
 
 });
 

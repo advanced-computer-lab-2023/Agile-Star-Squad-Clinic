@@ -17,7 +17,7 @@ const PatientAccountSettings = (props) => {
 
 
     const fetchPackages = async () => {
-        fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88").then(async (response) => {
+        fetch("http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a").then(async (response) => {
             const json = await response.json();
             setMedicalRecords(json.data.patient.medicalRecord);
             setPackage(json.data.patient.package);
@@ -26,7 +26,7 @@ const PatientAccountSettings = (props) => {
     }
     const handeleUnsubscribeButtonclick = async () => {
         try {
-            const response = await fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88", {
+            const response = await fetch("http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a", {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
@@ -71,7 +71,7 @@ const PatientAccountSettings = (props) => {
             console.log(requestOptions);
 
             const response = await fetch(
-                'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88',
+                'http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a',
                 requestOptions
             );
             console.log(response);
@@ -101,7 +101,7 @@ const PatientAccountSettings = (props) => {
             };
 
             fetch(
-                'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/setHealthRecords',
+                'http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a/setHealthRecords',
                 requestOptions
             );
             return newRecords;
@@ -120,9 +120,11 @@ const PatientAccountSettings = (props) => {
                 <button onClick={handeleUnsubscribeButtonclick}>Unsbscribe from current package</button>
             </div>
             <div>{
-                !isButtonPressed && (
+                !isButtonPressed && healthPackage.packageStatus==="Subscribed"&& (
                     <>
+                    
                         <div>
+                            
                             {
 
                                 healthPackage != null && (
@@ -182,9 +184,39 @@ const PatientAccountSettings = (props) => {
 
                             }
                         </div>
-                    
+                        <div>
+                            {
 
-                    </>)}
+                                healthPackage != null && (
+                                    <div>Subscription Date: {(healthPackage.subscriptionDate).toLocaleDateString('en-GB')}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Expiration Date: {(healthPackage.expiringDate).toLocaleDateString('en-GB')}</div>
+
+                                )
+
+                            }
+                        </div>
+
+                    </>)
+                   
+                    }
+                    <div>
+                        {
+                            !isButtonPressed && healthPackage.packageStatus==="Unsubscribed"&&(
+                               <>
+                                <div>You are not subscirbed to any package!</div>
+                               </> 
+                            ) 
+                        }
+                    </div>
                 {isButtonPressed && (
                     <>
                         <div>You unsubscribed successfully</div>
