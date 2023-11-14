@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
-import NewPackage from '../../package/pages/NewPackage';
-import Payment2 from '../components/payment/Payment';
+import PaymentSub from '../components/payment/PaymentSub';
 import { useLocation } from 'react-router-dom';
 
 const AddingInfo = () => {
@@ -14,7 +13,8 @@ const AddingInfo = () => {
   const [medicineDiscount, setmedicineDiscount] = useState('');
   const [doctorName, setDoctorName] = useState('');
   const [appDate, setAppDate] = useState('');
-  
+  const [packageData,setPackageData]=useState();
+  const price=100;
   
   
   const location = useLocation()
@@ -32,6 +32,9 @@ const AddingInfo = () => {
         );
         if (response.ok) {
           const data = await response.json();
+          console.log(data.data.package)
+          setPackageData(data.data.packageData)
+          
 
       
         } else {
@@ -71,24 +74,21 @@ const AddingInfo = () => {
       <div className="row  justify-content-evenly gx-5">
         <div className="col card1">
           <Card>
-            <Payment2  props={data} />
+            <PaymentSub  />
           </Card>
         </div>
         <div className="col" id="card2">
           <Card>
-            <h3>Order Summary</h3>
-            <div>
-              <img src="../../logo.svg" alt="doc_img"></img>
-              <p>{DUMMY_APPOINTMENT[0].date.toUTCString()}</p>
-            </div>
+            <h3>{packageData && packageData.name}</h3>
+           
             <p>{doctorName}</p>
             <p>
             Sub Total: {price}LE </p>
-            <div> {packagePresent &&
+            <div> 
             <p>
-            Package Discount : -{(doctorSessionDiscount/100)*price}LE
-            </p>} </div>
-            <div>Total : {price-((doctorSessionDiscount/100)*price)}</div>
+            
+            </p> </div>
+            
           </Card>
         </div>
       </div>
