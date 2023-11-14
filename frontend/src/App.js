@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PendingRequest />} exact />
+          <Route path="/" element={<LandingPage />} exact />
           {/* <Route path="/" element={<NavBar />} exact /> */}
           
           <Route
@@ -43,10 +43,12 @@ function App() {
           <Route path="/admin/home" element={<AdminHome />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
-          <Route path="/packages" element={<AdminPackagesView />} exact />
+          <Route path="/packages" element={<AdminPackagesView/>} exact />
           <Route path="admin/manage" element={<ManageUsersPage/>}/>
-          <Route path="/PatientFamily" element={<PatientFamily />} exact />
-          <Route path="/rejectedRequest" element={<RejectedRequest />} exact />
+          <Route path="/PatientFamily" element={<PatientFamily/>} exact />
+          <Route path="/rejectedRequest" element={<RejectedRequest/>} exact />
+          <Route path="/pendingRequest" element={<PendingRequest/>} exact />
+          <Route path="/acceptedRequest" element={<AcceptedRequest/>} exact />
           {/*redirect to landing page if wrong url*/}
           <Route path="*" element={<Navigate to="/" />} />{' '}
         </Routes>
