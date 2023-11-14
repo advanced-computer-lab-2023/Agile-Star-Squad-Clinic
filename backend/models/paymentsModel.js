@@ -2,27 +2,26 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const Patient = require('./patientModel');
 
-const familySchema = new mongoose.Schema({
+const paymentsSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please provide your name.'],
+    required: [true],
     // validate: [validator.isAlpha, 'Name must only contain letters'],
   },
   total: {
     type: Number,
     unique: true,
-    required: [true, 'Please provide your NationalID.'],
+    required: [true],
   },
   age: {
     type: Number,
-    required: [true, 'Please provide your age.'],
+    required: [true],
   },
-  gender: {
-    type: String,
-    enum: ['male', 'female'],
-    default: 'male',
+  dateBought: {
+    type: Date,
+    
   },
-  products: [
+  product: [
     {
       type: mongoose.Schema.ObjectId,
       ref: 'Family',

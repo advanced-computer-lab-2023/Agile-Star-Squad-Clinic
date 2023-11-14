@@ -10,5 +10,5 @@ router
   .route('/create-checkout-session')
   .post(paymentController.addPayment);
   
-  console.log('Payment route configured');
+
 module.exports = router;

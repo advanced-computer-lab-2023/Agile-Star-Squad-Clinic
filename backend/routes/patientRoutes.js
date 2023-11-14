@@ -24,7 +24,7 @@ router
   .post(patientController.signup);
 router
   .route('/:patientId/package')
-  .post(patientController.addPackage);
+  .post(patientController.subscribePackage);
 router
   .route('/:id')
   .get(patientController.getPatient)

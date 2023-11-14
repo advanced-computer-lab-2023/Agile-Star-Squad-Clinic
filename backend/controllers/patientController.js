@@ -112,7 +112,7 @@ exports.getFamilyMembers = catchAsync(async (req, res, next) => {
     },
   });
 });
-exports.addPackage = catchAsync(async (req, res, next) => {
+exports.subscribePackage = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   const packageData = req.body;
 
@@ -127,6 +127,27 @@ exports.addPackage = catchAsync(async (req, res, next) => {
 
   await Patient.findByIdAndUpdate(patient._id, {
     package: packageData,
+  });
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
+exports.unsubscribePackage = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  const packageData = req.body;
+
+  const patient = await Patient.findById(patientId);
+
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+  if (patient.package == null) {
+    return next(new AppError('You are not subsribed to any Packages', 404));
+  }
+
+  await Patient.findByIdAndUpdate(patient._id, {
+    package: null,
   });
 
   res.status(200).json({
@@ -174,17 +195,17 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
 exports.updateWallet = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   
-  const walletAmount=req.body;
-
+ 
+  
   const patient = await Patient.findById(patientId);
-
+   const walletAmount=req.body.walletAmount + patient.wallet;
   if (!patient) {
     return next(new AppError('Patient not found', 404));
   }
   
-
+  
   await Patient.findByIdAndUpdate(patient._id, {
-    wallet:(wallet + walletAmount),
+    wallet: walletAmount,
   });
 
   res.status(200).json({
