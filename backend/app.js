@@ -1,7 +1,9 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
-const stripe = require('stripe')('sk_test_51O9YaUIM4ONA4Exm7TJdbad0dX5MROUOQMOHOzBf4t7wWoCiC5zrfgIxdAphSnEoVirAACoGLU4MOos1b4qnPQgV001zaZC11m');
+const env = require("dotenv").config({ path: "./config.env" });
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2022-08-01",
+});
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const adminRouter = require('./routes/adminRoutes');
@@ -12,7 +14,8 @@ const packageRouter = require('./routes/packageRoutes');
 const paymentRouter = require('./routes/paymentRoutes');
 const Prescription = require('./models/prescriptionModel');
 const patientController = require('./controllers/patientController');
-const YOUR_DOMAIN = 'http://localhost:3000';
+const { resolve } = require("path");
+
 const {
   addPackage,
   getPackages,
@@ -26,7 +29,7 @@ const {
 const app = express();
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(process.env.STATIC_DIR));
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -42,26 +45,57 @@ app.use((req, res, next) => {
 
   next();
 });
-app.post('/create-checkout-session', async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
-        quantity: 1,
-      },{
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
-        quantity: 2,
-      }
-    ],
-    mode: 'payment',
+// app.post('/create-checkout-session', async (req, res) => {
+  // const session = await stripe.checkout.sessions.create({
+  //   line_items: [
+  //     {
+  //       // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+  //       price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
+  //       quantity: 1,
+  //     },{
+  //       // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+  //       price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
+  //       quantity: 2,
+  //     }
+  //   ],
+  //   mode: 'payment',
     
-    success_url: `${YOUR_DOMAIN}?success=true`,
-    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
-  });
+  //   success_url: `${YOUR_DOMAIN}?success=true`,
+  //   cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+  // });
 
-  res.redirect(303, session.url);
+  // res.redirect(303, session.url);
+// });
+app.get("/", (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + "/index.html");
+  res.sendFile(path);
+});
+
+app.get("/config", (req, res) => {
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
+});
+
+app.post("/create-payment-intent", async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: "EUR",
+      amount: 1999,
+      automatic_payment_methods: { enabled: true },
+    });
+
+    // Send publishable key and PaymentIntent details to client
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (e) {
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
 });
 app.use('/admins', adminRouter);
 app.use('/doctors', doctorRouter);

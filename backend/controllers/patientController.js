@@ -6,6 +6,7 @@ const Doctor = require('../models/doctorModel');
 const apiFeatures = require('../utils/apiFeatures');
 const Appointment = require('../models/appointmentModel');
 const Prescription = require('../models/prescriptionModel');
+const Package = require('../models/packageModel');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newPatient = await Patient.create(req.body)
@@ -101,7 +102,7 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
 
 exports.getFamilyMembers = catchAsync(async (req, res, next) => {
   const patient = await Patient.findById(req.params.patientId).populate(
-    'familyMembers'
+    'familyMembers',
   );
 
   res.status(200).json({
@@ -111,7 +112,27 @@ exports.getFamilyMembers = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.addPackage = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  const packageData = req.body;
 
+  const patient = await Patient.findById(patientId);
+
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+  if (patient.package != null) {
+    return next(new AppError('You are already subsribed to a Package', 404));
+  }
+
+  await Patient.findByIdAndUpdate(patient._id, {
+    package: packageData,
+  });
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
 exports.getDoctor = catchAsync(async (req, res, next) => {
   const { name, speciality } = req.body;
   const query = {};
@@ -130,6 +151,46 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
       doctor,
     },
   });
+});
+exports.getDoctor = catchAsync(async (req, res, next) => {
+  const { name, speciality } = req.body;
+  const query = {};
+
+  if (name) {
+    query.name = { $regex: name, $options: 'i', $eq: name };
+  }
+  if (speciality) {
+    query.speciality = { $regex: speciality, $options: 'i' };
+  }
+  const doctor = await Doctor.find(query);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      doctor,
+    },
+  });
+});
+exports.updateWallet = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  
+  const walletAmount=req.body;
+
+  const patient = await Patient.findById(patientId);
+
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+  
+
+  await Patient.findByIdAndUpdate(patient._id, {
+    wallet:(wallet + walletAmount),
+  });
+
+  res.status(200).json({
+    status: 'success',
+  });
+  
 });
 
 // Modules.exports = {createPatient}

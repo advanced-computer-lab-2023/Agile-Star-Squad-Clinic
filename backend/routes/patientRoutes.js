@@ -22,7 +22,9 @@ router
   .route('/')
   .get(patientController.getAllPatients)
   .post(patientController.signup);
-
+router
+  .route('/:patientId/package')
+  .post(patientController.addPackage);
 router
   .route('/:id')
   .get(patientController.getPatient)
@@ -34,5 +36,8 @@ router
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
+router
+  .route('/:patientId/wallet')
+  .post(patientController.updateWallet);
 
 module.exports = router;
