@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import NewPackage from '../../package/pages/NewPackage';
-import StripeContainer from '../components/StripeContainer';
-import spatula from '../../logo512.png';
-import PaymentForm from '../components/PaymentForm';
 import Payment from '../components/payment/Payment';
-import Cart from '../../shared/components/Product/Cart';
 
 const DUMMY_APPOINTMENT = [
   {
@@ -15,7 +11,7 @@ const DUMMY_APPOINTMENT = [
     patient: '65270df9cfa9abe7a31a4d88',
     package: '652b34379d864872c883a245',
     patientName:"ahmed",
-    price : 100
+    price : 1000
   },
 ];
 // const ProductDisplay = () => (

@@ -45,27 +45,50 @@ app.use((req, res, next) => {
 
   next();
 });
-// app.post('/create-checkout-session', async (req, res) => {
-  // const session = await stripe.checkout.sessions.create({
-  //   line_items: [
-  //     {
-  //       // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-  //       price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
-  //       quantity: 1,
-  //     },{
-  //       // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-  //       price: 'price_1OBJOeIM4ONA4ExmUdFcnKOT',
-  //       quantity: 2,
-  //     }
-  //   ],
-  //   mode: 'payment',
-    
-  //   success_url: `${YOUR_DOMAIN}?success=true`,
-  //   cancel_url: `${YOUR_DOMAIN}?canceled=true`,
-  // });
 
-  // res.redirect(303, session.url);
-// });
+app.post('/create-customer', async (req, res) => {
+  try {
+    const customer = await stripe.customers.create({
+      email: req.body.email,
+      // Additional customer information
+    });
+    res.status(201).json(customer);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.post('/create-subscription', async (req, res) => {
+  try {
+    const subscription = await stripe.subscriptions.create({
+      customer: req.body.customerId,
+      items: [{ package: req.body.packageID }], 
+      default_payment_method: req.body.paymentMethodId,
+      billing: 'auto', // Auto-renewal
+      // Other subscription parameters
+    });
+    res.status(201).json(subscription);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Webhook endpoint to handle events from Stripe (e.g., payment success, failed payments)
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, 'YOUR_STRIPE_WEBHOOK_SECRET');
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle specific events (e.g., payment success, failed payments) here
+
+  res.status(200).json({ received: true });
+});
 app.get("/", (req, res) => {
   const path = resolve(process.env.STATIC_DIR + "/index.html");
   res.sendFile(path);
@@ -116,3 +139,9 @@ app.all('*', (req, res, next) => {
 app.use(globalErrorHandler);
 
 module.exports = app;
+
+
+
+
+
+
