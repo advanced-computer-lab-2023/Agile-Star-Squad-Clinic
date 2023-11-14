@@ -1,8 +1,16 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import UserContext from '../../../user-store/user-context';
 
 const AdminHome = (props) => {
+  const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    userCtx.logout();
+    navigate("/");
+  }
   return (
     <>
       <div>
@@ -16,11 +24,9 @@ const AdminHome = (props) => {
         </Link>
       </div>
       <div>
-        <Link to="/">
-          <button id="addingbutton" className="btn btn-primary sm">
-            Back to Home
+          <button onClick={logout} id="addingbutton" className="btn btn-primary sm">
+            Logout
           </button>
-        </Link>
       </div>
     </>
   );
