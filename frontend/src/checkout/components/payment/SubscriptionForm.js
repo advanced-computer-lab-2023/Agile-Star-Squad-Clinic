@@ -4,7 +4,7 @@ import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import './CheckoutForm.css'
 
-export default function CheckoutForm(props) {
+export default function SubscriptionForm(props) {
   const stripe = useStripe();
   const elements = useElements();
   let navigate = useNavigate();

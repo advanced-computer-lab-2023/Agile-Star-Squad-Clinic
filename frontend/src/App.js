@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -19,17 +19,19 @@ import PatientFamily from './patient/pages/PatientFamily';
 import NavBar from './shared/components/NavBar/NavBar';
 import HealthPackages from './patient/pages/healthPackages/HealthPackages';
 import AddingInfo from './checkout/pages/AddingInformation';
+import AddingInfo2 from './checkout/pages/AddingInformation2';
 import Payment from "../src/checkout/components/payment/Payment";
 import Completion from "../src/checkout/components/payment/Completion";
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import UserContext from './user-store/user-context';
 import './App.css';
 import Appointments from './patient/pages/appointments/Appointments';
+import Subscription from './checkout/components/payment/SubscriptionForm';
 
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
-  const currentUser = useContext(UserContext);
+ 
   const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
   const [user, setUser] = useState({
     role: null,
@@ -98,7 +100,8 @@ function App() {
           <Route path="admin/manage" element={<ManageUsersPage/>}/>
           <Route path="/PatientFamily" element={<PatientFamily />} exact />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
-          <Route path="/completion" element={<Completion />} exact />
+          <Route path="/package/checkout" element={<AddingInfo2 />} exact />
+          <Route path="/completion" element={<Subscription />} exact />
           
           
          

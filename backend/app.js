@@ -53,7 +53,26 @@ app.use((req, res, next) => {
 
   next();
 });
-
+app.post('/create-checkout-session',async(req,res)=>{
+const session = await stripe.checkout.sessions.create({
+  mode: 'subscription',
+  line_items: [
+    {
+      price: 'price_1OCTWdIM4ONA4ExmtbEzehsU',
+      quantity: 1,
+    },
+    {
+      price: 'price_1OCTVzIM4ONA4Exm1DiXv9cI',
+      quantity: 1,
+    },
+    {
+      price: 'price_1OCTVIIM4ONA4ExmNsVRD2cZ',
+      quantity: 1,
+    },
+  ],
+  ui_mode: 'embedded',
+  return_url: 'https://example.com/checkout/return?session_id={CHECKOUT_SESSION_ID}',
+});})
 app.post('/create-customer', async (req, res) => {
   try {
     const customer = await stripe.customers.create({
