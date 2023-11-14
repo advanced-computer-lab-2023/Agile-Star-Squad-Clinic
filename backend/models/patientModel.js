@@ -44,7 +44,7 @@ const patientSchema = new mongoose.Schema({
   nationalId: {
     type: String,
     unique: true,
-    required: [true, 'Please provide a national ID.'],
+    required: [false, 'Please provide a national ID.'],
   },
   emergencyContact: {
     fullName: {
