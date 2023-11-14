@@ -16,4 +16,6 @@ router.route('/:username/:password').get(authController.logIn);
 
 router.route('/logout').get(authController.logout);
 
+router.route('/me').get(authController.me);
+
 module.exports = router;

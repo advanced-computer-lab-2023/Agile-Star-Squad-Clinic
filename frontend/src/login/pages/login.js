@@ -51,20 +51,13 @@ const Login = (props) => {
       props.setUser({ role, userId });
       // You may also want to store the token in a more persistent way (e.g., localStorage)
 
-      if (role === 'doctor') {
-        navigate('/doctor/home');
-      } else if (role === 'patient') {
-        navigate('/patient/home');
-      } else if (role === 'admin') {
-        navigate('/admin/home');
-      }
+      navigate('/');
     } catch (err) {
       alert(err.response.data.message);
     }
   };
 
   return (
-    <body>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-7">
@@ -109,7 +102,6 @@ const Login = (props) => {
           </div>
         </div>
       </div>
-    </body>
   );
 };
 

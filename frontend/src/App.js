@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 import Login from './login/pages/login';
 import ResetPassword from './login/pages/ResetPassword';
@@ -21,32 +22,33 @@ import ResetPassword1 from './login/pages/ResetPassword';
 import axios from 'axios';
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
   const [user, setUser] = useState({
     role: null,
     userId: null,
   });
-  const [routes, setRoutes] = useState();
+  const [userData, setUserData] = useState(null);
 
   const getUserRoutes = () => {
+    // console.log(user);
     if (user.role === 'patient') {
-      setRoutes(
+      return (
         <Routes>
           <Route path="/patient/home" element={<PatientHome />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
     } else if (user.role === 'doctor') {
-      setRoutes(
+      return (
         <Routes>
           <Route path="/doctor/home" element={<DoctorHome />} exact />
           <Route path="*" element={<Navigate to="/doctor/home" />} />
         </Routes>
       );
     } else if (user.role === 'admin') {
-      setRoutes(
+      return (
         <Routes>
           <Route path="/admin/home" element={<AdminHome user={user} />} exact />
-          ;
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />
@@ -55,7 +57,7 @@ function App() {
         </Routes>
       );
     } else {
-      setRoutes(
+      return (
         <Routes>
           <Route path="/" element={<Login setUser={setUser} />} exact />
           <Route path="/resetPassword" element={<ResetPassword />} exact />
@@ -74,43 +76,53 @@ function App() {
         </Routes>
       );
     }
-    console.log('dakhal');
-    console.log(routes);
-    console.log('kharaj');
+    // console.log('dakhal');
+    // console.log(routes);
+    // console.log('kharaj');
   };
 
   useEffect(() => {
-    getUserRoutes();
-    console.log(routes);
+    axios
+      .get('http://localhost:3000/auth/me', { withCredentials: true })
+      .then((res) => {
+        if (res.data.data.user === null) {
+          setUser({ role: 'guest', userId: null });
+        } else {
+          setUser((prev) => ({
+            ...prev,
+            role: res.data.data.role,
+            userId: res.data.data.id,
+          }));
+        }
+      });
   }, []);
 
   useEffect(() => {
-    if (user.role === 'guest' || user.userId === null) return;
+    if (user.role === null || user.role === 'guest') return;
     axios
       .get(`http://localhost:3000/${user.role}s/${user.userId}`, {
         withCredentials: true,
       })
       .then((res) => {
-        setUser((prev) => ({
-          ...prev,
-          user: { ...res.data.data.admin },
+        setUserData((prev) => ({
+          ...res.data.data[user.role],
         }));
 
         console.log(res.data.data);
       });
-    getUserRoutes();
-  }, [user.role, user.userId]);
+  }, [user]);
 
   const logoutHandler = async () => {
     await axios.get('http://localhost:3000/auth/logout');
+    removeCookie('jwt', { path: '/' });
     setUser({ role: 'guest', userId: null });
-    window.location.href = '/';
   };
-
   return (
     <div className="App">
-      <button onClick={logoutHandler}>logout</button>
-      <BrowserRouter>{routes}</BrowserRouter>
+      {Object.keys(cookies).length > 0 && (
+        <button onClick={logoutHandler}>logout</button>
+      )}
+      <BrowserRouter>{getUserRoutes()}</BrowserRouter>
     </div>
   );
 }

@@ -212,12 +212,8 @@ exports.logIn = catchAsync(async (req, res, next) => {
   }
 
   const token = createToken(user._id, role);
-  // setCookie('jwt', token, 3);
   res.cookie('jwt', token, {
-    httpOnly: true,
     maxAge: maxAge * 1000,
-    domain: 'localhost',
-    path: '/',
   });
   return res.status(200).json({
     status: 'success',
@@ -230,6 +226,23 @@ exports.logIn = catchAsync(async (req, res, next) => {
 });
 
 exports.logout = (req, res) => {
-  res.cookie('jwt', '', { maxAge: 1 });
-  res.status(200).json({ status: 'success' });
+  res
+    .status(200)
+    .clearCookie('jwt', {
+      maxAge: 1,
+    })
+    .json({ status: 'success' });
+};
+
+exports.me = (req, res) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, 'supersecret', (err, decodedToken) => {
+      if (!err) {
+        res.status(200).json({ data: decodedToken });
+      } else {
+        res.status(200).json({ data: null });
+      }
+    });
+  }
 };
