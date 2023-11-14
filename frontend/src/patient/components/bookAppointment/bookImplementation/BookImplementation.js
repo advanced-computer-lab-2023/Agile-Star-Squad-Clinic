@@ -89,7 +89,8 @@ const BookImplementation = (props) => {
   const getPatient = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88'
+        'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88',
+        { withCredentials: true }
       );
       setDummyUser(response.data.data.patient);
     } catch (error) {
@@ -107,7 +108,8 @@ const BookImplementation = (props) => {
   const getFamilyMembers = async () => {
     const patientId = '65270df9cfa9abe7a31a4d88';
     const members = await axios.get(
-      `http://localhost:3000/patients/${patientId}/familyMembers`
+      `http://localhost:3000/patients/${patientId}/familyMembers`,
+      { withCredentials: true }
     );
     setFamilyMembers(members.data.data.members);
   };
@@ -210,7 +212,8 @@ const BookImplementation = (props) => {
       patientName = member.name;
       const familyMemberPatientAccount = await axios
         .get(
-          `http://localhost:3000/patients/getByNationalId/${member.nationalId}`
+          `http://localhost:3000/patients/getByNationalId/${member.nationalId}`,
+          { withCredentials: true }
         )
         .catch();
       if (familyMemberPatientAccount) {
