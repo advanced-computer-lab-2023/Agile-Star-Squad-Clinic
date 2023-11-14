@@ -25,6 +25,9 @@ import PatientAccountSettings from './patient/pages/PatientAccountSettings';
 import HealthPackages from "./patient/pages/healthPackages/HealthPackages"
 import Appointments from './patient/pages/appointments/Appointments';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
+import PendingRequest from './requests/pendingRequest';
+import RejectedRequest from './requests/rejectedRequest';
+import AcceptedRequest from './requests/acceptedRequest';
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
@@ -50,7 +53,7 @@ function App() {
     } else if (user.role === 'doctor') {
       if (user.status === "accepted") {
         return <Routes>
-          {/* <Route path='doctorOnboarding' element={}/> */}
+          <Route path='/' element={<AcceptedRequest/>}/>
         </Routes>
       } else {
         return (
@@ -75,12 +78,12 @@ function App() {
     } else if (user.role === 'request') {
       if (user.status === "Pending") {
         return <Routes>
-          {/* <Route path='/' element={}/> */}
+          <Route path='/' element={<PendingRequest/>}/>
         </Routes>
       } else if (user.status === "Rejected") {
         return (
           <Routes>
-            {/* <Route path='/' element={}/> */}
+            <Route path='/' element={<RejectedRequest/>}/>
           </Routes>
         );
       }
@@ -113,7 +116,8 @@ function App() {
         if (res.data.data.user === null) {
           user.logout();
         } else {
-          user.login({role: res.data.data.role, userId: res.data.data.id});
+          console.log(res.data.data);
+          user.login({role: res.data.data.role, userId: res.data.data.id, status: res.data.data.status});
           
         }
       });

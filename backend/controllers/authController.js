@@ -4,6 +4,7 @@ const sendEmail = require('../utils/email');
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
 const Admin = require('../models/adminModel');
+const Request = require('../models/requestModel');
 const jwt = require('jsonwebtoken');
 let randomNumber = 0;
 const maxAge = 3 * 24 * 60 * 60;
@@ -193,6 +194,7 @@ exports.logIn = catchAsync(async (req, res, next) => {
 
   let role = '';
   let user;
+  let status = '';
 
   const query = {};
   query.username = { $regex: username, $options: 'i', $eq: username };
@@ -206,6 +208,7 @@ exports.logIn = catchAsync(async (req, res, next) => {
   if (doctor) {
     role = 'doctor';
     user = doctor;
+    status = doctor.status;
   } else if (patient) {
     role = 'patient';
     user = patient;
@@ -215,11 +218,14 @@ exports.logIn = catchAsync(async (req, res, next) => {
   } else if (request) {
     role = 'request';
     user = request;
+    status = request.status;
   } else {
     return next(new AppError('Username or Password is incorrect ', 404));
   }
 
-  const token = createToken(user._id, role);
+  console.log(status);
+
+  const token = createToken(user._id, role, status);
   res.cookie('jwt', token, {
     maxAge: maxAge * 1000,
   });
@@ -247,6 +253,7 @@ exports.me = (req, res) => {
   const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, 'supersecret', (err, decodedToken) => {
+      console.log(decodedToken);
       if (!err) {
         res.status(200).json({ data: decodedToken });
       } else {

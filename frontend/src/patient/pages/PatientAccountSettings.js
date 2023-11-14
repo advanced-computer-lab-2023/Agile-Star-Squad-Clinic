@@ -119,8 +119,7 @@ const PatientAccountSettings = (props) => {
     }
 
     const logout = async () => {
-        await axios.get('http://localhost:3000/auth/logout');
-        patient.logout();
+        await patient.logout();
         navigate("/");
     }
 

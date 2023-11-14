@@ -7,10 +7,10 @@ const DUMMY_USERS = {
     role: 'admin',
   },
   patient: { _id: '65270df9cfa9abe7a31a4d88', role: 'patient' },
-  doctor: { _id: '65217eef62c9a70ae7636191', role: 'doctor' },
+  doctor: { _id: '65270f436a48cd31d535b961', role: 'doctor' },
 };
 
-let DUMMY_USER = DUMMY_USERS.patient;
+let DUMMY_USER = DUMMY_USERS.doctor;
 
 const setUserRole = (role) => {
   switch (role.toLowerCase()) {

@@ -23,6 +23,10 @@ router
   .delete(doctorController.removeDoctor);
 
 router
+  .route(':doctorId/setAsMember')
+  .get(doctorController.setDoctorAsMember);
+
+router
   .route('/:doctorId/patients')
   .get(middleware.doctorAuth, doctorController.getMyPatients)
   .post(doctorController.addPatient);
@@ -30,6 +34,10 @@ router
 router
   .route('/:id/patient')
   .get(middleware.doctorAuth, doctorController.getMyPatient);
+
+router
+  .route('/:doctorId/timeSlots')
+  .post(doctorController.setTimeSlots);
 
 router
   .route('/:doctorId/upComingAppointments')

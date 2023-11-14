@@ -73,12 +73,17 @@ const doctorSchema = new mongoose.Schema(
       type : String,
       enum: ["member" , "accepted"],
       default: "accepted"
-    }
+    },
     // role: {
     //   type: String,
     //   default: "doctor",
     //   select: false
     // }
+    timeSlots: [
+      {
+        type: Array,
+      }
+    ]
   },
   {
     toJSON: { virtuals: true },

@@ -32,7 +32,7 @@ const Login = (props) => {
       );
       const { role, userId, status } = response.data.data;
       // Store the token in state or wherever you manage your application state
-      userCtx.login({ role, userId });
+      userCtx.login({ role, userId, status });
       // You may also want to store the token in a more persistent way (e.g., localStorage)
 
       navigate('/');
