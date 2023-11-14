@@ -21,24 +21,19 @@ import UserContext from './user-store/user-context';
 // import {getAllPatients} from '../src/data/controllers/patientController';
 
 function App() {
-  const currentUser = useContext(UserContext);
+  const user = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
-  const [user, setUser] = useState({
-    role: null,
-    userId: null,
-  });
-  const [userData, setUserData] = useState(null);
 
   const getUserRoutes = () => {
     if (user.role === 'patient') {
       return (
         <Routes>
+        <Route
+          path="/patient/appointment/book"
+          element={<BookAppointment />}
+          exact
+        />
           <Route path="/patient/home" element={<PatientHome />} exact />
-          <Route
-            path="/patient/appointment/book"
-            element={<BookAppointment />}
-            exact
-          />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
@@ -63,7 +58,7 @@ function App() {
     } else {
       return (
         <Routes>
-          <Route path="/" element={<Login setUser={setUser} />} exact />
+          <Route path="/" element={<Login />} exact />
           <Route path="/resetPassword" element={<ResetPassword />} exact />
           <Route
             path="/patient/register"
@@ -85,36 +80,33 @@ function App() {
       .get('http://localhost:3000/auth/me', { withCredentials: true })
       .then((res) => {
         if (res.data.data.user === null) {
-          setUser({ role: 'guest', userId: null });
+          user.logout();
         } else {
-          setUser((prev) => ({
-            ...prev,
-            role: res.data.data.role,
-            userId: res.data.data.id,
-          }));
+          user.login({role: res.data.data.role, userId: res.data.data.id});
+          
         }
       });
   }, []);
 
-  useEffect(() => {
-    if (user.role === null || user.role === 'guest') return;
-    axios
-      .get(`http://localhost:3000/${user.role}s/${user.userId}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setUserData((prev) => ({
-          ...res.data.data[user.role],
-        }));
+  // useEffect(() => {
+  //   if (user.role === null || user.role === 'guest') return;
+  //   axios
+  //     .get(`http://localhost:3000/${user.role}s/${user.userId}`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       setUserData((prev) => ({
+  //         ...res.data.data[user.role],
+  //       }));
 
-        console.log(res.data.data);
-      });
-  }, [user]);
+  //       console.log(res.data.data);
+  //     });
+  // }, [user]);
 
   const logoutHandler = async () => {
     await axios.get('http://localhost:3000/auth/logout');
     removeCookie('jwt', { path: '/' });
-    setUser({ role: 'guest', userId: null });
+    user.logout();
   };
   return (
     <div className="App">
