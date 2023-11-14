@@ -62,6 +62,7 @@ const BookAppointment = (props) => {
         <div className={styles.appointmentInfo}>
           <BookImplementation
             availableTimes={doctor.timeSlots}
+            doctorId={doctor}
             upcomingAppointments={upcomingAppointments}
           />
         </div>

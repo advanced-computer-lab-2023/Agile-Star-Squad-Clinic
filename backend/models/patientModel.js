@@ -86,6 +86,11 @@ const patientSchema = new mongoose.Schema({
       ref: 'Appointment',
     },
   ],
+  wallet:{
+    type: Number,
+    default:0,
+
+  }
 });
 
 // tourSchema.virtual('familyMembers', {

@@ -153,8 +153,11 @@ const BookImplementation = (props) => {
       packageToUse,
       patientName,
       addAppointmentTo,
+      doctor: props.doctor,
+      dateOfAppointment: chosenDate,
+      timeOfAppointment: chosenTime,
     };
-    navigate('/patient/home', { state: dataToSend });
+    navigate('/patient/checkout', { state: dataToSend });
   };
   const expandTimeRange = (timeRanges) => {
     const expandedTimeRanges = [];

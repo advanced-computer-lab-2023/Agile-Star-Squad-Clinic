@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -10,26 +10,25 @@ import NewPackage from './package/pages/NewPackage';
 import AdminPackagesView from './package/pages/AdminPackagesView';
 import UpdatePackage from './package/pages/UpdatePackage';
 import PatientRegisterForm from './patient/pages/PatientRegister';
-import PatientHome from './patient/pages/PatientHome';
 import DoctorRegisterForm from './doctor/pages/DoctorRequest';
 import DoctorHome from './doctor/pages/DoctorHome';
 import ManageUsersPage from './admin/pages/ManageUsers/ManageUsersPage';
+import PatientFamily from './patient/pages/PatientFamily';
+import HealthPackages from './patient/pages/healthPackages/HealthPackages';
+import AddingInfo from './checkout/pages/AddingInformation';
+// import AddingInfo2 from './checkout/pages/AddingInformation2';
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
-import './App.css';
 import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
-import AddFamilyForm from './patient/pages/AddFamily';
-import PatientFamily from './patient/pages/PatientFamily';
-import NavBar from './shared/components/NavBar/NavBar';
 import PatientAccountSettings from './patient/pages/PatientAccountSettings';
-import HealthPackages from './patient/pages/healthPackages/HealthPackages';
 import Appointments from './patient/pages/appointments/Appointments';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import PendingRequest from './requests/pendingRequest';
 import RejectedRequest from './requests/rejectedRequest';
 import AcceptedRequest from './requests/acceptedRequest';
 import ChangePassword from './login/pages/ChangePassword';
-// import {getAllPatients} from '../src/data/controllers/patientController';
+import Subscription from './checkout/components/payment/SubscriptionForm';
+import './App.css';
 
 function App() {
   const user = useContext(UserContext);
@@ -51,6 +50,7 @@ function App() {
             element={<PatientAccountSettings />}
             exact
           />
+          <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/appointments" element={<Appointments />} exact />
           <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />
@@ -114,6 +114,17 @@ function App() {
             element={<DoctorRegisterForm />}
             exact
           />
+          <Route path="/healthPackages" element={<HealthPackages />} exact />
+          <Route path="/doctor/home" element={<DoctorHome />} exact />
+          <Route path="/admin/home" element={<AdminHome />} exact />
+          <Route path="/addPackage" element={<NewPackage />} exact />
+          <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
+          <Route path="/packages" element={<AdminPackagesView />} exact />
+          <Route path="admin/manage" element={<ManageUsersPage />} />
+          <Route path="/PatientFamily" element={<PatientFamily />} exact />
+          {/* <Route path="/package/checkout" element={<AddingInfo2 />} exact /> */}
+          <Route path="/completion" element={<Subscription />} exact />
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       );

@@ -22,12 +22,14 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   const newAppointment = await Appointment.create(req.body);
   const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
-
-  patient.appointments.push(newAppointment);
-  await patient.save();
-
+  
   doctor.appointments.push(newAppointment);
   await doctor.save();
+  patient.appointments.push(newAppointment);
+  
+  await patient.save();
+ 
+ 
 
   res.status(200).json({
     status: 'success',

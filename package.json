@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.15",
+    "@mui/material": "^5.14.15",
+    "formik": "^2.4.5",
+    "formik-mui": "^5.0.0-alpha.0",
+    "react-router-dom": "^6.17.0",
+    "stripe": "^14.3.0"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "3.0.3"
+  }
+}

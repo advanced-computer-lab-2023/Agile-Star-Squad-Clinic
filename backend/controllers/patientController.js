@@ -7,6 +7,7 @@ const apiFeatures = require('../utils/apiFeatures');
 const Appointment = require('../models/appointmentModel');
 const Prescription = require('../models/prescriptionModel');
 const { response } = require('express');
+const Package = require('../models/packageModel');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newPatient = await Patient.create(req.body)
@@ -114,7 +115,7 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
 
 exports.getFamilyMembers = catchAsync(async (req, res, next) => {
   const patient = await Patient.findById(req.params.patientId).populate(
-    'familyMembers'
+    'familyMembers',
   );
 
   res.status(200).json({
@@ -124,7 +125,55 @@ exports.getFamilyMembers = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.subscribePackage = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  const packageData = req.body;
+ const discount=0;
+  const familyMember=await Family.findById(patientId)
+  if (familyMember !=null){
+     const patient= await Patient.findById(familyMember._id)
+    discount= package.familyMemberDiscount
+  }
+  
+  
 
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+  if (patient.package != null) {
+    return next(new AppError('You are already subsribed to a Package', 404));
+  }
+
+  await Patient.findByIdAndUpdate(patient._id, {
+    package: packageData,
+  });
+
+  res.status(200).json({
+    status: 'success',
+    discount
+  });
+});
+exports.unsubscribePackage = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  const packageData = req.body;
+
+  const patient = await Patient.findById(patientId);
+
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+  if (patient.package == null) {
+    return next(new AppError('You are not subsribed to any Packages', 404));
+  }
+
+  await Patient.findByIdAndUpdate(patient._id, {
+    package: null,
+  });
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
 exports.getDoctor = catchAsync(async (req, res, next) => {
   const { name, speciality } = req.body;
   const query = {};
@@ -182,7 +231,6 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
   if (!updatedPatient) {
     return next(new AppError('No patient found with that ID', 404));
   }
-
   res.status(200).json({
     status: 'success',
     data: {
@@ -190,6 +238,26 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.getDoctor = catchAsync(async (req, res, next) => {
+  const { name, speciality } = req.body;
+  const query = {};
+
+  if (name) {
+    query.name = { $regex: name, $options: 'i', $eq: name };
+  }
+  if (speciality) {
+    query.speciality = { $regex: speciality, $options: 'i' };
+  }
+  const doctor = await Doctor.find(query);
+  
+  res.status(200).json({
+    status: 'success',
+    data: {
+      doctor,
+    },
+  });
+});
+  
 
 exports.removeHealthRecord = catchAsync(async (req, res, next) => {
   const updatedPatient = await Patient.findByIdAndUpdate(
@@ -213,6 +281,28 @@ exports.removeHealthRecord = catchAsync(async (req, res, next) => {
       patient: updatedPatient,
     },
   });
+});
+
+exports.updateWallet = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  
+ 
+  
+  const patient = await Patient.findById(patientId);
+   const walletAmount=req.body.walletAmount + patient.wallet;
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+  
+  
+  await Patient.findByIdAndUpdate(patient._id, {
+    wallet: walletAmount,
+  });
+
+  res.status(200).json({
+    status: 'success',
+  });
+
 });
 
 // Modules.exports = {createPatient}

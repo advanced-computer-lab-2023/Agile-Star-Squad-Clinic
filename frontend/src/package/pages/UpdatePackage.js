@@ -12,14 +12,14 @@ const UpdatePackage = () => {
   const [familyMemberDiscount, setFamilyMemberDiscount] = useState('');
   const [description, setDescription] = useState('');
 
-  // Fetch package data from the backend
+  
   useEffect(() => {
    
     const fetchData = async () => {
       try {
         const response = await fetch(
           `http://localhost:3000/packages/${id}`
-        ); // Replace {package_id} with the actual package ID.
+        ); 
         if (response.ok) {
           const data = await response.json();
           const {
@@ -29,9 +29,9 @@ const UpdatePackage = () => {
             medicineDiscount,
             familyMemberDiscount,
             description,
-          } = data.data.package; // Assuming the API response matches the data structure.
+          } = data.data.package; 
          
-          // Set the state variables with the retrieved data
+          
           setName(name);
           setPricePerYear(pricePerYear);
           setDoctorSessionDiscount(doctorSessionDiscount);
@@ -66,7 +66,7 @@ const UpdatePackage = () => {
         `http://localhost:3000/packages/${id}`,
         
         {
-          method: 'PATCH', // Use the appropriate HTTP method (e.g., PUT or POST) for updating data
+          method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         }
