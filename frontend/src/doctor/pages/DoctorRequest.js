@@ -63,8 +63,8 @@ const DoctorRequestForm = () => {
       }
 
     if (medicalLicenseForm !== "") {
-      console.log("License");
-      console.log(medicalLicenseForm);
+      // console.log("License");
+      // console.log(medicalLicenseForm);
     
       // const imageExtension = medicalLicenseForm['path'].substring(medicalLicenseForm['path'].lastIndexOf('.'));
       const medicalLicenseRef = ref(storage, `${medicalLicenseForm.name}`);

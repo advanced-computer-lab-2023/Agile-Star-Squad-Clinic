@@ -98,16 +98,29 @@ const RequestDetails = (props) => {
             </div>
             <div>
                 <span><h4>ID Image</h4></span>
-                <img src={props.data['idImage']} />
+                {props.data['idImage'].includes('pdf') ? (
+                    <a href={props.data['idImage']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                ) : (
+                    <img src={props.data['idImage']} alt="ID Image" />
+                )}
             </div>
             <div>
                 <span><h4>Medical License</h4></span>
-                <img src={props.data['medicalLicense']} />
+                {props.data['medicalLicense'].includes('pdf') ? (
+                    <a href={props.data['medicalLicense']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                ) : (
+                    <img src={props.data['medicalLicense']} alt="Medical License" />
+                )}
             </div>
             <div>
                 <span><h4>Medical Degree</h4></span>
-                <img src={props.data['medicalDegree']} />
+                {props.data['medicalDegree'].includes('pdf') ? (
+                    <a href={props.data['medicalDegree']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                ) : (
+                    <img src={props.data['medicalDegree']} alt="Medical Degree" />
+                )}
             </div>
+
             {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
         </Modal>, document.getElementById("backdrop-root")
     );
