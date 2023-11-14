@@ -32,7 +32,7 @@ const BookAppointment = (props) => {
     try {
       const response = await axios.get(
         `http://localhost:3000/patients/${doctor._id}/doctorUpcomingAppointments`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setUpComingAppointments(response.data.data.appointments);
     } catch (error) {
@@ -62,7 +62,7 @@ const BookAppointment = (props) => {
         <div className={styles.appointmentInfo}>
           <BookImplementation
             availableTimes={doctor.timeSlots}
-            doctorId={doctor}
+            doctor={doctor}
             upcomingAppointments={upcomingAppointments}
           />
         </div>
