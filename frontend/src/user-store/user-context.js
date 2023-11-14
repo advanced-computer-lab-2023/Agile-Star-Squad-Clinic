@@ -4,6 +4,7 @@ const { createContext, useState } = require("react");
 const UserContext = createContext({
     role: "guest", 
     userId: null, 
+    status: null,
     login: (user) => { }, 
     logout: () => { }
 });
@@ -11,10 +12,10 @@ const UserContext = createContext({
 export default UserContext;
 
 export const UserContextProvider = (props) => {
-    const [user, setUser] = useState({ role: "guest", userId: null });
+    const [user, setUser] = useState({ role: "guest", userId: null, status: null });
 
     const login = (user) => {
-        setUser({role: user.role, userId: user.userId});
+        setUser({role: user.role, userId: user.userId, status: user.status});
     }
 
     const logout = () => {

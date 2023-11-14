@@ -20,10 +20,7 @@ import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
 import AddFamilyForm from './patient/pages/AddFamily';
 import PatientFamily from './patient/pages/PatientFamily';
-import RejectedRequest from './requests/rejectedRequest';
 import NavBar from './shared/components/NavBar/NavBar';
-import PendingRequest from './requests/pendingRequest';
-import AcceptedRequest from './requests/acceptedRequest';
 import PatientAccountSettings from './patient/pages/PatientAccountSettings';
 import HealthPackages from "./patient/pages/healthPackages/HealthPackages"
 import Appointments from './patient/pages/appointments/Appointments';
@@ -51,12 +48,19 @@ function App() {
         </Routes>
       );
     } else if (user.role === 'doctor') {
-      return (
+      if (user.status === "accepted") {
+        return <Routes>
+          {/* <Route path='doctorOnboarding' element={}/> */}
+        </Routes>
+      } else {
+        return (
         <Routes>
           <Route path="/doctor/home" element={<DoctorHome />} exact />
           <Route path="*" element={<Navigate to="/doctor/home" />} />
         </Routes>
       );
+      }
+      
     } else if (user.role === 'admin') {
       return (
         <Routes>
@@ -68,6 +72,19 @@ function App() {
           <Route path="*" element={<Navigate to="/admin/home" />} />
         </Routes>
       );
+    } else if (user.role === 'request') {
+      if (user.status === "Pending") {
+        return <Routes>
+          {/* <Route path='/' element={}/> */}
+        </Routes>
+      } else if (user.status === "Rejected") {
+        return (
+          <Routes>
+            {/* <Route path='/' element={}/> */}
+          </Routes>
+        );
+      }
+      
     } else {
       return (
         <Routes>
