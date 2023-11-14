@@ -201,6 +201,7 @@ exports.logIn = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne(query);
   const patient = await Patient.findOne(query);
   const admin = await Admin.findOne(query);
+  const request = await Request.findOne(query);
 
   if (doctor) {
     role = 'doctor';
@@ -211,6 +212,9 @@ exports.logIn = catchAsync(async (req, res, next) => {
   } else if (admin) {
     role = 'admin';
     user = admin;
+  } else if (request) {
+    role = 'request';
+    user = request;
   } else {
     return next(new AppError('Username or Password is incorrect ', 404));
   }
@@ -225,6 +229,7 @@ exports.logIn = catchAsync(async (req, res, next) => {
       userId: user._id,
       role,
       token,
+      status: user.status,
     },
   });
 });

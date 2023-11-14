@@ -30,7 +30,7 @@ const Login = (props) => {
         `http://localhost:3000/auth/${username}/${password}`,
         { withCredentials: true }
       );
-      const { role, userId } = response.data.data;
+      const { role, userId, status } = response.data.data;
       // Store the token in state or wherever you manage your application state
       userCtx.login({ role, userId });
       // You may also want to store the token in a more persistent way (e.g., localStorage)

@@ -51,12 +51,19 @@ function App() {
         </Routes>
       );
     } else if (user.role === 'doctor') {
-      return (
+      if (user.status === "accepted") {
+        return <Routes>
+          {/* <Route path='doctorOnboarding' element={}/> */}
+        </Routes>
+      } else {
+        return (
         <Routes>
           <Route path="/doctor/home" element={<DoctorHome />} exact />
           <Route path="*" element={<Navigate to="/doctor/home" />} />
         </Routes>
       );
+      }
+      
     } else if (user.role === 'admin') {
       return (
         <Routes>
@@ -68,6 +75,19 @@ function App() {
           <Route path="*" element={<Navigate to="/admin/home" />} />
         </Routes>
       );
+    } else if (user.role === 'request') {
+      if (user.status === "Pending") {
+        return <Routes>
+          {/* <Route path='/' element={}/> */}
+        </Routes>
+      } else if (user.status === "Rejected") {
+        return (
+          <Routes>
+            {/* <Route path='/' element={}/> */}
+          </Routes>
+        );
+      }
+      
     } else {
       return (
         <Routes>
