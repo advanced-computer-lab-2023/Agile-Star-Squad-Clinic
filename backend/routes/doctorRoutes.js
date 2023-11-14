@@ -27,10 +27,14 @@ router
   .get(middleware.doctorAuth, doctorController.getMyPatients)
   .post(doctorController.addPatient);
 
-router.route('/:id/patient')
+router
+  .route('/:id/patient')
   .get(middleware.doctorAuth, doctorController.getMyPatient);
 
 router
   .route('/:doctorId/upComingAppointments')
-  .get(middleware.doctorAuth,appointmentController.upComingAppointmentsForDoctors);
+  .get(
+    middleware.doctorAuth,
+    appointmentController.upComingAppointmentsForDoctors
+  );
 module.exports = router;
