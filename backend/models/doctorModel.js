@@ -67,12 +67,18 @@ const doctorSchema = new mongoose.Schema(
         ref: 'Patient',
       },
     ],
+    // role: {
+    //   type: String,
+    //   default: "doctor",
+    //   select: false
+    // }
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
+
 
 // doctorSchema.virtual('patients', {
 //   ref: 'Patient',
