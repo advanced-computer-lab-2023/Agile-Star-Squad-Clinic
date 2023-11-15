@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DataTable from "../../../shared/components/DataTable/DataTable";
 import NavBar from "../../../shared/components/NavBar/NavBar";
+import UserContext from "../../../user-store/user-context";
 
 
 const Appointments = () => {
+    const patientId = useContext(UserContext).userId;
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-
     const [filteredAppointements, setFilteredAppointements] = useState([]);
     const [appointmentFilter, setAppointmentFilter] = useState('');
     const [appDateFilter, setAppDateFilter] = useState('');
@@ -54,7 +55,7 @@ const Appointments = () => {
     ];
 
     const fetchAppointments = () => {
-        fetch("http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/appointments").then(async (response) => {
+        fetch(`http://localhost:3000/patients/${patientId}/appointments`, { credentials: "include" }).then(async (response) => {
             const json = await response.json();
             const appointmentsJson = json.data.appointments;
             setUpcomingAppointments(appointmentsJson.map((appointment) => {
@@ -91,7 +92,7 @@ const Appointments = () => {
     };
 
     return <>
-    <NavBar/>
+        <NavBar />
         <span>
             <h2>My Appointments</h2>
             <select value={appointmentFilter} onChange={appDropdownHandler}>
@@ -106,7 +107,7 @@ const Appointments = () => {
             )}
         </span>
         <DataTable columns={appointmentCols} rows={filteredAppointements} />
-        </>;
+    </>;
 }
 
 export default Appointments;
