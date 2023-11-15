@@ -20,36 +20,45 @@ const PatientAccountSettings = (props) => {
   const [medicalRecordUrls, setMedicalRecords] = useState(null);
   const [isButtonPressed, setButtonPressed] = useState(false);
   const [healthRecord, setHealthRecord] = useState('');
+  const [subscriptionDate, setsubscriptionDate] = useState(Date.now());
+  const [expiringDate, setexpiringDate] = useState(Date.now());
+  const [cancellationDate, setcancellationDate] = useState(Date.now());
+  const [currentPatient, setCurrentPatient] = useState('');
 
   const onHealthRecordChange = (file) => {
     setHealthRecord(file.target.files[0]);
   };
 
-  const fetchPackages = async () => {
+  const fetchPackage = async () => {
     fetch(`http://localhost:3000/patients/${patient.userId}`).then(
       async (response) => {
         const json = await response.json();
-        console.log(json);
+        console.log(json.data);
+        setsubscriptionDate(json.data.patient.subscriptionDate);
+        setexpiringDate(json.data.patient.expiringDate);
         setMedicalRecords(json.data.patient.medicalRecord);
         setPackage(json.data.patient.package);
+        setCurrentPatient(json.data.patient);
+        setcancellationDate(json.data.patient.cancellationDate);
       },
     );
   };
   const handeleUnsubscribeButtonclick = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/patients/${patient.userId}`,
+        `http://localhost:3000/patients/${patient.userId}/package`,
         {
-          method: 'POST',
+          method: 'PATCH',
           headers: {
             'Content-type': 'application/json; charset=UTF-8',
           },
         },
       );
-
+      console.log(response);
       if (response.ok) {
-        setPackage(null);
         setButtonPressed(true);
+        setPackage(null);
+        setcancellationDate(JSON.stringify(new Date()));
       } else {
         console.error(
           'Failed to remove health package. Status:',
@@ -105,7 +114,7 @@ const PatientAccountSettings = (props) => {
   };
 
   useEffect(() => {
-    fetchPackages();
+    fetchPackage();
   }, []);
 
   const deleteImage = (e, url) => {
@@ -145,25 +154,63 @@ const PatientAccountSettings = (props) => {
     <body>
       <NavBar />
       <div>
-        <button onClick={handeleUnsubscribeButtonclick}>
-          Unsubscribe from current package
-        </button>
+        {cancellationDate === null && (
+          <button onClick={handeleUnsubscribeButtonclick}>
+            Unsubscribe from current package
+          </button>
+        )}
       </div>
       <div>
-        {!isButtonPressed && (
-          <>
-            <div>
-              {healthPackage != null && (
-                <div>{JSON.stringify(healthPackage)}</div>
-              )}
-            </div>
-          </>
-        )}
-        {isButtonPressed && (
-          <>
-            <div>You unsubscribed successfully</div>
-          </>
-        )}
+        <>
+          <div>
+            {healthPackage != null && <div>Category: {healthPackage.name}</div>}
+          </div>
+          <div>
+            {healthPackage != null && (
+              <div>Price Per Year: {healthPackage.pricePerYear}</div>
+            )}
+          </div>
+          <div>
+            {healthPackage != null && (
+              <div>
+                Doctor Session Discount: {healthPackage.doctorSessionDiscount}
+              </div>
+            )}
+          </div>
+          <div>
+            {healthPackage != null && (
+              <div>Medicine Discount: {healthPackage.medicineDiscount}</div>
+            )}
+          </div>
+          <div>
+            {healthPackage != null && (
+              <div>
+                Family Member Discount: {healthPackage.familyMemberDiscount}
+              </div>
+            )}
+          </div>
+          <div>
+            {healthPackage != null && (
+              <div>Description: {healthPackage.description}</div>
+            )}
+          </div>
+          <div>
+            {healthPackage != null && (
+              <div>Subscription Date: {subscriptionDate}</div>
+            )}
+          </div>
+          <div>
+            {healthPackage != null && (
+              <div>Expiration Date: {expiringDate}</div>
+            )}
+          </div>
+        </>
+        <>
+          {isButtonPressed && <div>You unsubscribed successfully</div>}
+          {cancellationDate !== null && (
+            <div>Cancellation Date: {cancellationDate}</div>
+          )}
+        </>
       </div>
       <button onClick={familyMembersHandler}>Family Members</button>
       <div className={classes.healthRecordContainer}>

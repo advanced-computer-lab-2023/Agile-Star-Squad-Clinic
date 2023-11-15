@@ -90,7 +90,16 @@ const patientSchema = new mongoose.Schema({
     type: Number,
     default:0,
 
-  }
+  },
+  
+  cancellationDate:{
+    type: Date,
+    default:null},
+  
+  subscriptionDate:Date,
+  
+  expiringDate:Date,
+
 });
 
 // tourSchema.virtual('familyMembers', {

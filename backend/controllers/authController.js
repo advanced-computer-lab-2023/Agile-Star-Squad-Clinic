@@ -253,7 +253,6 @@ exports.me = (req, res) => {
   const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, 'supersecret', (err, decodedToken) => {
-      console.log(decodedToken);
       if (!err) {
         res.status(200).json({ data: decodedToken });
       } else {
