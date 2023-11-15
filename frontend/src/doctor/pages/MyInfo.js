@@ -28,10 +28,10 @@ const MyInfo = (props) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
-  const logout = () => {
-    userCtx.logout();
-    navigate("/");
-  }
+  const logout = async () => {
+    await userCtx.logout();
+    navigate('/');
+  };
   const onSubmitHandler = (event) => {
     event.preventDefault();
     const requestOptions = {

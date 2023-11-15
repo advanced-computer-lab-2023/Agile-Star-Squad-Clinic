@@ -7,8 +7,8 @@ const AdminHome = (props) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
-  const logout = () => {
-    userCtx.logout();
+  const logout = async () => {
+    await userCtx.logout();
     navigate('/');
   };
 
