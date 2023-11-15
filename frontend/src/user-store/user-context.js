@@ -22,8 +22,10 @@ export const UserContextProvider = (props) => {
     }
 
     const logout = async () => {
-        await axios.get('http://localhost:3000/auth/logout');
+        await axios.get('http://localhost:3000/auth/logout', {withCredentials: true});
         removeCookie('jwt', { path: '/' });
+        removeCookie('__stripe_sid', { path: '/' });
+        removeCookie('__stripe_mid', { path: '/' });
         setUser({ role: "guest", id: null });
     }
 
