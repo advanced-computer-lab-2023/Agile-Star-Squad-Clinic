@@ -238,6 +238,8 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+
 exports.getDoctor = catchAsync(async (req, res, next) => {
   const { name, speciality } = req.body;
   const query = {};

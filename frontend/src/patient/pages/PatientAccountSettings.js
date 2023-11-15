@@ -4,7 +4,6 @@ import {
   getDownloadURL,
   ref,
   uploadBytesResumable,
-  listAll,
 } from 'firebase/storage';
 import ReactDOM from 'react-dom';
 import classes from './PatientAccountSettings.module.css';

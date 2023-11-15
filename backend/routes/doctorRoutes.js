@@ -29,7 +29,8 @@ router
 router
   .route('/:doctorId/patients')
   .get(middleware.doctorAuth, doctorController.getMyPatients)
-  .post(doctorController.addPatient);
+  .post(doctorController.addPatient)
+
 
 router
   .route('/:id/patient')
@@ -45,4 +46,9 @@ router
     middleware.doctorAuth,
     appointmentController.upComingAppointmentsForDoctors
   );
+
+router
+  .route('/:patientId')
+  .patch(middleware.doctorAuth, doctorController.addHealthRecord);
+
 module.exports = router;

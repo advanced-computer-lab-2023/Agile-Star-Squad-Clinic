@@ -1,6 +1,22 @@
 import ReactDOM from "react-dom";
-import React from "react";
+import React, { useState, useEffect, useContext } from 'react';
+import storage from '../../index';
+import {
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
 import Modal from "../../shared/components/Modal/Modal";
+
+const fetchPackages = async () => {
+  fetch(`http://localhost:3000/doctors/${props.data["_id"]}`, {credentials: "include"}).then(
+    async (response) => {
+      const json = await response.json();
+      console.log(json);
+      setMedicalRecords(json.data.patient.medicalRecord);
+    }
+  );
+};
 
 const PatientDetails = (props) => {
   const onDelete = () => {
@@ -8,6 +24,59 @@ const PatientDetails = (props) => {
     props.exit();
   };
 
+  const [healthRecord, setHealthRecord] = useState('');
+  const [medicalRecordUrls, setMedicalRecords] = useState(null);
+
+  const handleHealthRecordUpload = async () => {
+    let healthRecordUrl;
+    if (healthRecord !== '') {
+      const healthRecordRef = ref(storage, `${healthRecord.name}`);
+      await uploadBytesResumable(healthRecordRef, healthRecord).then(
+        async (snapshot) => {
+          healthRecordUrl = await getDownloadURL(snapshot.ref);
+        }
+      );
+    }
+    setMedicalRecords((records) => {
+      return [...records, healthRecordUrl];
+    });
+    const data = {
+      medicalRecord: healthRecordUrl,
+    };
+
+    try {
+      console.log(healthRecordUrl);
+      const requestOptions = {
+        method: 'PATCH',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify(data),
+        credentials: "include",
+      };
+      console.log(requestOptions.body);
+      console.log(requestOptions);
+
+      const response = await fetch(
+        `http://localhost:3000/doctors/${props.data["_id"]}`
+        , requestOptions
+      );
+      console.log(response);
+      if (!response.ok) {
+        alert('Failed to upload health record');
+      }
+    } catch (error) {
+      console.error('Error uploading health record:', error);
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchPackages();
+  // }, []);
+
+  const onHealthRecordChange = (file) => {
+    setHealthRecord(file.target.files[0]);
+  };
+
+  const { healthRecordInput } = healthRecord;
 
   const PatientDetails = () => {
     return getPatientBody();
@@ -63,7 +132,7 @@ const PatientDetails = (props) => {
             <h4>Medical Record</h4>
           </span>
           <div className='d-flex flex-row'>
-            {props.data["medicalRecord"].map(url => {
+            {medicalRecordUrls.map((url) => {
               return <>
                 {!url.includes("pdf") && <a className="mx-3"  href={url} target="_blank"> <img src={url} width={130} /></a>}
                 {url.includes("pdf") && <div className="mx-3" style={{ width: "130px" }}><a href={url} target="_blank">View PDF</a></div>}
@@ -71,6 +140,16 @@ const PatientDetails = (props) => {
             })}
           </div>
         </div>
+        <div>
+          <label>Health Record</label>
+          <input
+            type="file"
+            name="healthRecord"
+            value={healthRecordInput}
+            onChange={onHealthRecordChange}
+          />
+        </div>
+        <button onClick={handleHealthRecordUpload}>Upload Health Record</button>
       </React.Fragment>
     );
   };
