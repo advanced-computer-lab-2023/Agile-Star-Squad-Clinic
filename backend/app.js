@@ -39,9 +39,9 @@ app.use(express.json());
 app.use(express.static(process.env.STATIC_DIR));
 app.use(cookieParser());
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+// if (process.env.NODE_ENV === 'development') {
+//   app.use(morgan('dev'));
+// }
 
 // app.post('/create-checkout-session',async(req,res)=>{
 // const session = await stripe.checkout.sessions.create({

@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from 'react';
 import './NavBar.css';
-import logo from '../../../logo.png'
-import { Link } from "react-router-dom";
-import UserContext from "../../../user-store/user-context";
+import logo from '../../../logo.png';
+import { Link } from 'react-router-dom';
+import UserContext from '../../../user-store/user-context';
 
 const NavBar = (props) => {
-  const [walletAmount, setWalletAmount] = useState("");
+  const [walletAmount, setWalletAmount] = useState('');
   const userCtx = useContext(UserContext);
 
   useEffect(() => {
@@ -19,13 +19,13 @@ const NavBar = (props) => {
       const json = await response.json();
       setWalletAmount(json.data.patient.wallet);
     });
-  }
+  };
 
   return (
     <div className="bodyN">
       <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
         <div className="container-fluid">
-          <Link to={"/patient/home"} className="navbar-brand">
+          <Link to={'/patient/home'} className="navbar-brand">
             <img
               src={logo}
               alt=""
@@ -50,35 +50,44 @@ const NavBar = (props) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#">Doctors</a>
+                <a className="nav-link" aria-current="page" href="#">
+                  Doctors
+                </a>
               </li>
               <li className="nav-item">
-                <Link to="/healthPackages" style={{ all: "unset" }}>
-                  <a className="nav-link " href="#">Health Packages</a>
+                <Link to="/healthPackages" style={{ all: 'unset' }}>
+                  <a className="nav-link " href="#">
+                    Health Packages
+                  </a>
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">About us</a>
+                <a className="nav-link" href="#">
+                  About us
+                </a>
               </li>
-
             </ul>
           </div>
           <div className="d-flex mx-4">
             <div className="btn-group ">
-              <a href="#" className="btn btn-white">Wallet: {walletAmount}</a>
-              <Link to="/appointments" style={{ all: "unset" }}>
-                <a href="#" className="btn btn-white">Appointments</a>
+              <a href="#" className="btn btn-white">
+                Wallet: {walletAmount}
+              </a>
+              <Link to="/appointments" style={{ all: 'unset' }}>
+                <a href="#" className="btn btn-white">
+                  Appointments
+                </a>
               </Link>
-              <Link to={"/patient/account"}>
-                <a href="#" className="btn btn-white" id="last">Account</a>
+              <Link to={'/patient/account'}>
+                <a href="#" className="btn btn-white" id="last">
+                  Account
+                </a>
               </Link>
             </div>
-
-
           </div>
         </div>
       </nav>
     </div>
   );
-}
+};
 export default NavBar;

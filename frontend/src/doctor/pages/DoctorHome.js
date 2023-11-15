@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import DataTable from '../../shared/components/DataTable/DataTable';
 import AppointmentDetails from './AppointmentDetails';
 import MyInfo from './MyInfo';
 import PatientDetails from './PatientDetails';
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../../user-store/user-context';
 
-const DUMMY_DOCTOR_ID = '65270f436a48cd31d535b963';
 
 const DoctorHome = () => {
   const navigate = useNavigate();
+  const doctorId = useContext(UserContext).userId;
   const [users, setUsers] = useState([]);
 
   const [appointments, setAppointments] = useState([]);
@@ -88,8 +89,7 @@ const DoctorHome = () => {
   // ];
 
   const fetchMyPatients = () => {
-    //hardcode id
-    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/patients`, {
+    fetch(`http://localhost:3000/doctors/${doctorId}/patients`, {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
@@ -151,7 +151,7 @@ const DoctorHome = () => {
   const fetchUpcomingAppointments = () => {
     //hardcode id
     fetch(
-      `http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/upComingAppointments`,
+      `http://localhost:3000/doctors/${doctorId}/upComingAppointments`,
       {
         credentials: 'include',
       }
@@ -206,7 +206,7 @@ const DoctorHome = () => {
   // };
   const fetchMyInfo = () => {
     //hardcode id
-    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}`, {
+    fetch(`http://localhost:3000/doctors/${doctorId}`, {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();

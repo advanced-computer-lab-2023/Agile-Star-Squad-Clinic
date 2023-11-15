@@ -4,11 +4,10 @@ import Card from '../../shared/components/Card/Card';
 import FamilyMember from './FamilyMember';
 import './FamilyList.css';
 
-
-const FamilyList = props => {
+const FamilyList = (props) => {
   const [familyMembers, setFamilyMembers] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     setFamilyMembers(props?.items?.data?.members);
   }, [props]);
 
@@ -23,19 +22,18 @@ const FamilyList = props => {
     );
   }
 
- 
   return (
     <ul className="family-list">
-    
-      {familyMembers?.map((place) => (
+      {familyMembers?.map((member) => (
         <FamilyMember
-          // key={place._id}
-          name={place.name}
-          NationalID={place.NationalID}
-          age={place.age}
-          gender={place.gender}
-          patient={place.patient}
-          relation={place.relation}
+          key={member._id}
+          name={member.name}
+          NationalID={member.NationalID}
+          age={member.age}
+          gender={member.gender}
+          patient={member.patient}
+          relation={member.relation}
+          memberPatientId={member.memberPatientId}
         />
       ))}
     </ul>

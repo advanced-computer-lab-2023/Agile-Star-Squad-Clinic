@@ -17,19 +17,14 @@ router
   .post(doctorController.doctorSignup);
 
 router
-  .route('/:id')
-  .get(doctorController.getDoctor)
-  .patch(middleware.doctorAuth, doctorController.updateDoctor)
-  .delete(doctorController.removeDoctor);
-
-router
   .route('/:doctorId/setAsMember')
   .get(doctorController.setDoctorAsMember);
 
 router
   .route('/:doctorId/patients')
   .get(middleware.doctorAuth, doctorController.getMyPatients)
-  .post(doctorController.addPatient);
+  .post(doctorController.addPatient)
+
 
 router
   .route('/:id/patient')
@@ -45,4 +40,16 @@ router
     middleware.doctorAuth,
     appointmentController.upComingAppointmentsForDoctors
   );
+
+router
+.route('/:id')
+.get(doctorController.getDoctor)
+.patch(middleware.doctorAuth, doctorController.updateDoctor)
+.delete(doctorController.removeDoctor);
+
+router
+  .route('/healthRecord/:patientId')
+  .get(middleware.doctorAuth, doctorController.getDoctorPatient)
+  .patch(middleware.doctorAuth, doctorController.addHealthRecord);
+
 module.exports = router;
