@@ -1,6 +1,9 @@
 import Modal from '../../shared/components/Modal/Modal';
 import ReactDOM from 'react-dom';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import UserContext from '../../user-store/user-context';
+
 
 const MyInfo = (props) => {
   const info = props['info'];
@@ -22,6 +25,13 @@ const MyInfo = (props) => {
   let newEducationalBackground = educationalBackground;
   const [speciality, setSpeciality] = useState(info.speciality);
   let newSpeciality = speciality;
+  const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    userCtx.logout();
+    navigate("/");
+  }
   const onSubmitHandler = (event) => {
     event.preventDefault();
     const requestOptions = {
@@ -132,7 +142,11 @@ const MyInfo = (props) => {
         <input type="text" onChange={editAffiliationHandler} />
         <hr />
         <button type="submit">Edit</button>
+
       </form>
+          <button onClick={logout} id="addingbutton" className="btn btn-primary sm">
+            Logout
+          </button>
       {/* <div>
                 <span><h4>Educational Background</h4></span>
                 <span>{props.data['educationalBackground']}</span>

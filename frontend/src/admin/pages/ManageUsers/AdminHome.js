@@ -1,8 +1,21 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import UserContext from '../../../user-store/user-context';
 
 const AdminHome = (props) => {
+  const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    userCtx.logout();
+    navigate('/');
+  };
+
+  const changePasswordHandler = () => {
+    navigate('/changePassword');
+  };
+
   return (
     <>
       <div>
@@ -14,13 +27,16 @@ const AdminHome = (props) => {
         <Link to="/packages">
           <button>Packages Page</button>
         </Link>
+        <button onClick={changePasswordHandler}>change password</button>
       </div>
       <div>
-        <Link to="/">
-          <button id="addingbutton" className="btn btn-primary sm">
-            Back to Home
-          </button>
-        </Link>
+        <button
+          onClick={logout}
+          id="addingbutton"
+          className="btn btn-primary sm"
+        >
+          Logout
+        </button>
       </div>
     </>
   );

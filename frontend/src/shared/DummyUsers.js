@@ -7,25 +7,25 @@ const DUMMY_USERS = {
     role: 'admin',
   },
   patient: { _id: '65270df9cfa9abe7a31a4d88', role: 'patient' },
-  doctor: { _id: '65217eef62c9a70ae7636191', role: 'doctor' },
+  doctor: { _id: '65270f436a48cd31d535b961', role: 'doctor' },
 };
 
-let DUMMY_USER = DUMMY_USERS.guest;
+let DUMMY_USER = DUMMY_USERS.doctor;
 
 const setUserRole = (role) => {
   switch (role.toLowerCase()) {
     case 'admin':
       DUMMY_USER = DUMMY_USERS.admin;
       break;
-    case 'patient':
-      DUMMY_USER = DUMMY_USERS.patient;
+    case 'guest':
+      DUMMY_USER = DUMMY_USERS.guest;
       break;
     case 'doctor':
       DUMMY_USER = DUMMY_USERS.doctor;
       break;
     default:
       console.log('this is the default setUserRole, user set to guest');
-      DUMMY_USER = DUMMY_USERS.guest;
+      DUMMY_USER = DUMMY_USERS.patient;
       break;
   }
 };

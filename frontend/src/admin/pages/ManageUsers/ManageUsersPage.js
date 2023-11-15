@@ -70,7 +70,7 @@ const ManageUsersPage = () => {
                     hourlyRate: doctor['hourlyRate'],
                     affiliation: doctor['affiliation'],
                     educationalBackground: doctor['educationalBackground'],
-                    specialty: doctor['specialty'],
+                    speciality: doctor['speciality'],
                     mobileNumber: doctor["mobileNumber"] ?? "-",
                     role: "Doctor"
                 }
@@ -107,9 +107,12 @@ const ManageUsersPage = () => {
                     dateOfBirth: request['dateOfBirth'],
                     hourlyRate: request['hourlyRate'],
                     affiliation: request['affiliation'],
-                    specialty: request['speciality'],
+                    speciality: request['speciality'],
                     educationalBackground: request['educationalBackground'],
-                    status: request['status']
+                    status: request['status'],
+                    idImage: request['idImage'],
+                    medicalLicense: request['medicalLicense'],
+                    medicalDegree: request['medicalDegree']
                 }
             })]);
         });
@@ -155,9 +158,20 @@ const ManageUsersPage = () => {
         }
         setUsers(users.filter((val) => val.username !== username))
     }
+    const statusChangeHandler = (id, status) => {
+        setRequests(
+          requests.map((request) => {
+            if (request.id === id) {
+              request.status = status;
+            }
+            return request;
+          })
+        );
+      } 
 
     return <div className="center">
-        {showRequest && <RequestDetails data={selectedRow} exit={exitRequestModal} />}
+        {showRequest && 
+        <RequestDetails onStatusChange={statusChangeHandler} data={selectedRow} exit={exitRequestModal} />}
         {showAdminForm && <AdminForm exit={exitAdminModal} refresh={refreshUserData} />}
         {showUser && <UserDetails data={selectedRow} exit={exitUserModal} onDelete={deleteUser} />}
         <div >

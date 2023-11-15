@@ -29,6 +29,7 @@ router
 router
   .route('/:id')
   .get(patientController.getPatient)
+  .patch(middleware.adminAuth, patientController.addHealthRecord)
   .delete(middleware.adminAuth, patientController.removePatient);
 
 router
@@ -36,8 +37,16 @@ router
   .get(middleware.patientAuth, patientController.getPatientByNationalId);
 
 router
+  .route('/:id/setHealthRecords')
+  .patch(patientController.removeHealthRecord);
+
+router
   .route('/:patientId/prescriptions')
   .get(middleware.patientAuth, prescriptionController.getPatientPrescriptions);
+
+router
+  .route('/:patientId/appointments')
+  .get(appointmentController.allAppointmentsForPatients);
 
 router
   .route('/:patientId/upcomingAppointments')
@@ -51,7 +60,10 @@ router
   );
 
 router
-  .route('/:patientId/appointments')
-  .get(appointmentController.allAppointmentsForPatients);
+  .route('/:doctorId/doctorUpcomingAppointments')
+  .get(
+    middleware.patientAuth,
+    appointmentController.upComingAppointmentsForDoctors
+  );
 
 module.exports = router;

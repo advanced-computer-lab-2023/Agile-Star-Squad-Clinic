@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import DataTable from '../../shared/components/DataTable/DataTable';
 import DoctorDetails from './DoctorDetails';
 import PrescriptionDetails from '../../prescriptions/pages/PrescriptionDetails';
 import { DUMMY_USER } from '../../shared/DummyUsers';
+import UserContext from '../../user-store/user-context';
 
 const PatientHome = () => {
   const [doctors, setDoctors] = useState([]);
@@ -35,7 +36,7 @@ const PatientHome = () => {
 
   const [selectedRow, setSelectedRow] = useState({});
 
-  const patientId = '65270df9cfa9abe7a31a4d88';
+  const patientId = useContext(UserContext).userId;
   // const [patientDiscount, setPatientDiscount] = useState(0.0);
   const [token, setToken] = useState(null);
 
@@ -213,7 +214,7 @@ const PatientHome = () => {
 
   const fetchPrescriptions = () => {
     fetch(
-      'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/prescriptions'
+      `http://localhost:3000/patients/${patientId}/prescriptions`
     ).then(async (response) => {
       const json = await response.json();
       const prescriptionsJson = json.data.prescriptions;
@@ -242,7 +243,7 @@ const PatientHome = () => {
 
   const fetchUpcomingAppointments = () => {
     fetch(
-      'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/upcomingAppointments'
+      `http://localhost:3000/patients/${patientId}/upcomingAppointments`
     ).then(async (response) => {
       const json = await response.json();
       const appointmentsJson = json.data.appointments;
@@ -384,7 +385,7 @@ const PatientHome = () => {
 
   return (
     <div className="center">
-      <Link to="/PatientFamily">
+      <Link to="/patient/appointment/book">
         <button id="addingbutton" className="formButtons">
           Family Members
         </button>

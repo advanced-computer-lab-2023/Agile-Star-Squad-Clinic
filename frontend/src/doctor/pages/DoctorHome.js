@@ -3,10 +3,12 @@ import DataTable from '../../shared/components/DataTable/DataTable';
 import AppointmentDetails from './AppointmentDetails';
 import MyInfo from './MyInfo';
 import PatientDetails from './PatientDetails';
+import { useNavigate } from 'react-router-dom';
 
 const DUMMY_DOCTOR_ID = '65270f436a48cd31d535b963';
 
 const DoctorHome = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
 
   const [appointments, setAppointments] = useState([]);
@@ -36,25 +38,24 @@ const DoctorHome = () => {
   useEffect(() => {
     setShowAppDateFilter(false);
     if (appointmentFilter === 'select') {
-        setFilteredAppointements(appointments);
-    } else
-        if (appointments.length != 0) {
-            let newAppointements;
+      setFilteredAppointements(appointments);
+    } else if (appointments.length != 0) {
+      let newAppointements;
 
-            switch (appointmentFilter) {
-                case 'date':
-                    setShowAppDateFilter(true);
-                    break;
-                default:
-                    newAppointements = appointments.filter(
-                        (appoint) => appoint.status == appointmentFilter
-                    );
-                    setFilteredAppointements(newAppointements);
+      switch (appointmentFilter) {
+        case 'date':
+          setShowAppDateFilter(true);
+          break;
+        default:
+          newAppointements = appointments.filter(
+            (appoint) => appoint.status == appointmentFilter
+          );
+          setFilteredAppointements(newAppointements);
 
-                    break;
-            }
-        }
-}, [appointmentFilter]);
+          break;
+      }
+    }
+  }, [appointmentFilter]);
 
   const patientCols = [
     { field: 'username', headerName: 'Username' },
@@ -68,14 +69,13 @@ const DoctorHome = () => {
     { field: 'status', headerName: 'Appointment Status' },
   ];
 
-  
   const appointmentFilters = [
     <option value={'select'}>Select</option>,
     <option value={'date'}>By Date</option>,
     <option value={'vaccant'}>Vaccant</option>,
     <option value={'reserved'}>Reserved</option>,
     <option value={'passed'}>Passed</option>,
-];
+  ];
   // const infoCols = [
   //   //khaliha text
   //   { field: "username", headerName: "Username" },
@@ -89,69 +89,72 @@ const DoctorHome = () => {
 
   const fetchMyPatients = () => {
     //hardcode id
-    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/patients`).then(
-      async (response) => {
-        const json = await response.json();
-        const patientsJson = json.data.patients; //check
-        setUsers(
-          patientsJson.map((patient) => {
-            return {
-              id: patient['_id'],
-              username: patient['username'],
-              name: patient['name'],
-              email: patient['email'],
-              dateOfBirth: patient['dateOfBirth'],
-              gender: patient['gender'],
-              mobileNumber: patient['mobileNumber'],
-              emergencyContact: patient['emergencyContact'],
-              doctor: patient['doctor'],
-              familyMembers: patient['familyMembers'],
-              medicalRecord: patient['medicalRecord'],
-            };
-          })
-        );
-        setFilteredPatients(
-          patientsJson.map((patient) => {
-            return {
-              id: patient['_id'],
-              username: patient['username'],
-              name: patient['name'],
-              email: patient['email'],
-              dateOfBirth: patient['dateOfBirth'],
-              gender: patient['gender'],
-              mobileNumber: patient['mobileNumber'],
-              emergencyContact: patient['emergencyContact'],
-              doctor: patient['doctor'],
-              familyMembers: patient['familyMembers'],
-              medicalRecord: patient['medicalRecord'],
-            };
-          })
-        );
-        setFilteredPatients(
-          patientsJson.map((patient) => {
-            return {
-              id: patient['_id'],
-              username: patient['username'],
-              name: patient['name'],
-              email: patient['email'],
-              dateOfBirth: patient['dateOfBirth'],
-              gender: patient['gender'],
-              mobileNumber: patient['mobileNumber'],
-              emergencyContact: patient['emergencyContact'],
-              doctor: patient['doctor'],
-              familyMembers: patient['familyMembers'],
-              medicalRecord: patient['medicalRecord'],
-            };
-          })
-        );
-      }
-    );
+    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/patients`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      const patientsJson = json.data.patients; //check
+      setUsers(
+        patientsJson.map((patient) => {
+          return {
+            id: patient['_id'],
+            username: patient['username'],
+            name: patient['name'],
+            email: patient['email'],
+            dateOfBirth: patient['dateOfBirth'],
+            gender: patient['gender'],
+            mobileNumber: patient['mobileNumber'],
+            emergencyContact: patient['emergencyContact'],
+            doctor: patient['doctor'],
+            familyMembers: patient['familyMembers'],
+            medicalRecord: patient['medicalRecord'],
+          };
+        })
+      );
+      setFilteredPatients(
+        patientsJson.map((patient) => {
+          return {
+            id: patient['_id'],
+            username: patient['username'],
+            name: patient['name'],
+            email: patient['email'],
+            dateOfBirth: patient['dateOfBirth'],
+            gender: patient['gender'],
+            mobileNumber: patient['mobileNumber'],
+            emergencyContact: patient['emergencyContact'],
+            doctor: patient['doctor'],
+            familyMembers: patient['familyMembers'],
+            medicalRecord: patient['medicalRecord'],
+          };
+        })
+      );
+      setFilteredPatients(
+        patientsJson.map((patient) => {
+          return {
+            id: patient['_id'],
+            username: patient['username'],
+            name: patient['name'],
+            email: patient['email'],
+            dateOfBirth: patient['dateOfBirth'],
+            gender: patient['gender'],
+            mobileNumber: patient['mobileNumber'],
+            emergencyContact: patient['emergencyContact'],
+            doctor: patient['doctor'],
+            familyMembers: patient['familyMembers'],
+            medicalRecord: patient['medicalRecord'],
+          };
+        })
+      );
+    });
   };
 
   const fetchUpcomingAppointments = () => {
     //hardcode id
     fetch(
-      `http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/upComingAppointments`
+      `http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}/upComingAppointments`,
+      {
+        credentials: 'include',
+      }
     ).then(async (response) => {
       const json = await response.json();
       const appointmentsJson = json.data.appointments;
@@ -203,20 +206,20 @@ const DoctorHome = () => {
   // };
   const fetchMyInfo = () => {
     //hardcode id
-    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}`).then(
-      async (response) => {
-        const json = await response.json();
-        const doctor = json.data.doctor; //check
-        setInfo({
-          ...doctor,
-        });
-      }
-    );
+    fetch(`http://localhost:3000/doctors/${DUMMY_DOCTOR_ID}`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      const doctor = json.data.doctor; //check
+      setInfo({
+        ...doctor,
+      });
+    });
   };
 
   const appDropdownHandler = (event) => {
     setAppointmentFilter(event.target.value);
-};
+  };
 
   const onPatientClick = (selectedRow) => {
     setSelectedRow(selectedRow);
@@ -240,13 +243,15 @@ const DoctorHome = () => {
     let pickedDate = event.target.value;
     setAppDateFilter(pickedDate);
     const newAppointements = appointments.filter((appoint) => {
-        const date = new Date(appoint['dateOfAppointment']);
-        pickedDate = new Date(pickedDate)
-        return `${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDay()}` ===
-            `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+      const date = new Date(appoint['dateOfAppointment']);
+      pickedDate = new Date(pickedDate);
+      return (
+        `${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDay()}` ===
+        `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`
+      );
     });
     setFilteredAppointements(newAppointements);
-};
+  };
 
   const showAppointmentModal = (selectedRow) => {
     setSelectedRow(selectedRow);
@@ -287,6 +292,10 @@ const DoctorHome = () => {
     };
   });
 
+  const changePasswordHandler = () => {
+    navigate('/changePassword');
+  };
+
   return (
     <div className="center">
       {showAppointment && (
@@ -306,6 +315,9 @@ const DoctorHome = () => {
           <button onClick={() => setCurrentTab('appointments')}>
             Appointments
           </button>
+        </span>
+        <span>
+          <button onClick={changePasswordHandler}>change password</button>;
         </span>
       </div>
       {currentTab === 'my-info' && <MyInfo info={info} />}
@@ -331,15 +343,15 @@ const DoctorHome = () => {
         <>
           <h3>Upcoming Appointments</h3>
           <select value={appointmentFilter} onChange={appDropdownHandler}>
-                {appointmentFilters}
-            </select>
-            {showAppDateFilter && (
-                <input
-                    type="date"
-                    value={appDateFilter}
-                    onChange={appDateFilterHandler}
-                />
-            )}
+            {appointmentFilters}
+          </select>
+          {showAppDateFilter && (
+            <input
+              type="date"
+              value={appDateFilter}
+              onChange={appDateFilterHandler}
+            />
+          )}
           <DataTable
             columns={appointmentCols}
             rows={upComingAppointments}

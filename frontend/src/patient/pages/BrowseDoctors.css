@@ -1,0 +1,307 @@
+/* General styles */
+.Browse-Doctors_title {
+  color: #0C1320;
+  margin-top: 70px;
+  text-align: center;
+  font-family: "Roboto" Flex;
+  font-size: 59px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.Browse-Doctors_search {
+  position: relative;
+  width: 727.457px;
+  height: 68.236px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.input-container {
+  width: 727.457px;
+  height: 68.236px;
+  transform: translateY(-50%);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  background: rgba(217, 217, 217, 0.26);
+  border: none;
+}
+
+.input-container input {
+  background: transparent;
+  border: none;
+  flex: 1;
+  padding: 8px;
+}
+
+.filter-icon-button {
+  cursor: pointer;
+}
+.filter-icon-image{
+  position: relative;
+  width: 23.129px;
+height: 23.286px;
+transform: rotate(-0.206deg);
+flex-shrink: 0;
+
+  margin-top: 10px;
+  bottom: 5px;
+}
+.search-icon_button{
+  width: 29.611px;
+  height: 30.008px;
+  transform: rotate(-0.206deg);
+  flex-shrink: 0;
+  outline: none;
+
+}
+.search-icon_image {
+  position: relative;
+  margin-right: 10px;
+  left:5px;
+  background: #8B8B8B;
+}
+.Browse-Doctors_speciality {
+  width: 180.858px;
+  height: 31.916px;
+  position: absolute;
+  right: 90%;
+  top: 83%;
+  color: #000;
+  margin-bottom: 20px;
+  font-family: "Inter";
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.container-fluid1 {
+  position: relative;
+  display: flex;
+  width: auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-left: 20px;
+  
+}
+/* Your existing styles */
+
+.back-button {
+  position: relative;
+  background-color: #FFF;
+  width: 43.862px;
+  height: 72.376px;
+  transform: rotate(-0.206deg);
+  flex-shrink: 0;
+  right: 5%;
+  border: white;
+  bottom :50%;
+}
+.back-image{
+  height: 22px;
+  width: 12px;
+}
+
+/* Add a custom class for the row to control spacing */
+.custom-row {
+  margin-bottom: 20px; /* Adjust the margin as needed */
+}
+
+/* Style for individual columns */
+.col {
+  margin-right: 15px; /* Adjust the margin as needed */
+}
+
+/* Style for the last column to prevent right margin */
+.col:last-child {
+  margin-right: 0;
+}
+
+.h2 img, .icons {
+  width: 45.595px;
+  height: 45.595px;
+  transform: rotate(-0.524deg);
+  flex-shrink: 0;
+}
+
+.text {
+  color: rgba(0, 0, 0, 0.80);
+  font-family: "Inter";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.subtext {
+  width: 75.991px;
+  height: 22.797px;
+  transform: rotate(-0.524deg);
+  flex-shrink: 0;
+  color: #96B7C7;
+  font-family: "Inter";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+p {
+  margin: 0;
+}
+
+/* Card styles */
+.doctors {
+  position: relative;
+  top: 30px;
+  width: 365.277px;
+  height: 195.531px;
+  transform: rotate(-0.206deg);
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: #FFF;
+  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.40);
+  margin-bottom: 10%;
+}
+
+/* Doctor Info */
+.name, .spec, .rate, .affil, .edu {
+  color: #000;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.9px;
+}
+
+.name {
+  font-size: 15px;
+  position: absolute;
+  bottom: 35px;
+  left: 30px;
+  text-align: center;
+
+}
+
+.spec {
+  font-size: 10px;
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  text-align: center;
+}
+
+.rate, .affil, .edu {
+  font-size: 10px;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-family: "Inter";
+}
+
+.affil {
+  top: 19%;
+  text-align: center;
+  right:58px;
+
+}
+
+.edu {
+  top: 110px;
+}
+
+/* Right section styles */
+.right-section {
+  position: relative;
+  left: 40%;
+  right:20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start; /* Change to flex-start to align items to the left */
+  width: 50%;
+  padding: 10px;
+  top: 24%;
+}
+
+.mobile, .appointment, .email {
+  display: flex;
+  align-items: center; /* Change to center to vertically align text and icons */
+  margin-bottom: 10px;
+  top: 10px;
+}
+
+
+.comm-icon {
+  margin-right: 20px;
+  margin-left: 20px;
+
+}
+
+/* Additional styles for text and icons if needed */
+.mobile p, .appointment p, .email p {
+  color: #000;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.24px;
+}
+.doc1 {
+  position: relative;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  bottom: 40%;
+  left: 5%;
+}
+
+.doc-icon {
+  margin-right: 10px; /* Adjust the margin to control the space between the image and other content */
+}
+.doctor-link {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Use the default text color */
+}
+
+.filter-button-container , .appointments{
+  position: absolute;
+  top: 25%; /* Adjust the top distance as needed */
+  left: 80%; /* Adjust the right distance as needed */
+  background-color:transparent;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button-container button {
+  background-color: #658eba;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-button-container button:hover {
+  background-color: #0056b3;
+}
+

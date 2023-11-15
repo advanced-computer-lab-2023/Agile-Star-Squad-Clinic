@@ -28,6 +28,7 @@ const {
 const middleware = require('./middleware/middleware.js');
 
 const app = express();
+
 const corsOptions = {
   origin: 'http://localhost:3001',
   credentials: true, //to allow sending cookies if any
@@ -36,86 +37,75 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static(process.env.STATIC_DIR));
-
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-
-  next();
-});
-app.post('/create-checkout-session',async(req,res)=>{
-const session = await stripe.checkout.sessions.create({
-  mode: 'subscription',
-  line_items: [
-    {
-      price: 'price_1OCTWdIM4ONA4ExmtbEzehsU',
-      quantity: 1,
-    },
-    {
-      price: 'price_1OCTVzIM4ONA4Exm1DiXv9cI',
-      quantity: 1,
-    },
-    {
-      price: 'price_1OCTVIIM4ONA4ExmNsVRD2cZ',
-      quantity: 1,
-    },
-  ],
-  ui_mode: 'embedded',
-  return_url: 'https://example.com/checkout/return?session_id={CHECKOUT_SESSION_ID}',
-});})
-app.post('/create-customer', async (req, res) => {
-  try {
-    const customer = await stripe.customers.create({
-      email: req.body.email,
-      // Additional customer information
-    });
-    res.status(201).json(customer);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.post('/create-checkout-session',async(req,res)=>{
+// const session = await stripe.checkout.sessions.create({
+//   mode: 'subscription',
+//   line_items: [
+//     {
+//       price: 'price_1OCTWdIM4ONA4ExmtbEzehsU',
+//       quantity: 1,
+//     },
+//     {
+//       price: 'price_1OCTVzIM4ONA4Exm1DiXv9cI',
+//       quantity: 1,
+//     },
+//     {
+//       price: 'price_1OCTVIIM4ONA4ExmNsVRD2cZ',
+//       quantity: 1,
+//     },
+//   ],
+//   ui_mode: 'embedded',
+//   return_url: 'https://example.com/checkout/return?session_id={CHECKOUT_SESSION_ID}',
+// });})
+// app.post('/create-customer', async (req, res) => {
+//   try {
+//     const customer = await stripe.customers.create({
+//       email: req.body.email,
+//       // Additional customer information
+//     });
+//     res.status(201).json(customer);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 
-app.post('/create-subscription', async (req, res) => {
-  try {
-    const subscription = await stripe.subscriptions.create({
-      customer: req.body.customerId,
-      items: [{ package: req.body.packageID }], 
-      default_payment_method: req.body.paymentMethodId,
-      billing: 'auto', // Auto-renewal
-      // Other subscription parameters
-    });
-    res.status(201).json(subscription);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.post('/create-subscription', async (req, res) => {
+//   try {
+//     const subscription = await stripe.subscriptions.create({
+//       customer: req.body.customerId,
+//       items: [{ package: req.body.packageID }], 
+//       default_payment_method: req.body.paymentMethodId,
+//       billing: 'auto', // Auto-renewal
+//       // Other subscription parameters
+//     });
+//     res.status(201).json(subscription);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Webhook endpoint to handle events from Stripe (e.g., payment success, failed payments)
-app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  let event;
+// app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+//   const sig = req.headers['stripe-signature'];
+//   let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, 'YOUR_STRIPE_WEBHOOK_SECRET');
-  } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+//   try {
+//     event = stripe.webhooks.constructEvent(req.body, sig, 'YOUR_STRIPE_WEBHOOK_SECRET');
+//   } catch (err) {
+//     return res.status(400).send(`Webhook Error: ${err.message}`);
+//   }
 
-  // Handle specific events (e.g., payment success, failed payments) here
+//   // Handle specific events (e.g., payment success, failed payments) here
 
-  res.status(200).json({ received: true });
-});
+//   res.status(200).json({ received: true });
+// });
 app.get("/", (req, res) => {
   const path = resolve(process.env.STATIC_DIR + "/index.html");
   res.sendFile(path);

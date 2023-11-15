@@ -8,16 +8,17 @@ const Request = require('../models/requestModel');
 const Appointment = require('../models/appointmentModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
-  // const newRequest = await Request.create(req.body);
-  const newDoctor = await Doctor.create(req.body);
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      doctor: newDoctor,
-      // request: newRequest,
-    },
-  });
+  try {
+    const newRequest = await Request.create(req.body);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        request: newRequest,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
@@ -164,6 +165,43 @@ exports.addPatient = catchAsync(async (req, res, next) => {
   // Associate the patient with the doctor
   doctor.patients.push(patient._id);
   patient.doctor.push();
+  await doctor.save();
+  res.status(200).json({
+    status: 'success',
+  });
+});
+
+exports.setTimeSlots = catchAsync(async (req, res, next) => {
+  const doctorId = req.params.doctorId;
+
+  // Find the doctor by ID
+  const doctor = await Doctor.findById(doctorId);
+
+  if (!doctor) {
+    return next(new AppError('Doctor not found', 404));
+  }
+
+  // Find the patient by ID
+  doctor.timeSlots = req.body.timeSlots;
+
+  // Associate the patient with the doctor
+  await doctor.save();
+  res.status(200).json({
+    status: 'success',
+  });
+});
+
+exports.setDoctorAsMember = catchAsync(async (req, res, next) => {
+  const doctorId = req.params.doctorId;
+  console.log("here!")
+  const doctor = await Doctor.findByIdAndUpdate(doctorId, {status: "member"});
+  console.log(doctor);
+
+  if (!doctor) {
+    return next(new AppError('Doctor not found', 404));
+  }
+
+
   await doctor.save();
   res.status(200).json({
     status: 'success',

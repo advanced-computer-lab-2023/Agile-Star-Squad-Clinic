@@ -112,6 +112,7 @@ exports.upComingAppointmentsForPatients = catchAsync(async (req, res, next) => {
     const appointment = {
       _id: app._id,
       doctorName: doctor.name,
+      doctorSpecialty: doctor.speciality,
       doctorId: doctor.id,
       date: date,
       status: app.status,

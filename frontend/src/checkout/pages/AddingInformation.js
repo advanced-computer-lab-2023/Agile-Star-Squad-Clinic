@@ -22,33 +22,34 @@ const AddingInfo = () => {
   const [doctorSessionDiscount, setDoctorSessionDiscount] = useState('');
   const [doctorName, setDoctorName] = useState('');
   const [appDate, setAppDate] = useState('');
-  const [packagePresent,setPackagePresent]= useState(false);
-  const price =DUMMY_APPOINTMENT[0].price;
-  
-  const location = useLocation()
+  const [packagePresent, setPackagePresent] = useState(false);
+  const price = DUMMY_APPOINTMENT[0].price;
+
+  const location = useLocation();
+  console.log('//////////////');
+  console.log(location);
   const stateData = location.state;
- 
+
   console.log(stateData);
   useEffect(() => {
     const fetchDataPackage = async () => {
-      
-        if (DUMMY_APPOINTMENT[0].package !=null){
-          setPackagePresent(true);
-          try {
-        const response = await fetch(
-          `http://localhost:3000/packages/${DUMMY_APPOINTMENT[0].package}`,
-  
-        );
-        if (response.ok) {
-          const data = await response.json();
+      if (DUMMY_APPOINTMENT[0].package != null) {
+        setPackagePresent(true);
+        try {
+          const response = await fetch(
+            `http://localhost:3000/packages/${DUMMY_APPOINTMENT[0].package}`,
+          );
+          if (response.ok) {
+            const data = await response.json();
 
-          setDoctorSessionDiscount(data.data.package.doctorSessionDiscount);
-        } else {
-          alert('Failed to fetch package data.');
+            setDoctorSessionDiscount(data.data.package.doctorSessionDiscount);
+          } else {
+            alert('Failed to fetch package data.');
+          }
+        } catch (error) {
+          alert('Network error: ' + error.message);
         }
-       }catch (error) {
-        alert('Network error: ' + error.message);
-      }}
+      }
     };
 
     fetchDataPackage();
@@ -73,10 +74,8 @@ const AddingInfo = () => {
 
     fetchDataDoctor();
   }, []);
- 
 
   useEffect(() => {
-
     const query = new URLSearchParams(window.location.search);
 
     if (query.get('success')) {
@@ -99,24 +98,34 @@ const AddingInfo = () => {
       <div className="row  justify-content-evenly gx-5">
         <div className="col card1">
           <Card>
-            <Payment  props={DUMMY_APPOINTMENT}/>
+            <Payment props={DUMMY_APPOINTMENT} />
           </Card>
         </div>
         <div className="col" id="card2">
           <Card>
             <h3>Order Summary</h3>
             <div>
-              <img src="../../logo.svg" alt="doc_img"></img>
+              <img
+                style={{ width: '200px', height: '200px', borderRadius: '10%' }}
+                src={
+                  stateData.doctor.image ??
+                  'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'
+                }
+                alt="profile picture"
+              />
               <p>{DUMMY_APPOINTMENT[0].date.toUTCString()}</p>
             </div>
             <p>{doctorName}</p>
-            <p>
-            Sub Total: {price}LE </p>
-            <div> {packagePresent &&
-            <p>
-            Package Discount : -{(doctorSessionDiscount/100)*price}LE
-            </p>} </div>
-            <div>Total : {price-((doctorSessionDiscount/100)*price)}</div>
+            <p>Sub Total: {price}LE </p>
+            <div>
+              {' '}
+              {packagePresent && (
+                <p>
+                  Package Discount : -{(doctorSessionDiscount / 100) * price}LE
+                </p>
+              )}{' '}
+            </div>
+            <div>Total : {price - (doctorSessionDiscount / 100) * price}</div>
           </Card>
         </div>
       </div>
