@@ -26,7 +26,7 @@ router
 router
   .route('/:patientId/package')
   .post(patientController.subscribePackage)
-  .patch(patientController.removeSubscription);
+  .patch(patientController.unsubscribePackage);
 router
   .route('/:id')
   .get(patientController.getPatient)

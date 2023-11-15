@@ -23,6 +23,7 @@ const PatientAccountSettings = (props) => {
   const [subscriptionDate, setsubscriptionDate] = useState(Date.now());
   const [expiringDate, setexpiringDate] = useState(Date.now());
   const [cancellationDate, setcancellationDate] = useState(Date.now());
+  const [currentPatient, setCurrentPatient] = useState('');
 
   const onHealthRecordChange = (file) => {
     setHealthRecord(file.target.files[0]);
@@ -32,19 +33,19 @@ const PatientAccountSettings = (props) => {
     fetch(`http://localhost:3000/patients/${patient.userId}`).then(
       async (response) => {
         const json = await response.json();
-        console.log(Date.now());
+        console.log(json.data);
         setsubscriptionDate(json.data.patient.subscriptionDate)
         setexpiringDate(json.data.patient.expiringDate)
-        setcancellationDate(json.data.patient.cancellationDate)
         setMedicalRecords(json.data.patient.medicalRecord);
         setPackage(json.data.patient.package);
+        setCurrentPatient(json.data.patient);
       }
     );
   };
   const handeleUnsubscribeButtonclick = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/patients/${patient.userId}`,
+        `http://localhost:3000/patients/${patient.userId}/package`,
         {
           method: 'PATCH',
           headers: {
@@ -56,6 +57,8 @@ const PatientAccountSettings = (props) => {
       if (response.ok) {
         setButtonPressed(true);
         setPackage(null);
+        console.log(response.body)
+        setcancellationDate(response.cancellationDate)
        
       } else {
         console.error(

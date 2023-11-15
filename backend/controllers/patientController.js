@@ -128,14 +128,14 @@ exports.getFamilyMembers = catchAsync(async (req, res, next) => {
 exports.subscribePackage = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   const packageData = req.body;
- const discount=0;
-  const familyMember=await Family.findById(patientId)
-  if (familyMember !=null){
-     const patient= await Patient.findById(familyMember._id)
-    discount= package.familyMemberDiscount
+  const discount = 0;
+  const familyMember = await Family.findById(patientId)
+  if (familyMember != null) {
+    const patient = await Patient.findById(familyMember._id)
+    discount = package.familyMemberDiscount
   }
-  
-  
+
+
 
   if (!patient) {
     return next(new AppError('Patient not found', 404));
@@ -146,7 +146,7 @@ exports.subscribePackage = catchAsync(async (req, res, next) => {
 
   await Patient.findByIdAndUpdate(patient._id, {
     package: packageData,
-    subscriptionDate :Date.now(),
+    subscriptionDate: Date.now(),
     expiringDate: Date.now() + (365 * 24 * 60 * 60 * 1000)
   });
 
@@ -169,15 +169,18 @@ exports.unsubscribePackage = catchAsync(async (req, res, next) => {
   }
 
   await Patient.findByIdAndUpdate(patient._id, {
-   
+
     package: null,
-    cancellationDate : Date.now()
+    cancellationDate: Date.now()
   });
 
   res.status(200).json({
     status: 'success',
   });
 });
+
+
+
 exports.getDoctor = catchAsync(async (req, res, next) => {
   const { name, speciality } = req.body;
   const query = {};
@@ -197,24 +200,33 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+
+
+
 exports.removeSubscription = catchAsync(async (req, res, next) => {
-  const updatedPatient= await Patient.findByIdAndUpdate(
+  const updatedPatient = await Patient.findByIdAndUpdate(
     req.params.id,
-    {package:null},
+    {
+      package: null,
+      cancellationDate: Date.now()
+    },
+
     // {
     //   new: true,
     //   runValidators: true,
     // }
-  ).catch(error=>{console.log(error)
+  ).catch(error => {
+    console.log(error)
   });
-  if(!updatedPatient){
-  res.status(404).json({error})
+  if (!updatedPatient) {
+    res.status(404).json({ error })
   }
   res.status(200).json({
     status: 'success',
     data: {
       patient: updatedPatient,
-      cancellationDate : Date.now()
+      cancellationDate: updatedPatient.cancellationDate
     },
   });
 });
@@ -254,7 +266,7 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
     query.speciality = { $regex: speciality, $options: 'i' };
   }
   const doctor = await Doctor.find(query);
-  
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -262,7 +274,7 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
     },
   });
 });
-  
+
 
 exports.removeHealthRecord = catchAsync(async (req, res, next) => {
   const updatedPatient = await Patient.findByIdAndUpdate(
@@ -290,16 +302,16 @@ exports.removeHealthRecord = catchAsync(async (req, res, next) => {
 
 exports.updateWallet = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
-  
- 
-  
+
+
+
   const patient = await Patient.findById(patientId);
-   const walletAmount=req.body.walletAmount + patient.wallet;
+  const walletAmount = req.body.walletAmount + patient.wallet;
   if (!patient) {
     return next(new AppError('Patient not found', 404));
   }
-  
-  
+
+
   await Patient.findByIdAndUpdate(patient._id, {
     wallet: walletAmount,
   });
