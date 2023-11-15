@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import FamilyList from '../components/FamilyList';
 import AddFamilyForm from './AddFamily';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import UserContext from '../../user-store/user-context';
 
 const PatientFamily = () => {
   const [familyMembers, setFamilyMembers] = useState(false);
   const [error, setError] = useState();
   const [listFamilyMember, setNewFamilyMember] = useState([]);
   const [isShowMemberForm, setShowMemberForm] = useState(false);
-  const navigate = useNavigate();
+  const userCtx = useContext(UserContext);
 
   useEffect(() => {
     const sendRequest = async () => {
       setFamilyMembers(true);
-
       try {
         const response = await fetch(
-          'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/familyMembers'
+          `http://localhost:3000/patients/${userCtx.userId}/familyMembers`,
+          { credentials: 'include' },
         );
         const responseData = await response.json();
         setNewFamilyMember(responseData.data.members);
@@ -53,9 +54,9 @@ const PatientFamily = () => {
 
   return (
     <div className="center">
-      <Link to="/patient/home">
+      <Link to="/patient/account">
         <button id="addingbutton" className="btn btn-primary">
-          Patient Home
+          Back
         </button>
       </Link>
 

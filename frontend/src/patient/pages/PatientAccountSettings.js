@@ -32,7 +32,7 @@ const PatientAccountSettings = (props) => {
         console.log(json);
         setMedicalRecords(json.data.patient.medicalRecord);
         setPackage(json.data.patient.package);
-      }
+      },
     );
   };
   const handeleUnsubscribeButtonclick = async () => {
@@ -44,7 +44,7 @@ const PatientAccountSettings = (props) => {
           headers: {
             'Content-type': 'application/json; charset=UTF-8',
           },
-        }
+        },
       );
 
       if (response.ok) {
@@ -53,7 +53,7 @@ const PatientAccountSettings = (props) => {
       } else {
         console.error(
           'Failed to remove health package. Status:',
-          response.status
+          response.status,
         );
         const responseBody = await response.json();
         console.error('Response body:', responseBody);
@@ -69,7 +69,7 @@ const PatientAccountSettings = (props) => {
       await uploadBytesResumable(healthRecordRef, healthRecord).then(
         async (snapshot) => {
           healthRecordUrl = await getDownloadURL(snapshot.ref);
-        }
+        },
       );
     }
     setMedicalRecords((records) => {
@@ -93,7 +93,7 @@ const PatientAccountSettings = (props) => {
 
       const response = await fetch(
         `http://localhost:3000/patients/${patient.userId}`,
-        requestOptions
+        requestOptions,
       );
       console.log(response);
       if (!response.ok) {
@@ -121,7 +121,7 @@ const PatientAccountSettings = (props) => {
 
       fetch(
         `http://localhost:3000/patients/${patient.userId}/setHealthRecords`,
-        requestOptions
+        requestOptions,
       );
       return newRecords;
     });
@@ -134,6 +134,10 @@ const PatientAccountSettings = (props) => {
 
   const changePasswordHandler = () => {
     navigate('/changePassword');
+  };
+
+  const familyMembersHandler = () => {
+    navigate('/patient/family');
   };
 
   const { healthRecordInput } = healthRecord;
@@ -161,6 +165,7 @@ const PatientAccountSettings = (props) => {
           </>
         )}
       </div>
+      <button onClick={familyMembersHandler}>Family Members</button>
       <div className={classes.healthRecordContainer}>
         <h3 className="text-start ms-3 my-4">Health Records</h3>
         {medicalRecordUrls != null && (

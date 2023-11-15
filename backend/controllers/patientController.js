@@ -97,14 +97,28 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
     return next(new AppError('Patient not found', 404));
   }
 
-  // Find the patient by ID
+  let memberPatientAccount = {memberPatientId: null};
+
+  if(memberData.email.length > 0 || memberData.mobileNumber.length > 0){
+    memberPatientAccount = await Patient.findOne({
+      $or: [
+        { email: memberData.email },
+        { mobileNumber: memberData.mobileNumber },
+      ],
+    });
+  } 
+  
   const newMember = new Family({
     ...memberData,
+    memberPatientId: memberPatientAccount._id,
     patient: patient._id,
   });
 
   const updatedFamily = [...patient.familyMembers, newMember._id];
-  await Family.create(newMember);
+  await Family.create(newMember).catch((error) => {
+    console.error('Error creating family member:', error.message);
+    throw error; // Re-throw the error for further handling
+  });
   await Patient.findByIdAndUpdate(patient._id, {
     familyMembers: updatedFamily,
   });

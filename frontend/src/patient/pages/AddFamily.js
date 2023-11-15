@@ -1,99 +1,123 @@
 import InputField from '../../shared/components/InputField/InputField';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../../shared/components/Modal/Modal';
-import '../../shared/components/InputField/InputField.css'
+import '../../shared/components/InputField/InputField.css';
+import UserContext from '../../user-store/user-context';
 
 const AddFamilyForm = (props) => {
-  const [name, setName] = useState('');
-  const [NationalID, setNationalID] = useState('');
-  const [age, setage] = useState('');
-  const [gender, setgender] = useState('');
-  const [relation, setrelation] = useState('');
+  const userCtx = useContext(UserContext);
+  const [formData, setFormData] = useState({
+    name: '',
+    NationalID: '',
+    age: '',
+    gender: 'male',
+    relation: 'husband',
+    email: '',
+    mobileNumber: '',
+  });
 
-  const [isLoading, setLoading] = useState(false);
-
-  const onNameChange = (event) => {
-    setName(event.target.value);
-  };
-  const onNationalIDChange = (event) => {
-    setNationalID(event.target.value);
-  };
-  const onAgeChange = (event) => {
-    setage(event.target.value);
-  };
-  const onGenderChange = (event) => {
-    setgender(event.target.value);
-  };
-  const onRelationChange = (event) => {
-    setrelation(event.target.value);
+  const handleChange = (event, name) => {
+    const value = event.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
   const onAdd = async () => {
-    setLoading(true);
-    const data = {
-      name: name,
-      NationalID: NationalID,
-      age: age,
-      gender: gender,
-      relation: relation,
-    };
+    const { name, NationalID, age } = formData;
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify(data),
-    };
-    fetch(
-      'http://localhost:3000/patients/65270df9cfa9abe7a31a4d88/familyMembers',
-      requestOptions
-    );
-    props.exit();
-    props.onAddFamily(data);
+    if (name && NationalID && age) {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify(formData),
+      };
+      fetch(
+        `http://localhost:3000/patients/${userCtx.userId}/familyMembers`,
+        requestOptions,
+      );
+      props.exit();
+      props.onAddFamily(formData);
+    } else {
+      alert('Please fill in all required fields');
+    }
   };
 
   return ReactDOM.createPortal(
     <Modal exit={props.exit}>
-<InputField label="Name" value={name} onChange={onNameChange} />
-  <InputField label="NationalID" value={NationalID} onChange={onNationalIDChange} />
-  <InputField label="Age" value={age} onChange={onAgeChange} />
-  
-  <div className= "inputRow">
-    <label className='inputLabel'>Relation:</label>
-    <select className='input-field' value={relation} onChange={onRelationChange}>
-      <option value="husband">Husband</option>
-      <option value="wife">Wife</option>
-      <option value="son">Son</option>
-      <option value="daughter">Daughter</option>
-    </select>
-  </div>
-  <div className= "inputRow">
-    <label className='inputLabel'>Gender </label>
-    <select className='input-field'
-      name="gender"
-      value={gender}
-      onChange={onGenderChange}
-    >
-      <option  value="male">Male</option>
-      <option  value="female">Female</option>
-    </select>
-  </div>
-        <NewButton onAdd={onAdd} isLoading={isLoading} />
+      <InputField
+        label="Name"
+        name="name"
+        value={formData.name}
+        onChange={(event) => handleChange(event, 'name')}
+      />
+      <InputField
+        label="NationalID"
+        name="NationalID"
+        type="number"
+        value={formData.NationalID}
+        onChange={(event) => handleChange(event, 'NationalID')}
+      />
+      <InputField
+        label="Age"
+        name="age"
+        type="number"
+        value={formData.age}
+        onChange={(event) => handleChange(event, 'age')}
+      />
 
-
-    </Modal>, document.getElementById("backdrop-root"));
-
+      <div className="inputRow">
+        <label className="inputLabel">Relation:</label>
+        <select
+          className="input-field"
+          name="relation"
+          value={formData.relation}
+          onChange={(event) => handleChange(event, 'relation')}
+        >
+          <option value="husband">Husband</option>
+          <option value="wife">Wife</option>
+          <option value="son">Son</option>
+          <option value="daughter">Daughter</option>
+        </select>
+      </div>
+      <div className="inputRow">
+        <label className="inputLabel">Gender </label>
+        <select
+          className="input-field"
+          name="gender"
+          value={formData.gender}
+          onChange={(event) => handleChange(event, 'gender')}
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <p style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        If this family member is already a patient (not required)
+      </p>
+      <InputField
+        label="Email"
+        name="email"
+        type="email"
+        value={formData.email}
+        onChange={(event) => handleChange(event, 'email')}
+      />
+      <InputField
+        label="Mobile Number"
+        name="mobileNumber"
+        value={formData.mobileNumber}
+        onChange={(event) => handleChange(event, 'mobileNumber')}
+      />
+      <div className="d-flex justify-content-end mt-5">
+        <button className="formButtons" onClick={onAdd}>
+          <span>Add</span>
+        </button>
+      </div>
+    </Modal>,
+    document.getElementById('backdrop-root'),
+  );
 };
 
 export default AddFamilyForm;
-
-const NewButton = (props) => {
-  return (
-    <div className="d-flex justify-content-end mt-5">
-      <button className="formButtons" onClick={props.onAdd}>
-        {!props.isLoading && <span>Add</span>}
-        {props.isLoading && <div className="loader" />}
-      </button>
-    </div>
-  );
-};
