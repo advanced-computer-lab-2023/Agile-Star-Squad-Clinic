@@ -17,12 +17,6 @@ router
   .post(doctorController.doctorSignup);
 
 router
-  .route('/:id')
-  .get(doctorController.getDoctor)
-  .patch(middleware.doctorAuth, doctorController.updateDoctor)
-  .delete(doctorController.removeDoctor);
-
-router
   .route('/:doctorId/setAsMember')
   .get(doctorController.setDoctorAsMember);
 
@@ -48,7 +42,13 @@ router
   );
 
 router
-  .route('/:patientId')
+.route('/:id')
+.get(doctorController.getDoctor)
+.patch(middleware.doctorAuth, doctorController.updateDoctor)
+.delete(doctorController.removeDoctor);
+
+router
+  .route('/healthRecord/:patientId')
   .patch(middleware.doctorAuth, doctorController.addHealthRecord);
 
 module.exports = router;
