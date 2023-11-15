@@ -149,10 +149,88 @@ const PatientAccountSettings = (props) => {
         {!isButtonPressed && (
           <>
             <div>
-              {healthPackage != null && (
-                <div>{JSON.stringify(healthPackage)}</div>
-              )}
-            </div>
+                            
+                            {
+
+                                healthPackage != null && (
+                                    <div>Category: {(healthPackage.name)}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Price Per Year: {(healthPackage.pricePerYear)}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Doctor Session Discount: {(healthPackage.doctorSessionDiscount)}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Medicine Discount: {(healthPackage.medicineDiscount)}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Family Member Discount: {(healthPackage.familyMemberDiscount)}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Description: {(healthPackage.description)}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Subscription Date: {(healthPackage.subscriptionDate).toLocaleDateString('en-GB')}</div>
+
+                                )
+
+                            }
+                        </div>
+                        <div>
+                            {
+
+                                healthPackage != null && (
+                                    <div>Expiration Date: {(healthPackage.expiringDate).toLocaleDateString('en-GB')}</div>
+
+                                )
+
+                            }
+                        </div>
+
+                    
           </>
         )}
         {isButtonPressed && (
