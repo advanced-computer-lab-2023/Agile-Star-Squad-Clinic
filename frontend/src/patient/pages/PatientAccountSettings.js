@@ -4,7 +4,6 @@ import {
   getDownloadURL,
   ref,
   uploadBytesResumable,
-  listAll,
 } from 'firebase/storage';
 import ReactDOM from 'react-dom';
 import classes from './PatientAccountSettings.module.css';
@@ -29,8 +28,8 @@ const PatientAccountSettings = (props) => {
     setHealthRecord(file.target.files[0]);
   };
 
-  const fetchPackage = async () => {
-    fetch(`http://localhost:3000/patients/${patient.userId}`).then(
+  const fetchPackages = async () => {
+    fetch(`http://localhost:3000/patients/${patient.userId}`, { credentials: 'include' }).then(
       async (response) => {
         const json = await response.json();
         console.log(json.data);

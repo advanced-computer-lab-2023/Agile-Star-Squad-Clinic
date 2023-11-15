@@ -207,3 +207,39 @@ exports.setDoctorAsMember = catchAsync(async (req, res, next) => {
     status: 'success',
   });
 });
+
+exports.addHealthRecord = catchAsync(async (req, res, next) => {
+  console.log("ehna hena");
+  console.log(req.body);
+  const updatedPatient = await Patient.findByIdAndUpdate(
+    req.params.patientId,
+    {
+      $push: { medicalRecord: req.body.medicalRecord },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!updatedPatient) {
+    return next(new AppError('No patient found with that ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
+    },
+  });
+});
+
+exports.getDoctorPatient = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findById(req.params.id).populate('package');
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});

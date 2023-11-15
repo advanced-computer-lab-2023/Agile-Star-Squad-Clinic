@@ -46,6 +46,7 @@ exports.getPatient = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 exports.getPatientByNationalId = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({
     nationalId: req.params.nationalId,
@@ -269,6 +270,8 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+
 exports.getDoctor = catchAsync(async (req, res, next) => {
   const { name, speciality } = req.body;
   const query = {};
