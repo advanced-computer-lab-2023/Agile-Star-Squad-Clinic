@@ -119,10 +119,15 @@ app.get("/config", (req, res) => {
 
 app.post("/create-payment-intent", async (req, res) => {
   try {
+    const { patient_id, price } = req.body; 
+
     const paymentIntent = await stripe.paymentIntents.create({
       currency: "EUR",
-      amount: 1999,
-      automatic_payment_methods: { enabled: true },
+      amount: price * 100, 
+      payment_method_types: ['card'],
+      metadata: {
+        patient_id, 
+      },
     });
 
     res.send({
@@ -136,6 +141,7 @@ app.post("/create-payment-intent", async (req, res) => {
     });
   }
 });
+
 app.use('/admins', adminRouter);
 app.use('/admins', middleware.adminAuth, adminRouter);
 app.use('/doctors', doctorRouter);

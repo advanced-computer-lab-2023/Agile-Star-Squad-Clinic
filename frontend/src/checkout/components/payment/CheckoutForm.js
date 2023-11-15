@@ -14,7 +14,7 @@ export default function CheckoutForm(props) {
   const fetchUserBalance= async()=>{
     
   }
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -31,7 +31,7 @@ export default function CheckoutForm(props) {
       elements,
       confirmParams: {
        
-        return_url: navigate(-1),
+        return_url: "http://localhost:3001/patient/appointment/book/",
       },
     });
     
@@ -44,7 +44,7 @@ export default function CheckoutForm(props) {
           doctor: props.doctorId,
           patient: props.patientId,
           dateOfAppointment: props.appDate,
-          status: 'reserved'
+          status: 'upcoming'
         };
         
         // Send data to the backend
@@ -92,7 +92,7 @@ const responseData=await response.json()
                 // Handle a successful response
                 setMessage("Payment successful via wallet!");
                 alert("Payment successful via wallet!")
-                navigate(-1);
+                
               } else {
                 // Handle errors if the server response is not ok
                 alert('Failed to update data.');

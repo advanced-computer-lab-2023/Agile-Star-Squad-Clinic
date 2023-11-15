@@ -8,10 +8,8 @@ function Payment(props) {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   
-    const data={
-        patient_id : props.props[0].patient,
-        price : props.props[0].price
-    }
+  
+    
     
   useEffect(() => {
     fetch("http://localhost:3000/config").then(async (r) => {
@@ -21,14 +19,21 @@ function Payment(props) {
   }, []);
 
   useEffect(() => {
+    const data={
+      patient_id : props.props.addAppointmentTo,
+      price : props.props.price
+  }
     fetch("http://localhost:3000/create-payment-intent", {
       method: "POST",
       body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     }).then(async (result) => {
       const { clientSecret } = await result.json();
       setClientSecret(clientSecret);
     });
-  }, []);
+  }, [props.props.addAppointmentTo, props.props.price]);
 
   const elementStyleOptions = {
     base: {
@@ -52,7 +57,7 @@ function Payment(props) {
 
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret, ...elementStyleOptions }}>
-          <CheckoutForm doctorId={props.props[0].doctor} patientId={props.props[0].patient} appDate={props.props[0].date} price={props.props[0].price}/>
+          <CheckoutForm doctorId={props.props.doctor._id} patientId={props.props.addAppointmentTo} appDate={props.props.dateOfAppointment} price={props.props.price}/>
           {/* <SubscriptionForm customerId={props.props[0].patient} price= {props.props[0].patient}/> */}
         </Elements>
       )}

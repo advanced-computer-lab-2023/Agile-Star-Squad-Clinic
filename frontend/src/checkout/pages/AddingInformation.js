@@ -1,85 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
-import NewPackage from '../../package/pages/NewPackage';
 import Payment from '../components/payment/Payment';
 import { useLocation } from 'react-router-dom';
-const DUMMY_APPOINTMENT = [
-  {
-    date: new Date('October 13, 2014 11:13:00'),
-    doctor: '652d090d263d88f43ea92b96',
-    patient: '65270df9cfa9abe7a31a4d88',
-    package: '652b34379d864872c883a245',
-    patientName:"ahmed",
-    price : 1000
-  },
-];
+
 
 const AddingInfo = () => {
-  const [showItem, setShowItem] = useState(false);
-  const [showDelivery, setShowDelivery] = useState(false);
   const [message, setMessage] = useState('');
-  const [doctorSessionDiscount, setDoctorSessionDiscount] = useState('');
-  const [doctorName, setDoctorName] = useState('');
-  const [appDate, setAppDate] = useState('');
+  const [doctorSessionDiscount, setDoctorSessionDiscount] = useState(0);
   const [packagePresent, setPackagePresent] = useState(false);
-  const price = DUMMY_APPOINTMENT[0].price;
+  const [price, setPrice] = useState(0);
 
   const location = useLocation();
   
-  console.log(location);
+  
   const stateData = location.state;
-
-  console.log(stateData);
+  console.log(stateData.timeOfAppointment)
+  
+  //console.log(stateData.doctor,"llll");
+  
   useEffect(() => {
-    const fetchDataPackage = async () => {
-      if (DUMMY_APPOINTMENT[0].package != null) {
+    
+      if (stateData.packageToUse != null) {
         setPackagePresent(true);
-        try {
-          const response = await fetch(
-            `http://localhost:3000/packages/${DUMMY_APPOINTMENT[0].package}`,
-          );
-          if (response.ok) {
-            const data = await response.json();
-
-            setDoctorSessionDiscount(data.data.package.doctorSessionDiscount);
-          } else {
-            alert('Failed to fetch package data.');
-          }
-        } catch (error) {
-          alert('Network error: ' + error.message);
-        }
+        setDoctorSessionDiscount(stateData.packageToUse.doctorSessionDiscount);
       }
-    };
+      setPrice(Math.floor((stateData.doctor.hourlyRate*1.1)- (doctorSessionDiscount/ 100) * (stateData.doctor.hourlyRate*1.1)));
 
-    fetchDataPackage();
-  }, []);
-  useEffect(() => {
-    const fetchDataDoctor = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/doctors/${DUMMY_APPOINTMENT[0].doctor}`,
-        );
-        if (response.ok) {
-          const data = await response.json();
-
-          setDoctorName(data.data.doctor.name);
-        } else {
-          alert('Failed to fetch package data.');
-        }
-      } catch (error) {
-        alert('Network error: ' + error.message);
-      }
-    };
-
-    fetchDataDoctor();
-  }, []);
-
+      
+  }, [[stateData.packageToUse, stateData.doctor.hourlyRate, doctorSessionDiscount]]);
+  
+ 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
     if (query.get('success')) {
-      setMessage('Order placed! You will receive an email confirmation.');
+     alert('Order placed! You will receive an email confirmation.');
     }
 
     if (query.get('canceled')) {
@@ -98,7 +54,7 @@ const AddingInfo = () => {
       <div className="row  justify-content-evenly gx-5">
         <div className="col card1">
           <Card>
-            <Payment props={DUMMY_APPOINTMENT} />
+            <Payment props={{ ...stateData,price}} />
           </Card>
         </div>
         <div className="col" id="card2">
@@ -113,19 +69,19 @@ const AddingInfo = () => {
                 }
                 alt="profile picture"
               />
-              <p>{DUMMY_APPOINTMENT[0].date.toUTCString()}</p>
+              <p>{stateData.dateOfAppointment.toDateString()}</p>
+              <p>{stateData.timeOfAppointment}</p>
             </div>
-            <p>{doctorName}</p>
-            <p>Sub Total: {price}LE </p>
+            <p>{stateData.doctor.name}</p>
+            <p>Sub Total: {Math.floor(stateData.doctor.hourlyRate*1.1)}LE </p>
             <div>
-              {' '}
               {packagePresent && (
                 <p>
-                  Package Discount : -{(doctorSessionDiscount / 100) * price}LE
+                  Package Discount : -{(stateData.packageToUse.doctorSessionDiscount / 100) * price}LE
                 </p>
-              )}{' '}
+              )}
             </div>
-            <div>Total : {price - (doctorSessionDiscount / 100) * price}</div>
+            <div>Total : {price}</div>
           </Card>
         </div>
       </div>
