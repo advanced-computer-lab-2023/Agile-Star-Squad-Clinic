@@ -232,3 +232,14 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getDoctorPatient = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findById(req.params.id).populate('package');
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});

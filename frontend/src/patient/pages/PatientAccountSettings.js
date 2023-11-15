@@ -25,7 +25,7 @@ const PatientAccountSettings = (props) => {
   };
 
   const fetchPackages = async () => {
-    fetch(`http://localhost:3000/patients/${patient.userId}`).then(
+    fetch(`http://localhost:3000/patients/${patient.userId}`, { credentials: 'include' }).then(
       async (response) => {
         const json = await response.json();
         console.log(json);

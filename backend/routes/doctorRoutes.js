@@ -49,6 +49,7 @@ router
 
 router
   .route('/healthRecord/:patientId')
+  .get(middleware.doctorAuth, doctorController.getDoctorPatient)
   .patch(middleware.doctorAuth, doctorController.addHealthRecord);
 
 module.exports = router;

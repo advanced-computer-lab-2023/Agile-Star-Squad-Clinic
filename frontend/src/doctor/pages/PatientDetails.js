@@ -4,24 +4,17 @@ import storage from '../../index';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import Modal from '../../shared/components/Modal/Modal';
 
-const PatientDetails = (props) => {
+const PatientDetails = (props) => { 
+  const [healthRecord, setHealthRecord] = useState('');
+  const [medicalRecordUrls, setMedicalRecords] = useState([]);
   const onDelete = () => {
     props.onDelete(props.data['username']);
     props.exit();
   };
 
-  const fetchPackages = async () => {
-    fetch(`http://localhost:3000/doctors/${props.data.id}`, {
-      credentials: 'include',
-    }).then(async (response) => {
-      const json = await response.json();
-      console.log(json);
-      setMedicalRecords(json.data.patient.medicalRecord);
-    });
-  };
 
-  const [healthRecord, setHealthRecord] = useState('');
-  const [medicalRecordUrls, setMedicalRecords] = useState([]);
+
+
 
   const handleHealthRecordUpload = async () => {
     let healthRecordUrl;
@@ -66,9 +59,19 @@ const PatientDetails = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchPackages();
-  // }, []);
+  const fetchPackages = async () => {
+    fetch(`http://localhost:3000/doctors/healthRecord/${props.data.id}`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      console.log(json);
+      setMedicalRecords(props.data.medicalRecord);
+    });
+  };
+
+  useEffect(() => {
+    fetchPackages();
+  }, []);
 
   const onHealthRecordChange = (file) => {
     setHealthRecord(file.target.files[0]);
