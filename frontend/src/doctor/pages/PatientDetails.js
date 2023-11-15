@@ -1,31 +1,27 @@
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 import React, { useState, useEffect, useContext } from 'react';
 import storage from '../../index';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
-import Modal from "../../shared/components/Modal/Modal";
-
-const fetchPackages = async () => {
-  fetch(`http://localhost:3000/doctors/${props.data["_id"]}`, {credentials: "include"}).then(
-    async (response) => {
-      const json = await response.json();
-      console.log(json);
-      setMedicalRecords(json.data.patient.medicalRecord);
-    }
-  );
-};
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import Modal from '../../shared/components/Modal/Modal';
 
 const PatientDetails = (props) => {
   const onDelete = () => {
-    props.onDelete(props.data["username"]);
+    props.onDelete(props.data['username']);
     props.exit();
   };
 
+  const fetchPackages = async () => {
+    fetch(`http://localhost:3000/doctors/${props.data.id}`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      console.log(json);
+      setMedicalRecords(json.data.patient.medicalRecord);
+    });
+  };
+
   const [healthRecord, setHealthRecord] = useState('');
-  const [medicalRecordUrls, setMedicalRecords] = useState(null);
+  const [medicalRecordUrls, setMedicalRecords] = useState([]);
 
   const handleHealthRecordUpload = async () => {
     let healthRecordUrl;
@@ -34,7 +30,7 @@ const PatientDetails = (props) => {
       await uploadBytesResumable(healthRecordRef, healthRecord).then(
         async (snapshot) => {
           healthRecordUrl = await getDownloadURL(snapshot.ref);
-        }
+        },
       );
     }
     setMedicalRecords((records) => {
@@ -45,21 +41,23 @@ const PatientDetails = (props) => {
     };
 
     try {
-      console.log(healthRecordUrl);
+      // console.log(healthRecordUrl);
       const requestOptions = {
         method: 'PATCH',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
         body: JSON.stringify(data),
-        credentials: "include",
+        credentials: 'include',
       };
-      console.log(requestOptions.body);
-      console.log(requestOptions);
+      // console.log(requestOptions.body);
+      // console.log(requestOptions);
 
       const response = await fetch(
-        `http://localhost:3000/doctors/${props.data["_id"]}`
-        , requestOptions
-      );
-      console.log(response);
+        `http://localhost:3000/doctors/healthRecord/${props.data.id}`,
+        requestOptions,
+      ).catch((error) => {
+        console.log(error);
+      });
+      // console.log(response);
       if (!response.ok) {
         alert('Failed to upload health record');
       }
@@ -89,54 +87,67 @@ const PatientDetails = (props) => {
           <span>
             <h4>Username</h4>
           </span>
-          <span>{props.data["username"]}</span>
+          <span>{props.data['username']}</span>
         </div>
         <div>
           <span>
             <h4>Name</h4>
           </span>
-          <span>{props.data["name"]}</span>
+          <span>{props.data['name']}</span>
         </div>
         <div>
           <span>
             <h4>Email</h4>
           </span>
-          <span>{props.data["email"]}</span>
+          <span>{props.data['email']}</span>
         </div>
         <div>
           <span>
             <h4>Date of Birth</h4>
           </span>
-          <span>{props.data["dateOfBirth"]}</span>
+          <span>{props.data['dateOfBirth']}</span>
         </div>
         <div>
           <h4>Gender</h4>
-          <span>{props.data["gender"]}</span>
+          <span>{props.data['gender']}</span>
         </div>
         <div>
           <span>
             <h4>Mobile Number</h4>
           </span>
-          <span>{props.data["mobileNumber"]}</span>
+          <span>{props.data['mobileNumber']}</span>
         </div>
         <div>
           <span>
             <h4>Emergency Contact</h4>
           </span>
-          <span>{props.data["emergencyContact"]["fullName"]}</span>
+          <span>{props.data['emergencyContact']['fullName']}</span>
           <br />
-          <span>{props.data["emergencyContact"]["phoneNumber"]}</span>
+          <span>{props.data['emergencyContact']['phoneNumber']}</span>
         </div>
         <div>
           <span>
             <h4>Medical Record</h4>
           </span>
-          <div className='d-flex flex-row'>
+          <div className="d-flex flex-row">
             {medicalRecordUrls.map((url) => {
-              return <>
-                {!url.includes("pdf") && <a className="mx-3"  href={url} target="_blank"> <img src={url} width={130} /></a>}
-                {url.includes("pdf") && <div className="mx-3" style={{ width: "130px" }}><a href={url} target="_blank">View PDF</a></div>}
-              </>
+              return (
+                <>
+                  {!url.includes('pdf') && (
+                    <a className="mx-3" href={url} target="_blank">
+                      {' '}
+                      <img src={url} width={130} />
+                    </a>
+                  )}
+                  {url.includes('pdf') && (
+                    <div className="mx-3" style={{ width: '130px' }}>
+                      <a href={url} target="_blank">
+                        View PDF
+                      </a>
+                    </div>
+                  )}
+                </>
+              );
             })}
           </div>
         </div>
@@ -159,7 +170,7 @@ const PatientDetails = (props) => {
       {PatientDetails()}
       <ActionButtons onDelete={onDelete} />
     </Modal>,
-    document.getElementById("backdrop-root")
+    document.getElementById('backdrop-root'),
   );
 };
 
