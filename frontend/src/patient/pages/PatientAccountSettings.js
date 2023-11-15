@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import storage from '../../index';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ReactDOM from 'react-dom';
 import classes from './PatientAccountSettings.module.css';
 import NavBar from '../../shared/components/NavBar/NavBar';
@@ -28,19 +24,19 @@ const PatientAccountSettings = (props) => {
     setHealthRecord(file.target.files[0]);
   };
 
-  const fetchPackages = async () => {
-    fetch(`http://localhost:3000/patients/${patient.userId}`, { credentials: 'include' }).then(
-      async (response) => {
-        const json = await response.json();
-        console.log(json.data);
-        setsubscriptionDate(json.data.patient.subscriptionDate);
-        setexpiringDate(json.data.patient.expiringDate);
-        setMedicalRecords(json.data.patient.medicalRecord);
-        setPackage(json.data.patient.package);
-        setCurrentPatient(json.data.patient);
-        setcancellationDate(json.data.patient.cancellationDate);
-      },
-    );
+  const fetchPackage = async () => {
+    fetch(`http://localhost:3000/patients/${patient.userId}`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      console.log(json.data);
+      setsubscriptionDate(json.data.patient.subscriptionDate);
+      setexpiringDate(json.data.patient.expiringDate);
+      setMedicalRecords(json.data.patient.medicalRecord);
+      setPackage(json.data.patient.package);
+      setCurrentPatient(json.data.patient);
+      setcancellationDate(json.data.patient.cancellationDate);
+    });
   };
   const handeleUnsubscribeButtonclick = async () => {
     try {
