@@ -26,7 +26,7 @@ const AddingInfo = () => {
   const price = DUMMY_APPOINTMENT[0].price;
 
   const location = useLocation();
-  console.log('//////////////');
+  
   console.log(location);
   const stateData = location.state;
 
