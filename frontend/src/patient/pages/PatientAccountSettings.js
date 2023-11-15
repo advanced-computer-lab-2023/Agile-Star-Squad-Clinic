@@ -20,6 +20,9 @@ const PatientAccountSettings = (props) => {
   const [medicalRecordUrls, setMedicalRecords] = useState(null);
   const [isButtonPressed, setButtonPressed] = useState(false);
   const [healthRecord, setHealthRecord] = useState('');
+  const [subscriptionDate, setsubscriptionDate] = useState(Date.now());
+  const [expiringDate, setexpiringDate] = useState(Date.now());
+  const [cancellationDate, setcancellationDate] = useState(Date.now());
 
   const onHealthRecordChange = (file) => {
     setHealthRecord(file.target.files[0]);
@@ -29,7 +32,10 @@ const PatientAccountSettings = (props) => {
     fetch(`http://localhost:3000/patients/${patient.userId}`).then(
       async (response) => {
         const json = await response.json();
-        console.log(json);
+        console.log(Date.now());
+        setsubscriptionDate(json.data.patient.subscriptionDate)
+        setexpiringDate(json.data.patient.expiringDate)
+        setcancellationDate(json.data.patient.cancellationDate)
         setMedicalRecords(json.data.patient.medicalRecord);
         setPackage(json.data.patient.package);
       }
@@ -40,16 +46,17 @@ const PatientAccountSettings = (props) => {
       const response = await fetch(
         `http://localhost:3000/patients/${patient.userId}`,
         {
-          method: 'POST',
+          method: 'PATCH',
           headers: {
             'Content-type': 'application/json; charset=UTF-8',
           },
         }
       );
-
+      console.log(response);
       if (response.ok) {
-        setPackage(null);
         setButtonPressed(true);
+        setPackage(null);
+       
       } else {
         console.error(
           'Failed to remove health package. Status:',
@@ -213,7 +220,7 @@ const PatientAccountSettings = (props) => {
                             {
 
                                 healthPackage != null && (
-                                    <div>Subscription Date: {(healthPackage.subscriptionDate).toLocaleDateString('en-GB')}</div>
+                                    <div>Subscription Date: {(subscriptionDate)}</div>
 
                                 )
 
@@ -223,7 +230,7 @@ const PatientAccountSettings = (props) => {
                             {
 
                                 healthPackage != null && (
-                                    <div>Expiration Date: {(healthPackage.expiringDate).toLocaleDateString('en-GB')}</div>
+                                    <div>Expiration Date: {(expiringDate)}</div>
 
                                 )
 
@@ -236,6 +243,7 @@ const PatientAccountSettings = (props) => {
         {isButtonPressed && (
           <>
             <div>You unsubscribed successfully</div>
+            <div>Cancellation Date: {(cancellationDate)}</div>
           </>
         )}
       </div>

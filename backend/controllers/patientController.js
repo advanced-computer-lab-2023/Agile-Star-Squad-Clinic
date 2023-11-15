@@ -146,6 +146,8 @@ exports.subscribePackage = catchAsync(async (req, res, next) => {
 
   await Patient.findByIdAndUpdate(patient._id, {
     package: packageData,
+    subscriptionDate :Date.now(),
+    expiringDate: Date.now() + (365 * 24 * 60 * 60 * 1000)
   });
 
   res.status(200).json({
@@ -167,7 +169,9 @@ exports.unsubscribePackage = catchAsync(async (req, res, next) => {
   }
 
   await Patient.findByIdAndUpdate(patient._id, {
+   
     package: null,
+    cancellationDate : Date.now()
   });
 
   res.status(200).json({
@@ -210,6 +214,7 @@ exports.removeSubscription = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       patient: updatedPatient,
+      cancellationDate : Date.now()
     },
   });
 });
