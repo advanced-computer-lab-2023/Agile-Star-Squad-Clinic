@@ -18,7 +18,7 @@ const BookImplementation = (props) => {
     try {
       const response = await axios.get(
         `http://localhost:3000/patients/${userCtx.userId}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setUser(response.data.data.patient);
     } catch (error) {
@@ -36,7 +36,7 @@ const BookImplementation = (props) => {
   const getFamilyMembers = async () => {
     const members = await axios.get(
       `http://localhost:3000/patients/${userCtx.userId}/familyMembers`,
-      { withCredentials: true }
+      { withCredentials: true },
     );
     setFamilyMembers(members.data.data.members);
   };
@@ -93,7 +93,7 @@ const BookImplementation = (props) => {
         new Date(app.dateOfAppointment).getFullYear() ===
           chosenDate.getFullYear() &&
         new Date(app.dateOfAppointment).getMonth() === chosenDate.getMonth() &&
-        new Date(app.dateOfAppointment).getDate() === chosenDate.getDate()
+        new Date(app.dateOfAppointment).getDate() === chosenDate.getDate(),
     );
     if (unavailableTimes !== undefined) {
       unavailableTimes = unavailableTimes.map((app) => {
@@ -116,7 +116,7 @@ const BookImplementation = (props) => {
     displayDate = 'please choose a time';
   } else {
     displayDate = `${dayOfWeek} ${getOrdinalSuffix(
-      dayOfMonth
+      dayOfMonth,
     )} of ${monthOfYear} ${year} ${chosenTime}`;
   }
 
@@ -137,13 +137,14 @@ const BookImplementation = (props) => {
         return JSON.stringify(member._id) === JSON.stringify(selectedOption);
       });
       patientName = member.name;
-      const familyMemberPatientAccount = await axios
-        .get(
-          `http://localhost:3000/patients/getByNationalId/${member.nationalId}`,
-          { withCredentials: true }
-        )
-        .catch();
-      if (familyMemberPatientAccount) {
+      const familyMemberPatientAccount = member.memberPatientId;
+      //  = await axios
+      //   .get(
+      //     `http://localhost:3000/patients/getByNationalId/${member.nationalId}`,
+      //     { withCredentials: true }
+      //   )
+      //   .catch();
+      if (familyMemberPatientAccount === undefined) {
         addAppointmentTo = userCtx.userId;
       } else {
         addAppointmentTo = familyMemberPatientAccount._id;
@@ -172,7 +173,7 @@ const BookImplementation = (props) => {
         (_, index) => {
           const hour = startHour + index;
           return `${hour.toString().padStart(2, '0')}:00`;
-        }
+        },
       );
 
       expandedTimeRanges.push(expandedTimeRange);
@@ -219,7 +220,7 @@ const BookImplementation = (props) => {
         {chosenDate !== undefined && (
           <AppointmentTime
             availableTimes={removeDuplicatesFromArray(
-              expandTimeRange(props.availableTimes[chosenDate.getDay()])
+              expandTimeRange(props.availableTimes[chosenDate.getDay()]),
             )}
             unavailableTimes={unavailableTimes}
             onChooseTime={chooseTime}
