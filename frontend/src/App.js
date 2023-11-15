@@ -53,6 +53,10 @@ function App() {
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/appointments" element={<Appointments />} exact />
           <Route path="changePassword" element={<ChangePassword />} exact />
+          <Route path="/PatientFamily" element={<PatientFamily />} exact />
+          <Route path="/patient/checkout" element={<AddingInfo />} exact />
+          <Route path="/package/checkout" element={<AddingInfo2 />} exact />
+          <Route path="/completion" element={<Subscription />} exact />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
@@ -120,14 +124,7 @@ function App() {
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />
-          <Route path="admin/manage" element={<ManageUsersPage/>}/>
-          <Route path="/PatientFamily" element={<PatientFamily />} exact />
-          <Route path="/patient/checkout" element={<AddingInfo />} exact />
-          <Route path="/package/checkout" element={<AddingInfo2 />} exact />
-          <Route path="/completion" element={<Subscription />} exact />
-          
-          
-         
+          <Route path="admin/manage" element={<ManageUsersPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       );
@@ -179,6 +176,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
