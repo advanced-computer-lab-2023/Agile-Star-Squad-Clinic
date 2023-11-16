@@ -19,7 +19,8 @@ const PackageItem = (props) => {
         <div className="package-item__actions">
           
           {/* <Link to ={`/updatePackage/${props.id}`}> */}
-          <button className="btn btn-primary sm"> Purchase </button>
+          <button className="btn btn-primary sm" > Purchase </button>
+          {/* <button className="btn btn-primary sm" onClick={purchasePackageHandler}> Purchase </button> */}
           {/* </Link> */}
         </div>
       </Card>

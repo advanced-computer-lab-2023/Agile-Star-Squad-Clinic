@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import Payment from '../components/payment/Payment';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const AddingInfo = () => {
@@ -12,7 +12,7 @@ const AddingInfo = () => {
   const [price, setPrice] = useState(0);
 
   const location = useLocation();
-  
+  const navigate = useNavigate();
   
   const stateData = location.state;
   console.log(stateData.timeOfAppointment)
@@ -35,7 +35,9 @@ const AddingInfo = () => {
     const query = new URLSearchParams(window.location.search);
 
     if (query.get('success')) {
+      
      alert('Order placed! You will receive an email confirmation.');
+     
     }
 
     if (query.get('canceled')) {

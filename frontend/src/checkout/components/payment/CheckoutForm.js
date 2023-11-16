@@ -11,6 +11,7 @@ export default function CheckoutForm(props) {
   const [message, setMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [useWallet, setUseWallet] = useState(false);
+ 
   const fetchUserBalance= async()=>{
     
   }
@@ -31,7 +32,7 @@ export default function CheckoutForm(props) {
       elements,
       confirmParams: {
        
-        return_url: "http://localhost:3001/patient/appointment/book/",
+        return_url: `${(window.location.origin).origin}/home`,
       },
     });
     
@@ -59,7 +60,7 @@ export default function CheckoutForm(props) {
         if (!response.ok) {
           throw new Error('Failed to send data to the server.');
         }
-        
+        // navigate('/patient/appointment/book/')
         setMessage('Payment successful!');
       }
     } catch (error) {
