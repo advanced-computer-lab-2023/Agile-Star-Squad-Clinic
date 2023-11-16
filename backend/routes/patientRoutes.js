@@ -33,6 +33,10 @@ router
   .patch(middleware.adminAuth, patientController.addHealthRecord)
   .delete(middleware.adminAuth, patientController.removePatient);
 
+router  
+  .route('/:id/kimoSubscribe')
+  .post(patientController.kimoSubscribe);
+
 router
   .route('/getByNationalId/:nationalId')
   .get(middleware.patientAuth, patientController.getPatientByNationalId);

@@ -147,7 +147,7 @@ exports.subscribePackage = catchAsync(async (req, res, next) => {
   const familyMember = await Family.findById(patientId)
   if (familyMember != null) {
     const patient = await Patient.findById(familyMember._id)
-    discount = package.familyMemberDiscount
+    discount = packageData.familyMemberDiscount
   }
 
 
@@ -156,7 +156,7 @@ exports.subscribePackage = catchAsync(async (req, res, next) => {
     return next(new AppError('Patient not found', 404));
   }
   if (patient.package != null) {
-    return next(new AppError('You are already subsribed to a Package', 404));
+    return next(new AppError('You are already subscribed to a Package', 404));
   }
 
   await Patient.findByIdAndUpdate(patient._id, {
@@ -170,6 +170,31 @@ exports.subscribePackage = catchAsync(async (req, res, next) => {
     discount
   });
 });
+
+exports.kimoSubscribe = catchAsync(async (req, res, next) => {
+  const patientId = req.params.id;
+  const packageId = req.body.packageId;
+  const patient = await Patient.findById(patientId)
+
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+  try {
+     await Patient.findByIdAndUpdate(patientId, {
+    package: packageId,
+    subscriptionDate: Date.now(),
+    expiringDate: Date.now() + (365 * 24 * 60 * 60 * 1000),
+  });
+    console.log("all ggood")
+  } catch (error) {
+    console.log(error);
+  }
+ 
+  res.status(200).json({
+    status: 'success'
+  });
+});
+
 exports.unsubscribePackage = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   const packageData = req.body;
@@ -323,14 +348,13 @@ exports.updateWallet = catchAsync(async (req, res, next) => {
 
 
   const patient = await Patient.findById(patientId);
-  const walletAmount = req.body.walletAmount + patient.wallet;
   if (!patient) {
     return next(new AppError('Patient not found', 404));
   }
 
 
   await Patient.findByIdAndUpdate(patient._id, {
-    wallet: walletAmount,
+    wallet: req.body.walletAmount,
   });
 
   res.status(200).json({

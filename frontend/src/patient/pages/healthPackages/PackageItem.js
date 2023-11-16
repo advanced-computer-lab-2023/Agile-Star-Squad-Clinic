@@ -18,10 +18,10 @@ const PackageItem = (props) => {
         </div>
         <div className="package-item__actions">
           
-          {/* <Link to ={`/updatePackage/${props.id}`}> */}
-          <button className="btn btn-primary sm" > Purchase </button>
+          <Link to ={`/package/checkout`} state={{price: props.pricePerYear, name: props.name, description: props.description, id:props.id}}>
+          <button className="btn btn-primary sm"> Purchase </button>
           {/* <button className="btn btn-primary sm" onClick={purchasePackageHandler}> Purchase </button> */}
-          {/* </Link> */}
+          </Link>
         </div>
       </Card>
     </li>
