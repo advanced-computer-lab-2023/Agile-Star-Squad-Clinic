@@ -174,7 +174,7 @@ export default function SubscriptionForm(props) {
         <label htmlFor="use-wallet">Credit Card</label>
       </div>
       <div>
-      <label htmlFor="familyMembers">Select a family member:</label>
+      {/* <label htmlFor="familyMembers">Select a family member:</label>
       <select id="familyMembers" name="familyMembers" onChange={handleMemberSelect}>
       <option value={userCtx.userId}>None</option>
         {familyMembers.map((member) => (
@@ -182,7 +182,7 @@ export default function SubscriptionForm(props) {
             {member.name}
           </option>
         ))}
-      </select>
+      </select> */}
       </div>
       <div>{paymentMethod == 0 &&
         <PaymentElement id="payment-element" />}
