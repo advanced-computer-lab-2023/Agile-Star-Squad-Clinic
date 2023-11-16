@@ -32,7 +32,7 @@ export default function CheckoutForm(props) {
       elements,
       confirmParams: {
        
-        return_url: `${(window.location.origin).origin}/home`,
+        return_url: 'http://localhost:3001/patient/appointment/book',
       },
     });
     

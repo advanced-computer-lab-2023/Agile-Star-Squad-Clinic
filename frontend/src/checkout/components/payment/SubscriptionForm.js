@@ -15,6 +15,12 @@ export default function SubscriptionForm(props) {
   const [paymentMethod, setPaymentMethod] = useState(0);
   const userCtx = useContext(UserContext);
   const [balance, setBalance] = useState(0);
+  const [familyMembers, setFamilyMembers] = useState([]);
+  const [selectedMemberId, setSelectedMemberId] = useState('');
+
+  const handleMemberSelect = (e) => {
+    setSelectedMemberId(e.target.value);
+  };
 
 
   useEffect(() => {
@@ -25,6 +31,24 @@ export default function SubscriptionForm(props) {
       setBalance(+responseData.data.patient.wallet);
     });
   }, []);
+  useEffect(() => {
+    // Fetch family members of the patient
+    const fetchFamilyMembers = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/patients/${userCtx.userId}/familyMembers`, {
+          credentials: 'include'
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setFamilyMembers(data.data.members);
+        }
+      } catch (error) {
+        console.error('Error fetching family members:', error);
+      }
+    };
+
+    fetchFamilyMembers();
+  }, [userCtx.userId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +63,8 @@ export default function SubscriptionForm(props) {
 
     try {
 
-      // Send data to the backend
-      const response = await fetch(`http://localhost:3000/patients/${userCtx.userId}/kimoSubscribe`, {
+      const response2 = await fetch(`http://localhost:3000/patients/${selectedMemberId}`)
+      const response = await fetch(`http://localhost:3000/patients/${selectedMemberId}/kimoSubscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,6 +143,7 @@ export default function SubscriptionForm(props) {
 
     navigate(-1);
   };
+  console.log("yyyyy ", selectedMemberId)
   return (
     <form id="payment-form" onSubmit={paymentMethod == 0 ? handleSubmit : handleWallet}>
       <div className="d-flex justify-content-between">
@@ -147,6 +172,17 @@ export default function SubscriptionForm(props) {
           onChange={(e) => setPaymentMethod(0)}
         />
         <label htmlFor="use-wallet">Credit Card</label>
+      </div>
+      <div>
+      <label htmlFor="familyMembers">Select a family member:</label>
+      <select id="familyMembers" name="familyMembers" onChange={handleMemberSelect}>
+      <option value={userCtx.userId}>None</option>
+        {familyMembers.map((member) => (
+          <option key={member._id} value={member._id}>
+            {member.name}
+          </option>
+        ))}
+      </select>
       </div>
       <div>{paymentMethod == 0 &&
         <PaymentElement id="payment-element" />}

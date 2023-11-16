@@ -15,7 +15,7 @@ const AddingInfo = () => {
   const navigate = useNavigate();
   
   const stateData = location.state;
-  console.log(stateData.timeOfAppointment)
+  console.log(stateData.dateOfAppointment)
   
   //console.log(stateData.doctor,"llll");
   
@@ -79,7 +79,7 @@ const AddingInfo = () => {
             <div>
               {packagePresent && (
                 <p>
-                  Package Discount : -{(stateData.packageToUse.doctorSessionDiscount / 100) * price}LE
+                  Package Discount : -{Math.floor((stateData.packageToUse.doctorSessionDiscount / 100) *(stateData.doctor.hourlyRate*1.1))}LE
                 </p>
               )}
             </div>

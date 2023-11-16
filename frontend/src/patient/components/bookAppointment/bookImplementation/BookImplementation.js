@@ -150,14 +150,19 @@ const BookImplementation = (props) => {
         addAppointmentTo = familyMemberPatientAccount._id;
       }
     }
-    const dataToSend = {
-      packageToUse,
-      patientName,
-      addAppointmentTo,
-      doctor: props.doctor,
-      dateOfAppointment: chosenDate,
-      timeOfAppointment: chosenTime,
-    };
+    const [hours, minutes] = chosenTime.split(':');
+    const appointmentDate = new Date(chosenDate);
+    appointmentDate.setHours(hours);
+    appointmentDate.setMinutes(minutes);
+   console.log(appointmentDate)
+  const dataToSend = {
+    packageToUse,
+    patientName,
+    addAppointmentTo,
+    doctor: props.doctor,
+    dateOfAppointment: appointmentDate,
+    timeOfAppointment: chosenTime,
+  };
     navigate('/patient/checkout', { state: dataToSend });
   };
   const expandTimeRange = (timeRanges) => {
