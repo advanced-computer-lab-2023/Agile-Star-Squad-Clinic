@@ -15,11 +15,16 @@ export default function SubscriptionForm(props) {
   const [paymentMethod, setPaymentMethod] = useState(0);
   const userCtx = useContext(UserContext);
   const [balance, setBalance] = useState(0);
+  
   const [familyMembers, setFamilyMembers] = useState([]);
   const [selectedMemberId, setSelectedMemberId] = useState('');
 
   const handleMemberSelect = (e) => {
     setSelectedMemberId(e.target.value);
+    const isFamilyMemberSelected = e.target.value !== userCtx.userId;
+
+    // Send the information to the parent component
+    props.onFamilyMemberSelect(isFamilyMemberSelected);
   };
 
 
@@ -29,6 +34,7 @@ export default function SubscriptionForm(props) {
     ).then(async response => {
       const responseData = await response.json();
       setBalance(+responseData.data.patient.wallet);
+    
     });
   }, []);
   useEffect(() => {
@@ -62,8 +68,8 @@ export default function SubscriptionForm(props) {
     setIsProcessing(true);
 
     try {
-
-      const response2 = await fetch(`http://localhost:3000/patients/${selectedMemberId}`)
+      
+      
       const response = await fetch(`http://localhost:3000/patients/${selectedMemberId}/kimoSubscribe`, {
         method: 'POST',
         headers: {
