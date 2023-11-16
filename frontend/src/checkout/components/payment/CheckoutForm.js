@@ -11,9 +11,9 @@ export default function CheckoutForm(props) {
   const [message, setMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [useWallet, setUseWallet] = useState(false);
- 
-  const fetchUserBalance= async()=>{
-    
+
+  const fetchUserBalance = async () => {
+
   }
 
   const handleSubmit = async (e) => {
@@ -26,28 +26,18 @@ export default function CheckoutForm(props) {
     }
 
     setIsProcessing(true);
-  
-      try{
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-       
-        return_url: 'http://localhost:3001/patient/appointment/book',
-      },
-    });
-    
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-        
+
+    try {
+      
+
         let paymentIntentData = {
-          
+
           doctor: props.doctorId,
           patient: props.patientId,
           dateOfAppointment: props.appDate,
           status: 'upcoming'
         };
-        
+
         // Send data to the backend
         const response = await fetch('http://localhost:3000/doctors/appointments', {
           method: 'POST',
@@ -62,65 +52,86 @@ export default function CheckoutForm(props) {
         }
         // navigate('/patient/appointment/book/')
         setMessage('Payment successful!');
-      }
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: 'http://localhost:3001/patient/appointment/book',
+          },
+        });
     } catch (error) {
       setMessage('Failed to process payment.');
     }
     setIsProcessing(false);
-    
+
   };
-  const handleWallet=async(e)=>{
+  const handleWallet = async (e) => {
     e.preventDefault();
     setIsProcessing(true);
     const response = await fetch(`http://localhost:3000/patients/${props.patientId}`)
-const responseData=await response.json()
-    const currentWallet =responseData.data.patient.wallet
-    
-    const deduct= props.price * -1
+    const responseData = await response.json()
+    const currentWallet = responseData.data.patient.wallet
+
+    const deduct = props.price * -1
     const newBalance = currentWallet + deduct;
-    if (currentWallet+deduct >= 0){
-      try{
+    if (currentWallet + deduct >= 0) {
+      try {
         const response = await fetch(
-                `http://localhost:3000/patients/${props.patientId}/wallet`,
-                
-                {
-                  method: 'POST', 
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({walletAmount : newBalance}),
-                }
-              );
-        
-              if (response.ok) {
-                // Handle a successful response
-                setMessage("Payment successful via wallet!");
-                alert("Payment successful via wallet!")
-                
-              } else {
-                // Handle errors if the server response is not ok
-                alert('Failed to update data.');
-              }
-            } catch (error) {
-              // Handle network errors
-              alert('Network error: ' + error.message);
-            }
-      
+          `http://localhost:3000/patients/${props.patientId}/wallet`,
+
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ walletAmount: newBalance }),
+          }
+        );
+        let paymentIntentData = {
+
+          doctor: props.doctorId,
+          patient: props.patientId,
+          dateOfAppointment: props.appDate,
+          status: 'upcoming'
+        };
+
+        // Send data to the backend
+        await fetch('http://localhost:3000/doctors/appointments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(paymentIntentData),
+        });
+
+        if (response.ok) {
+          // Handle a successful response
+          setMessage("Payment successful via wallet!");
+          alert("Payment successful via wallet!")
+
+        } else {
+          // Handle errors if the server response is not ok
+          alert('Failed to update data.');
+        }
+      } catch (error) {
+        // Handle network errors
+        alert('Network error: ' + error.message);
+      }
+
 
     }
-    else{
+    else {
       setMessage("Insufficient balance in your wallet.");
     }
 
-    
+
     setIsProcessing(false)
-  
+
   }
   const handleCancel = () => {
-    
+
     navigate(-1);
   };
   return (
-    <form id="payment-form" onSubmit={!useWallet?handleSubmit:handleWallet}>
-       <input
+    <form id="payment-form" onSubmit={!useWallet ? handleSubmit : handleWallet}>
+      <input
         type="checkbox"
         id="use-wallet"
         checked={useWallet}
@@ -128,7 +139,7 @@ const responseData=await response.json()
       />
       <label htmlFor="use-wallet">Pay with Wallet</label>
       <div>{!useWallet &&
-      <PaymentElement id="payment-element"  />}
+        <PaymentElement id="payment-element" />}
       </div>
       <button disabled={isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
