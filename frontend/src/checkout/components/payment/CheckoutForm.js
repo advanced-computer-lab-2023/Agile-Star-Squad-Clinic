@@ -77,6 +77,7 @@ const responseData=await response.json()
     const currentWallet =responseData.data.patient.wallet
     
     const deduct= props.price * -1
+    const newBalance = currentWallet + deduct;
     if (currentWallet+deduct >= 0){
       try{
         const response = await fetch(
@@ -85,7 +86,7 @@ const responseData=await response.json()
                 {
                   method: 'POST', 
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({walletAmount : deduct}),
+                  body: JSON.stringify({walletAmount : newBalance}),
                 }
               );
         
