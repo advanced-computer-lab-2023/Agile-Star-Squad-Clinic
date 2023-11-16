@@ -149,7 +149,7 @@ const PatientAccountSettings = (props) => {
     <body>
       <NavBar />
       <div>
-        {cancellationDate === null && (
+        {healthPackage !== null && (
           <button onClick={handeleUnsubscribeButtonclick}>
             Unsubscribe from current package
           </button>
@@ -218,7 +218,7 @@ const PatientAccountSettings = (props) => {
                   className="position-relative mx-4 shadow-sm"
                   style={{ width: '130px' }}
                 >
-                  {!url.includes('pdf') && <img src={url} width={130} />}
+                  {!url.includes('pdf') && <a href={url} target="_blank"><img src={url} width={130} /></a>}
                   {url.includes('pdf') && (
                     <a href={url} target="_blank">
                       View PDF
