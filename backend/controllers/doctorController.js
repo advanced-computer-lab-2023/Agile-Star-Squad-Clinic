@@ -1,15 +1,41 @@
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
+const Request = require('../models/requestModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Prescription = require('../models/prescriptionModel');
 const APIFeatures = require('../utils/apiFeatures');
-const Request = require('../models/requestModel');
 const Appointment = require('../models/appointmentModel');
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   try {
+    // Check if the username or email already exist in the 'requests' collection
+    const existingRequest = await Request.findOne({
+      $or: [{ username: req.body.username }, { email: req.body.email }],
+    });
+
+    if (existingRequest) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Your request is still pending.',
+      });
+    }
+
+    // Check if the username or email already exist in the 'doctor' collection
+    const existingDoctor = await Doctor.findOne({
+      $or: [{ username: req.body.username }, { email: req.body.email }],
+    });
+
+    if (existingDoctor) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'You are already a Doctor, try logging in instead.',
+      });
+    }
+
+    // If neither username nor email exist, create a new request
     const newRequest = await Request.create(req.body);
+
     res.status(200).json({
       status: 'success',
       data: {
@@ -18,8 +44,13 @@ exports.doctorSignup = catchAsync(async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal Server Error',
+    });
   }
 });
+
 
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
