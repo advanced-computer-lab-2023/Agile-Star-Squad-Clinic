@@ -102,7 +102,9 @@ const DoctorRequestForm = () => {
         navigate('/');
       } else {
         // Handle errors if the server response is not ok
-        alert('Registration Failed!');
+        const responseData = await response.json();
+        alert(responseData.message);
+        navigate('/');
       }
     } catch (error) {
       // Handle network errors
