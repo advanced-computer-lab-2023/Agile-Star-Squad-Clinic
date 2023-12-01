@@ -1,0 +1,42 @@
+.name{
+    width: 627.105px;
+height: 74.785px;
+transform: rotate(-0.023deg);
+color: #000;
+font-family: Inter;
+font-size: 55px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+left: 20%;
+top: 10%;
+}
+
+.patient-info{
+    position: absolute;
+    align-items:center;
+    top: 18%;
+    left:5%;   
+
+}
+.patient-actions{
+    width: 702px;
+    height: 231px;
+    border-radius: var(--16, 16px);
+    background: rgb(229, 224, 224) 50% / cover no-repeat;
+    box-shadow: 0px 10px 40px 0px rgba(49, 78, 103, 0.07);
+    position: absolute;
+    top:50%;
+    margin-left: 5%;
+}
+.patient-image {
+    width: 188.169px;
+    height: 197.629px;
+    transform: rotate(-0.945deg);
+    border-radius: 50%; /* Use border-radius to create a circle */
+    background: lightgray; /* Set background color */
+    background-size: cover; /* Maintain the cover property for background images */
+    background-position: top left; /* Position the background image in the top left corner */
+    overflow: hidden; /* Hide any overflow content */
+   
+}
