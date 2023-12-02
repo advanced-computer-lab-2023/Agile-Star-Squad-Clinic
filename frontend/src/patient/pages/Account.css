@@ -23,7 +23,7 @@ top: 10%;
     width: 702px;
     height: 231px;
     border-radius: var(--16, 16px);
-    background: rgb(229, 224, 224) 50% / cover no-repeat;
+    background: rgb(255, 255, 255) 50% / cover no-repeat;
     box-shadow: 0px 10px 40px 0px rgba(49, 78, 103, 0.07);
     position: absolute;
     top:50%;
@@ -39,4 +39,23 @@ top: 10%;
     background-position: top left; /* Position the background image in the top left corner */
     overflow: hidden; /* Hide any overflow content */
    
+}
+.h3{
+    color: var(--grayscale-title, #222);
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* Text-Medium/semi */
+font-family: Source Sans Pro;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 22px; /* 137.5% */
+}
+.patient-actions img{
+    width: 16.667px;
+    height: 16.667px;
+    border-radius: 50%;
+    margin-top: 2%;
+    margin-right: 86%;
+    
 }

@@ -9,6 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Account.css';
 import patient1 from '../../assets/patientHomepage/patient1.png';
+import fam from '../../assets/patientHomepage/fam.png';
+import med from '../../assets/patientHomepage/med.png';
+import pay from '../../assets/patientHomepage/pay.png';
+import setting from '../../assets/patientHomepage/setting.png';
 
 const PatientAccountSettings = (props) => {
 
@@ -157,7 +161,13 @@ const PatientAccountSettings = (props) => {
         <img className='patient-image'src= {patient1} />
      </div>
      <section className='patient-actions'>
-      
+      <div>
+        <h3>Settings</h3>
+        <div className='account-settings'>
+        <img src={setting} />
+        </div>
+      </div>
+
       
        
       </section>
