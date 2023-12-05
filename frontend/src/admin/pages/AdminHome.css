@@ -1,0 +1,87 @@
+.requests-section{
+    position: absolute;
+    left:5%;
+    top:15%;
+    width: 718px;
+    height: 524px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #F8F9FA;
+    background: var(--white-100, #FFF);
+    box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50);
+}
+.title{
+    position: relative;
+    color: var(--primary-dark-shade, #05004E);
+    font-family: "Poppins";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    right:40%;
+    top:3%;
+}
+.req-bold{
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.container{
+    position: absolute;
+    top: 12%;
+}
+.req-img{
+    width: 22px;
+height: var(--24, 24px);
+    transform: rotate(-0.945deg);
+    flex-shrink: 0;
+    position: inherit;
+    left:10%;
+
+}
+.req-acc, .req-rej {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    border-radius: var(--8, 8px);
+}
+
+.req-acc {
+    border: 1px solid #C4E8BE;
+}
+
+.req-rej {
+    border: 1px solid #FD9292;
+}
+
+.req-acc:hover, .req-rej:hover {
+    cursor: pointer;
+    filter: brightness(1.2); /* Adjust the brightness for a hover effect */
+}
+
+.req-small{
+    color: var(--grayscale-placeholder, #888);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: "Source Sans Pro";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 100% */
+    
+}
+
+.insights-section{
+    position: absolute;
+    left: 65%;
+    top:15%;
+    width: 588px;
+    height: 254px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #F8F9FA;
+    background: var(--white-100, #FFF);
+    box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50);
+}
