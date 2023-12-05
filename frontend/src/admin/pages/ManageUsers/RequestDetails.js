@@ -100,36 +100,29 @@ const RequestDetails = (props) => {
                 <span>{status}</span>
             </div>
             <div>
-    <span><h4>ID Image</h4></span>
-    {props.data['idImage'] && (
-        props.data['idImage'].includes('pdf') ? (
-            <a href={props.data['idImage']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-        ) : (
-            <img width={130} src={props.data['idImage']} alt="ID Image" />
-        )
-    )}
-</div>
-<div>
-    <span><h4>Medical License</h4></span>
-    {props.data['medicalLicense'] && (
-        props.data['medicalLicense'].includes('pdf') ? (
-            <a href={props.data['medicalLicense']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-        ) : (
-            <img width={130} src={props.data['medicalLicense']} alt="Medical License" />
-        )
-    )}
-</div>
-<div>
-    <span><h4>Medical Degree</h4></span>
-    {props.data['medicalDegree'] && (
-        props.data['medicalDegree'].includes('pdf') ? (
-            <a href={props.data['medicalDegree']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-        ) : (
-            <img width={130} src={props.data['medicalDegree']} alt="Medical Degree" />
-        )
-    )}
-</div>
-
+                <span><h4>ID Image</h4></span>
+                {props.data['idImage'].includes('pdf') ? (
+                    <a href={props.data['idImage']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                ) : (
+                    <img width={130} src={props.data['idImage']} alt="ID Image" />
+                )}
+            </div>
+            <div>
+                <span><h4>Medical License</h4></span>
+                {props.data['medicalLicense'].includes('pdf') ? (
+                    <a href={props.data['medicalLicense']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                ) : (
+                    <img width={130} src={props.data['medicalLicense']} alt="Medical License" />
+                )}
+            </div>
+            <div>
+                <span><h4>Medical Degree</h4></span>
+                {props.data['medicalDegree'].includes('pdf') ? (
+                    <a href={props.data['medicalDegree']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                ) : (
+                    <img width={130} src={props.data['medicalDegree']} alt="Medical Degree" />
+                )}
+            </div>
 
             {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
             </div>

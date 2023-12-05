@@ -1,13 +1,17 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState, useRef} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Table, Button } from 'react-bootstrap';
 import UserContext from '../../user-store/user-context';
 import AdminNavBar from '../components/AdminNavBar';
 import RequestDetails from './ManageUsers/RequestDetails';
+import AdminForm from '../pages/ManageUsers/AdminForm';
+import UserDetails from '../pages/ManageUsers/UserDetails';
 import './AdminHome.css';
 import req from '../req.png';
 import x from '../X.png';
 import check from '../check.png';
+import VisitorInsights from '../VisitorInsights.png';
 
 
 const AdminHome2 = (props) => {
@@ -15,25 +19,42 @@ const AdminHome2 = (props) => {
   const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
   const [status, setStatus] = useState(props.data ? props.data['status'] : '');
-  console.log("sd"+props );
   const [selectedRequest, setSelectedRequest] = useState(null);
   const selectedRequestRef = useRef(null);
+  const [packages, setPackages] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [showUser, setShowUser] = useState(false);
+  const [showAdminForm, setShowAdminForm] = useState(false);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [activeRole, setActiveRole] = useState('patient'); // Default to show all users
+  const [selectedUser, setSelectedUser] = useState(null);
 
-//   const [users, setUsers] = useState([]);
-//   const [isUserTab, setUserTab] = useState(true);
-//   const [showRequest, setShowRequest] = useState(false   );
-//   const [showUser, setShowUser] = useState(false);
-//   const [showAdminForm, setShowAdminForm] = useState(false);
-//   const [selectedRow, setSelectedRow] = useState({});
+
 
   useEffect(() => {
+    fetchPatients();
+    fetchDoctors();
+    fetchAdmins();
     fetchPendingRequests();
-  }, []);
-
-  useEffect(() => {
+    fetchPackages();
+}, [])
+useEffect(() => {
+    filterUsersByRole(activeRole);
+}, [activeRole]);
+useEffect(() => {
     selectedRequestRef.current = selectedRequest;
   }, [selectedRequest]);
   
+  const fetchPackages = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/packages/');
+      const packagesData = response.data; // Assuming the packages are directly in the data property
+      setPackages(packagesData);
+    } catch (error) {
+      console.error('Error fetching packages:', error);
+    }
+  };
+
   const logout = async () => {
     await userCtx.logout();
     navigate('/');
@@ -53,7 +74,7 @@ const AdminHome2 = (props) => {
       })
     );
   } 
-
+  
 
   const fetchPendingRequests = async () => {
     try {
@@ -66,6 +87,109 @@ const AdminHome2 = (props) => {
     }
     
   };
+  
+const filterUsersByRole = (role) => {
+    let filtered = [];
+  
+    switch (role) {
+      case 'patient':
+        filtered = users.filter((user) => user.role === 'Patient');
+        break;
+      case 'doctor':
+        filtered = users.filter((user) => user.role === 'Doctor');
+        break;
+      case 'admin':
+        filtered = users.filter((user) => user.role === 'Admin');
+        break;
+      default:
+        // Show all users if no specific role is selected
+        filtered = users;
+        break;
+    }
+  
+    setFilteredUsers(filtered);
+    setActiveRole(role); // Set the active role for styling
+  };
+  
+  const handleRoleButtonClick = (role) => {
+    filterUsersByRole(role);
+  };
+  
+  const fetchPatients = () => {
+    fetch("http://localhost:3000/patients/").then(async (response) => {
+        const json = await response.json();
+        const patientsJson = json.data.patients;
+        setUsers((val) => [...val, ...patientsJson.map((patient) => {
+            return {
+                id: patient["_id"],
+                username: patient["username"],
+                name: patient["name"],
+                email: patient['email'],
+                dateOfBirth: patient['dateOfBirth'],
+                gender: patient['gender'],
+                mobileNumber: patient["mobileNumber"],
+                emergencyContact: patient['emergencyContact'],
+                doctor: patient['doctor'],
+                familyMembers: patient['familyMembers'],
+                role: "Patient"
+            }
+        })]);
+    });
+}
+
+const fetchDoctors = () => {
+    fetch("http://localhost:3000/doctors/").then(async (response) => {
+        const json = await response.json();
+        const doctorsJson = json.data.doctors;
+        setUsers((val) => [...val, ...doctorsJson.map((doctor) => {
+            return {
+                id: doctor["_id"],
+                username: doctor["username"],
+                name: doctor["name"],
+                dateOfBirth: doctor['dateOfBirth'],
+                hourlyRate: doctor['hourlyRate'],
+                affiliation: doctor['affiliation'],
+                educationalBackground: doctor['educationalBackground'],
+                speciality: doctor['speciality'],
+                mobileNumber: doctor["mobileNumber"] ?? "-",
+                role: "Doctor"
+            }
+        })]);
+    });
+}
+
+const fetchAdmins = () => {
+    fetch("http://localhost:3000/admins/").then(async (response) => {
+        const json = await response.json();
+        const adminsJson = json.data.admins;
+        setUsers((val) => [...val, ...adminsJson.map((admin) => {
+            return {
+                id: admin["_id"],
+                username: admin["username"],
+                name: "-",
+                mobileNumber: "-",
+                role: "Admin"
+            }
+        })]);
+    });
+}
+const refreshUserData = () => {
+    setUsers([])
+    fetchPatients();
+    fetchDoctors();
+    fetchAdmins();
+}
+const deleteUser = (username) => {
+    const user = users.find((value) => value.username === username)
+    if (user.role === 'Patient') {
+        fetch(`http://localhost:3000/patients/${user.id}`, {method: 'DELETE'})
+    } else if (user.role === 'Doctor') {
+        fetch(`http://localhost:3000/doctors/${user.id}`, {method: 'DELETE'})
+    } else if (user.role === 'Admin') {
+        fetch(`http://localhost:3000/admins/${user.id}`, {method: 'DELETE'})
+    }
+    setUsers(users.filter((val) => val.username !== username))
+}
   const calculateAge = (dateOfBirth) => {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
@@ -146,13 +270,39 @@ const showDetails = (request) => {
       console.error("Invalid or undefined request object:", request);
     }
   };
-  
+  const editHandler = () => {
+    // Navigate to the "Packages Page" when the "Edit" button is clicked
+    navigate('/packages');
+  };
 
 const closeModal = () => {
   setSelectedRequest(null);
 };
+const showRequestModal = (request) => {
+    setSelectedRequest(request);
+  };
+
+  const showUserModal = (user) => {
+    setSelectedUser(user);
+    // Scroll to the top of the page
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth" // You can adjust the behavior as needed
+    });
+};
+
+
+  const exitRequestModal = () => {
+    setSelectedRequest(null);
+  };
+
+  const exitUserModal = () => {
+    setSelectedUser(null);
+  };
+
   return (
     <>
+    <div>
       <div>
         <AdminNavBar/>
         <section className='requests-section'>
@@ -186,6 +336,13 @@ const closeModal = () => {
           src={x}
           className='req-rej'
           onClick={(e) => {
+            {selectedRequest && (
+                <RequestDetails
+                  data={selectedRequest}
+                  exit={closeModal}
+                  onStatusChange={statusChangeHandler}
+                />
+              )}
             e.stopPropagation(); // Stop event propagation
             reject(request);
           }}
@@ -196,6 +353,13 @@ const closeModal = () => {
           src={check}
           className='req-acc'
           onClick={(e) => {
+            {selectedRequest && (
+                <RequestDetails
+                  data={selectedRequest}
+                  exit={closeModal}
+                  onStatusChange={statusChangeHandler}
+                />
+              )}
             e.stopPropagation(); // Stop event propagation
             accept(request);
           }}
@@ -204,44 +368,124 @@ const closeModal = () => {
     </tr>
   ))
 }
-
-                </tbody>
+        </tbody>
               </table>
             </div>
-            
-            
           </div>
-          {selectedRequest && (
-  <RequestDetails
-    data={selectedRequest}
-    exit={closeModal}
-    onStatusChange={statusChangeHandler}
-  />
-)}
-
         </section>
         <section className='insights-section'>
         <h2 className='title'>Visitor Insights</h2>
+        <img className="VisitorInsights" src={VisitorInsights}></img>
         </section>
-        <Link to="/admin/manage">
-          <button>Manage Users</button>
-        </Link>
+        <section className='packages-section'>
+        <div className="edit-button-container">
+                <button className="edit-button" onClick={editHandler}>More</button>
+            </div>
+            <h2 className='title'>Packages</h2>
+            <div className="container">
+              <div className="row">
+                <Table striped bordered hover className="custom-table">
+                  <thead>
+                    <tr className='package-titles'>
+                      <th>Package</th>
+                      <th>Session Discount</th>
+                      <th>Medicine Discount</th>
+                      <th>Family Member Discount</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Map through your packages and render each row */}
+                    {packages.map((pkg) => (
+                      <tr key={pkg._id} className="custom-row">
+                        <td>{pkg.name}</td>
+                        <td>{pkg.doctorSessionDiscount}%</td>
+                        <td>{pkg.medicineDiscount}%</td>
+                        <td>{pkg.familyMemberDiscount}%</td>
+                        <td>{pkg.pricePerYear} LE</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+          </section>
+          <section className='users-section'>
+      <div className='container'>
+      <div className='filter-buttons'>
+        {/* Button to show patients */}
+        <Button
+            variant={activeRole === 'patient' ? 'primary' : 'secondary'}
+            onClick={() => handleRoleButtonClick('patient')}
+        >
+            Patients
+        </Button>
+        
 
-        <Link to="/packages">
-          <button>Packages Page</button>
-        </Link>
+        {/* Button to show doctors */}
+        <Button
+            variant={activeRole === 'doctor' ? 'primary' : 'secondary'}
+            onClick={() => handleRoleButtonClick('doctor')}
+        >
+            Doctors
+        </Button>
+
+        {/* Button to show admins */}
+        <Button
+            variant={activeRole === 'admin' ? 'primary' : 'secondary'}
+            onClick={() => handleRoleButtonClick('admin')}
+        >
+            Admins
+        </Button>
+        </div>
+
+        <div className='row'>
+          <Table striped bordered hover className='custom-table'>
+            <thead>
+              <tr className='user-titles'>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                {/* Add more columns as needed */}
+              </tr>
+            </thead>
+            <tbody>
+              {/* Map through your users and render each row */}
+              {filteredUsers.map((user) => (
+                <tr key={user.id} className='custom-row'onClick={() => showUserModal(user)}>
+                  <td>{user.username}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  {/* Add more cells as needed */}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      </div>
+    </section>
+    {selectedUser && (
+        <UserDetails
+          data={selectedUser}
+          exit={exitUserModal}
+          onDelete={deleteUser}
+        />
+      )}
+        
         <button onClick={changePasswordHandler}>change password</button>
       </div>
       <div>
         <button
           onClick={logout}
           id="addingbutton"
-          className="btn btn-primary sm"
+          className="logout"
         >
           Logout
         </button>
       </div>
+      </div>
     </>
+
   );
 };
   // ActionButtons component

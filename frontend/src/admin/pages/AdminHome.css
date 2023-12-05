@@ -73,9 +73,9 @@ height: var(--24, 24px);
     
 }
 
-.insights-section{
+.insights-section {
     position: absolute;
-    left: 65%;
+    left: 55%;
     top:15%;
     width: 588px;
     height: 254px;
@@ -85,3 +85,151 @@ height: var(--24, 24px);
     background: var(--white-100, #FFF);
     box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50);
 }
+.insights-section .title{
+    position:absolute;
+    right: 75%;
+}
+.packages-section{
+    position: absolute;
+    left: 55%;
+    top:55%;
+    width: 588px;
+     height: 254px;
+     flex-shrink: 0;
+     border-radius: 20px;
+     border: 1px solid #F8F9FA;
+     background: var(--white-100, #FFF);
+     box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50);
+ }
+.packages-section .title{
+    position:absolute;
+    right: 83%;
+}
+
+.custom-table {
+    margin-top: 20px; /* Adjust the margin to give space below the title */
+    border-collapse: collapse; /* Remove the default cell spacing and padding */
+  }
+  
+  .custom-row {
+    color: #3366cc; /* Change the font color for each row */
+    font-family: 'Arial', sans-serif; /* Change the font family for each row */
+  }
+  
+  .custom-row:hover {
+    background-color: #f5f5f5; /* Change the background color on hover */
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    border: none; /* Remove borders for table cells */
+    padding: 8px; /* Add padding to cells for better readability */
+  }  
+  /* Add these styles to your CSS file or use inline styles in the React component */
+
+.edit-button-container {
+    text-align: center;
+    margin-bottom: 10px; /* Add margin to separate the button from the table */
+  }
+  
+  .edit-button {
+    position:absolute;
+    left:90%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 12px;
+    letter-spacing: 0.112px;
+    background: var(--Primary, linear-gradient(274deg, #92A3FD 0%, #9DCEFF 124.45%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border: none;   
+  }
+  .custom-table thead tr.package-titles th {
+    color: #C77223;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  .custom-table tbody tr.custom-row {
+    background-color: transparent;
+    color: var(--greys-blue-grey-800, #444A6D);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  .custom-table tbody tr.custom-row:nth-child(even) {
+    background-color: white;
+  }
+  
+  .custom-table tbody tr.custom-row:nth-child(odd) {
+    background-color: white;
+  }
+    
+  .VisitorInsights {
+    margin-top: 35px; /* Adjust the value as needed to move the image down */
+    border-radius: 30px; /* Adjust the value as needed for curved edges */
+    overflow: hidden; /* Ensures the border-radius is applied to the image */
+  }
+  .users-section {
+    position: absolute;
+    top:90%;
+    left:5%;
+    width: 1325px;
+    height: 579px;
+    flex-shrink: 0;
+  }
+  
+  .user-tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+  
+  .user-tab {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .user-table-container {
+    margin-top: 30px;
+  }
+  .filter-buttons{
+    position: absolute;
+    right: 75%;
+    bottom: 100%;
+  }
+  .filter-buttons button {
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    outline: none; /* Remove outline on focus */
+    cursor: pointer; /* Set cursor to pointer */
+    color: rgba(5, 0, 78, 0.25); /* Default color */
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    transition: color 0.3s; /* Add a smooth color transition */
+  }
+  
+  .filter-buttons button:hover {
+    color: var(--primary-dark-shade, #05004E); /* Change color on hover */
+  }
+  .filter-buttons button:active {
+    color: var(--primary-dark-shade, #05004E); /* Change text color on click */
+  }
+  
+  .logout{
+    position: absolute;
+    bottom: 86%;
+    left: 55%;
+  }
+
+  

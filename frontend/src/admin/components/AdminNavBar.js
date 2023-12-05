@@ -23,6 +23,7 @@ const AdminNavBar = (props) => {
             />
             clinic
           </Link>
+          
           <button
             className="navbar-toggler"
             type="button"
@@ -39,10 +40,12 @@ const AdminNavBar = (props) => {
           </div>
           <div className="d-flex mx-4">
             <div className="btn-group ">
+            <Link to="/admin/requests" style={{ all: 'unset' }}>
               <a href="#" className="btn btn-white">
                 Requests 
               </a>
-              <Link to="/appointments" style={{ all: 'unset' }}>
+              </Link>
+              <Link to="/packages" style={{ all: 'unset' }}>
                 <a href="#" className="btn btn-white">
                   Health Packages
                 </a>
