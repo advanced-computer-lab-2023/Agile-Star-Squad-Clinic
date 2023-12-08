@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import storage from '../../index';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import classes from '../doctorRequest.module.css';
+import logo from './logo.png';
+import Medicines from './Medicines.png';
 
 const DoctorRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -102,7 +105,9 @@ const DoctorRequestForm = () => {
         navigate('/');
       } else {
         // Handle errors if the server response is not ok
-        alert('Registration Failed!');
+        const responseData = await response.json();
+        alert(responseData.message);
+        navigate('/');
       }
     } catch (error) {
       // Handle network errors
@@ -126,117 +131,153 @@ const DoctorRequestForm = () => {
   const { medicalDegree } = medicalDegreeForm;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={handleInputChange}
-        />
+    <body className={classes.background}>
+      <div className='d-flex'>
+        <div className={`${classes.mainBackground} col-5`}>
+          <div className={classes.logo}>
+            <img src={logo} alt="Clinic Logo" />
+          </div>
+          <img src={Medicines} alt="Medicines" className={classes.medicinesImage} />
+        </div>
+
+        <div className={`${classes.secondBackground} col-7`}>
+          {
+            <div className={classes.customText}>
+              <p className={classes.p1}>Create Account</p>
+
+              <form onSubmit={handleSubmit}>
+                <div className={classes.textBoxContainer}>
+                  <div>
+                    <input
+                      type="text"
+                      name="username"
+                      value={username}
+                      onChange={handleInputChange}
+                      placeholder='User Name'
+                      className={classes.textBox}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="name"
+                      value={name}
+                      onChange={handleInputChange}
+                      placeholder='Full Name'
+                      className={classes.textBox}
+                    />
+                  </div>
+                </div>
+                <div className={classes.textBoxContainer}>
+                  <div>
+                    <input
+                      type="text"
+                      name="email"
+                      value={email}
+                      onChange={handleInputChange}
+                      placeholder='Email Address'
+                      className={classes.textBox}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="password"
+                      value={password}
+                      onChange={handleInputChange}
+                      placeholder='Password'
+                      className={classes.textBox}
+                    />
+                  </div>
+                </div>
+                <div className={classes.textBoxContainer}>
+
+                  <div>
+                    <input
+                      type="text"
+                      name="hourlyRate"
+                      value={hourlyRate}
+                      onChange={handleInputChange}
+                      placeholder='Hourly Rate'
+                      className={classes.textBox}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="speciality"
+                      value={speciality}
+                      onChange={handleInputChange}
+                      placeholder='Speciality'
+                      className={classes.textBox}
+                    />
+                  </div>
+                </div>
+                <div className={classes.textBoxContainer}><div>
+                  <input
+                    type="text"
+                    name="affiliation"
+                    value={affiliation}
+                    onChange={handleInputChange}
+                    placeholder='Affiliation'
+                    className={classes.textBox}
+                  />
+                </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="educationalBackground"
+                      value={educationalBackground}
+                      onChange={handleInputChange}
+                      placeholder='Educational Background'
+                      className={classes.textBox}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label>Date of Birth</label>
+                  <input
+                    type="date"
+                    name="dateOfBirth"
+                    value={dateOfBirth}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label>ID</label>
+                  <input
+                    type="file"
+                    name="idImage"
+                    value={idImage}
+                    onChange={onIdImageChange}
+                  />
+                </div>
+                <div>
+                  <label>Medical License</label>
+                  <input
+                    type="file"
+                    name="medicalLicense"
+                    value={medicalLicense}
+                    onChange={onMedicalLicenseChange}
+                  />
+                </div>
+                <div>
+                  <label>Medical Degree</label>
+                  <input
+                    type="file"
+                    name="medicalDegree"
+                    value={medicalDegree}
+                    onChange={onMedicalDegreeChange}
+                  />
+                </div>
+                <button className={classes.button} type="submit">Request registration</button>
+              </form>
+            </div>
+          }
+        </div>
       </div>
-      <div>
-        <label>Name</label>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Email</label>
-        <input
-          type="text"
-          name="email"
-          value={email}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type="text"
-          name="password"
-          value={password}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Date of Birth</label>
-        <input
-          type="date"
-          name="dateOfBirth"
-          value={dateOfBirth}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Hourly Rate</label>
-        <input
-          type="text"
-          name="hourlyRate"
-          value={hourlyRate}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Affiliation</label>
-        <input
-          type="text"
-          name="affiliation"
-          value={affiliation}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Educational Background</label>
-        <input
-          type="text"
-          name="educationalBackground"
-          value={educationalBackground}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Speciality</label>
-        <input
-          type="text"
-          name="speciality"
-          value={speciality}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>ID</label>
-        <input
-          type="file"
-          name="idImage"
-          value={idImage}
-          onChange={onIdImageChange}
-        />
-      </div>
-      <div>
-        <label>Medical License</label>
-        <input
-          type="file"
-          name="medicalLicense"
-          value={medicalLicense}
-          onChange={onMedicalLicenseChange}
-        />
-      </div>
-      <div>
-        <label>Medical Degree</label>
-        <input
-          type="file"
-          name="medicalDegree"
-          value={medicalDegree}
-          onChange={onMedicalDegreeChange}
-        />
-      </div>
-      <button type="submit">Request registration</button>
-    </form>
+    </body>
   );
 };
 
