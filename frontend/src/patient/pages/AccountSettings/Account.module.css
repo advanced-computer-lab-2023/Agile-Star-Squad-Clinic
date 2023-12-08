@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.greetingContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    font-family: 'Inter';
+    margin-top: 40px;
+    margin-left: 100px;
+    margin-bottom: 30px;
+}
+
+.greetingContainer img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.name {
+    color: black;
+    font-size: 35px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.subtitle {
+    color: #999898;
+    font-size: 20px;
+    text-align: left;
+    line-height: 120%;
+}
+
+.settingsContainer {
+    width: 40%;
+    margin-left: 150px;
+    margin-bottom: 30px;
+    padding-top: 25px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 10px;
+    font-family: 'Poppins';
+    text-align: start;
+    border-radius: var(--16, 16px);
+    background: var(--white-100, #FFF);
+    box-shadow: 0px 10px 40px 0px rgba(29, 36, 42, 0.07);
+}
+
+.settingsTitle {
+    color: #222;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.settingsTile {
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0px;
+    opacity: 85%;
+    border-radius: 10px;
+    padding-inline: 5px;
+    padding-block: 8px;
+}
+
+.settingsTile:hover {
+    background-color: rgb(250, 250, 250);
+    color: black;
+    opacity: 100%;
+}
+
+.settingsTile img{
+    height: 20px;
+    width: 20px;
+    opacity: 100%;
+}
+
+.chevron {
+    opacity: inherit;
+}
+
+.settingsTile span {
+    color: inherit;
+    font-size: 16px;
+    width: 100%;
+    padding-left: 15px;
+}
+
+.sideCard {
+    position: fixed;
+    height: 660px;
+    width: 25%;
+    top: calc(50vh - 330px);
+    right: 0;
+    padding-top: 40px;
+    padding-left: 35px;
+    padding-right: 40px;
+    background-color: white;
+    border-radius: 30px 0 0 30px;
+    filter: drop-shadow(-9px 19px 34px rgba(0, 0, 0, 0.25));
+}
+
+.sideCardTitle {
+    color: #101828;
+    font-family: 'Poppins';
+    font-size: 20px;
+    font-weight: 600;
+    text-align: start;
+}
+
+.patient-info{
+    position: absolute;
+    align-items:center;
+    top: 18%;
+    left:5%;   
+
+}
+.patient-actions{
+    width: 702px;
+    height: 231px;
+    border-radius: var(--16, 16px);
+    background: rgb(255, 255, 255) 50% / cover no-repeat;
+    box-shadow: 0px 10px 40px 0px rgba(49, 78, 103, 0.07);
+    position: absolute;
+    top:50%;
+    margin-left: 5%;
+}
+.patient-image {
+    width: 188.169px;
+    height: 197.629px;
+    transform: rotate(-0.945deg);
+    border-radius: 50%; /* Use border-radius to create a circle */
+    background: lightgray; /* Set background color */
+    background-size: cover; /* Maintain the cover property for background images */
+    background-position: top left; /* Position the background image in the top left corner */
+    overflow: hidden; /* Hide any overflow content */
+   
+}
+.h3{
+    color: var(--grayscale-title, #222);
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* Text-Medium/semi */
+font-family: Source Sans Pro;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 22px; /* 137.5% */
+}
+.patient-actions img{
+    width: 16.667px;
+    height: 16.667px;
+    border-radius: 50%;
+    margin-top: 2%;
+    margin-right: 86%;
+    
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

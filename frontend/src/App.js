@@ -20,7 +20,7 @@ import AddingInfo2 from './checkout/pages/AddingInformation2';
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
-import PatientAccountSettings from './patient/pages/PatientAccountSettings';
+import PatientAccountSettings from './patient/pages/AccountSettings/Account';
 import Appointments from './patient/pages/appointments/Appointments';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import PendingRequest from './requests/pendingRequest';
