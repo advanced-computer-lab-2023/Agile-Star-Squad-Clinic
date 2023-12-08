@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 .logo {
     position: absolute;
     top: 25px;
@@ -7,6 +9,7 @@
 }
 
 .bigContainer {
+    font-family: 'Poppins';
     width: 50%;
     height: 70%;
     background-color: white;
@@ -59,7 +62,7 @@
 .LabelTextStyle{ 
     margin-top: 5%;
     font-size: 40px;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Poppins', Times, serif;
 }
 
 .button{ 
@@ -88,7 +91,7 @@
 
 .textStyle{ 
     font-size: 20px;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Poppins', Times, serif;
     text-align: left;
     margin-left: 5px;
     margin-top: 50px;
