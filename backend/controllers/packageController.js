@@ -4,7 +4,7 @@ const { default: mongoose } = require('mongoose');
 
 const addPackage = async (req, res) => {
   const newPackage = await Package.create(req.body);
-
+___
   res.status(200).json({
     status: 'success',
     data: {
