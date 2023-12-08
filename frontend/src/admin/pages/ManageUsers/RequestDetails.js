@@ -1,6 +1,6 @@
 import Modal from '../../../shared/components/Modal/Modal';
 import ReactDOM from "react-dom";
-import { useState } from 'react'
+import { useState, React } from 'react'
 
 const RequestDetails = (props) => {
 
