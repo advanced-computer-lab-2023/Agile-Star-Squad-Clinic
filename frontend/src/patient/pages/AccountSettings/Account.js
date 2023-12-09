@@ -166,7 +166,7 @@ const PatientAccountSettings = (props) => {
 
   const { healthRecordInput } = healthRecord;
   return (
-    <body>
+    <body className={classes.pageWrapper}>
       <NavBar />
       <Greeting name={currentPatient.name} imageUrl={patient1} joinedDate={currentPatient.creationDate} />
       <SettingsContainer title={"Settings"}>
@@ -197,10 +197,99 @@ export default PatientAccountSettings;
 
 const AppointmentsCard = () => {
   const [tab, setTab] = useState(0);
+  const [allAppointments, setAllAppointments] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+  useEffect(() => {
+    setAppointments([
+      {
+        doctor: "Dr Ayman Ismail",
+        category: "Dentist",
+        status: "Upcoming",
+        date: "Aug 17, 2023 | 11:00 AM"
+      },
+      {
+        doctor: "Dr Ayman Ismail",
+        category: "Dentist",
+        status: "Upcoming",
+        date: "Aug 17, 2023 | 11:00 AM"
+      },
+      {
+        doctor: "Dr Ayman Ismail",
+        category: "Dentist",
+        status: "Upcoming",
+        date: "Aug 17, 2023 | 11:00 AM"
+      },
+      {
+        doctor: "Dr Ayman Ismail",
+        category: "Dentist",
+        status: "Upcoming",
+        date: "Aug 17, 2023 | 11:00 AM"
+      },
+    ]);
+  }, []);
+  
+  const getTabStyle = (index) => {
+    if (index == tab) {
+      return `${classes.tabText} ${classes.activeTab}`;
+    }
+    return classes.tabText;
+  }
+
+  const getStatusBadge = (status) => {
+    let backgroundColor, color;
+    switch (status) {
+      case 'Cancelled':
+        backgroundColor = "#FDEBEC";
+        color = "#ED3443"
+        break;
+      case 'Upcoming':
+        backgroundColor = "#FCF4E6";
+        color = "#E59500"
+        break;
+      case 'Past':
+        backgroundColor = "#7AA6CD";
+        color = "#254552"
+        break;
+      default:
+        break;
+    }
+    return <span className='ms-1 px-2 py-1' height={20} style={{borderRadius: "6px", backgroundColor, color}}>
+      {status}
+    </span>;
+  }
+
+  const getButtons = () => {
+      return <div className='d-flex justify-content-between'>
+        <div className={classes.rescheduleButton + " me-2 py-2"}>{tab == 0 ? "Reschedule" : tab == 1 ? "Follow Up" : "Book Again"}</div>
+        {tab == 0 && <div className={classes.cancelButton + " ms-2 py-2"}>Cancel Booking</div>}
+      </div>
+  }
+
   return <SideCard>
     <div className='d-flex justify-content-between align-items-center'>
       <div className={classes.sideCardTitle}>My Appointments</div>
       <img  src={calendarImg} height={24}/>
+    </div>
+    <div className={classes.appointmentTabs}>
+      <div className={getTabStyle(0)} onClick={() => setTab(0)}>Upcoming {tab == 0 && <hr className={classes.activeTab}/>}</div>
+      <div className={getTabStyle(1)} onClick={() => setTab(1)}>Past {tab == 1 && <hr className={classes.activeTab}/>}</div>
+      <div className={getTabStyle(2)} onClick={() => setTab(2)}>Cancelled {tab == 2 && <hr className={classes.activeTab}/>}</div>
+    </div>
+    <div className={classes.appWrapper}>
+      {appointments.map(app => {
+        return <div className={classes.appContainer}>
+          <div className='d-flex mb-2'>
+            <div style={{height: "85px", width: "85px", borderRadius:"50%", backgroundColor: "lightblue"}}/>
+            <div className='d-flex flex-column ps-3 py-1 justify-content-between'>
+              <div className={classes.appTitle}>{app.doctor}</div>
+              <div className={classes.appDescription}>{app.category} | {getStatusBadge(app.status)}</div>
+              <div className={classes.appDescription}>{app.date}</div>
+            </div>
+          </div>
+          <hr className='mb-2 mt-0' style={{color: "#EEF0F3"}}/>
+          {getButtons()}
+        </div>;
+      })}
     </div>
   </SideCard>
 }
@@ -216,7 +305,7 @@ const SettingsContainer = (props) => {
 
 const SettingsTile = (props) => {
   return <div className={classes.settingsTile}>
-    <img className={classes.tileIcon} src={props.imagePath}/>
+    <img className={classes.tileIcon} active src={props.imagePath}/>
     <span>{props.title}</span>
     <img src={chevronRight}/>
   </div>
