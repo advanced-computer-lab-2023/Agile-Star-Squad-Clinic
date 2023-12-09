@@ -10,9 +10,19 @@
 }
 .package-title{
     color: #000;
-    font-family: Poppins;
+    font-family: "Poppins";
     font-size: 40px;
     font-style: normal;
     font-weight: 500;
     line-height: 20px; /* 50% */
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
+html, body {
+    width: 1429px;
+    min-height: 1336px;
+    margin: 0;
+    padding: 0;
+    background-color: #FAFBFC;
+  }

@@ -7,15 +7,16 @@ const PackageList = (props) => {
   if (props.items.length === 0) {
     return (
       <div className="package-list center">
-        <Card>
+        {/* <Card>
           <h2>No Packages found, maybe create one?</h2>
           <button>Add Package</button>
-        </Card>
+        </Card> */}
       </div>
     );
   }
 
   return (
+    <div className='main'>
     <div className="package-container">
       {props.items.map((pkg) => (
         <div key={pkg._id} className="package-item">
@@ -31,6 +32,7 @@ const PackageList = (props) => {
           />
         </div>
       ))}
+    </div>
     </div>
   );
 };

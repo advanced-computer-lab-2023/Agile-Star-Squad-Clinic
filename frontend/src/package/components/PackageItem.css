@@ -1,24 +1,19 @@
 
-/* Add this to your CSS file */
-.package-item__info {
-  /* Add your existing styles for package info */
-  border-top: 1px solid #EA580C; /* Add a top border with the specified color */
-  padding-top: 10px; /* Adjust the padding as needed for spacing */
-}
 
 
-
-.package-item__name{
+.package-item__name .package-item__info{
   color: #181818;
-  font-family: Poppins;
-  font-size: 24px;
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   line-height: 20px; /* 83.333% */
   align-items: flex-start;
 }
+.package-item__name{
+  font-size: 24px;
+}
 
-.Card {
+.package-item__content {
   width: 360px;
   height: 285px;
   flex-shrink: 0;
@@ -26,4 +21,19 @@
   background: var(--white-100, #FFF);
   box-shadow: 3px 4px 14.6px 0px rgba(0, 0, 0, 0.20);
 }
+.package-item__info {
+  font-size: 20px;
+  /* Add your existing styles for package info */
+  padding-top: 10px; /* Adjust the padding as needed for spacing */
+}
+
+.package-item__line {
+  border-top: 2px solid #EA580C;
+  margin: 10px 0; /* Add margin to create space above and below the line */
+  width: 100%;
+  height: 2px; /* Add a height to ensure the line is visible */
+}
+
+
+
 
