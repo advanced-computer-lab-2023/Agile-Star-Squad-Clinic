@@ -160,6 +160,7 @@
 }
 
 .messages{
+    text-align: start;
     color: var(--text-icons-black, #1A1A1B);
     font-family: Inter;
     font-size: 22px;
