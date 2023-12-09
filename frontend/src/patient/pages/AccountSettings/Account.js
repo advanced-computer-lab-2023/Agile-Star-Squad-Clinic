@@ -38,10 +38,28 @@ const PatientAccountSettings = (props) => {
   const [expiringDate, setexpiringDate] = useState(Date.now());
   const [cancellationDate, setcancellationDate] = useState(Date.now());
   const [currentPatient, setCurrentPatient] = useState('');
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    fetchAppointments()
+  }, []);
 
   const onHealthRecordChange = (file) => {
     setHealthRecord(file.target.files[0]);
   };
+
+  const fetchAppointments = () => {
+    fetch(`http://localhost:3000/patients/${patient.userId}/appointments`, { credentials: "include" }).then(async (response) => {
+        const json = await response.json();
+        const appointmentsJson = json.data.appointments;
+        setAppointments(appointmentsJson.map((appointment) => {
+            return {
+                id: appointment["_id"],
+                ...appointment
+            }
+        }));
+    });
+}
 
   const fetchPackage = async () => {
     fetch(`http://localhost:3000/patients/${patient.userId}`, {
@@ -186,7 +204,7 @@ const PatientAccountSettings = (props) => {
         <SettingsTile title={"Logout"} imagePath={logoutImg}/>
       </SettingsContainer>
       
-      <AppointmentsCard/>
+      <AppointmentsCard appointments={appointments}/>
     </body>
     
   );
@@ -195,38 +213,52 @@ const PatientAccountSettings = (props) => {
 };
 export default PatientAccountSettings;
 
-const AppointmentsCard = () => {
+const AppointmentsCard = (props) => {
   const [tab, setTab] = useState(0);
   const [allAppointments, setAllAppointments] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  
   useEffect(() => {
-    setAppointments([
-      {
-        doctor: "Dr Ayman Ismail",
-        category: "Dentist",
-        status: "Upcoming",
-        date: "Aug 17, 2023 | 11:00 AM"
-      },
-      {
-        doctor: "Dr Ayman Ismail",
-        category: "Dentist",
-        status: "Upcoming",
-        date: "Aug 17, 2023 | 11:00 AM"
-      },
-      {
-        doctor: "Dr Ayman Ismail",
-        category: "Dentist",
-        status: "Upcoming",
-        date: "Aug 17, 2023 | 11:00 AM"
-      },
-      {
-        doctor: "Dr Ayman Ismail",
-        category: "Dentist",
-        status: "Upcoming",
-        date: "Aug 17, 2023 | 11:00 AM"
-      },
-    ]);
-  }, []);
+    setAllAppointments(props.appointments.map(app => {
+      let date = new Date(app.date);
+      const status = app.status.charAt(0).toUpperCase() + app.status.substring(1);
+      const formattedDate = new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric',
+      }).format(date);
+      
+      const time = date.toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      });
+      date = `${formattedDate} | ${time}`;
+      return {
+        doctorName: app.doctorName,
+        status,
+        date,
+        category: app.category
+      };
+    }));
+  }, [props.appointments]);
+
+  useEffect(() => {
+    let tabText;
+    switch (tab) {
+      case 0:
+        tabText = "Upcoming";
+        break;
+        case 1:
+          tabText = "Past";
+          break;
+      case 2:
+        tabText = "Cancelled";
+        break;
+    }
+
+    setAppointments(allAppointments.filter(app => app.status == tabText))
+  }, [tab, allAppointments]);
   
   const getTabStyle = (index) => {
     if (index == tab) {
@@ -246,11 +278,9 @@ const AppointmentsCard = () => {
         backgroundColor = "#FCF4E6";
         color = "#E59500"
         break;
-      case 'Past':
-        backgroundColor = "#7AA6CD";
-        color = "#254552"
-        break;
       default:
+        backgroundColor = "#E8F6FD";
+        color = "#96B7C7"
         break;
     }
     return <span className='ms-1 px-2 py-1' height={20} style={{borderRadius: "6px", backgroundColor, color}}>
@@ -281,7 +311,7 @@ const AppointmentsCard = () => {
           <div className='d-flex mb-2'>
             <div style={{height: "85px", width: "85px", borderRadius:"50%", backgroundColor: "lightblue"}}/>
             <div className='d-flex flex-column ps-3 py-1 justify-content-between'>
-              <div className={classes.appTitle}>{app.doctor}</div>
+              <div className={classes.appTitle}>{app.doctorName}</div>
               <div className={classes.appDescription}>{app.category} | {getStatusBadge(app.status)}</div>
               <div className={classes.appDescription}>{app.date}</div>
             </div>
