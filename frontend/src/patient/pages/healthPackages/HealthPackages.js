@@ -54,21 +54,6 @@ const HealthPackages = () => {
   );
 
   return (
-    // <div>
-    //   <NavBar />
-    //   <div className="header">
-    //     <h1>Packages</h1>
-    //     <button
-    //       id="addingbutton"
-    //       onClick={backButtonClickHandler}
-    //       className="btn btn-primary sm"
-    //     >
-    //       Back
-    //     </button>
-    //   </div>
-    //   {loadedPackages && <PackageList items={loadedPackages} />}
-    // </div>
-
     <div className={styles.window}>
       <NavBar />
       <button className={styles.button} onClick={backButtonClickHandler}>

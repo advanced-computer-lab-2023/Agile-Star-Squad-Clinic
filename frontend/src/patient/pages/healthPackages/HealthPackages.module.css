@@ -12,7 +12,7 @@
 }
 
 .backArrow{
-    position: fixed;
+    position: absolute;
     transform: rotate(90deg);
     top: 28px;
     left: 10px;

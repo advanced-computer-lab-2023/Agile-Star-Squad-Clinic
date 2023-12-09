@@ -30,7 +30,12 @@ const DiscountItem = (props) => {
   return (
     <div className={styles.item}>
       {svg}
-      <h6 className={styles.text}>{props.text}</h6>
+      <h6
+        className={styles.text}
+        style={props.isNavy ? { color: 'white' } : null}
+      >
+        {props.text}
+      </h6>
     </div>
   );
 };

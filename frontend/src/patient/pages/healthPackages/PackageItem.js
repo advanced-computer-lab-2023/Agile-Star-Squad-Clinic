@@ -6,17 +6,41 @@ import styles from './PackageItem.module.css';
 
 const PackageItem = (props) => {
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.whiteCard}
+      style={props.isNavy ? { backgroundColor: '#252B42' } : null}
+    >
       <div>
-        <h3 className={styles.title}>{props.name}</h3>
-        <h5 className={styles.description}>{props.description}</h5>
-        <h2 className={styles.price}>{props.pricePerYear} LE</h2>
+        <h3
+          className={styles.title}
+          style={props.isNavy ? { color: 'white' } : null}
+        >
+          {props.name}
+        </h3>
+        <h5
+          className={styles.description}
+          style={props.isNavy ? { color: 'white' } : null}
+        >
+          {props.description}
+        </h5>
+        <div>
+          <h2 className={styles.price}>{props.pricePerYear}</h2>
+          <div className={styles.priceDiv}>
+            <h4 className={styles.currency}>L.E.</h4>
+            <p className={styles.recurrence}>per year</p>
+          </div>
+        </div>
         <DiscountItem
           text={`${props.doctorSessionDiscount}% off doctor session`}
+          isNavy={props.isNavy}
         />
-        <DiscountItem text={`${props.medicineDiscount}% off any medicine`} />
+        <DiscountItem
+          text={`${props.medicineDiscount}% off any medicine`}
+          isNavy={props.isNavy}
+        />
         <DiscountItem
           text={`${props.familyMemberDiscount}% of Family Member subscriptions`}
+          isNavy={props.isNavy}
         />
       </div>
       <div className={styles.container}>
