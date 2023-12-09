@@ -97,11 +97,13 @@ html, body {
   font-style: normal;
   font-weight: 400;
   line-height: 20px; /* 100% */
+  margin-bottom: 5px;
 }
 
 .detail-info {
   color: #5E5E5E;
   font-family: "Poppins";
   font-size: 20px;
+  margin-bottom: 10px;
   margin-left: auto; /* Pushes the info to the right */
 }
