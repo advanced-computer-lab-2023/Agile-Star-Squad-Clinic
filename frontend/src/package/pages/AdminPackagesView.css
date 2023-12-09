@@ -5,4 +5,14 @@
 }
 #addingbutton{
     margin-top: 10px;
+    border-radius: 11px;
+    background: #EA580C;
+}
+.package-title{
+    color: #000;
+    font-family: Poppins;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 50% */
 }

@@ -38,4 +38,15 @@
 .btn-group{
     padding-right: 80px;
 }
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
+/* Your custom styles go here */
+/* For example: */
+.bodyN {
+  /* Your existing styles */
+}
+
+/* Customize the dropdown */
+.dropdown-menu {
+  /* Your custom styles for the dropdown menu */
+}

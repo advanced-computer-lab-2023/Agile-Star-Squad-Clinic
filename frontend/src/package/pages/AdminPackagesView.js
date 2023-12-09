@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PackageList from '../components/PackageList';
 import './AdminPackagesView.css';
+import AdminNavBar from '../../admin/components/AdminNavBar';
+import AddIcon from '../../admin/Add.png'; // Import your Add icon
 
 const AdminPackagesView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +18,7 @@ const AdminPackagesView = () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-          throw new Error(responseData.message); // Fix the message parameter
+          throw new Error(responseData.message);
         }
         setLoadedPackages(responseData);
       } catch (error) {
@@ -27,6 +29,7 @@ const AdminPackagesView = () => {
 
     sendRequest();
   }, []);
+
   const placeDeletedHandler = (deletedPlaceId) => {
     setLoadedPackages((prevPackages) =>
       prevPackages.filter((prevPackage) => prevPackage._id !== deletedPlaceId)
@@ -35,15 +38,19 @@ const AdminPackagesView = () => {
 
   return (
     <div>
+      <AdminNavBar />
       <div className="header">
-     
-        <h1>Packages</h1>
-        <Link to="/admin/home">
-          <button id ="addingbutton"className="btn btn-primary sm">Back to Home</button>
-        </Link>
-        
+        <h1 className="package-title">Manage Health Packages</h1>
+
         <Link to="/addPackage">
-          <button id ="addingbutton"className="btn btn-primary sm">Add Package</button>
+          <button id="addingbutton" className="btn btn-primary sm">
+            Add
+            <img
+              src={AddIcon} // Use the imported Add icon
+              alt="Add"
+              style={{ width: '18px', height: '18px', marginLeft: '5px', flexShrink: 0 }}
+            />
+          </button>
         </Link>
       </div>
       {loadedPackages && (

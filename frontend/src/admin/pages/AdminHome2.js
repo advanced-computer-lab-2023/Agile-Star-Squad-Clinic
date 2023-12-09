@@ -11,7 +11,6 @@ import './AdminHome.css';
 import req from '../req.png';
 import x from '../X.png';
 import check from '../check.png';
-import VisitorInsights from '../VisitorInsights.png';
 
 
 const AdminHome2 = (props) => {
@@ -22,13 +21,16 @@ const AdminHome2 = (props) => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const selectedRequestRef = useRef(null);
   const [packages, setPackages] = useState([]);
-  const [users, setUsers] = useState([]);
   const [showUser, setShowUser] = useState(false);
   const [showAdminForm, setShowAdminForm] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [activeRole, setActiveRole] = useState('patient'); // Default to show all users
   const [selectedUser, setSelectedUser] = useState(null);
-
+  const [activeRole, setActiveRole] = useState('patient');
+  const [users, setUsers] = useState([]); // Instead of initializing with an empty array, keep it empty initially
+  
+  useEffect(() => {
+      filterUsersByRole(activeRole);
+  }, [activeRole]);
 
 
   useEffect(() => {
@@ -38,9 +40,7 @@ const AdminHome2 = (props) => {
     fetchPendingRequests();
     fetchPackages();
 }, [])
-useEffect(() => {
-    filterUsersByRole(activeRole);
-}, [activeRole]);
+
 useEffect(() => {
     selectedRequestRef.current = selectedRequest;
   }, [selectedRequest]);
@@ -54,6 +54,10 @@ useEffect(() => {
       console.error('Error fetching packages:', error);
     }
   };
+  const handleRoleButtonClick = (role) => {
+    filterUsersByRole(role);
+  };
+  
 
   const logout = async () => {
     await userCtx.logout();
@@ -109,18 +113,19 @@ const filterUsersByRole = (role) => {
   
     setFilteredUsers(filtered);
     setActiveRole(role); // Set the active role for styling
+    
   };
   
-  const handleRoleButtonClick = (role) => {
-    filterUsersByRole(role);
-  };
   
-  const fetchPatients = () => {
-    fetch("http://localhost:3000/patients/").then(async (response) => {
+  
+  const fetchPatients = async () => {
+    try {
+        const response = await fetch("http://localhost:3000/patients/");
         const json = await response.json();
         const patientsJson = json.data.patients;
-        setUsers((val) => [...val, ...patientsJson.map((patient) => {
-            return {
+        setUsers((prevUsers) => [
+            ...prevUsers.filter((user) => user.role !== 'Patient'), // Remove existing patients
+            ...patientsJson.map((patient) => ({
                 id: patient["_id"],
                 username: patient["username"],
                 name: patient["name"],
@@ -132,17 +137,21 @@ const filterUsersByRole = (role) => {
                 doctor: patient['doctor'],
                 familyMembers: patient['familyMembers'],
                 role: "Patient"
-            }
-        })]);
-    });
-}
+            })),
+        ]);
+    } catch (error) {
+        console.error('Error fetching patients:', error);
+    }
+};
 
-const fetchDoctors = () => {
-    fetch("http://localhost:3000/doctors/").then(async (response) => {
+const fetchDoctors = async () => {
+    try {
+        const response = await fetch("http://localhost:3000/doctors/");
         const json = await response.json();
         const doctorsJson = json.data.doctors;
-        setUsers((val) => [...val, ...doctorsJson.map((doctor) => {
-            return {
+        setUsers((prevUsers) => [
+            ...prevUsers.filter((user) => user.role !== 'Doctor'), // Remove existing doctors
+            ...doctorsJson.map((doctor) => ({
                 id: doctor["_id"],
                 username: doctor["username"],
                 name: doctor["name"],
@@ -153,32 +162,39 @@ const fetchDoctors = () => {
                 speciality: doctor['speciality'],
                 mobileNumber: doctor["mobileNumber"] ?? "-",
                 role: "Doctor"
-            }
-        })]);
-    });
-}
+            })),
+        ]);
+    } catch (error) {
+        console.error('Error fetching doctors:', error);
+    }
+};
 
-const fetchAdmins = () => {
-    fetch("http://localhost:3000/admins/").then(async (response) => {
+const fetchAdmins = async () => {
+    try {
+        const response = await fetch("http://localhost:3000/admins/");
         const json = await response.json();
         const adminsJson = json.data.admins;
-        setUsers((val) => [...val, ...adminsJson.map((admin) => {
-            return {
+        setUsers((prevUsers) => [
+            ...prevUsers.filter((user) => user.role !== 'Admin'), // Remove existing admins
+            ...adminsJson.map((admin) => ({
                 id: admin["_id"],
                 username: admin["username"],
                 name: "-",
                 mobileNumber: "-",
                 role: "Admin"
-            }
-        })]);
-    });
-}
+            })),
+        ]);
+    } catch (error) {
+        console.error('Error fetching admins:', error);
+    }
+};
+
 const refreshUserData = () => {
-    setUsers([])
+    setUsers([]);
     fetchPatients();
     fetchDoctors();
     fetchAdmins();
-}
+};
 const deleteUser = (username) => {
     const user = users.find((value) => value.username === username)
     if (user.role === 'Patient') {
@@ -373,10 +389,7 @@ const showRequestModal = (request) => {
             </div>
           </div>
         </section>
-        <section className='insights-section'>
-        <h2 className='title'>Visitor Insights</h2>
-        <img className="VisitorInsights" src={VisitorInsights}></img>
-        </section>
+        
         <section className='packages-section'>
         <div className="edit-button-container">
                 <button className="edit-button" onClick={editHandler}>More</button>
@@ -413,31 +426,31 @@ const showRequestModal = (request) => {
           <section className='users-section'>
       <div className='container'>
       <div className='filter-buttons'>
-        {/* Button to show patients */}
-        <Button
-            variant={activeRole === 'patient' ? 'primary' : 'secondary'}
-            onClick={() => handleRoleButtonClick('patient')}
-        >
-            Patients
-        </Button>
-        
+  {/* Button to show patients */}
+  <button
+    className={`filter-button ${activeRole === 'patient' ? 'active' : ''}`}
+    onClick={() => handleRoleButtonClick('patient')}
+  >
+    Patients
+  </button>
 
-        {/* Button to show doctors */}
-        <Button
-            variant={activeRole === 'doctor' ? 'primary' : 'secondary'}
-            onClick={() => handleRoleButtonClick('doctor')}
-        >
-            Doctors
-        </Button>
+  {/* Button to show doctors */}
+  <button
+    className={`filter-button ${activeRole === 'doctor' ? 'active' : ''}`}
+    onClick={() => handleRoleButtonClick('doctor')}
+  >
+    Doctors
+  </button>
 
-        {/* Button to show admins */}
-        <Button
-            variant={activeRole === 'admin' ? 'primary' : 'secondary'}
-            onClick={() => handleRoleButtonClick('admin')}
-        >
-            Admins
-        </Button>
-        </div>
+  {/* Button to show admins */}
+  <button
+    className={`filter-button ${activeRole === 'admin' ? 'active' : ''}`}
+    onClick={() => handleRoleButtonClick('admin')}
+  >
+    Admins
+  </button>
+</div>
+
 
         <div className='row'>
           <Table striped bordered hover className='custom-table'>
@@ -472,17 +485,9 @@ const showRequestModal = (request) => {
         />
       )}
         
-        <button onClick={changePasswordHandler}>change password</button>
+        
       </div>
-      <div>
-        <button
-          onClick={logout}
-          id="addingbutton"
-          className="logout"
-        >
-          Logout
-        </button>
-      </div>
+      
       </div>
     </>
 

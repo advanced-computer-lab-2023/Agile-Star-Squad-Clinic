@@ -29,6 +29,9 @@ import AcceptedRequest from './requests/acceptedRequest';
 import ChangePassword from './login/pages/ChangePassword';
 import Subscription from './checkout/components/payment/SubscriptionForm';
 import './App.css';
+import AdminHome2 from './admin/pages/AdminHome2';
+import RequestDetails from './admin/pages/ManageUsers/RequestDetails';
+import AdminAccount from './admin/pages/AdminAccount';
 
 function App() {
   const user = useContext(UserContext);
@@ -79,11 +82,13 @@ function App() {
     } else if (user.role === 'admin') {
       return (
         <Routes>
-          <Route path="/admin/home" element={<AdminHome user={user} />} exact />
+          <Route path="/admin/home" element={<AdminHome2 user={user} />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />
           <Route path="admin/manage" element={<ManageUsersPage />} />
+          <Route path="admin/requests" element={<ManageUsersPage />} />
+          <Route path="admin/account" element={<AdminAccount />} />
           <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="*" element={<Navigate to="/admin/home" />} />
         </Routes>
