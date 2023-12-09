@@ -7,7 +7,7 @@ import styles from './PackageItem.module.css';
 const PackageItem = (props) => {
   return (
     <div
-      className={styles.whiteCard}
+      className={styles.card}
       style={props.isNavy ? { backgroundColor: '#252B42' } : null}
     >
       <div>

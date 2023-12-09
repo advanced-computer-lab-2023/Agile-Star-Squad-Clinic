@@ -10,21 +10,6 @@
 
     border-radius: 10px;
     border: 1px solid #23A6F0;
-    background-color:#252B42;
-}
-
-.whiteCard{
-    display: inline-block;
-    padding: 20px 5px;
-    flex-direction: column;
-    align-items: center;
-    gap: 35px;
-    width: 50vh;
-    height: 60vh;
-    margin: 0 1vh;
-
-    border-radius: 10px;
-    border: 1px solid #23A6F0;
     background-color:#FFF;
 
 }
