@@ -1,0 +1,20 @@
+.window{
+    overflow: hidden;
+}
+
+.text{
+    margin: 5vh;
+}
+
+.button{
+    border: none;
+    background-color: white;
+}
+
+.backArrow{
+    position: fixed;
+    transform: rotate(90deg);
+    top: 28px;
+    left: 10px;
+    z-index: 1;
+}
