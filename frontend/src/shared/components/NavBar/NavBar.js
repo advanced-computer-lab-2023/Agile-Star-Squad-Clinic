@@ -73,6 +73,11 @@ const NavBar = (props) => {
               <a href="#" className="btn btn-white">
                 Wallet: {walletAmount}
               </a>
+              <Link to="/messages" style={{ all: 'unset' }}>
+                <a href="#" className="btn btn-white">
+                  Messages
+                </a>
+              </Link>
               <Link to="/appointments" style={{ all: 'unset' }}>
                 <a href="#" className="btn btn-white">
                   Appointments

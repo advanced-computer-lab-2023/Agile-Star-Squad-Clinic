@@ -22,6 +22,7 @@ import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
 import PatientAccountSettings from './patient/pages/PatientAccountSettings';
 import Appointments from './patient/pages/appointments/Appointments';
+import Messages from "./patient/pages/messages/Messages";
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import PendingRequest from './requests/pendingRequest';
 import RejectedRequest from './requests/rejectedRequest';
@@ -52,6 +53,7 @@ function App() {
           />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/appointments" element={<Appointments />} exact />
+          <Route path="/messages" element={<Messages />} exact />
           <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="/patient/family" element={<PatientFamily />} exact />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
