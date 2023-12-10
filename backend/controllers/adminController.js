@@ -106,6 +106,7 @@ exports.acceptRequest = catchAsync(async (req, res, next) => {
       affiliation: req.body.affiliation,
       speciality: req.body.speciality,
       educationalBackground: req.body.educationalBackground,
+      personalImage: req.body.personalImage,
       password: user.password,
     }
     // console.log(data);

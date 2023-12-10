@@ -21,9 +21,10 @@ const DoctorRequestForm = () => {
     educationalBackground: '',
     speciality: '',
   });
-  const [idImageForm, setIdImage] = useState("");
-  const [medicalLicenseForm, setLicenseImage] = useState("");
-  const [medicalDegreeForm, setDegreeImage] = useState("");
+  const [idImageForm, setIdImage] = useState([]);
+  const [medicalLicenseForm, setLicenseImage] = useState([]);
+  const [medicalDegreeForm, setDegreeImage] = useState([]);
+  const [personalImageForm, setPersonalImage] = useState([]);
 
   const [dobDay, setDOBDay] = useState('');
   const [dobMonth, setDOBMonth] = useState('');
@@ -166,7 +167,7 @@ const DoctorRequestForm = () => {
       "name": formData.name,
       "email": formData.email,
       "password": formData.password,
-      "dateOfBirth": formData.dateOfBirth,
+      "dateOfBirth": `${dobYear}-${dobMonth}-${dobDay}`,
       "hourlyRate": formData.hourlyRate,
       "affiliation": formData.affiliation,
       "educationalBackground": formData.educationalBackground,
@@ -209,9 +210,6 @@ const DoctorRequestForm = () => {
     name,
     email,
     password,
-    // dateOfBirth: { day },
-    // dateOfBirth: { month },
-    // dateOfBirth: { year },
     hourlyRate,
     affiliation,
     educationalBackground,
@@ -247,7 +245,7 @@ const DoctorRequestForm = () => {
                       name="username"
                       value={username}
                       onChange={handleInputChange}
-                      placeholder='User Name'
+                      placeholder='Username'
                       className={classes.textBox}
                     />
                   </div>
@@ -329,7 +327,8 @@ const DoctorRequestForm = () => {
                   </div>
                 </div>
 
-                <div className="d-flex">
+                <div className="d-flex justify-content-betweem w100">
+
                   <Select
                     className="daySelect"
                     value={day}

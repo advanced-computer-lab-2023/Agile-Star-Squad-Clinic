@@ -55,6 +55,10 @@ const doctorSchema = new mongoose.Schema(
       type: Number,
       default: 5,
     },
+    personalImage: {
+      type: String,
+      required: [true, "Please provide your personal image."],
+    },
     appointments: [
       {
         type: mongoose.Schema.ObjectId,

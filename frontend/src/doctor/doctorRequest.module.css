@@ -31,13 +31,14 @@
   height: 100%;
 }
 
-::placeholder {
+.textBox:placeholder {
   color: #5C5C5C;
 }
 
 .textBoxContainer {
   display: flex;
   margin-bottom: 20px;
+
 }
 
 .textBox {
@@ -48,6 +49,7 @@
   width: 261px;
   margin-right: 41px;
   margin-bottom: 5px;
+  z-index: 10;
 }
 
 .textBox:focus {
@@ -61,6 +63,21 @@
   width: 100px;
   height: 35px;
 }
+
+.myDropzone {
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 28px;
+  color: #9A9EA5;
+}
+
+.thumbsContainer{
+  display: 'flex';
+  flex-direction: 'row';
+  flex-wrap: 'wrap';
+  margin-top: 16;
+};
 
 .formContainer {
   position: absolute;
@@ -94,8 +111,6 @@
   font-size: 36px;
   letter-spacing: 10%;
   font-weight: bolder;
-  /* height: 24px; */
-  /* width: 497px; */
 }
 
 .p2 {
@@ -103,10 +118,7 @@
   margin-bottom: 1rem;
   letter-spacing: -1%;
   size: 20px;
-  /* height: 20px;
-    width: 497px; */
 }
-
 
 .dobContainer{
   display: flex;

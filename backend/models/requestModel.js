@@ -67,6 +67,10 @@ const requestSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide your medical degree."],
     },
+    personalImage: {
+      type: String,
+      required: [true, "Please provide your personal image."],
+    },
 
   },
   {
