@@ -19,6 +19,7 @@ import inviteImg from '../../../assets/patientAccount/invite.png';
 import logoutImg from '../../../assets/patientAccount/logout.png';
 import chevronRight from '../../../assets/patientAccount/chevronRight.png';
 import AppointmentsCard from './AppointmentCard';
+import FamilyCard from './FamilyCard';
 
 const PatientAccountSettings = (props) => {
 
@@ -33,6 +34,7 @@ const PatientAccountSettings = (props) => {
   const [cancellationDate, setcancellationDate] = useState(Date.now());
   const [currentPatient, setCurrentPatient] = useState('');
   const [appointments, setAppointments] = useState([]);
+  const [index, setIndex] = useState(null);
 
   useEffect(() => {
     fetchAppointments()
@@ -182,23 +184,24 @@ const PatientAccountSettings = (props) => {
       <NavBar />
       <Greeting name={currentPatient.name} imageUrl={patient1} joinedDate={currentPatient.creationDate} />
       <SettingsContainer title={"Settings"}>
-        <SettingsTile title={"Account Details"} imagePath={globeImg}/>
-        <SettingsTile title={"My Family"} imagePath={familyImg}/>
-        <SettingsTile title={"Medical History"} imagePath={medicalImg}/>
-        <SettingsTile title={"Payment Details"} imagePath={paymentImg}/>
+        <SettingsTile onClick={() => setIndex(0)} title={"Account Details"} imagePath={globeImg}/>
+        <SettingsTile onClick={() => setIndex(1)}  title={"My Family"} imagePath={familyImg}/>
+        <SettingsTile onClick={() => setIndex(2)}  title={"Medical History"} imagePath={medicalImg}/>
+        <SettingsTile onClick={() => setIndex(3)}  title={"Payment Details"} imagePath={paymentImg}/>
       </SettingsContainer>
       <SettingsContainer title={"Account"}>
-        <SettingsTile title={"Appointments"} imagePath={appointmentsImg}/>
-        <SettingsTile title={"Email Notifications"} imagePath={notificationImg}/>
+        <SettingsTile onClick={() => setIndex(4)}  title={"Appointments"} imagePath={appointmentsImg}/>
+        <SettingsTile onClick={() => setIndex(5)}  title={"Email Notifications"} imagePath={notificationImg}/>
       </SettingsContainer>
       <SettingsContainer title={"Other"}>
-        <SettingsTile title={"About Us"} imagePath={aboutImg}/>
-        <SettingsTile title={"Contact Us"} imagePath={contactImg}/>
-        <SettingsTile title={"Invite Your Friends"} imagePath={inviteImg}/>
-        <SettingsTile title={"Logout"} imagePath={logoutImg}/>
+        <SettingsTile onClick={() => setIndex(6)}  title={"About Us"} imagePath={aboutImg}/>
+        <SettingsTile onClick={() => setIndex(7)}  title={"Contact Us"} imagePath={contactImg}/>
+        <SettingsTile onClick={() => setIndex(8)}  title={"Invite Your Friends"} imagePath={inviteImg}/>
+        <SettingsTile onClick={() => setIndex(9)}  title={"Logout"} imagePath={logoutImg}/>
       </SettingsContainer>
+      {index == 1 && <FamilyCard/>}
       
-      <AppointmentsCard appointments={appointments}/>
+      {index == 4 &&  <AppointmentsCard appointments={appointments}/> }
     </body>
     
   );
@@ -217,7 +220,7 @@ const SettingsContainer = (props) => {
 }
 
 const SettingsTile = (props) => {
-  return <div className={classes.settingsTile}>
+  return <div onClick={props.onClick} className={classes.settingsTile}>
     <img className={classes.tileIcon} active src={props.imagePath}/>
     <span>{props.title}</span>
     <img src={chevronRight}/>
