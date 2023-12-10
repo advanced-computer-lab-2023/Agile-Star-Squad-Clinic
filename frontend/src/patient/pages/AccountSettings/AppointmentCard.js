@@ -270,7 +270,7 @@ const AppointmentsCard = (props) => {
     }),
     menuList: (base) => ({
       ...base,
-  
+      maxHeight: '180px',
       "::-webkit-scrollbar": {
         width: "3px",
         height: "0px",
