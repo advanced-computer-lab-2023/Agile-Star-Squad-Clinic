@@ -1,74 +1,123 @@
 import { SideCard } from './Account';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import classes from "./FamilyCard.module.css";
 import Select from "react-select";
 import closeImg from '../../../assets/patientAccount/close.png';
+import UserContext from '../../../user-store/user-context';
 
 const FamilyCard = (props) => {
-    const [tab, setTab] = useState(0);
-    const [name, setName] = useState("");
-    const [nationalId, setNationalId] = useState("");
-    const [age, setAge] = useState("");
-    const [gender, setGender] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [relation, setRelation] = useState("");
-  
-    const familyMembers = [
+  const [familyMembers, setFamilyMembers] = useState([]);
+  const [tab, setTab] = useState(0);
+  const [name, setName] = useState('');
+  const [nationalId, setNationalId] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState();
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [relation, setRelation] = useState();
+
+  const userCtx = useContext(UserContext);
+
+  useEffect(() => {
+    setFamilyMembers([
       {
-        name: "Kareem",
-        relation: "Brother",
-        gender: "Male",
-        age: "20"
-      }  
+        name: 'Kareem',
+        relation: 'Brother',
+        gender: 'Male',
+        age: '20',
+      },
+    ]);
+  }, []);
+  
+
+  const deleteMember = (member) => {};
+
+  const getTabStyle = (index) => {
+    if (index == tab) {
+      return `${classes.tabText} ${classes.activeTab}`;
+    }
+    return classes.tabText;
+  };
+
+  const getMemberCards = () => {
+    return (
+      <div className={classes.wrapper}>
+        {familyMembers.map((member) => (
+          <div className={classes.memberContainer}>
+            <div
+              style={{
+                height: '85px',
+                width: '85px',
+                borderRadius: '50%',
+                backgroundColor: 'lightblue',
+              }}
+            />
+            <div className="d-flex flex-column ms-3 py-2 justify-content-between">
+              <div className={classes.memberName}>{member.name}</div>
+              <div className={classes.memberDescription}>{member.relation}</div>
+              <div className={classes.memberDescription}>
+                {member.gender} | {member.age}
+              </div>
+            </div>
+            <div className={classes.deleteButton}>
+              <img
+                onClick={() => {
+                  deleteMember(member);
+                }}
+                src={closeImg}
+                height={20}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const getForm = () => {
+    const relationOptions = [
+      {value: "son", label: "Son"},  
+      {value: "daughter", label: "Daughter"},  
+      {value: "wife", label: "Wife"},  
+      {value: "husband", label: "Husband"},  
     ];
 
-    const deleteMember = (member) => {
-
-    }
-  
-    const getTabStyle = (index) => {
-      if (index == tab) {
-        return `${classes.tabText} ${classes.activeTab}`;
+    const genderOptions = [
+      {"value": "male", label:"Male"},
+      {"value": "female", label:"Female"},
+    ];
+    
+    const onSubmit = (e) => {
+      e.preventDefault();
+      if ((name && nationalId && age) || phoneNumber || email) {
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+          body: JSON.stringify({
+            name,
+            NationalID: nationalId,
+            age,
+            gender: gender.value,
+            relation: relation.value,
+            email,
+            mobileNumber: phoneNumber,
+          }),
+        };
+        fetch(
+          `http://localhost:3000/patients/${userCtx.userId}/familyMembers`,
+          requestOptions,
+        ).then((response) => {
+          const newMember = {name, relation: relation.value, gender: gender.value, age}; // TODO Add family ID from response
+          setFamilyMembers(value => [...value, newMember]);
+        });
+      } else {
+        alert('Please fill in all required fields');
       }
-      return classes.tabText;
-    }
+    };
 
-    const getMemberCards = () => {
-        return <div className={classes.wrapper}>
-        {familyMembers.map(member => <div className={classes.memberContainer}>
-          <div style={{height: "85px", width: "85px", borderRadius:"50%", backgroundColor: "lightblue"}}/>
-          <div className='d-flex flex-column ms-3 py-2 justify-content-between'>
-            <div className={classes.memberName}>{member.name}</div>
-            <div className={classes.memberDescription}>{member.relation}</div>
-            <div className={classes.memberDescription}>{member.gender} | {member.age}</div>
-          </div>
-          <div className={classes.deleteButton} >
-          <img onClick={() => {deleteMember(member)}} src={closeImg} height={20}/>
-            </div>
-        </div>)}
-      </div>;
-    }
-
-    const getForm = () => {
-      const relationOptions = [
-        {value: "son", label: "Son"},  
-        {value: "daughter", label: "Daughter"},  
-        {value: "wife", label: "Wife"},  
-        {value: "husband", label: "Husband"},  
-      ];
-
-      const genderOptions = [
-        {"value": "male", label:"Male"},
-        {"value": "female", label:"Female"},
-      ];
-      
-      const onSubmit = () => {
-        // TODO Submit to backend
-      }
-
-      return <form className={classes.formWrapper}>
-        <div className='w-100'>
+    return (
+      <form className={classes.formWrapper}>
+        <div className="w-100">
           <div className={classes.formTitle}>Member Details</div>
           <div className={classes.inputRow}>
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder='Full Name' required/>
@@ -82,7 +131,7 @@ const FamilyCard = (props) => {
                styles={customStyles}
                value={gender}
                isSearchable={false}
-               onChange={(option) => setGender(option)}
+               onChange={(option) => setGender(option)} required
               />
             </div>
             <div className='d-flex w-100 mx-3 align-items-center justify-content-between'>
@@ -92,7 +141,7 @@ const FamilyCard = (props) => {
                styles={customStyles}
                value={relation}
                isSearchable={false}
-               onChange={(option) => setRelation(option)}
+               onChange={(option) => setRelation(option)} required
               />
             </div>
           </div>
@@ -100,29 +149,42 @@ const FamilyCard = (props) => {
             <input type='number' value={age} onChange={(e) => setAge(e.target.value)}  placeholder='Age' required/>
           </div>
         </div>
-        <div className='mt-4 w-100'>
+        <div className="mt-4 w-100">
           <div className={classes.formTitle}>Link Account (Optional)</div>
           <div className={classes.inputRow}>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email'/>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+            />
           </div>
           <div className={classes.inputRow}>
             <input type='number' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}  placeholder='Phone Number'/>
           </div>
         </div>
-        <button type="submit" onClick={onSubmit} className={classes.addButton}>Add Member</button>
+        <button type="submit" onClick={onSubmit} className={classes.addButton}>
+          Add Member
+        </button>
       </form>
-    }
-  
-    return <SideCard>
+    );
+  };
+
+  return (
+    <SideCard>
       <div className={classes.sideCardTitle}>My Family</div>
       <div className={classes.tabs}>
-          <div className={getTabStyle(0)} onClick={() => setTab(0)}>My Family {tab == 0 && <hr className={classes.activeTab}/>}</div>
-          <div className={getTabStyle(1)} onClick={() => setTab(1)}>Add Family Member {tab == 1 && <hr className={classes.activeTab}/>}</div>
+        <div className={getTabStyle(0)} onClick={() => setTab(0)}>
+          My Family {tab == 0 && <hr className={classes.activeTab} />}
+        </div>
+        <div className={getTabStyle(1)} onClick={() => setTab(1)}>
+          Add Family Member {tab == 1 && <hr className={classes.activeTab} />}
+        </div>
       </div>
       {tab == 0 && getMemberCards()}
       {tab == 1 && getForm()}
-    </SideCard>;
-  }
+    </SideCard>
+  );
+};
 
   export default FamilyCard;
 
