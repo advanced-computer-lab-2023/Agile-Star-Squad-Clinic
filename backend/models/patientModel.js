@@ -102,27 +102,6 @@ const patientSchema = new mongoose.Schema({
   expiringDate:Date,
 
 });
-
-// tourSchema.virtual('familyMembers', {
-//   ref: 'Family',
-//   foreignField: 'patient',
-//   localField: '_id',
-// });
-
-// patientSchema.pre(/^find/,function(next){
-//   this.populate({
-//     path:'familyMembers',
-//     select:'name'
-//   })
-//   next();
-// })
-
-// patientSchema.pre(/^find/,function(next){
-//   this.populate({
-//     path:'familyMembers',
-//   })
-//   next();
-// })
 const Patient = mongoose.model('Patient', patientSchema);
 
 module.exports = Patient;

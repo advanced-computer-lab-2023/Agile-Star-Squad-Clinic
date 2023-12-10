@@ -20,6 +20,10 @@ router
   .post(middleware.patientAuth, patientController.addFamilyMember);
 
 router
+  .route('/:patientId/familyMembers/:id')
+  .delete(middleware.patientAuth, patientController.removeFamilyMember);
+
+router
   .route('/')
   .get(patientController.getAllPatients)
   .post(patientController.signup);

@@ -93,14 +93,6 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
   let memberData = req.body;
 
-  // name,
-  // NationalID,
-  // age,
-  // gender,
-  // relation,
-  // email,
-  // mobileNumber,
-
   const patient = await Patient.findById(patientId);
 
   if (!patient) {
@@ -136,16 +128,38 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
   });
 
   const updatedFamily = [...patient.familyMembers, newMember._id];
-  await Family.create(newMember).catch((error) => {
-    console.error('Error creating family member:', error.message);
-    throw error; // Re-throw the error for further handling
+  try {
+    await Family.create(newMember);
+  } catch (error) {
+    if(error.message.includes('duplicate key error')){
+      error.message = 'This member belongs to another patient'
+    }
+    return res.status(404).json({
+      status: 'fail',
+      data: {
+        message: error.message,
+      },
   });
+  }
+  
   await Patient.findByIdAndUpdate(patient._id, {
     familyMembers: updatedFamily,
   });
   res.status(200).json({
     status: 'success',
+      member: newMember,
   });
+});
+
+exports.removeFamilyMember = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  const id = req.params.id;
+
+  await Family.findByIdAndDelete(id);
+  const patient = await Patient.findById(patientId);
+
+  patient.familyMembers.pull(id);
+  await patient.save();
 });
 
 exports.getFamilyMembers = catchAsync(async (req, res, next) => {

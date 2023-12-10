@@ -22,7 +22,6 @@ import AppointmentsCard from './AppointmentCard';
 import FamilyCard from './FamilyCard';
 
 const PatientAccountSettings = (props) => {
-
   const patient = useContext(UserContext);
   const navigate = useNavigate();
   const [healthPackage, setPackage] = useState(null);
@@ -34,10 +33,12 @@ const PatientAccountSettings = (props) => {
   const [cancellationDate, setcancellationDate] = useState(Date.now());
   const [currentPatient, setCurrentPatient] = useState('');
   const [appointments, setAppointments] = useState([]);
+  const [familyMembers, setFamilyMembers] = useState([]);
   const [index, setIndex] = useState(null);
 
   useEffect(() => {
-    fetchAppointments()
+    fetchAppointments();
+    fetchFamilyMembers();
   }, []);
 
   const onHealthRecordChange = (file) => {
@@ -45,17 +46,38 @@ const PatientAccountSettings = (props) => {
   };
 
   const fetchAppointments = () => {
-    fetch(`http://localhost:3000/patients/${patient.userId}/appointments`, { credentials: "include" }).then(async (response) => {
-        const json = await response.json();
-        const appointmentsJson = json.data.appointments;
-        setAppointments(appointmentsJson.map((appointment) => {
-            return {
-                id: appointment["_id"],
-                ...appointment
-            }
-        }));
+    fetch(`http://localhost:3000/patients/${patient.userId}/appointments`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      const appointmentsJson = json.data.appointments;
+      setAppointments(
+        appointmentsJson.map((appointment) => {
+          return {
+            id: appointment['_id'],
+            ...appointment,
+          };
+        }),
+      );
     });
-}
+  };
+
+  const fetchFamilyMembers = () => {
+    fetch(`http://localhost:3000/patients/${patient.userId}/familyMembers`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      const familyMembersJson = json.data.members;
+      setFamilyMembers(
+        familyMembersJson.map((member) => {
+          return {
+            _id: member['_id'],
+            ...member,
+          };
+        }),
+      );
+    });
+  };
 
   const fetchPackage = async () => {
     fetch(`http://localhost:3000/patients/${patient.userId}`, {
@@ -71,7 +93,7 @@ const PatientAccountSettings = (props) => {
       setcancellationDate(json.data.patient.cancellationDate);
     });
   };
-  
+
   const handeleUnsubscribeButtonclick = async () => {
     try {
       const response = await fetch(
@@ -182,31 +204,74 @@ const PatientAccountSettings = (props) => {
   return (
     <body className={classes.pageWrapper}>
       <NavBar />
-      <Greeting name={currentPatient.name} imageUrl={patient1} joinedDate={currentPatient.creationDate} />
-      <SettingsContainer title={"Settings"}>
-        <SettingsTile onClick={() => setIndex(0)} title={"Account Details"} imagePath={globeImg}/>
-        <SettingsTile onClick={() => setIndex(1)}  title={"My Family"} imagePath={familyImg}/>
-        <SettingsTile onClick={() => setIndex(2)}  title={"Medical History"} imagePath={medicalImg}/>
-        <SettingsTile onClick={() => setIndex(3)}  title={"Payment Details"} imagePath={paymentImg}/>
+      <Greeting
+        name={currentPatient.name}
+        imageUrl={patient1}
+        joinedDate={currentPatient.creationDate}
+      />
+      <SettingsContainer title={'Settings'}>
+        <SettingsTile
+          onClick={() => setIndex(0)}
+          title={'Account Details'}
+          imagePath={globeImg}
+        />
+        <SettingsTile
+          onClick={() => setIndex(1)}
+          title={'My Family'}
+          imagePath={familyImg}
+        />
+        <SettingsTile
+          onClick={() => setIndex(2)}
+          title={'Medical History'}
+          imagePath={medicalImg}
+        />
+        <SettingsTile
+          onClick={() => setIndex(3)}
+          title={'Payment Details'}
+          imagePath={paymentImg}
+        />
       </SettingsContainer>
-      <SettingsContainer title={"Account"}>
-        <SettingsTile onClick={() => setIndex(4)}  title={"Appointments"} imagePath={appointmentsImg}/>
-        <SettingsTile onClick={() => setIndex(5)}  title={"Email Notifications"} imagePath={notificationImg}/>
+      <SettingsContainer title={'Account'}>
+        <SettingsTile
+          onClick={() => setIndex(4)}
+          title={'Appointments'}
+          imagePath={appointmentsImg}
+        />
+        <SettingsTile
+          onClick={() => setIndex(5)}
+          title={'Email Notifications'}
+          imagePath={notificationImg}
+        />
       </SettingsContainer>
-      <SettingsContainer title={"Other"}>
-        <SettingsTile onClick={() => setIndex(6)}  title={"About Us"} imagePath={aboutImg}/>
-        <SettingsTile onClick={() => setIndex(7)}  title={"Contact Us"} imagePath={contactImg}/>
-        <SettingsTile onClick={() => setIndex(8)}  title={"Invite Your Friends"} imagePath={inviteImg}/>
-        <SettingsTile onClick={() => setIndex(9)}  title={"Logout"} imagePath={logoutImg}/>
+      <SettingsContainer title={'Other'}>
+        <SettingsTile
+          onClick={() => setIndex(6)}
+          title={'About Us'}
+          imagePath={aboutImg}
+        />
+        <SettingsTile
+          onClick={() => setIndex(7)}
+          title={'Contact Us'}
+          imagePath={contactImg}
+        />
+        <SettingsTile
+          onClick={() => setIndex(8)}
+          title={'Invite Your Friends'}
+          imagePath={inviteImg}
+        />
+        <SettingsTile
+          onClick={() => setIndex(9)}
+          title={'Logout'}
+          imagePath={logoutImg}
+        />
       </SettingsContainer>
-      {index == 1 && <FamilyCard/>}
-      
-      {index == 4 &&  <AppointmentsCard appointments={appointments}/> }
-    </body>
-    
-  );
-  
+      {index == 1 && (
+        <FamilyCard members={familyMembers} setMembers={setFamilyMembers} />
+      )}
 
+      {index == 4 && <AppointmentsCard appointments={appointments} />}
+    </body>
+  );
 };
 export default PatientAccountSettings;
 
@@ -217,29 +282,33 @@ const SettingsContainer = (props) => {
       {props.children}
     </div>
   );
-}
+};
 
 const SettingsTile = (props) => {
-  return <div onClick={props.onClick} className={classes.settingsTile}>
-    <img className={classes.tileIcon} active src={props.imagePath}/>
-    <span>{props.title}</span>
-    <img src={chevronRight}/>
-  </div>
-}
+  return (
+    <div onClick={props.onClick} className={classes.settingsTile}>
+      <img className={classes.tileIcon} active src={props.imagePath} />
+      <span>{props.title}</span>
+      <img src={chevronRight} />
+    </div>
+  );
+};
 
 const Greeting = (props) => {
   let name = `${props.name}`;
   name = name.toUpperCase();
   let joinedDate = new Date(props.joinedDate);
-  joinedDate = `${joinedDate.getDate()}/${joinedDate.getMonth()+1}/${joinedDate.getFullYear()}`;
+  joinedDate = `${joinedDate.getDate()}/${
+    joinedDate.getMonth() + 1
+  }/${joinedDate.getFullYear()}`;
   return (
     <div className={classes.greetingContainer}>
       <img src={props.imageUrl} />
       <div>
         <h1 className={classes.name}>{name}</h1>
         <div className={classes.subtitle}>
-          Joined since <nbsp/>
-          <span style={{color: "#232323"}}>{joinedDate}</span>
+          Joined since <nbsp />
+          <span style={{ color: '#232323' }}>{joinedDate}</span>
         </div>
       </div>
     </div>
@@ -247,7 +316,5 @@ const Greeting = (props) => {
 };
 
 export const SideCard = (props) => {
-  return <div className={classes.sideCard}>
-    {props.children}
-  </div>;
-}
+  return <div className={classes.sideCard}>{props.children}</div>;
+};
