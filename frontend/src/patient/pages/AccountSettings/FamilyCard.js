@@ -144,19 +144,14 @@ const FamilyCard = (props) => {
             />
           </div>
           <div className={classes.inputRow}>
-            <div className="d-flex w-100 ms-3 align-items-center justify-content-between">
-              Gender:
-              <Select
-                options={genderOptions}
-                styles={customStyles}
-                value={gender}
-                isSearchable={false}
-                onChange={(option) => setGender(option)}
-                required
-              />
-            </div>
-            <div className="d-flex w-100 mx-3 align-items-center justify-content-between">
-              Relation:
+            
+            <input style={{width: "30%"}} type='number' value={age} onChange={(e) => setAge(e.target.value)}  placeholder='Age' required/>
+         
+          </div>
+          <div className={classes.inputRow}>
+            
+          <div className='d-flex w-100 mx-3 align-items-center justify-content-between'>
+              Relation
               <Select
                 options={relationOptions}
                 styles={customStyles}
@@ -166,18 +161,22 @@ const FamilyCard = (props) => {
                 required
               />
             </div>
-          </div>
-          <div className={`${classes.inputRow} w-25`}>
-            <input
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              placeholder="Age"
-              required
-            />
+            </div>
+
+          <div className={`${classes.inputRow}`}>
+          <div className='d-flex w-100 mx-3 align-items-center justify-content-between'>
+            Gender
+              <Select
+               options={genderOptions}
+               styles={customStyles}
+               value={gender}
+               isSearchable={false}
+               onChange={(option) => setGender(option)} required
+              />
+            </div> 
           </div>
         </div>
-        <div className="mt-4 w-100">
+        <div className="mt-2 w-100">
           <div className={classes.formTitle}>Link Account (Optional)</div>
           <div className={classes.inputRow}>
             <input
@@ -219,62 +218,63 @@ const FamilyCard = (props) => {
   );
 };
 
-export default FamilyCard;
+  export default FamilyCard;
 
-const customStyles = {
-  control: (provided, state) => ({
-    ...provided,
-    width: '110px',
-    backgroundColor: 'white',
-    border: 'none',
-    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.09)',
-    borderRadius: '17px',
-    textAlign: 'start',
-  }),
-  dropdownIndicator: (provided) => ({
-    ...provided,
-    color: '#193842',
-  }),
-  indicatorSeparator: () => ({}),
-  menu: (provided) => ({
-    ...provided,
-    borderRadius: '20px',
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    borderRadius: '14px',
-    fontSize: '14px',
-    fontWeight: state.isFocused ? '500' : '400',
-    color: state.isFocused ? 'black' : '#666666',
-    textAlign: 'left',
-    backgroundColor: 'transparent',
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    fontSize: '12px',
-    fontWeight: '600',
-    color: '#193842',
-  }),
-  valueContainer: (provided) => ({
-    ...provided,
-    backgroundColor: 'transparent',
-  }),
-  menuList: (base) => ({
-    ...base,
-    maxHeight: '180px',
-    '::-webkit-scrollbar': {
-      width: '3px',
-      height: '0px',
-    },
-    '::-webkit-scrollbar-track': {
-      background: 'transparent',
-    },
-    '::-webkit-scrollbar-thumb': {
-      background: '#888',
-      borderRadius: '3px',
-    },
-    '::-webkit-scrollbar-thumb:hover': {
-      background: '#555',
-    },
-  }),
-};
+    
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      width: "130px",
+      backgroundColor: 'white',
+      border: 'none',
+      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.09)",
+      borderRadius: "17px",
+      textAlign: 'start'
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: "#193842"
+    }),
+    indicatorSeparator: () => ({}),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: '20px',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      borderRadius: '14px',
+      fontSize: '14px',
+      fontWeight: state.isFocused ? "500" : "400",
+      color: state.isFocused ? "black" : "#666666",
+      textAlign: "left",
+      backgroundColor: "transparent"
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      fontSize: '12px',
+      fontWeight: "600",
+      color: "#193842"
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      backgroundColor: "transparent"
+    }),
+    menuList: (base) => ({
+      ...base,
+      maxHeight: '180px',
+      "::-webkit-scrollbar": {
+        width: "3px",
+        height: "0px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: "transparent"
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: "#888",
+        borderRadius: '3px',
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: "#555"
+      }
+    })
+  };
