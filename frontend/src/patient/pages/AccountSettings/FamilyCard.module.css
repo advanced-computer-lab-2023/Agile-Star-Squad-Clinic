@@ -145,6 +145,17 @@
     border-bottom: 1px solid #C4C4C4;
 }
 
+.formWrapper input:focus {
+    outline: none;
+    border-bottom: 1px solid #464646;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .inputRow {
     display: flex;
     flex-direction: row;
