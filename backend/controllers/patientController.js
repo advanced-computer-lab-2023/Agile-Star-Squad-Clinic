@@ -91,7 +91,16 @@ exports.removePatient = catchAsync(async (req, res, next) => {
 
 exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
-  const memberData = req.body;
+  let memberData = req.body;
+
+  // name,
+  // NationalID,
+  // age,
+  // gender,
+  // relation,
+  // email,
+  // mobileNumber,
+
   const patient = await Patient.findById(patientId);
 
   if (!patient) {
@@ -107,6 +116,17 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
         { mobileNumber: memberData.mobileNumber },
       ],
     });
+
+    const birthDate = new Date(memberPatientAccount.dateOfBirth);
+    const age = new Date().getFullYear() - birthDate.getFullYear();
+
+    memberData = {
+      name: memberPatientAccount.name,
+      NationalID: memberPatientAccount.nationalId,
+      age,
+      gender: memberPatientAccount.gender,
+      relation: memberData.relation,
+    }
   } 
   
   const newMember = new Family({
