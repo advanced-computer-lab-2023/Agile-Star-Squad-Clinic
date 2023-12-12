@@ -21,14 +21,13 @@ const PackageItem = (props) => {
 
   return (
    
-      <Container className={classes.packageItem}>
-        <div className= {classes.item}>
-        <h2 className={classes.packageName}>{props.name}</h2>
-        <Link to={`/updatePackage/${props.id}`}>
-            <button className={classes.viewButton}>View</button>
-          </Link>
-        </div>
+      <div>
+  
+       
         
+  
+        <Container className={classes.packageItem}>
+        <h2 className={classes.packageName}>{props.name}</h2>
         <div className={classes.packageDetails}>
           <hr className={classes.packageLine}/>
             <p >
@@ -61,13 +60,15 @@ const PackageItem = (props) => {
        
         <div className={classes.packageActions}>
         
-          
+        <Link to={`/updatePackage/${props.id}`}>
+            <button className={classes.viewButton}>View</button>
+          </Link>
           {/* <button className="btn btn-primary sm" onClick={confirmDeleteHandler}>
             Delete
           </button> */}
         </div>
       </Container>
-  
+      </div>
   );
 };
 
