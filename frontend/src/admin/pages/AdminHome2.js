@@ -1,17 +1,16 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState, useRef} from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Container } from 'react-bootstrap';
 import UserContext from '../../user-store/user-context';
 import AdminNavBar from '../components/AdminNavBar';
 import RequestDetails from './ManageUsers/RequestDetails';
 import AdminForm from '../pages/ManageUsers/AdminForm';
 import UserDetails from '../pages/ManageUsers/UserDetails';
-import './AdminHome.css';
+import classes from './AdminHome.module.css';
 import req from '../req.png';
 import x from '../X.png';
 import check from '../check.png';
-
 
 const AdminHome2 = (props) => {
   const userCtx = useContext(UserContext);
@@ -26,12 +25,11 @@ const AdminHome2 = (props) => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [activeRole, setActiveRole] = useState('patient');
-  const [users, setUsers] = useState([]); // Instead of initializing with an empty array, keep it empty initially
-  
-  useEffect(() => {
-      filterUsersByRole(activeRole);
-  }, [activeRole]);
+  const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    filterUsersByRole(activeRole);
+  }, [activeRole]);
 
   useEffect(() => {
     fetchPatients();
@@ -39,12 +37,12 @@ const AdminHome2 = (props) => {
     fetchAdmins();
     fetchPendingRequests();
     fetchPackages();
-}, [])
+  }, []);
 
-useEffect(() => {
+  useEffect(() => {
     selectedRequestRef.current = selectedRequest;
   }, [selectedRequest]);
-  
+
   const fetchPackages = async () => {
     try {
       const response = await axios.get('http://localhost:3000/packages/');
@@ -54,10 +52,10 @@ useEffect(() => {
       console.error('Error fetching packages:', error);
     }
   };
+
   const handleRoleButtonClick = (role) => {
     filterUsersByRole(role);
   };
-  
 
   const logout = async () => {
     await userCtx.logout();
@@ -67,7 +65,7 @@ useEffect(() => {
   const changePasswordHandler = () => {
     navigate('/changePassword');
   };
-  
+
   const statusChangeHandler = (id, status) => {
     setRequests(
       requests.map((request) => {
@@ -77,24 +75,24 @@ useEffect(() => {
         return request;
       })
     );
-  } 
-  
+  };
 
   const fetchPendingRequests = async () => {
     try {
       const response = await axios.get('http://localhost:3000/admins/requests');
-      const pendingRequests = response.data.data.requests.filter(request => request.status === 'Pending');
+      const pendingRequests = response.data.data.requests.filter(
+        (request) => request.status === 'Pending'
+      );
       setRequests(pendingRequests);
       console.log(pendingRequests);
     } catch (error) {
       console.error('Error fetching pending requests:', error);
     }
-    
   };
-  
-const filterUsersByRole = (role) => {
+
+  const filterUsersByRole = (role) => {
     let filtered = [];
-  
+
     switch (role) {
       case 'patient':
         filtered = users.filter((user) => user.role === 'Patient');
@@ -106,118 +104,117 @@ const filterUsersByRole = (role) => {
         filtered = users.filter((user) => user.role === 'Admin');
         break;
       default:
-        // Show all users if no specific role is selected
-        filtered = users;
+        filtered = users.filter((user) => user.role === 'Patient');
         break;
     }
-  
+
     setFilteredUsers(filtered);
     setActiveRole(role); // Set the active role for styling
-    
   };
-  
-  
-  
+
   const fetchPatients = async () => {
     try {
-        const response = await fetch("http://localhost:3000/patients/");
-        const json = await response.json();
-        const patientsJson = json.data.patients;
-        setUsers((prevUsers) => [
-            ...prevUsers.filter((user) => user.role !== 'Patient'), // Remove existing patients
-            ...patientsJson.map((patient) => ({
-                id: patient["_id"],
-                username: patient["username"],
-                name: patient["name"],
-                email: patient['email'],
-                dateOfBirth: patient['dateOfBirth'],
-                gender: patient['gender'],
-                mobileNumber: patient["mobileNumber"],
-                emergencyContact: patient['emergencyContact'],
-                doctor: patient['doctor'],
-                familyMembers: patient['familyMembers'],
-                role: "Patient"
-            })),
-        ]);
+      const response = await fetch('http://localhost:3000/patients/');
+      const json = await response.json();
+      const patientsJson = json.data.patients;
+      setUsers((prevUsers) => [
+        ...prevUsers.filter((user) => user.role !== 'Patient'), // Remove existing patients
+        ...patientsJson.map((patient) => ({
+          id: patient['_id'],
+          username: patient['username'],
+          name: patient['name'],
+          email: patient['email'],
+          dateOfBirth: patient['dateOfBirth'],
+          gender: patient['gender'],
+          mobileNumber: patient['mobileNumber'],
+          emergencyContact: patient['emergencyContact'],
+          doctor: patient['doctor'],
+          familyMembers: patient['familyMembers'],
+          role: 'Patient',
+        })),
+      ]);
     } catch (error) {
-        console.error('Error fetching patients:', error);
+      console.error('Error fetching patients:', error);
     }
-};
+  };
 
-const fetchDoctors = async () => {
+  const fetchDoctors = async () => {
     try {
-        const response = await fetch("http://localhost:3000/doctors/");
-        const json = await response.json();
-        const doctorsJson = json.data.doctors;
-        setUsers((prevUsers) => [
-            ...prevUsers.filter((user) => user.role !== 'Doctor'), // Remove existing doctors
-            ...doctorsJson.map((doctor) => ({
-                id: doctor["_id"],
-                username: doctor["username"],
-                name: doctor["name"],
-                dateOfBirth: doctor['dateOfBirth'],
-                hourlyRate: doctor['hourlyRate'],
-                affiliation: doctor['affiliation'],
-                educationalBackground: doctor['educationalBackground'],
-                speciality: doctor['speciality'],
-                mobileNumber: doctor["mobileNumber"] ?? "-",
-                role: "Doctor"
-            })),
-        ]);
+      const response = await fetch('http://localhost:3000/doctors/');
+      const json = await response.json();
+      const doctorsJson = json.data.doctors;
+      setUsers((prevUsers) => [
+        ...prevUsers.filter((user) => user.role !== 'Doctor'), // Remove existing doctors
+        ...doctorsJson.map((doctor) => ({
+          id: doctor['_id'],
+          username: doctor['username'],
+          name: doctor['name'],
+          dateOfBirth: doctor['dateOfBirth'],
+          hourlyRate: doctor['hourlyRate'],
+          affiliation: doctor['affiliation'],
+          educationalBackground: doctor['educationalBackground'],
+          speciality: doctor['speciality'],
+          mobileNumber: doctor['mobileNumber'] ?? '-',
+          role: 'Doctor',
+        })),
+      ]);
     } catch (error) {
-        console.error('Error fetching doctors:', error);
+      console.error('Error fetching doctors:', error);
     }
-};
+  };
 
-const fetchAdmins = async () => {
+  const fetchAdmins = async () => {
     try {
-        const response = await fetch("http://localhost:3000/admins/");
-        const json = await response.json();
-        const adminsJson = json.data.admins;
-        setUsers((prevUsers) => [
-            ...prevUsers.filter((user) => user.role !== 'Admin'), // Remove existing admins
-            ...adminsJson.map((admin) => ({
-                id: admin["_id"],
-                username: admin["username"],
-                name: "-",
-                mobileNumber: "-",
-                role: "Admin"
-            })),
-        ]);
+      const response = await fetch('http://localhost:3000/admins/');
+      const json = await response.json();
+      const adminsJson = json.data.admins;
+      setUsers((prevUsers) => [
+        ...prevUsers.filter((user) => user.role !== 'Admin'), // Remove existing admins
+        ...adminsJson.map((admin) => ({
+          id: admin['_id'],
+          username: admin['username'],
+          name: '-',
+          mobileNumber: '-',
+          role: 'Admin',
+        })),
+      ]);
     } catch (error) {
-        console.error('Error fetching admins:', error);
+      console.error('Error fetching admins:', error);
     }
-};
+  };
 
-const refreshUserData = () => {
+  const refreshUserData = () => {
     setUsers([]);
     fetchPatients();
     fetchDoctors();
     fetchAdmins();
-};
-const deleteUser = (username) => {
-    const user = users.find((value) => value.username === username)
+  };
+
+  const deleteUser = (username) => {
+    const user = users.find((value) => value.username === username);
     if (user.role === 'Patient') {
-        fetch(`http://localhost:3000/patients/${user.id}`, {method: 'DELETE'})
+      fetch(`http://localhost:3000/patients/${user.id}`, { method: 'DELETE' });
     } else if (user.role === 'Doctor') {
-        fetch(`http://localhost:3000/doctors/${user.id}`, {method: 'DELETE'})
+      fetch(`http://localhost:3000/doctors/${user.id}`, { method: 'DELETE' });
     } else if (user.role === 'Admin') {
-        fetch(`http://localhost:3000/admins/${user.id}`, {method: 'DELETE'})
+      fetch(`http://localhost:3000/admins/${user.id}`, { method: 'DELETE' });
     }
-    setUsers(users.filter((val) => val.username !== username))
-}
+    setUsers(users.filter((val) => val.username !== username));
+  };
+
   const calculateAge = (dateOfBirth) => {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-  
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-  
+
     return age;
   };
+
   const accept = async (request) => {
     try {
       const requestOptions = {
@@ -226,9 +223,9 @@ const deleteUser = (username) => {
         body: JSON.stringify({ ...request }),
         credentials: 'include',
       };
-  
-      const response = await fetch(`http://localhost:3000/admins/requests`, requestOptions);
-  
+
+      const response = await fetch('http://localhost:3000/admins/requests', requestOptions);
+
       if (response.ok) {
         await props.onStatusChange(request.id, 'Accepted');
         selectedRequestRef.current && selectedRequestRef.current.onAccept();
@@ -241,7 +238,7 @@ const deleteUser = (username) => {
       alert('Network error: 1' + error.message);
     }
   };
-  
+
   const reject = async (request) => {
     try {
       const requestOptions = {
@@ -274,27 +271,25 @@ const deleteUser = (username) => {
       alert('Network error: 2' + error.message);
     }
   };
-  
 
-  
-
-
-const showDetails = (request) => {
+  const showDetails = (request) => {
     if (request && request.id) {
       setSelectedRequest(request);
     } else {
-      console.error("Invalid or undefined request object:", request);
+      console.error('Invalid or undefined request object:', request);
     }
   };
+
   const editHandler = () => {
     // Navigate to the "Packages Page" when the "Edit" button is clicked
     navigate('/packages');
   };
 
-const closeModal = () => {
-  setSelectedRequest(null);
-};
-const showRequestModal = (request) => {
+  const closeModal = () => {
+    setSelectedRequest(null);
+  };
+
+  const showRequestModal = (request) => {
     setSelectedRequest(request);
   };
 
@@ -302,11 +297,10 @@ const showRequestModal = (request) => {
     setSelectedUser(user);
     // Scroll to the top of the page
     window.scrollTo({
-        top: 0,
-        behavior: "smooth" // You can adjust the behavior as needed
+      top: 0,
+      behavior: 'smooth', // You can adjust the behavior as needed
     });
-};
-
+  };
 
   const exitRequestModal = () => {
     setSelectedRequest(null);
@@ -318,88 +312,80 @@ const showRequestModal = (request) => {
 
   return (
     <>
-    <div>
       <div>
-        <AdminNavBar/>
-        <section className='requests-section'>
-          <h2 className='title'>Requests</h2>
-          <div className="container">
-            <div className="row">
-              <table className="table table-hover">
-               
-                <tbody>
-                
-                {
-  requests.map(request => (
-    <tr key={request.id} onClick={() => showDetails(request)}>
-      <td className='req-img'>
-        <img src={req}></img>
-      </td>
-      <td className='req-bold'>
-        {request.name} - {request.affiliation}
-        <div className="req-small">
-          {request.speciality}-{calculateAge(request.dateOfBirth)} {request.gender}
-        </div>
-      </td>
-      {status.toLowerCase() === 'pending' && (
-        <ActionButtons
-          reject={() => reject(request)}
-          accept={() => accept(request)}
-        />
-      )}
-      <td>
-        <img
-          src={x}
-          className='req-rej'
-          onClick={(e) => {
-            {selectedRequest && (
-                <RequestDetails
-                  data={selectedRequest}
-                  exit={closeModal}
-                  onStatusChange={statusChangeHandler}
-                />
-              )}
-            e.stopPropagation(); // Stop event propagation
-            reject(request);
-          }}
-        />
-      </td>
-      <td>
-        <img
-          src={check}
-          className='req-acc'
-          onClick={(e) => {
-            {selectedRequest && (
-                <RequestDetails
-                  data={selectedRequest}
-                  exit={closeModal}
-                  onStatusChange={statusChangeHandler}
-                />
-              )}
-            e.stopPropagation(); // Stop event propagation
-            accept(request);
-          }}
-        />
-      </td>
-    </tr>
-  ))
-}
-        </tbody>
-              </table>
+        <div>
+          <AdminNavBar />
+          <Container className={classes.requests}>
+            <h2 className={classes.title}>Requests</h2>
+            <div className="container">
+              <div className="row">
+                <table className="table table-hover">
+                  <tbody>
+                    {requests.map((request) => (
+                      <tr key={request.id} onClick={() => showDetails(request)}>
+                        <td className={classes.req}>
+                          <img src={req} alt="req" />
+                        </td>
+                        <td className={classes.bold}>
+                          {request.name} - {request.affiliation}
+                          <div className={classes.small}>
+                            {request.speciality}-{calculateAge(request.dateOfBirth)}{' '}
+                            {request.gender}
+                          </div>
+                        </td>
+                        {status.toLowerCase() === 'pending' && (
+                          <ActionButtons reject={() => reject(request)} accept={() => accept(request)} />
+                        )}
+                        <td>
+                          <img
+                            src={x}
+                            alt="req-rej"
+                            className={classes.rej}
+                            onClick={(e) => {
+                              selectedRequest &&
+                                selectedRequestRef.current &&
+                                selectedRequestRef.current.onReject();
+                              e.stopPropagation(); // Stop event propagation
+                              reject(request);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <img
+                            src={check}
+                            width="25"
+                            height="25"
+                            alt="req-acc"
+                            className={classes.acc}
+                            onClick={(e) => {
+                              selectedRequest &&
+                                selectedRequestRef.current &&
+                                selectedRequestRef.current.onAccept();
+                              e.stopPropagation(); // Stop event propagation
+                              accept(request);
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        </section>
-        
-        <section className='packages-section'>
-        <div className="edit-button-container">
-                <button className="edit-button" onClick={editHandler}>More</button>
+          </Container>
+
+          <Container className={classes.packages}>
+            <div className={classes.edit}>
+              <button className={classes.editButton} onClick={editHandler}>
+                More
+              </button>
             </div>
-            <h2 className='title'>Packages</h2>
+            <h2 className={classes.title}>Packages</h2>
             <div className="container">
               <div className="row">
                 <Table striped bordered hover className="custom-table">
                   <thead>
-                    <tr className='package-titles'>
+                    <tr className="package-titles">
                       <th>Package</th>
                       <th>Session Discount</th>
                       <th>Medicine Discount</th>
@@ -408,7 +394,6 @@ const showRequestModal = (request) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* Map through your packages and render each row */}
                     {packages.map((pkg) => (
                       <tr key={pkg._id} className="custom-row">
                         <td>{pkg.name}</td>
@@ -422,61 +407,59 @@ const showRequestModal = (request) => {
                 </Table>
               </div>
             </div>
-          </section>
-          <section className='users-section'>
-      <div className='container'>
-      <div className='filter-buttons'>
-  {/* Button to show patients */}
-  <button
-    className={`filter-button ${activeRole === 'patient' ? 'active' : ''}`}
-    onClick={() => handleRoleButtonClick('patient')}
-  >
-    Patients
-  </button>
+          </Container>
 
-  {/* Button to show doctors */}
-  <button
-    className={`filter-button ${activeRole === 'doctor' ? 'active' : ''}`}
-    onClick={() => handleRoleButtonClick('doctor')}
-  >
-    Doctors
-  </button>
+          <Container className={classes.users}>
+            <div className={classes.filter}>
+              {/* Button to show patients */}
+              <button
+                className={`${classes.filterButton} ${activeRole === 'patient' ? classes.active : ''}`}
+                onClick={() => handleRoleButtonClick('patient')}
+              >
+                Patients
+              </button>
 
-  {/* Button to show admins */}
-  <button
-    className={`filter-button ${activeRole === 'admin' ? 'active' : ''}`}
-    onClick={() => handleRoleButtonClick('admin')}
-  >
-    Admins
-  </button>
-</div>
+              {/* Button to show doctors */}
+              <button
+                className={`${classes.filterButton} ${activeRole === 'doctor' ? classes.active : ''}`}
+                onClick={() => handleRoleButtonClick('doctor')}
+              >
+                Doctors
+              </button>
 
+              {/* Button to show admins */}
+              <button
+                className={`${classes.filterButton} ${activeRole === 'admin' ? classes.active : ''}`}
+                onClick={() => handleRoleButtonClick('admin')}
+              >
+                Admins
+              </button>
+            </div>
 
-        <div className='row'>
-          <Table striped bordered hover className='custom-table'>
-            <thead>
-              <tr className='user-titles'>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Email</th>
-                {/* Add more columns as needed */}
-              </tr>
-            </thead>
-            <tbody>
-              {/* Map through your users and render each row */}
-              {filteredUsers.map((user) => (
-                <tr key={user.id} className='custom-row'onClick={() => showUserModal(user)}>
-                  <td>{user.username}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  {/* Add more cells as needed */}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-      </div>
-    </section>
+            <div className="row">
+              <Table striped bordered hover className="custom-table">
+                <thead>
+                  <tr className="user-titles">
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    {/* Add more columns as needed */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Map through your users and render each row */}
+                  {filteredUsers.map((user) => (
+                    <tr key={user.id} className={classes.customRow} onClick={() => showUserModal(user)}>
+                      <td>{user.username}</td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      {/* Add more cells as needed */}
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+      </Container>
     {selectedUser && (
         <UserDetails
           data={selectedUser}

@@ -1,0 +1,230 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;400&display=swap");
+.requests {
+  position: absolute;
+  left: 5%;
+  top: 15%;
+  width: 718px;
+  height: 524px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  border: 1px solid #F8F9FA;
+  background: var(--white-100, #FFF);
+  box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50);
+}
+
+.title {
+  position: relative;
+  color: var(--primary-dark-shade, #05004E);
+  font-family: 'Poppins';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+  right: 40%;
+  top: 3%;
+  margin-bottom: 5%;
+}
+
+.bold {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-align: left; /* Align text to the left */
+}
+
+.container {
+  position: absolute;
+  top: 12%;
+}
+
+.req {
+  width: 22px;
+  height: var(--24, 24px);
+  transform: rotate(-0.945deg);
+  flex-shrink: 0;
+  position: inherit;
+  left: 10%;
+}
+
+.acc,
+.rej {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  border-radius: var(--8, 8px);
+}
+
+.acc {
+  border: 1px solid #C4E8BE;
+}
+
+.rej {
+  border: 1px solid #FD9292;
+}
+
+.acc:hover,
+.rej:hover {
+  cursor: pointer;
+  filter: brightness(1.2);
+}
+
+.small {
+  color: var(--grayscale-placeholder, #888);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: "Source Sans Pro";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left; /* Align text to the left */
+}
+
+/* Additional styles to align the entire content to the left */
+.row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+
+
+.packages{
+    position: absolute;
+    left: 55%;
+    top:15%;
+    width: 588px;
+     height: 254px;
+     flex-shrink: 0;
+     border-radius: 20px;
+     border: 1px solid #F8F9FA;
+     background: var(--white-100, #FFF);
+     box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50);
+ }
+.packages-section .title{
+    position:absolute;
+    right: 83%;
+}
+
+.custom-table {
+    margin-top: 20px; /* Adjust the margin to give space below the title */
+    border-collapse: collapse; /* Remove the default cell spacing and padding */
+  }
+  
+  .custom-row {
+    color: #3366cc; /* Change the font color for each row */
+    font-family: 'Arial', sans-serif; /* Change the font family for each row */
+  }
+  
+  .custom-row:hover {
+    background-color: #f5f5f5; /* Change the background color on hover */
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    border: none; /* Remove borders for table cells */
+    padding: 8px; /* Add padding to cells for better readability */
+  }  
+  /* Add these styles to your CSS file or use inline styles in the React component */
+
+.edit {
+    text-align: center;
+    margin-bottom: 10px; /* Add margin to separate the button from the table */
+  }
+  
+  .editButton {
+    position:absolute;
+    left:90%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 12px;
+    letter-spacing: 0.112px;
+    background: var(--Primary, linear-gradient(274deg, #92A3FD 0%, #9DCEFF 124.45%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border: none;   
+  }
+  .custom-table thead tr.package-titles th {
+    color: #C77223;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  .custom-table tbody tr.custom-row {
+    background-color: transparent;
+    color: var(--greys-blue-grey-800, #444A6D);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  .custom-table tbody tr.custom-row:nth-child(even) {
+    background-color: white;
+  }
+  
+  .custom-table tbody tr.custom-row:nth-child(odd) {
+    background-color: white;
+  }
+    
+
+.users {
+  position: absolute;
+  top: 90%;
+  left: 5%;
+  width: 1325px;
+  height: 579px;
+  flex-shrink: 0;
+}
+
+.user-tabs {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.user-tab {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.user-table-container {
+  margin-top: 30px;
+}
+
+.filter {
+  display: flex;
+  align-items: flex-start;
+}
+
+.filterButton {
+  background-color: transparent;
+  color: rgba(5, 0, 78, 0.25);
+  border: none;
+  padding: 8px 16px;
+  margin-right: 8px;
+  cursor: pointer;
+  outline: none;
+  color: var(--primary-dark-shade, #05004E);
+  font-family: "Poppins";
+  font-size: 20px;
+}
+
+.filterButton.active,
+.filterButton.bold {
+  font-weight: bold;
+  color: #000000;
+}
+
+.logout {
+  position: absolute;
+  bottom: 86%;
+  left: 55%;
+}

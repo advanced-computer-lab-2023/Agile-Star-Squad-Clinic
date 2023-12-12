@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import './AdminNavBar.css';
+import './AdminNavBar.module.css';
 import logo from '../../logo.png';
 import { Link } from 'react-router-dom';
 
