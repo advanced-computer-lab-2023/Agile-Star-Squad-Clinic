@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PackageList from '../components/PackageList';
-import './AdminPackagesView.css';
+import classes from'./AdminPackagesView.module.css';
 import AdminNavBar from '../../admin/components/AdminNavBar';
 import AddIcon from '../../admin/Add.png'; // Import your Add icon
 import Card from '../../shared/components/Card/Card';
@@ -46,10 +46,10 @@ const AdminPackagesView = () => {
   return (
     <div>
       <AdminNavBar />
-      <div className="header">
-        <h1 className="package-title">Manage Health Packages</h1>
+      <div className={classes.header}>
+        <h1 className={classes.title}>Manage Health Packages</h1>
 
-        <button id="addingbutton" className="btn btn-primary sm" onClick={toggleAddForm}>
+        <button id="addingbutton" className={classes.addingbutton} onClick={toggleAddForm}>
           Add
           <img
             src={AddIcon}
@@ -59,8 +59,8 @@ const AdminPackagesView = () => {
         </button>
       </div>
       {showAddForm && (
-        <div className="overlay">
-          <Card className="new-package-card">
+        <div className={classes.overlay}>
+          <Card className={classes.NewPackage}>
             <NewPackage/>
             <button className="btn btn-primary sm" onClick={toggleAddForm}>
               Cancel

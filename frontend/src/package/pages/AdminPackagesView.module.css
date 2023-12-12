@@ -3,17 +3,18 @@
     justify-content:space-between;
     margin: 20px;
 }
-#addingbutton{
+.addingbutton{
     margin-top: 10px;
     border-radius: 11px;
     background: #EA580C;
     width: 94px;
     height: 36px;
     flex-shrink: 0;
+    color: #FFF;
 }
-.package-title{
+.title{
     color: #000;
-    font-family: "Poppins";
+    font-family: 'Poppins';
     font-size: 40px;
     font-style: normal;
     font-weight: 500;
@@ -42,7 +43,7 @@ html, body {
     z-index: 1000; /* Set a high z-index value to ensure it appears above other content */
   }
   
-  .new-package-card {
+  .newPackage {
     border-radius: 40px;
     background: var(--white-100, #FFF);
     margin-top: 17%;

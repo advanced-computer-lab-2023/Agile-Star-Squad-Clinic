@@ -11,7 +11,7 @@ html, body {
   padding: 0;
 }
 /* Add these styles to your CSS file */
-.package-container {
+.package {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between; /* Adjust as needed */
@@ -19,7 +19,7 @@ html, body {
 }
 
 
-.package-item {
+.packageItem {
   width: 360px;
   height: 285px;
   flex-shrink: 0;

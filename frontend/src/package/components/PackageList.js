@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '../../shared/components/Card/Card';
 import PackageItem from './PackageItem';
-import './PackageList.css';
+import classes from './PackageList.module.css';
 
 const PackageList = (props) => {
   if (props.items.length === 0) {
@@ -17,9 +17,9 @@ const PackageList = (props) => {
 
   return (
     <div className='main'>
-    <div className="package-container">
+    <div className={classes.package}>
       {props.items.map((pkg) => (
-        <div key={pkg._id} className="package-item">
+        <div key={pkg._id} className={classes.packageItem}>
           <PackageItem
             id={pkg._id}
             name={pkg.name}
