@@ -1,21 +1,11 @@
-.place-list {
-  list-style: none;
- 
-}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;400;500&display=swap");
 
-html, body {
-  background-color: #FAFBFC;
-  width: 1429px;
-  min-height: 1336px;
-  margin: 0;
-  padding: 0;
-}
-/* Add these styles to your CSS file */
 .package {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between; /* Adjust as needed */
   margin: 0 5%; /* Add margin to both sides */
+ 
 }
 
 
@@ -25,7 +15,12 @@ html, body {
   flex-shrink: 0;
   border-radius: 20px;
   background: var(--white-100, #FFF);
-  margin-bottom: 20px; /* Adjust as needed for spacing between packages */
+  box-shadow: 3px 4px 14.6px 0px rgba(0, 0, 0, 0.20);
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
 }
 .package-item__info {
   display: flex;
@@ -33,7 +28,63 @@ html, body {
   align-items: flex-start;
 }
 
-.package-item__name {
+.packageName {
+  margin-top:5%;
+  color: #181818;
+  font-family: 'Poppins';
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.item{
+  display: flex;
+  
+}
+.packageDetails{
+  margin-bottom: 15%;
+  display: contents;
+}
+
+.package-item__title {
+  color: #181818;
+  font-family: 'Poppins';
+  font-size: 24px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 20px;
+  margin-bottom: 5%;
+}
+
+.packageLine {
+  border-top: 3px solid #EA580C;
+  margin: 0 20px;
+  width: calc(100% - 40px);
+}
+
+
+
+.package {
+  position: relative;
+}
+
+
+.viewButton {
+  color: #ea580c;
+  font-family: 'Poppins';
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top:5%;
+  align-items: end;
+}
+
+.packageName {
+  margin-top: 5%;
   color: #181818;
   font-family: "Poppins";
   font-size: 24px;
@@ -42,55 +93,9 @@ html, body {
   line-height: 20px;
 }
 
+/* ... (rest of your styles) */
 
-
-.package-item__title {
-  color: #181818;
-  font-family: "Poppins";
-  font-size: 24px;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 20px;
-
-}
-
-.package-item__line {
-  border-top: 3px solid #EA580C;
-  margin: 0 20px;
-  width: calc(100% - 40px);
-}
-
-
-
-
-/* Add this to your existing CSS file */
-.package-item__content {
-  position: relative;
-}
-
-.package-item__actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.view-button {
-  color: #ea580c;
-  font-family: "Poppins";
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  margin-right: 10px;
-}
-.detail-title {
+.detailTitle {
   color: #5E5E5E;
   font-family: "Poppins";
   font-size: 20px;
@@ -100,10 +105,11 @@ html, body {
   margin-bottom: 5px;
 }
 
-.detail-info {
+.detailInfo {
   color: #5E5E5E;
   font-family: "Poppins";
   font-size: 20px;
   margin-bottom: 10px;
   margin-left: auto; /* Pushes the info to the right */
 }
+

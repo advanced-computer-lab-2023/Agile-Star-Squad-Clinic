@@ -19,7 +19,7 @@ const PackageList = (props) => {
     <div className='main'>
     <div className={classes.package}>
       {props.items.map((pkg) => (
-        <div key={pkg._id} className={classes.packageItem}>
+      
           <PackageItem
             id={pkg._id}
             name={pkg.name}
@@ -30,7 +30,7 @@ const PackageList = (props) => {
             description={pkg.description}
             onDelete={props.onDelete}
           />
-        </div>
+       
       ))}
     </div>
     </div>

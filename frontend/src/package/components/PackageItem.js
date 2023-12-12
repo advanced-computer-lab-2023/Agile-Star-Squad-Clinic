@@ -1,6 +1,7 @@
 import React from "react";
-import Card from "../../shared/components/Card/Card";
 import { Link } from "react-router-dom";
+import classes from './PackageList.module.css';
+import {  Container } from 'react-bootstrap';
 
 
 const PackageItem = (props) => {
@@ -19,52 +20,54 @@ const PackageItem = (props) => {
   };
 
   return (
-    <div className="package-item">
-      <Card className="package-item__content">
-          <h2 className="package-item__name">{props.name}</h2>
-          <hr className="package-item__line" />
-          <div className="package-item__details">
-            
-            <p>
-              <span className="detail-title">
-                Doctor Session Discount
+   
+      <Container className={classes.packageItem}>
+        <div className= {classes.item}>
+        <h2 className={classes.packageName}>{props.name}</h2>
+        <Link to={`/updatePackage/${props.id}`}>
+            <button className={classes.viewButton}>View</button>
+          </Link>
+        </div>
+        
+        <div className={classes.packageDetails}>
+          <hr className={classes.packageLine}/>
+            <p >
+              <span className={classes.detailTitle}>
+                Doctor Session Discount:
               </span>{" "}
-              <span className="detail-info">{props.doctorSessionDiscount}%</span>
+              <span className={classes.detailInfo}>{props.doctorSessionDiscount}%</span>
             </p>
             <p>
-              <span className="detail-title">Medicine Discount</span>{" "}
-              <span className="detail-info">{props.medicineDiscount}%</span>
+              <span className={classes.detailTitle}>Medicine Discount:</span>{" "}
+              <span className={classes.detailInfo}>{props.medicineDiscount}%</span>
             </p>
             <p>
-              <span className="detail-title">
-                Family Member Discount
+              <span className={classes.detailTitle}>
+                Family Member Discount:
               </span>{" "}
-              <span className="detail-info">{props.familyMemberDiscount}%</span>
+              <span className={classes.detailInfo}>{props.familyMemberDiscount}%</span>
             </p>
            
             <p>
-              <span className="detail-title">Price </span>{" "}
-              <span className="detail-info">{props.pricePerYear} LE</span>
+              <span className={classes.detailTitle}>Price: </span>{" "}
+              <span className={classes.detailInfo}>{props.pricePerYear} L.E.</span>
             </p>
             {/* <p>
-              <span className="detail-title">Description</span>{" "}
-              <span className="detail-info">{props.description}</span>
+              <span className={classes.detailTitle}>Description</span>{" "}
+              <span className={classes.detailInfo}>{props.description}</span>
             </p> */}
+            
           </div>
        
-        <div className="package-item__actions">
-          <Link to={`/viewPackage/${props.id}`}>
-            <button className="view-button">View</button>
-          </Link>
-          {/* <Link to={`/updatePackage/${props.id}`}>
-            <button className="btn btn-primary sm">Edit</button>
-          </Link>
-          <button className="btn btn-primary sm" onClick={confirmDeleteHandler}>
+        <div className={classes.packageActions}>
+        
+          
+          {/* <button className="btn btn-primary sm" onClick={confirmDeleteHandler}>
             Delete
           </button> */}
         </div>
-      </Card>
-    </div>
+      </Container>
+  
   );
 };
 
