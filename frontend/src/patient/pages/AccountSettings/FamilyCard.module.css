@@ -84,7 +84,7 @@
   }
 
   .memberContainer:nth-child(4) {
-    animation: slideFade 0.3s ease forwards;
+    animation: slideFade 1.3s ease forwards;
     opacity: 0.4;
     transform: translateY(50px);
   }

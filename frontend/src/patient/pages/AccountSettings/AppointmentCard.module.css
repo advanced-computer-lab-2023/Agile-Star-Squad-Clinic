@@ -159,6 +159,11 @@
     transition: all .2s ease-in-out;
 }
 
+.cancelButton:hover {
+    background-color: #ED3443;
+    color: white;
+}
+
 .rescheduleButton {
     width: 100%;
     background: linear-gradient(274deg, rgba(25,56,66, 1) 0%, rgba(157,206,255, 1) 124.45%);
@@ -169,11 +174,6 @@
     opacity: 85%;
     cursor: pointer;
     transition: all .2s ease-in-out;
-}
-
-.cancelButton:hover {
-    background-color: #ED3443;
-    color: white;
 }
 
 .rescheduleButton:hover {

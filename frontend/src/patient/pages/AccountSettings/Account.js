@@ -20,6 +20,7 @@ import logoutImg from '../../../assets/patientAccount/logout.png';
 import chevronRight from '../../../assets/patientAccount/chevronRight.png';
 import AppointmentsCard from './AppointmentCard';
 import FamilyCard from './FamilyCard';
+import PaymentCard from './PaymentCard';
 
 const PatientAccountSettings = (props) => {
   const patient = useContext(UserContext);
@@ -270,6 +271,7 @@ const PatientAccountSettings = (props) => {
       )}
 
       {index == 4 && <AppointmentsCard appointments={appointments} />}
+      {index == 3 && <PaymentCard/>}
     </body>
   );
 };
