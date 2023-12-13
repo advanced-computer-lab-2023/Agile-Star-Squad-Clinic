@@ -43,8 +43,6 @@ const PaymentCard = (props) => {
       setIsAdding(true);
       setSelectedCard(option);
     } else {
-      let label = option.cardNumber.slice(-4);
-      label = `Credit Card ending ${label}`;
       setName(option.name);
       setCardNumber(option.cardNumber);
       setExpiryMonth(option.expiryMonth);
@@ -54,13 +52,6 @@ const PaymentCard = (props) => {
       setSelectedCard({ ...option });
     }
     // change text fields and make default
-  }
-
-  const getCardOptions = () => {
-    return [
-      ...cards.map(card => { return { ...card, label: getCardValue(card) } }),
-      { label: "New Credit Card" }
-    ]
   }
 
   const getCardValue = (card) => {

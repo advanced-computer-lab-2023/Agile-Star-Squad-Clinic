@@ -21,6 +21,7 @@ import chevronRight from '../../../assets/patientAccount/chevronRight.png';
 import AppointmentsCard from './AppointmentCard';
 import FamilyCard from './FamilyCard';
 import PaymentCard from './PaymentCard';
+import MedicalCard from './MedicalCard';
 
 const PatientAccountSettings = (props) => {
   const patient = useContext(UserContext);
@@ -223,7 +224,7 @@ const PatientAccountSettings = (props) => {
         />
         <SettingsTile
           onClick={() => setIndex(2)}
-          title={'Medical History'}
+          title={'Medical Documents'}
           imagePath={medicalImg}
         />
         <SettingsTile
@@ -266,12 +267,10 @@ const PatientAccountSettings = (props) => {
           imagePath={logoutImg}
         />
       </SettingsContainer>
-      {index == 1 && (
-        <FamilyCard members={familyMembers} setMembers={setFamilyMembers} />
-      )}
-
+      {index == 1 && <FamilyCard members={familyMembers} setMembers={setFamilyMembers} />}
+      {index == 2 && <MedicalCard />}
+      {index == 3 && <PaymentCard />}
       {index == 4 && <AppointmentsCard appointments={appointments} />}
-      {index == 3 && <PaymentCard/>}
     </body>
   );
 };
@@ -300,9 +299,8 @@ const Greeting = (props) => {
   let name = `${props.name}`;
   name = name.toUpperCase();
   let joinedDate = new Date(props.joinedDate);
-  joinedDate = `${joinedDate.getDate()}/${
-    joinedDate.getMonth() + 1
-  }/${joinedDate.getFullYear()}`;
+  joinedDate = `${joinedDate.getDate()}/${joinedDate.getMonth() + 1
+    }/${joinedDate.getFullYear()}`;
   return (
     <div className={classes.greetingContainer}>
       <img src={props.imageUrl} />

@@ -1,0 +1,72 @@
+
+.sideCardTitle {
+    color: #101828;
+    font-family: 'Poppins';
+    font-size: 18px;
+    font-weight: 600;
+    text-align: start;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.tabText {
+    font-family: 'Poppins';
+    font-size: 16px;
+    color: #778293;
+    cursor: pointer;
+}
+
+.tabText:hover {
+    color: #525861;
+    transition: all .3s ease-in-out;
+}
+
+.tabText hr {
+    border: 1.5px solid #96B3FE;
+    opacity: 100%;
+}
+
+.activeTab {
+    background: var(--Primary, linear-gradient(274deg, #92A3FD 0%, #9DCEFF 124.45%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    transition: all .2s ease-in-out;
+}
+
+.activeTab:hover{
+    font-weight: 700!important;
+}
+
+.myDropzone {
+    background-color: #F8F8FF;
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+    color: #0F0F0F;
+    border: 1px dashed #96B7C7;
+    border-radius: 12px;
+    padding-top: 25px;
+    padding-bottom: 15px;
+}
+
+.dropzoneSubtitle {
+    color: #676767;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.myDropzone aside {
+    justify-content: center;
+}
+
+.dropzoneDivider {
+    width: 100%;
+    margin-bottom: 34px;
+}
