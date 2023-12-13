@@ -3,6 +3,7 @@ import { SideCard } from "./Account"
 import Dropzone from "react-dropzone"
 import classes from "./MedicalCard.module.css"
 import uploadImg from "../../../assets/patientAccount/upload.png";
+import deleteImg from "../../../assets/patientAccount/delete.png";
 
 
 
@@ -21,6 +22,50 @@ const MedicalCard = (props) => {
 
     }
 
+    const getUploadTab = () => {
+        const thumbs = files.map(file => (
+            <div style={thumb} key={file.name}>
+                <div style={thumbInner}>
+                    <img
+                        src={file.preview}
+                        style={img}
+                    />
+                </div>
+            </div>
+        ));
+
+        return <>
+            <MyDropzone label="Upload Document" maxFiles={5} toast={toastMe} files={files} setFiles={setFiles} />
+            <div className="d-flex flex-column align-items-start mt-3">
+                <div>Selected Files:</div>
+                {files.length == 0 && <div className={classes.noFiles}>No files selected</div>}
+                {files.length > 0 && <aside style={thumbsContainer}>
+                    {thumbs}
+                </aside>}
+            </div>
+            <button disabled={files.length == 0} className={classes.uploadButton}>Upload Files</button>
+        </>
+    }
+
+    const getDocumentsTab = () => {
+        //files line 53 should be patients uploaded file urls from db
+        return <div className="d-flex flex-wrap">
+            {files.map(file => (
+                <div className="position-relative border p-3 col-5 m-3" key={file.name}>
+                    <a href={file.preview} target="_blank">
+                        <div>
+                            <img
+                                src={file.preview}
+                                height={50}
+                            />
+                        </div>
+                    </a>
+                    <div className={classes.deleteButton}><img height={30} src={deleteImg} /></div>
+                </div>
+            ))}
+        </div>
+    }
+
     return <SideCard>
         <div className={classes.sideCardTitle}>Medical Documents</div>
         <div className={classes.tabs}>
@@ -31,7 +76,8 @@ const MedicalCard = (props) => {
                 My Documents {tab == 1 && <hr className={classes.activeTab} />}
             </div>
         </div>
-        <MyDropzone label="Upload Document" maxFiles={5} toast={toastMe} files={files} setFiles={setFiles}/>
+        {tab == 0 && getUploadTab()}
+        {tab == 1 && getDocumentsTab()}
     </SideCard>;
 }
 
@@ -75,15 +121,15 @@ const MyDropzone = (props) => {
                 <section>
                     <div {...getRootProps()}>
                         <input {...getInputProps()} />
-                        {files.length > 0 && <aside style={thumbsContainer}>
+                        {/* {files.length > 0 && <aside style={thumbsContainer}>
                             {thumbs}
-                        </aside>}
-                        {files.length == 0 && <>
-                            <img height={50} src={uploadImg}/>
+                        </aside>} */}
+                        <>
+                            <img height={50} src={uploadImg} />
                             <div className="mt-3">Drag & drop files or Browse</div>
                             <div className={classes.dropzoneSubtitle}>Supported formats: JPEG, PNG, PDF</div>
-                            </>
-                        }
+                        </>
+
                     </div>
 
                 </section>
@@ -98,8 +144,8 @@ const thumb = {
     border: '1px solid #eaeaea',
     marginBottom: 8,
     marginRight: 8,
-    width: 100,
-    height: 100,
+    width: "auto",
+    height: 50,
     padding: 4,
     boxSizing: 'border-box'
 };
@@ -120,7 +166,7 @@ const thumbsContainer = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 16
+    marginTop: 8
 };
 
 export default MedicalCard
