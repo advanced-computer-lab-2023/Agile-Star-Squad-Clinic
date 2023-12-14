@@ -1,5 +1,5 @@
 import './MeetingPage.css';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   MeetingProvider,
   MeetingConsumer,
@@ -8,6 +8,8 @@ import {
 } from '@videosdk.live/react-sdk';
 import { authToken, createMeeting } from '../components/Meeting/API';
 import ReactPlayer from 'react-player';
+import axios from 'axios';
+import UserContext from '../../user-store/user-context';
 
 function JoinScreen({ getMeetingAndToken }) {
   const [meetingId, setMeetingId] = useState(null);
@@ -140,16 +142,53 @@ function MeetingView(props) {
   );
 }
 
-function App() {
+function MeetingPage() {
   const [meetingId, setMeetingId] = useState(null);
+
+  const userCtx = useContext(UserContext);
+
+  const [name, setName] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/meeting', { withCredentials: true })
+      .then((res) => {
+        setMeetingId(res.data.data.meeting.meetingId);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get(`http://localhost:3000/${userCtx.role}s/${userCtx.userId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (userCtx.role === 'patient') setName(res.data.data.patient.name);
+        else if (userCtx.role === 'doctor') setName(res.data.data.doctor.name);
+      });
+  }, []);
 
   const getMeetingAndToken = async (id) => {
     const meetingId =
       id == null ? await createMeeting({ token: authToken }) : id;
+    axios.post(
+      'http://localhost:3000/meeting',
+      { meetingId },
+      { withCredentials: true },
+    );
     setMeetingId(meetingId);
   };
 
   const onMeetingLeave = () => {
+    axios
+      .delete('http://localhost:3000/meeting', { withCredentials: true })
+      .then((res) => {
+        setMeetingId(null);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setMeetingId(null);
   };
 
@@ -159,7 +198,7 @@ function App() {
         meetingId,
         micEnabled: true,
         webcamEnabled: true,
-        name: 'C.V. Raman',
+        name,
       }}
       token={authToken}
     >
@@ -174,4 +213,4 @@ function App() {
   );
 }
 
-export default App;
+export default MeetingPage;
