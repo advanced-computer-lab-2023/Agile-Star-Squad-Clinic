@@ -8,7 +8,7 @@ const PackageItem = (props) => {
   return (
     <div
       className={styles.card}
-      style={props.isNavy ? { backgroundColor: '#252B42' } : null}
+      style={props.isNavy ? { backgroundColor: '#252B42', transform: "scale(1.1)" } : null}
     >
       <div>
         <h3
