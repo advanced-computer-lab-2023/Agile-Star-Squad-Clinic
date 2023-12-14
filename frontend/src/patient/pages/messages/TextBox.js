@@ -1,14 +1,17 @@
 import styles from './Messages.module.css';
 
-const TextBox = () => {
+const TextBox = (props) => {
   return (
     <div className={styles.inputContainer}>
       <input
         type="text"
+        value={props.value}
+        onChange={props.onChange}
+        onKeyDown={props.onKeyDown}
         placeholder="Type your message here ..."
         className={styles.textBox}
       />
-      <button className={styles.sendButton}>
+      <button onClick={() =>  props.onKeyDown(null)} className={styles.sendButton}>
         <svg
           style={{ fill: 'var(--colors-back-ground-blue-white-text, #F8F9FD)' }}
           xmlns="http://www.w3.org/2000/svg"

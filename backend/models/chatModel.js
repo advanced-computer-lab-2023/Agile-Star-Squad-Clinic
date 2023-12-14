@@ -1,19 +1,13 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const chatSchema = new mongoose.Schema({
-  doctorId: {
-    type: String,
-    required: [true, 'Missing doctor ID']
+  doctor: {
+    type: Object,
+    required: [true, 'Missing doctor']
   },
-  patientId: {
-    type: String,
-    required: [true, 'Missing patient ID']
-  },
-  patientImg: {
-    type: String
-  },
-  doctorImg: {
-    type: String
+  patient: {
+    type: Object,
+    required: [true, 'Missing patient']
   },
   messages: [{
     type: Object

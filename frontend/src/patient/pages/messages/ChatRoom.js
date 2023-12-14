@@ -1,15 +1,15 @@
 import styles from './Messages.module.css';
 import profilePic from './images/Rectangle1.png';
 
-const ChatRoom = () => {
+const ChatRoom = (props) => {
   return (
-    <div>
+    <div onClick={props.onClick} >
       <button className={styles.chatRoom}>
         <img src={profilePic} alt="myPic" />
         <div className={styles.chatInfo}>
-          <h6>Ahmed Lasheen</h6>
+          <h6>{props.name}</h6>
           <p className={styles.lastMessage}>
-            Hi! I lost my prescription note. Could you rewrite it?
+            {props.message}
           </p>
         </div>
       </button>

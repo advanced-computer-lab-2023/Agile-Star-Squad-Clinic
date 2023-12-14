@@ -1,23 +1,25 @@
 import styles from './Messages.module.css';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import ChatRoom from './ChatRoom';
 import Sender from './Sender';
 import Receiver from './Receiver';
 import TextBox from './TextBox';
 import * as Realm from "realm-web";
-import {ObjectId} from "bson";
+import { ObjectId } from "bson";
 import UserContext from '../../../user-store/user-context';
 
 
 const Messages = () => {
   const userCtx = useContext(UserContext);
-  const [user, setUser] = useState();
-  const [events, setEvents] = useState([]);
   const [chats, setChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [textbox, setTextbox] = useState("");
+  const messagesEndRef = React.createRef()
 
-  const app = new Realm.App({id: "application-1-kfjsh"})
+  const app = new Realm.App({ id: "application-1-kfjsh" })
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
   const collection = mongodb.db("clinic").collection("chats");
+  const isPatient = userCtx.role == "patient";
 
   // get users chat ids
   // get the chats
@@ -38,11 +40,8 @@ const Messages = () => {
 
   const setupChats = async (chatIds) => {
     const user = await app.logIn(Realm.Credentials.anonymous());
-    setUser(user);
-
-
     for (const chatId of chatIds) {
-      const initialChat = await collection.findOne({"_id": new ObjectId(chatId)});
+      const initialChat = await collection.findOne({ "_id": new ObjectId(chatId) });
       setChats(chats => [...chats, initialChat]);
 
       listenToChat(chatId);
@@ -50,46 +49,136 @@ const Messages = () => {
   }
 
   const listenToChat = async (chatId) => {
-    for await (const change of collection.watch({"_id": new ObjectId(chatId)})) {
+    for await (const change of collection.watch({ "_id": new ObjectId(chatId) })) {
       const newChat = change.fullDocument;
       setChats(chats => {
         const result = [...chats]
-        const index = result.findIndex(chat => chat.doctorId == newChat.doctorId);
+        let index;
+        if (isPatient) {
+          index = result.findIndex(chat => chat.doctor.id == newChat.doctor.id)
+        } else {
+          index = result.findIndex(chat => chat.patient.id == newChat.patient.id)
+        }
         result[index] = newChat;
         return result;
       });
     }
   }
- 
+
+  const handleChatChange = (chat) => {
+    setSelectedChat(chat);
+  }
+
+  const getChatRooms = () => {
+    return chats.map(chat => {
+      // we want name, and message
+      const message = chat.lastMessage.message;
+      let name, id;
+      if (userCtx.userId == chat.patient.id) {
+        name = chat.doctor.name;
+        id = chat.doctor.id;
+      } else {
+        name = chat.patient.name;
+        id = chat.patient.id;
+      }
+      return <ChatRoom onClick={() => handleChatChange(chat)} key={chat._id} name={name} message={message} />
+    });
+  }
+
+  const getRoom = () => {
+    if (!selectedChat) {
+      return <div className={`px-4 ${styles.Room}`}></div>
+    }
+    return <div className={`px-4 ${styles.Room}`}>
+      {
+        selectedChat.messages.map(msgObject => {
+          if ((isPatient && msgObject.senderId == userCtx.userId) || (!isPatient && msgObject.senderId == userCtx.userId)) {
+            return <div className={styles.RoomRight}>
+              <Receiver key={msgObject} msg={msgObject.message} timestamp={msgObject.timestamp} />
+            </div>
+          } else {
+            return <div className={styles.RoomLeft}>
+              <Sender key={msgObject} msg={msgObject.message} timestamp={msgObject.timestamp} />
+            </div>
+          }
+        })
+      }
+      <div ref={messagesEndRef} />
+    </div>
+  }
+
+  const getRoomName = () => {
+    if (!selectedChat) {
+      return "Select Chat"
+    }
+    if (isPatient) {
+      return selectedChat.doctor.name
+    } else {
+      return selectedChat.patient.name;
+    }
+  }
+
+  const onSubmit = (event) => {
+    if (event != null && event.key != "Enter") {
+      return;
+    }
+    const message = {
+      message: textbox,
+      timestamp: Date.now(),
+      senderId: userCtx.userId
+    }
+    setSelectedChat(val => {
+      const chat = { ...val };
+      chat.messages.push(message);
+      chat.lastMessage = message;
+      return chat;
+    });
+    console.log(collection.findOneAndUpdate({ _id: selectedChat._id }, { $set: { messages: [...selectedChat.messages, message], lastMessage: message } }))
+    setTextbox("")
+  }
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+  }
+
   useEffect(() => {
-    console.log(chats);
+    scrollToBottom();
+  }, [selectedChat])
+
+  useEffect(() => {
+    if (selectedChat != null) {
+      const newSelectedChat = chats.find(chat => chat.doctor.id == selectedChat.doctor.id && chat.patient.id == selectedChat.patient.id);
+      setSelectedChat(newSelectedChat);
+    }
   }, [chats]);
 
   return (
     <>
-      <div>
-        <a href="/HomePage">
-          <svg
-            className={styles.backArrow}
-            xmlns="http://www.w3.org/2000/svg"
-            width="23"
-            height="14"
-            viewBox="0 0 23 14"
-            fill="none"
-          >
-            <path
-              d="M1.59583 1.53345L11.9077 11.9807L22.2571 1.57064"
-              stroke="black"
-              strokeOpacity="0.6"
-              strokeWidth="2.04827"
-            />
-          </svg>
-        </a>
-      </div>
       <div className="container m-0">
         <div className={`row ${styles.row}`}>
           <div className={`col-4 pt-4 ${styles.messageCol}`}>
-            <h2 className={styles.messages}>Messages</h2>
+            <div className='d-flex ms-4 align-items-center'>
+              <a style={{ all: "unset" }} href="/">
+                <div className={styles.backButton}>
+                  <svg
+                    className={styles.backArrow}
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="7"
+                    viewBox="0 0 23 14"
+                    fill="none"
+                  >
+                    <path
+                      d="M1.59583 1.53345L11.9077 11.9807L22.2571 1.57064"
+                      stroke="#3D64FD"
+                      // strokeOpacity="0.6"
+                      strokeWidth="3.04827"
+                    />
+                  </svg>
+                  Back To Clinic</div>
+              </a>
+              <div className={styles.messages}>Messages</div>
+            </div>
+
             <div className={styles.searchChat}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -149,41 +238,17 @@ const Messages = () => {
               />
             </div>
             <div className={styles.myMessages}>
-              <ChatRoom />
-              <ChatRoom />
-              <ChatRoom />
-              <ChatRoom />
-              <ChatRoom />
-              <ChatRoom />
+              {getChatRooms()}
             </div>
           </div>
           <div className={`col-8 pt-4 ${styles.chatCol}`}>
             <div className={styles.chosenChat}>
-              <h2 className={styles.messages}>Ahmed Lasheen</h2>
+              <h2 className={styles.messages}>{getRoomName()}</h2>
             </div>
-            <div className={`px-4 ${styles.Room}`}>
-              <div className={styles.RoomLeft}>
-                <Sender />
-                <Sender />
-                <Sender />
-                <Sender />
-                <Sender />
-              </div>
-              <div className={styles.RoomRight}>
-                <Receiver />
-                <Receiver />
-              </div>
-              <div className={styles.RoomLeft}>
-                <Sender />
-                <Sender />
-                <Sender />
-                <Sender />
-                <Sender msg="big booty bitches " timestamp="4:45 PM" />
-              </div>
-            </div>
-            <div className={styles.typingSpace}>
-              <TextBox/>
-            </div>
+            {getRoom()}
+            {selectedChat != null && <div className={styles.typingSpace}>
+              <TextBox value={textbox} onKeyDown={(event) => onSubmit(event)} onChange={(e) => { setTextbox(e.target.value) }} />
+            </div>}
           </div>
         </div>
       </div>
