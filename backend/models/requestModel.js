@@ -29,6 +29,7 @@ const requestSchema = new mongoose.Schema(
       // minLength: 8,
     },
     dateOfBirth: Date,
+    creationDate: Date,
     hourlyRate: {
       type: Number,
       required: [true, 'Please provide an hourly rate'],
@@ -67,6 +68,7 @@ const requestSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide your medical degree."],
     },
+    
 
   },
   {

@@ -205,13 +205,26 @@
   height: 579px;
   flex-shrink: 0;
 }
- .userTitle{
+.userTitle{
   color: #96A5B8;
   font-family: 'Open Sans';
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
   line-height: 16px; /* 123.077% */
+}
+.userDateAdmin{
+  width: 102.713px;
+  height: 17.364px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid #0095FF;
+  background: #F0F9FF;
+  color: #0095FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left:40% ;
 }
 
 

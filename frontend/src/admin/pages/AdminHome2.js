@@ -27,7 +27,6 @@ const AdminHome2 = (props) => {
   const [activeRole, setActiveRole] = useState('patient');
   const [users, setUsers] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
-  console.log(props);
 
   useEffect(() => {
     filterUsersByRole(activeRole);
@@ -107,7 +106,6 @@ const AdminHome2 = (props) => {
         (request) => request.status === 'Pending'
       );
       setRequests(pendingRequests);
-      console.log(pendingRequests);
     } catch (error) {
       console.error('Error fetching pending requests:', error);
     }
@@ -148,6 +146,7 @@ const AdminHome2 = (props) => {
           name: patient['name'],
           email: patient['email'],
           dateOfBirth: patient['dateOfBirth'],
+          creationDate: patient['creationDate'],
           gender: patient['gender'],
           mobileNumber: patient['mobileNumber'],
           emergencyContact: patient['emergencyContact'],
@@ -255,7 +254,6 @@ const AdminHome2 = (props) => {
 
   const accept = async (props) => {
     try {
-        console.log(props+"llll");
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -361,8 +359,58 @@ const reject = async (props) => {
     // Call your delete function here
     deleteUser(username);
   };
+  const getYearColor = (year) => {
+    if (year < 2000) {
+      return {
+        border: '1px solid #FFA500', // orange
+        background: '#F0F9FF',
+        color: '#FFA500',
+      };
+    } else if (year >= 2000 && year <= 2020) {
+      return {
+        border: '1px solid #0095FF',
+        background: 'var(--colors-light-blue-50, #F0F9FF)',
+      };
+    } else if (year === 2021) {
+      return {
+        border: '1px solid #884DFF', // purple
+        background: '#FBF1FF',
+        color: '#884DFF',
+      };
+    } else if (year === 2022) {
+      return {
+        border: '1px solid #FFD700', // yellow
+        background: '#FEF6E6',
+        color: '#FFD700',
+      };
+    } else if (year === 2023) {
+      return {
+        border: '1px solid #00E58F', // green
+        background: '#F0FDF4',
+        color: '#00E58F',
+      };
+    } else {
+      // default blue
+      return {
+        border: '1px solid #0095FF',
+        background: '#F0F9FF',
+        color: '#0095FF',
+      };
+    }
+  };
+  const formatDefaultDate = () => {
+    const currentDate = new Date();
+    const oneDayAgo = new Date(currentDate);
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+  
+    const options = { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    
+    return oneDayAgo.toLocaleDateString('en-US', options);
+  };
+  
+  
+  
  
-
   return (
     <>
       <div>
@@ -380,11 +428,13 @@ const reject = async (props) => {
                 <img src={req} alt="req" />
               </td>
               <td className={classes.bold}>
-                {request.name} - {request.affiliation}
-                <div className={classes.small}>
-                  {request.speciality}-{calculateAge(request.dateOfBirth)} {request.gender}
-                </div>
-              </td>
+      {request.name} - {request.affiliation}
+      <div className={classes.small}>
+      {request.speciality}-{calculateAge(request.dateOfBirth)}, { formatDefaultDate(request.creationDate ? new Date(request.creationDate) : undefined)}
+
+
+      </div>
+    </td>
               {status.toLowerCase() === 'pending' && (
                 <ActionButtons reject={() => reject(request)} accept={() => accept(request)} />
               )}
@@ -494,6 +544,7 @@ const reject = async (props) => {
               <th className={classes.userTitle}>Name</th>
               <th className={classes.userTitle}>Subscription</th>
               <th className={classes.userTitle}>Email</th>
+              <th className={classes.userTitle}>Member Since</th>
               {/* Add more patient-specific columns as needed */}
             </>
           )}
@@ -509,8 +560,7 @@ const reject = async (props) => {
           {activeRole === 'admin' && (
             <>
               <th className={classes.userTitle}>Username</th>
-              <th className={classes.userTitle}>Email</th>
-              {/* Add more admin-specific columns as needed */}
+              <th className={classes.userTitle}>Member Since</th>
             </>
           )}
         </tr>
@@ -525,6 +575,14 @@ const reject = async (props) => {
                 <td className={classes.userInfo}>{user.name}</td>
                 <td>{user.package ? user.package.name : 'No Subscription'}</td>
                 <td>{user.email}</td>
+                <td className={classes.userCell}>
+      <div
+        className={classes.userDate}
+        style={getYearColor(extractYearFromDate(user.creationDate))}
+      >
+        {extractYearFromDate(user.creationDate)}
+      </div>
+    </td>
                 {/* Add more patient-specific cells as needed */}
               </>
             )}
@@ -534,15 +592,27 @@ const reject = async (props) => {
                 <td>{user.speciality}</td>
                 <td>{user.affiliation}</td>
                 <td className={classes.userCell}>
-  <div className={classes.userDate}>{extractYearFromDate(user.dateOfCreation)}</div>
-</td>
+      <div
+        className={classes.userDate}
+        style={getYearColor(extractYearFromDate(user.dateOfCreation))}
+      >
+        {extractYearFromDate(user.dateOfCreation)}
+      </div>
+    </td>
                 {/* Add more doctor-specific cells as needed */}
               </>
             )}
             {activeRole === 'admin' && (
               <>
                 <td className={classes.userInfo}>{user.username}</td>
-                <td>{user.email}</td>
+                <td className={classes.userCell}>
+      <div
+        className={classes.userDateAdmin}
+        style={getYearColor(extractYearFromDate(user.creationDate))}
+      >
+        {extractYearFromDate(user.creationDate)}
+      </div>
+    </td>
               </>
             )}
             
