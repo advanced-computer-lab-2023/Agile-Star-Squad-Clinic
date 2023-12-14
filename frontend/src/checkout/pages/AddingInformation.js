@@ -3,6 +3,7 @@ import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import Payment from '../components/payment/Payment';
 import { useLocation, useNavigate } from 'react-router-dom';
+import "./extra.css";
 
 
 const AddingInfo = () => {
@@ -56,34 +57,39 @@ const AddingInfo = () => {
       <div className="row  justify-content-evenly gx-5">
         <div className="col card1">
           <Card>
+          
             <Payment props={{ ...stateData,price}} />
           </Card>
         </div>
-        <div className="col" id="card2">
-          <Card>
-            <h3>Order Summary</h3>
-            <div>
+        <div className="col" id="card2" >
+          <Card style={{width:'fit-content',padding:'40px'}}>
+            <h3 id='datesDoctor' >Order Summary</h3>
+            <div >
               <img
-                style={{ width: '200px', height: '200px', borderRadius: '10%' }}
+                style={{ width: '100px', height: '100px', borderRadius: '10%',display:"inline-block" }}
                 src={
                   stateData.doctor.image ??
                   'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'
                 }
                 alt="profile picture"
+               
               />
-              <p>{stateData.dateOfAppointment.toDateString()}</p>
-              <p>{stateData.timeOfAppointment}</p>
+              <div style={{display:"inline-block",paddingLeft:'10px'}}>
+              <p id='datesDoctor'>{stateData.dateOfAppointment.toDateString()}</p>
+              <p id='datesDoctor'>{stateData.timeOfAppointment}</p>
+              </div>
             </div>
-            <p>{stateData.doctor.name}</p>
-            <p>Sub Total: {Math.floor(stateData.doctor.hourlyRate*1.1)}LE </p>
+            <p id='datesDoctor'>{stateData.doctor.name}</p>
+            <p id='total1'>Total : {price}</p>
+            <p id='total2'>Sub Total: {Math.floor(stateData.doctor.hourlyRate*1.1)}LE </p>
             <div>
               {packagePresent && (
-                <p>
+                <p id='total2'>
                   Package Discount : -{Math.floor((stateData.packageToUse.doctorSessionDiscount / 100) *(stateData.doctor.hourlyRate*1.1))}LE
                 </p>
               )}
             </div>
-            <div>Total : {price}</div>
+            <div id='total1'>Total : {price}</div>
           </Card>
         </div>
       </div>

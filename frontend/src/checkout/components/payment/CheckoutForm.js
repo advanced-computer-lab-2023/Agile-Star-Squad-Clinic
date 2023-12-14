@@ -1,5 +1,5 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import React ,{ useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import './CheckoutForm.css'
@@ -131,24 +131,54 @@ export default function CheckoutForm(props) {
   };
   return (
     <form id="payment-form" onSubmit={!useWallet ? handleSubmit : handleWallet}>
+       <div className='headins'>
+              <p >Account</p>
+              <hr id='hring'></hr>
+              <img src="/checkbox.png" alt="done"/>
+              <hr id='hring'></hr>
+              <p>Payment</p>
+              <hr id='hring'></hr>
+              <img src="/checkbox.png" alt="done"/>
+              <hr id='hring'></hr>
+              <p>Reservation No.</p>
+            </div>
+            {/* <h4>Payment Details</h4> */}
       <input
         type="checkbox"
-        id="use-wallet"
+        // id="use-wallet"
+        
         checked={useWallet}
         onChange={(e) => setUseWallet(e.target.checked)}
       />
+  
       <label htmlFor="use-wallet">Pay with Wallet</label>
-      <div>{!useWallet &&
-        <PaymentElement id="payment-element" />}
+      
+      <div>{!useWallet &&<React.Fragment>  <div >
+              <label className="label1">Card Holder Name</label>
+              <br />
+              <input
+                type="text"
+                className="input1"
+                name="radio"
+                placeholder="Name"
+                // id="use-wallet"
+                checked={useWallet == 0}
+                
+              />
+            </div>
+        <PaymentElement id="payment-element" /></React.Fragment>}
       </div>
-      <button disabled={isProcessing || !stripe || !elements} id="submit">
+      {message && <div id="payment-message">{message}</div>}
+
+      <button className="cancelApp" onClick={handleCancel}>Cancel</button>
+      <button className="checkoutApp" disabled={isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isProcessing ? "Processing ... " : "Pay now"}
+          {isProcessing ? "Processing ... " : "Complete Order"}
         </span>
       </button>
-      <button onClick={handleCancel}>Cancel</button>
+      
       {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+     
     </form>
   );
 }
