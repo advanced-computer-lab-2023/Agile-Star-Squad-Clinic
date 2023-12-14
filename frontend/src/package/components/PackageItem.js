@@ -5,19 +5,7 @@ import {  Container } from 'react-bootstrap';
 
 
 const PackageItem = (props) => {
-  const confirmDeleteHandler = async () => {
-    try {
-      await fetch(`http://localhost:3000/packages/${props.id}`, {
-      
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      props.onDelete(props.id);
-       // Use onDeletePlace prop
-    } catch (err) {
-      // Handle errors, if needed
-    }
-  };
+  
 
   return (
    
@@ -60,7 +48,7 @@ const PackageItem = (props) => {
        
         <div className={classes.packageActions}>
         
-        <Link to={`/updatePackage/${props.id}`}>
+        <Link to={`/updatePackage/${props.id,props}`}>
             <button className={classes.viewButton}>View</button>
           </Link>
           {/* <button className="btn btn-primary sm" onClick={confirmDeleteHandler}>

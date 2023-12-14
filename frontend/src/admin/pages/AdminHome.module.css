@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@600&display=swap');
 .requests {
   position: absolute;
   left: 5%;
@@ -63,6 +64,7 @@
 
 .rej {
   border: 1px solid #FD9292;
+  padding-right: 5%;
 }
 
 .acc:hover,
@@ -111,6 +113,7 @@
 .custom-table {
     margin-top: 20px; /* Adjust the margin to give space below the title */
     border-collapse: collapse; /* Remove the default cell spacing and padding */
+    align-items: flex-start;
   }
   
   .custom-row {
@@ -149,13 +152,22 @@
     -webkit-text-fill-color: transparent;
     border: none;   
   }
-  .custom-table thead tr.package-titles th {
+  
+  .custom-table thead tr.packageTitles th {
     color: #C77223;
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
+  }
+  .packageTitles{
+    color: #C77223;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
   }
   .custom-table tbody tr.custom-row {
     background-color: transparent;
@@ -183,7 +195,55 @@
   height: 579px;
   flex-shrink: 0;
 }
+ .userTitle{
+  color: #96A5B8;
+  font-family: 'Open Sans';
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 123.077% */
+}
 
+
+
+.userDate {
+  width: 102.713px;
+  height: 17.364px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid #0095FF;
+  background: #F0F9FF;
+  color: #0095FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 27%;
+}
+
+
+.userBody{
+  align-items: flex-start;
+}
+.userInfo{
+  color: var(--greys-blue-grey-800, #444A6D);
+
+/* sm/Regular */
+font-family: 'Poppins';
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 142.857% */
+}
+.deleteButton{
+  width: 5px;
+height: 14px;
+flex-shrink: 0;
+font-family: 'Poppins';
+font-weight: 400;
+border: none;   
+background-color: transparent;
+
+}
 .user-tabs {
   display: flex;
   justify-content: space-around;
@@ -206,14 +266,14 @@
 
 .filterButton {
   background-color: transparent;
-  color: rgba(5, 0, 78, 0.25);
   border: none;
   padding: 8px 16px;
   margin-right: 8px;
   cursor: pointer;
   outline: none;
-  color: var(--primary-dark-shade, #05004E);
-  font-family: "Poppins";
+  color: rgba(5, 0, 78, 0.25);
+  font-family: 'Poppins';
+  font-weight: 600;
   font-size: 20px;
 }
 
@@ -228,3 +288,19 @@
   bottom: 86%;
   left: 55%;
 }
+.rejectReq{
+  padding-left: 5%;
+}
+.acceptReq{
+  padding-right: 5%;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.spacing {
+ justify-content: space-between;
+}
+
+

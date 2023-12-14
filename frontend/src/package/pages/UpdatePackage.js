@@ -14,6 +14,19 @@ const UpdatePackage = () => {
 
   
   useEffect(() => {
+    // const confirmDeleteHandler = async () => {
+    //   try {
+    //     await fetch(`http://localhost:3000/packages/${props.id}`, {
+        
+    //       method: 'DELETE',
+    //       headers: { 'Content-Type': 'application/json' },
+    //     });
+    //     props.onDelete(props.id);
+    //      // Use onDeletePlace prop
+    //   } catch (err) {
+    //     // Handle errors, if needed
+    //   }
+    // };
    
     const fetchData = async () => {
       try {

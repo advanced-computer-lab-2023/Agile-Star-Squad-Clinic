@@ -26,19 +26,40 @@ const AdminHome2 = (props) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [activeRole, setActiveRole] = useState('patient');
   const [users, setUsers] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     filterUsersByRole(activeRole);
   }, [activeRole]);
+ 
 
   useEffect(() => {
-    fetchPatients();
-    fetchDoctors();
-    fetchAdmins();
-    fetchPendingRequests();
-    fetchPackages();
-  }, []);
+    const fetchData = async () => {
+      // Fetch data here
+      try {
+        // Fetch patients, doctors, admins, and other necessary data
+        await fetchPatients();
+        await fetchDoctors();
+        await fetchAdmins();
+        await fetchPendingRequests();
+        await fetchPackages();
 
+        // Set dataLoaded to true after fetching all data
+        setDataLoaded(true);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
+
+  useEffect(() => {
+    // If data has been loaded, simulate a click on the "Patients" button
+    if (dataLoaded) {
+      handleRoleButtonClick('patient');
+    }
+  }, [dataLoaded]);
   useEffect(() => {
     selectedRequestRef.current = selectedRequest;
   }, [selectedRequest]);
@@ -131,6 +152,7 @@ const AdminHome2 = (props) => {
           doctor: patient['doctor'],
           familyMembers: patient['familyMembers'],
           role: 'Patient',
+          package: patient['package'], // Add this line to include package information
         })),
       ]);
     } catch (error) {
@@ -156,6 +178,7 @@ const AdminHome2 = (props) => {
           speciality: doctor['speciality'],
           mobileNumber: doctor['mobileNumber'] ?? '-',
           role: 'Doctor',
+          dateOfCreation: doctor['dateOfCreation']  ,
         })),
       ]);
     } catch (error) {
@@ -309,6 +332,12 @@ const AdminHome2 = (props) => {
   const exitUserModal = () => {
     setSelectedUser(null);
   };
+  function extractYearFromDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    return year;
+  }
+ 
 
   return (
     <>
@@ -322,6 +351,7 @@ const AdminHome2 = (props) => {
                 <table className="table table-hover">
                   <tbody>
                     {requests.map((request) => (
+
                       <tr key={request.id} onClick={() => showDetails(request)}>
                         <td className={classes.req}>
                           <img src={req} alt="req" />
@@ -336,7 +366,8 @@ const AdminHome2 = (props) => {
                         {status.toLowerCase() === 'pending' && (
                           <ActionButtons reject={() => reject(request)} accept={() => accept(request)} />
                         )}
-                        <td>
+                        <td className={classes.spacing}>
+                        <td className={classes.rejectReq}>
                           <img
                             src={x}
                             alt="req-rej"
@@ -350,7 +381,7 @@ const AdminHome2 = (props) => {
                             }}
                           />
                         </td>
-                        <td>
+                        <td className={classes.rejectReq}>
                           <img
                             src={check}
                             width="25"
@@ -365,6 +396,7 @@ const AdminHome2 = (props) => {
                               accept(request);
                             }}
                           />
+                        </td>
                         </td>
                       </tr>
                     ))}
@@ -383,9 +415,9 @@ const AdminHome2 = (props) => {
             <h2 className={classes.title}>Packages</h2>
             <div className="container">
               <div className="row">
-                <Table striped bordered hover className="custom-table">
+                <Table  hover className="custom-table">
                   <thead>
-                    <tr className="package-titles">
+                    <tr className={classes.packageTitles}>
                       <th>Package</th>
                       <th>Session Discount</th>
                       <th>Medicine Discount</th>
@@ -410,56 +442,103 @@ const AdminHome2 = (props) => {
           </Container>
 
           <Container className={classes.users}>
-            <div className={classes.filter}>
-              {/* Button to show patients */}
-              <button
-                className={`${classes.filterButton} ${activeRole === 'patient' ? classes.active : ''}`}
-                onClick={() => handleRoleButtonClick('patient')}
-              >
-                Patients
-              </button>
+  <div className={classes.filter}>
+    {/* Buttons to filter user roles */}
+    <button
+      className={`${classes.filterButton} ${activeRole === 'patient' ? classes.active : ''}`}
+      onClick={() => handleRoleButtonClick('patient')}
+    >
+      Patients
+    </button>
+    <button
+      className={`${classes.filterButton} ${activeRole === 'doctor' ? classes.active : ''}`}
+      onClick={() => handleRoleButtonClick('doctor')}
+    >
+      Doctors
+    </button>
+    <button
+      className={`${classes.filterButton} ${activeRole === 'admin' ? classes.active : ''}`}
+      onClick={() => handleRoleButtonClick('admin')}
+    >
+      Admins
+    </button>
+  </div>
 
-              {/* Button to show doctors */}
-              <button
-                className={`${classes.filterButton} ${activeRole === 'doctor' ? classes.active : ''}`}
-                onClick={() => handleRoleButtonClick('doctor')}
-              >
-                Doctors
-              </button>
+  <div className="row">
+    <Table   hover className={"custom-table"}>
+      <thead>
+        <tr>
+          {activeRole === 'patient' && (
+            <>
+              <th className={classes.userTitle}>Name</th>
+              <th className={classes.userTitle}>Subscription</th>
+              <th className={classes.userTitle}>Email</th>
+              {/* Add more patient-specific columns as needed */}
+            </>
+          )}
+          {activeRole === 'doctor' && (
+            <>
+              <th className={classes.userTitle}>Name</th>
+              <th className={classes.userTitle}>Speciality</th>
+              <th className={classes.userTitle}>Affiliation</th>
+              <th className={classes.userTitle}>Member Since</th>
+              {/* Add more doctor-specific columns as needed */}
+            </>
+          )}
+          {activeRole === 'admin' && (
+            <>
+              <th className={classes.userTitle}>Username</th>
+              <th className={classes.userTitle}>Email</th>
+              {/* Add more admin-specific columns as needed */}
+            </>
+          )}
+        </tr>
+      </thead>
+      <tbody className={classes.userBody}>
+        {/* Map through your users and render each row */}
+        {filteredUsers.map((user) => (
+          <tr key={user.id} className={classes.customRow} onClick={() => showUserModal(user)}>
+            {/* Render user-specific cells based on the active role */}
+            {activeRole === 'patient' && (
+              <>
+                <td className={classes.userInfo}>{user.name}</td>
+                <td>{user.package ? user.package.name : 'No Subscription'}</td>
+                <td>{user.email}</td>
+                {/* Add more patient-specific cells as needed */}
+              </>
+            )}
+            {activeRole === 'doctor' && (
+              <>
+                <td className={classes.userInfo}>{user.name}</td>
+                <td>{user.speciality}</td>
+                <td>{user.affiliation}</td>
+                <td className={classes.userCell}>
+  <div className={classes.userDate}>{extractYearFromDate(user.dateOfCreation)}</div>
+</td>
+                {/* Add more doctor-specific cells as needed */}
+              </>
+            )}
+            {activeRole === 'admin' && (
+              <>
+                <td className={classes.userInfo}>{user.username}</td>
+                <td>{user.email}</td>
+              </>
+            )}
+            {activeRole !== 'admin' && (
+                            <td className={classes.userCell}>
+                                <button className={classes.deleteButton} onClick={() => deleteUser(user.username)}>
+                                    X
+                                </button>
+                            </td>
+                        )}
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  </div>
+</Container>
 
-              {/* Button to show admins */}
-              <button
-                className={`${classes.filterButton} ${activeRole === 'admin' ? classes.active : ''}`}
-                onClick={() => handleRoleButtonClick('admin')}
-              >
-                Admins
-              </button>
-            </div>
 
-            <div className="row">
-              <Table striped bordered hover className="custom-table">
-                <thead>
-                  <tr className="user-titles">
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    {/* Add more columns as needed */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Map through your users and render each row */}
-                  {filteredUsers.map((user) => (
-                    <tr key={user.id} className={classes.customRow} onClick={() => showUserModal(user)}>
-                      <td>{user.username}</td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      {/* Add more cells as needed */}
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-      </Container>
     {selectedUser && (
         <UserDetails
           data={selectedUser}
@@ -467,6 +546,7 @@ const AdminHome2 = (props) => {
           onDelete={deleteUser}
         />
       )}
+        {showUser && <UserDetails data={selectedUser} exit={exitUserModal} onDelete={deleteUser} />}
         
         
       </div>
