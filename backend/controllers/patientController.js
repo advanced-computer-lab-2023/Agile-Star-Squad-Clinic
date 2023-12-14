@@ -362,4 +362,21 @@ exports.updateWallet = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getChatIds = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+
+  const patient = await Patient.findById(patientId);
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+
+
+  const chats = patient.chats;
+
+  res.status(200).json({
+    chats,
+  });
+});
+
+
 // Modules.exports = {createPatient}
