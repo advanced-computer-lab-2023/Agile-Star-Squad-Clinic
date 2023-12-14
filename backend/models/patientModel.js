@@ -96,6 +96,17 @@ const patientSchema = new mongoose.Schema({
   cancellationDate:{
     type: Date,
     default:null},
+
+  cards: [
+    {
+      name: String,
+      cardNumber: String,
+      expiryMonth: String,
+      expiryYear: String,
+      cvv: String,
+      label: String,
+    },
+  ],
   
   subscriptionDate:Date,
   

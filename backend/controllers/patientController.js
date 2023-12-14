@@ -396,4 +396,58 @@ exports.updateWallet = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.addCard = catchAsync(async (req, res, next) => {
+  const { name, cardNumber, expiryMonth, expiryYear, cvv, label } = req.body;
+  const patientId = req.params.patientId;
+
+  const patient = await Patient.findById(patientId);
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+
+  const newCard = {
+    name,
+    cardNumber,
+    expiryMonth,
+    expiryYear,
+    cvv,
+    label,
+  };
+
+  patient.cards.push(newCard);
+  await patient.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});
+
+exports.deleteCard = catchAsync(async (req, res, next) => {
+  const { cardNumber } = req.params;
+  const patientId = req.params.patientId;
+
+  const patient = await Patient.findById(patientId);
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+
+  const cardIndex = patient.cards.findIndex((card) => card.number.toString() === cardNumber);
+  if (cardIndex === -1) {
+    return next(new AppError('Card not found', 404));
+  }
+
+  patient.cards.splice(cardIndex, 1);
+  await patient.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});
+
 // Modules.exports = {createPatient}

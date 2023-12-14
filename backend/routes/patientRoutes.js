@@ -75,4 +75,15 @@ router
     appointmentController.upComingAppointmentsForDoctors
   );
 
+router
+  .route('/:patientId/cards')
+  .post(patientController.addCard);
+
+router
+  .route('/:patientId/cards/:cardNumber')
+  .delete(patientController.deleteCard);
+
+
+  
+
 module.exports = router;
