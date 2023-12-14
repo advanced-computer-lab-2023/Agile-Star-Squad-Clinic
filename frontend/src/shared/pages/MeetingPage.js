@@ -13,12 +13,14 @@ import UserContext from '../../user-store/user-context';
 
 function JoinScreen({ getMeetingAndToken }) {
   const [meetingId, setMeetingId] = useState(null);
+  const [isGettingMeeting, setIsGettingMeeting] = useState(false);
   const onClick = async () => {
     await getMeetingAndToken(meetingId);
   };
+
   return (
     <div>
-      <input
+      {/* <input
         type="text"
         placeholder="Enter Meeting Id"
         onChange={(e) => {
@@ -26,7 +28,7 @@ function JoinScreen({ getMeetingAndToken }) {
         }}
       />
       <button onClick={onClick}>Join</button>
-      {' or '}
+      {' or '} */}
       <button onClick={onClick}>Create Meeting</button>
     </div>
   );
