@@ -70,10 +70,17 @@ const doctorSchema = new mongoose.Schema(
       },
     ],
     status: {
-      type : String,
-      enum: ["member" , "accepted"],
+      type: String,
+      enum: ["member", "accepted"],
       default: "accepted"
     },
+
+    chats: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Chat'
+      }
+    ],
     // role: {
     //   type: String,
     //   default: "doctor",

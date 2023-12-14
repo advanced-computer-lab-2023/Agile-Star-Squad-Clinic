@@ -1,13 +1,70 @@
 import styles from './Messages.module.css';
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
 import ChatRoom from './ChatRoom';
-import NavBar from '../../../shared/components/NavBar/NavBar';
 import Sender from './Sender';
 import Receiver from './Receiver';
 import TextBox from './TextBox';
+import * as Realm from "realm-web";
+import {ObjectId} from "bson";
+import UserContext from '../../../user-store/user-context';
+
 
 const Messages = () => {
+  const userCtx = useContext(UserContext);
+  const [user, setUser] = useState();
+  const [events, setEvents] = useState([]);
+  const [chats, setChats] = useState([]);
+
+  const app = new Realm.App({id: "application-1-kfjsh"})
+  const mongodb = app.currentUser.mongoClient("mongodb-atlas");
+  const collection = mongodb.db("clinic").collection("chats");
+
+  // get users chat ids
+  // get the chats
+
+
+  useEffect(() => {
+    fetchChatIds();
+  }, []);
+
+  const fetchChatIds = () => {
+    fetch(`http://localhost:3000/patients/${userCtx.userId}/chats`, {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      setupChats(json.chats);
+    });
+  }
+
+  const setupChats = async (chatIds) => {
+    const user = await app.logIn(Realm.Credentials.anonymous());
+    setUser(user);
+
+
+    for (const chatId of chatIds) {
+      const initialChat = await collection.findOne({"_id": new ObjectId(chatId)});
+      setChats(chats => [...chats, initialChat]);
+
+      listenToChat(chatId);
+    }
+  }
+
+  const listenToChat = async (chatId) => {
+    for await (const change of collection.watch({"_id": new ObjectId(chatId)})) {
+      const newChat = change.fullDocument;
+      setChats(chats => {
+        const result = [...chats]
+        const index = result.findIndex(chat => chat.doctorId == newChat.doctorId);
+        result[index] = newChat;
+        return result;
+      });
+    }
+  }
+ 
+  useEffect(() => {
+    console.log(chats);
+  }, [chats]);
+
   return (
     <>
       <div>
@@ -29,9 +86,9 @@ const Messages = () => {
           </svg>
         </a>
       </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-4 mt-4">
+      <div className="container m-0">
+        <div className={`row ${styles.row}`}>
+          <div className={`col-4 pt-4 ${styles.messageCol}`}>
             <h2 className={styles.messages}>Messages</h2>
             <div className={styles.searchChat}>
               <svg
@@ -100,11 +157,11 @@ const Messages = () => {
               <ChatRoom />
             </div>
           </div>
-          <div className="col-8 mt-4">
+          <div className={`col-8 pt-4 ${styles.chatCol}`}>
             <div className={styles.chosenChat}>
               <h2 className={styles.messages}>Ahmed Lasheen</h2>
             </div>
-            <div className={styles.Room}>
+            <div className={`px-4 ${styles.Room}`}>
               <div className={styles.RoomLeft}>
                 <Sender />
                 <Sender />
@@ -115,9 +172,13 @@ const Messages = () => {
               <div className={styles.RoomRight}>
                 <Receiver />
                 <Receiver />
-                <Receiver />
-                <Receiver />
-                <Receiver />
+              </div>
+              <div className={styles.RoomLeft}>
+                <Sender />
+                <Sender />
+                <Sender />
+                <Sender />
+                <Sender msg="big booty bitches " timestamp="4:45 PM" />
               </div>
             </div>
             <div className={styles.typingSpace}>

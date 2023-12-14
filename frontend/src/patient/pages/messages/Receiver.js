@@ -1,11 +1,11 @@
 import styles from './Messages.module.css';
 
-const Receiver = () => {
+const Receiver = (props) => {
   return (
     <div className={styles.receiverBox}>
       <div className={styles.receiverText}>
         <p>
-          Oh, hello! All perfectly. I will check it and get back to you soon
+          {props.msg}
         </p>
       </div>
     </div>

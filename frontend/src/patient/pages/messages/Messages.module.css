@@ -1,13 +1,25 @@
+.row {
+    width: 100vw;
+}
+
 .myMessages{
-    height: 420px;
     overflow: auto;
 }
 
-.searchChat{
-    margin-top: 30px;
-    margin-bottom: 30px;
+.messageCol {
+    height: 100vh;
     display: flex;
-    width: 100%;
+    flex-direction: column;
+    padding-inline: 0;
+    border-right: 0.25px solid var(--text-icons-faded-grey, #AFB8CF);
+    background-color: #f6f6f6;
+}
+
+.searchChat{
+    margin-block: 15px;
+
+    margin-inline: 30px;
+    display: flex;
     padding: var(--8, 8px) var(--16, 16px);
     align-items: center;
     gap: var(--4, 4px);
@@ -40,11 +52,18 @@
     line-height: normal;
 }
 
+.chatCol {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
+    padding-inline: 0;
+}
 
 .chatRoom{
     border-style: none;
-    background-color: white;
     display: flex;
+    background-color: inherit;
     width: 100%;
     height: 120px;
     padding: 16px 0px 16px 24px;
@@ -53,6 +72,11 @@
     flex-shrink: 0;
     border-bottom: 0.25px solid var(--text-icons-faded-grey, #AFB8CF);    
 }
+
+.chatRoom:hover {
+    background-color: #ebebeb;
+}
+
 .chatInfo{
     font-family: Inter;
     font-size: 12px;
@@ -123,6 +147,11 @@
 
 }
 
+.timestamp {
+    color: #AFB8CF;
+    font-size: 13px;
+}
+
 .receiverText{
     color: var(--text-text-grey, #ffffff);
     font-family: Inter;
@@ -147,7 +176,6 @@
 
 }
 .Room{
-    height: 420px;
     overflow: auto;
 }
 

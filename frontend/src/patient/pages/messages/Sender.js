@@ -1,13 +1,14 @@
 import styles from './Messages.module.css';
 
-const Sender = () => {
+const Sender = (props) => {
   return (
     <div className>
       <div className={styles.senderBox}>
         <div className={styles.senderText}>
-          <p>Hi! I lost my prescription note. Could you rewrite it?</p>
+          <p>{props.msg}</p>
         </div>
       </div>
+      <div className={`${styles.timestamp} ms-2 mt-1 text-start`}>{props.timestamp}</div>
     </div>
   );
 };

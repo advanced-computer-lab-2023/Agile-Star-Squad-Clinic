@@ -91,6 +91,13 @@ const patientSchema = new mongoose.Schema({
     default:0,
 
   },
+
+  chats: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Chat'
+    }
+  ],
   
   cancellationDate:{
     type: Date,
