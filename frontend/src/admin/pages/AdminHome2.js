@@ -430,7 +430,7 @@ const reject = async (props) => {
               <td className={classes.bold}>
       {request.name} - {request.affiliation}
       <div className={classes.small}>
-      {request.speciality}-{calculateAge(request.dateOfBirth)}, { formatDefaultDate(request.creationDate ? new Date(request.creationDate) : undefined)}
+      {request.speciality}-{calculateAge(request.dateOfBirth)},   { formatDefaultDate(request.creationDate ? new Date(request.creationDate) : undefined)}
 
 
       </div>
@@ -534,10 +534,9 @@ const reject = async (props) => {
       Admins
     </button>
   </div>
-
+  <div className="container">
   <div className="row">
     <Table   hover className={"custom-table"}>
-      <thead>
         <tr>
           {activeRole === 'patient' && (
             <>
@@ -564,7 +563,7 @@ const reject = async (props) => {
             </>
           )}
         </tr>
-      </thead>
+      
       <tbody className={classes.userBody}>
         {/* Map through your users and render each row */}
         {filteredUsers.map((user) => (
@@ -626,6 +625,7 @@ const reject = async (props) => {
         ))}
       </tbody>
     </Table>
+  </div>
   </div>
 </Container>
 

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { useState } from 'react'
 
 const RequestDetails = (props) => {
+    console.log("requests"+props.data.name);
 
     const [status, setStatus] = useState(props.data['status']);
 
