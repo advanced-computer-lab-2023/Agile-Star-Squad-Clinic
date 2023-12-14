@@ -22,13 +22,14 @@ import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
 import PatientAccountSettings from './patient/pages/PatientAccountSettings';
 import Appointments from './patient/pages/appointments/Appointments';
-import Messages from "./patient/pages/messages/Messages";
+import Messages from './patient/pages/messages/Messages';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import PendingRequest from './requests/pendingRequest';
 import RejectedRequest from './requests/rejectedRequest';
 import AcceptedRequest from './requests/acceptedRequest';
 import ChangePassword from './login/pages/ChangePassword';
 import Subscription from './checkout/components/payment/SubscriptionForm';
+import MeetingPage from './shared/pages/MeetingPage';
 import './App.css';
 
 function App() {
@@ -59,6 +60,15 @@ function App() {
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/package/checkout" element={<AddingInfo2 />} exact />
           <Route path="/completion" element={<Subscription />} exact />
+          <Route
+            path="/meeting"
+            element={
+              <React.StrictMode>
+                <MeetingPage />
+              </React.StrictMode>
+            }
+            exact
+          />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
@@ -74,6 +84,15 @@ function App() {
           <Routes>
             <Route path="/doctor/home" element={<DoctorHome />} exact />
             <Route path="changePassword" element={<ChangePassword />} exact />
+            <Route
+              path="/meeting"
+              element={
+                <React.StrictMode>
+                  <MeetingPage />
+                </React.StrictMode>
+              }
+              exact
+            />
             <Route path="*" element={<Navigate to="/doctor/home" />} />
           </Routes>
         );
