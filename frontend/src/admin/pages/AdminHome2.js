@@ -27,11 +27,13 @@ const AdminHome2 = (props) => {
   const [activeRole, setActiveRole] = useState('patient');
   const [users, setUsers] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  console.log(props);
 
   useEffect(() => {
     filterUsersByRole(activeRole);
   }, [activeRole]);
  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -208,10 +210,22 @@ const AdminHome2 = (props) => {
 
   const refreshUserData = () => {
     setUsers([]);
-    fetchPatients();
-    fetchDoctors();
-    fetchAdmins();
   };
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchPendingRequests();
+        await fetchPatients();
+        await fetchDoctors();
+        await fetchAdmins();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, [refreshUserData]);
 
   const deleteUser = (username) => {
     const user = users.find((value) => value.username === username);
@@ -223,6 +237,7 @@ const AdminHome2 = (props) => {
       fetch(`http://localhost:3000/admins/${user.id}`, { method: 'DELETE' });
     }
     setUsers(users.filter((val) => val.username !== username));
+    refreshUserData();
   };
 
   const calculateAge = (dateOfBirth) => {
@@ -238,62 +253,64 @@ const AdminHome2 = (props) => {
     return age;
   };
 
-  const accept = async (request) => {
+  const accept = async (props) => {
     try {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        body: JSON.stringify({ ...request }),
-        credentials: 'include',
-      };
+        console.log(props+"llll");
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            body: JSON.stringify({ ...props }),
+            credentials: 'include'
+        };
 
-      const response = await fetch('http://localhost:3000/admins/requests', requestOptions);
+        const response = await fetch(
+            'http://localhost:3000/admins/requests',
+            requestOptions
+        );
 
-      if (response.ok) {
-        await props.onStatusChange(request.id, 'Accepted');
-        selectedRequestRef.current && selectedRequestRef.current.onAccept();
-      } else {
-        alert('Accepting request Failed!');
-      }
-      console.log('accepting');
-    } catch (error) {
-      console.log('not accepting');
-      alert('Network error: 1' + error.message);
-    }
-  };
-
-  const reject = async (request) => {
-    try {
-      const requestOptions = {
-        method: 'PATCH',
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        body: JSON.stringify({ ...request }),
-        credentials: 'include',
-      };
-
-      const response = await fetch('http://localhost:3000/admins/requests', requestOptions);
-
-      if (response.ok) {
-        // Handle a successful response
-        alert('Doctor rejected!');
-        // Check if request and request.id are defined before calling onStatusChange
-        if (request && request.id && props.onStatusChange) {
-          props.onStatusChange(request.id, 'Rejected');
-          // Call the onReject method in RequestDetails
-          selectedRequest && selectedRequest.onReject();
+        if (response.ok) {
+            // Handle a successful response
+            alert('Doctor accepted successfully!');
+            setStatus('Accepted');
+            statusChangeHandler(props.id,'Accepted');
+           
+        } else {
+            // Handle errors if the server response is not ok
+            alert('Accepting request Failed!');
         }
-      } else {
-        // Handle errors if the server response is not ok
-        alert('Rejecting request Failed!');
-      }
-      console.log('rejecting');
     } catch (error) {
-      // Handle network errors
-      console.log('not rejecting');
-      console.log('aaaa' + request);
-      alert('Network error: 2' + error.message);
+        // Handle network errors
+        alert('Network error: ' + error.message);
     }
-  };
+}
+
+const reject = async (props) => {
+    try {
+        const requestOptions = {
+            method: 'PATCH',
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            body: JSON.stringify({ ...props }),
+            credentials: 'include'
+        };
+        const response = await fetch(
+            'http://localhost:3000/admins/requests',
+            requestOptions
+        );
+
+        if (response.ok) {
+            // Handle a successful response
+            alert('Doctor rejected!');
+            setStatus('Rejected');
+            statusChangeHandler(props.id,'Rejected');     
+        } else {
+            // Handle errors if the server response is not ok
+            alert('Rejecting request Failed!');
+        }
+    } catch (error) {
+        // Handle network errors
+        alert('Network error: ' + error.message);
+    }
+}
 
   const showDetails = (request) => {
     if (request && request.id) {
@@ -337,6 +354,13 @@ const AdminHome2 = (props) => {
     const year = date.getFullYear();
     return year;
   }
+  const handleDeleteClick = (event, username) => {
+    // Prevent the event from propagating to the parent row and triggering showUserModal
+    event.stopPropagation();
+  
+    // Call your delete function here
+    deleteUser(username);
+  };
  
 
   return (
@@ -344,67 +368,64 @@ const AdminHome2 = (props) => {
       <div>
         <div>
           <AdminNavBar />
-          <Container className={classes.requests}>
-            <h2 className={classes.title}>Requests</h2>
-            <div className="container">
-              <div className="row">
-                <table className="table table-hover">
-                  <tbody>
-                    {requests.map((request) => (
+         <Container className={classes.requests}>
+  <h2 className={classes.title}>Requests</h2>
+  <div className="container">
+    <div className="row">
+      <table className="table table-hover">
+        <tbody>
+          {requests.map((request) => (
+            <tr key={request.id} onClick={() => showDetails(request)}>
+              <td className={classes.req}>
+                <img src={req} alt="req" />
+              </td>
+              <td className={classes.bold}>
+                {request.name} - {request.affiliation}
+                <div className={classes.small}>
+                  {request.speciality}-{calculateAge(request.dateOfBirth)} {request.gender}
+                </div>
+              </td>
+              {status.toLowerCase() === 'pending' && (
+                <ActionButtons reject={() => reject(request)} accept={() => accept(request)} />
+              )}
+              <td className={`${classes.rejectReq} ${classes.borderBottom}`}>
+                <img
+                  src={x}
+                  alt="req-rej"
+                  className={classes.rej}
+                  onClick={(e) => {
+                    selectedRequest &&
+                      selectedRequestRef.current &&
+                      selectedRequestRef.current.reject(request);
+                    e.stopPropagation(); // Stop event propagation
+                    reject(request);
+                  }}
+                />
+              </td>
+              <td className={`${classes.acceptReq} ${classes.borderBottom}`}>
+                <img
+                  src={check}
+                  width="25"
+                  height="25"
+                  alt="req-acc"
+                  className={classes.acc}
+                  onClick={(e) => {
+                    selectedRequest &&
+                      selectedRequestRef.current &&
+                      selectedRequestRef.current.accept(request);
+                    e.stopPropagation(); // Stop event propagation
+                    accept(request);
+                  }}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</Container>
 
-                      <tr key={request.id} onClick={() => showDetails(request)}>
-                        <td className={classes.req}>
-                          <img src={req} alt="req" />
-                        </td>
-                        <td className={classes.bold}>
-                          {request.name} - {request.affiliation}
-                          <div className={classes.small}>
-                            {request.speciality}-{calculateAge(request.dateOfBirth)}{' '}
-                            {request.gender}
-                          </div>
-                        </td>
-                        {status.toLowerCase() === 'pending' && (
-                          <ActionButtons reject={() => reject(request)} accept={() => accept(request)} />
-                        )}
-                        <td className={classes.spacing}>
-                        <td className={classes.rejectReq}>
-                          <img
-                            src={x}
-                            alt="req-rej"
-                            className={classes.rej}
-                            onClick={(e) => {
-                              selectedRequest &&
-                                selectedRequestRef.current &&
-                                selectedRequestRef.current.onReject();
-                              e.stopPropagation(); // Stop event propagation
-                              reject(request);
-                            }}
-                          />
-                        </td>
-                        <td className={classes.rejectReq}>
-                          <img
-                            src={check}
-                            width="25"
-                            height="25"
-                            alt="req-acc"
-                            className={classes.acc}
-                            onClick={(e) => {
-                              selectedRequest &&
-                                selectedRequestRef.current &&
-                                selectedRequestRef.current.onAccept();
-                              e.stopPropagation(); // Stop event propagation
-                              accept(request);
-                            }}
-                          />
-                        </td>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </Container>
 
           <Container className={classes.packages}>
             <div className={classes.edit}>
@@ -416,15 +437,15 @@ const AdminHome2 = (props) => {
             <div className="container">
               <div className="row">
                 <Table  hover className="custom-table">
-                  <thead>
+                  
                     <tr className={classes.packageTitles}>
-                      <th>Package</th>
-                      <th>Session Discount</th>
-                      <th>Medicine Discount</th>
-                      <th>Family Member Discount</th>
+                      <th >Package</th>
+                      <th>Session Disc.</th>
+                      <th>Medicine Disc.</th>
+                      <th>Family Member Disc.</th>
                       <th>Price</th>
                     </tr>
-                  </thead>
+                  
                   <tbody>
                     {packages.map((pkg) => (
                       <tr key={pkg._id} className="custom-row">
@@ -524,13 +545,13 @@ const AdminHome2 = (props) => {
                 <td>{user.email}</td>
               </>
             )}
-            {activeRole !== 'admin' && (
-                            <td className={classes.userCell}>
-                                <button className={classes.deleteButton} onClick={() => deleteUser(user.username)}>
-                                    X
-                                </button>
-                            </td>
-                        )}
+            
+            <td className={classes.userCell}>
+            <button className={classes.deleteButton} onClick={(e) => handleDeleteClick(e, user.username)}>
+                    X
+            </button>
+           </td>
+                        
           </tr>
         ))}
       </tbody>

@@ -37,8 +37,10 @@
 }
 
 .container {
-  position: absolute;
-  top: 12%;
+  position: relative; /* Change to relative positioning */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .req {
@@ -46,9 +48,16 @@
   height: var(--24, 24px);
   transform: rotate(-0.945deg);
   flex-shrink: 0;
-  position: inherit;
-  left: 10%;
 }
+
+.rejectReq {
+  margin-left: 5%;
+}
+
+.acceptReq {
+  padding-right: 5%;
+}
+
 
 .acc,
 .rej {
@@ -56,7 +65,10 @@
   height: 25px;
   flex-shrink: 0;
   border-radius: var(--8, 8px);
+  margin-left: 5px; /* Add margin between icons */
+  margin-right: 5px; /* Add margin between icons */
 }
+
 
 .acc {
   border: 1px solid #C4E8BE;
@@ -87,8 +99,9 @@
 /* Additional styles to align the entire content to the left */
 .row {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-between; /* Use space-between to align icons at each end */
+  align-items: center; /* Vertically center the content */
+  margin-bottom: 10px; /* Add margin between rows */
 }
 
 
@@ -152,18 +165,15 @@
     -webkit-text-fill-color: transparent;
     border: none;   
   }
-  
-  .custom-table thead tr.packageTitles th {
-    color: #C77223;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-  }
+  table .packages-section .packageTitles {
+    color: orange;
+    /* other styles */
+}
+
+
   .packageTitles{
     color: #C77223;
-    font-family: Poppins;
+    font-family: 'Open Sans';
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -288,19 +298,17 @@ background-color: transparent;
   bottom: 86%;
   left: 55%;
 }
-.rejectReq{
-  padding-left: 5%;
-}
-.acceptReq{
-  padding-right: 5%;
-}
 
 .d-flex {
   display: flex;
 }
 
 .spacing {
- justify-content: space-between;
+ margin-right: 5%;
 }
+.borderBottom {
+  border-bottom: 1px solid #ddd; /* Choose your desired border color */
+}
+
 
 
