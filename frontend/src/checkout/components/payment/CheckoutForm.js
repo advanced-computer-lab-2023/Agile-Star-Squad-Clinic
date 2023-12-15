@@ -28,26 +28,27 @@ export default function CheckoutForm(props) {
     setIsProcessing(true);
 
     try {
+      
+      let paymentIntentData = {
         
-
-        let paymentIntentData = {
-
-          doctor: props.doctorId,
-          patient: props.patientId,
-          dateOfAppointment: props.appDate,
-          status: 'upcoming'
-        };
-
-        // Send data to the backend
-        const response = await fetch('http://localhost:3000/doctors/appointments', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(paymentIntentData),
-        });
-
-        if (!response.ok) {
+        doctor: props.doctorId,
+        patient: props.patientId,
+        dateOfAppointment: props.appDate,
+        status: 'upcoming'
+      };
+      console.log(paymentIntentData);
+      
+      // Send data to the backend
+      const response = await fetch('http://localhost:3000/doctors/appointments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentIntentData),
+      });
+      
+      if (!response.ok) {
+         
           throw new Error('Failed to send data to the server.');
         }
         // navigate('/patient/appointment/book/')
@@ -163,7 +164,7 @@ export default function CheckoutForm(props) {
                 name="radio"
                 placeholder="Name"
                 // id="use-wallet"
-                checked={useWallet == 0}
+               
                 required
               />
             </div>

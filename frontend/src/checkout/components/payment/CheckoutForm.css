@@ -4,38 +4,38 @@
 #payment-element {
   padding: 20px;
 }
-#payment-message{
+#payment-message {
   color: red;
   font-family: 'Inter';
   font-weight: 500;
   padding-bottom: 10px;
   margin-right: 270px;
 }
-.checkoutApp{
+.checkoutApp {
   width: 200px;
-height: 60px;
-flex-shrink: 0;
-background-color: #3182CE;
-border-radius: 6px;
-border-width: 0px;
-color: var(--100, #F7FAFC);
-font-family: 'Inter';
-font-size: 16px;
-font-style: normal;
-font-weight: 500;
-line-height: normal
-}
-.cancelApp{
-  background-color: var(--100, #F7FAFC);
+  height: 60px;
+  flex-shrink: 0;
+  background-color: #3182ce;
+  border-radius: 6px;
   border-width: 0px;
-  color: var(--700, #4A5568);
-font-family: 'Inter';
-font-size: 16px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-padding-right: 50px;
-margin-left: 160px;
+  color: var(--100, #f7fafc);
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.cancelApp {
+  background-color: var(--100, #f7fafc);
+  border-width: 0px;
+  color: var(--700, #4a5568);
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-right: 50px;
+  margin-left: 160px;
 }
 #messages {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
@@ -47,44 +47,62 @@ margin-left: 160px;
   border-radius: var(--radius);
   font-size: 0.7em;
 }
-.input1 {
+.input1,
+.select1 {
   width: 490px;
   height: 49px;
   flex-shrink: 0;
   border-radius: 5px;
-background:  #E2E8F0;
-color: #2D3748;
-font-family: 'Inter';
-font-size: 16px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-padding: 15px;
-padding-top: 10px;
-padding-bottom: 10px;
-border-width: 0px;
-margin-bottom: -20px;
-}
-.input1::placeholder{
-  color: #2D3748;
-}
-.label1{
-  color: #718096;
-font-family: 'Inter';
-font-size: 16px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-margin-right: 350px;
-padding-bottom: 4px;
-}
-.choicePayment{
+  background: #e2e8f0;
+  color: #2d3748;
   font-family: 'Inter';
-font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-padding:0px 0px 0px 10px;
-margin-bottom: 15px;
-
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-width: 0px;
+  margin-bottom: -20px;
+}
+.select1 {
+  width: 50%;
+}
+.input1::placeholder {
+  color: #2d3748;
+}
+.label1
+ {
+  color: #718096;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-right: 350px;
+  padding-bottom: 4px;
+}
+.selectLabel1 {
+  color: #718096;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-bottom: 4px;
+}
+.selectLabel1 {
+  margin-left: 130px;
+  text-align: justify;
+  width: 110%;
+}
+.choicePayment {
+  font-family: 'Inter';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 0px 0px 0px 10px;
+  margin-bottom: 15px;
 }

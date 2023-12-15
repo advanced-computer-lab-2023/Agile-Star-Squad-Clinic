@@ -1,5 +1,5 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
-import { useContext, useState, useEffect } from "react";
+import React,{ useContext, useState, useEffect } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import './CheckoutForm.css'
@@ -68,9 +68,8 @@ export default function SubscriptionForm(props) {
     setIsProcessing(true);
 
     try {
-      
-      
-      const response = await fetch(`http://localhost:3000/patients/${selectedMemberId}/kimoSubscribe`, {
+     
+      const response = await fetch(`http://localhost:3000/patients/${userCtx.userId}/kimoSubscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,8 +93,7 @@ export default function SubscriptionForm(props) {
         },
       });
     } catch (error) {
-      console.log(error);
-      setMessage('Failed to process payment.');
+      console.log(error);setMessage('Failed to process payment.');
     }
     setIsProcessing(false);
 
@@ -153,36 +151,49 @@ export default function SubscriptionForm(props) {
   };
   return (
     <form id="payment-form" onSubmit={paymentMethod == 0 ? handleSubmit : handleWallet}>
+        <div className='headins'>
+              <p >Account</p>
+              <hr id='hring'></hr>
+              <img src="/checkbox.png" alt="done"/>
+              <hr id='hring'></hr>
+              <p>Payment</p>
+              <hr id='hring'></hr>
+              <img src="/checkbox.png" alt="done"/>
+              <hr id='hring'></hr>
+              <p>Reservation No.</p>
+            </div>
       <div className="d-flex justify-content-between">
         <div>
           <input
-            type="radio"
-            name='radio'
-            className='me-2'
+            type="checkbox"
+            
+            className='form-check-input mt-0'
             // id="use-wallet"
             // checked={false}
+            checked={paymentMethod == 1}
             onChange={(e) => setPaymentMethod(1)}
           />
-          <label htmlFor="use-wallet">Pay using Wallet</label>
+          <label htmlFor="use-wallet" className="choicePayment">Pay using Wallet</label>
         </div>
         <div>
-          Balance: {balance}
-        </div>
-      </div>
-      <div>
         <input
-          type="radio"
-          className='me-2'
-          name='radio'
+          type="checkbox"
+          className='form-check-input mt-0'
+          
           // id="use-wallet"
           checked={paymentMethod == 0}
           onChange={(e) => setPaymentMethod(0)}
         />
-        <label htmlFor="use-wallet">Credit Card</label>
+        <label htmlFor="use-wallet" className="choicePayment">Credit Card</label>
       </div>
-      <div>
-      <label htmlFor="familyMembers">Select a family member:</label>
-      <select id="familyMembers" name="familyMembers" onChange={handleMemberSelect}>
+        <div className="choicePayment">
+          Balance: {balance}
+        </div>
+      </div>
+      
+      <div style={{padding:'20px 0px'}}>
+      <label  htmlFor="familyMembers" className="selectLabel1">Select a family member:</label>
+      <select className="select1" id="familyMembers" name="familyMembers" onChange={handleMemberSelect}>
       <option value={userCtx.userId}>None</option>
         {familyMembers.map((member) => (
           <option key={member._id} value={member._id}>
@@ -191,17 +202,31 @@ export default function SubscriptionForm(props) {
         ))}
       </select>
       </div>
-      <div>{paymentMethod == 0 &&
-        <PaymentElement id="payment-element" />}
+      <div>{paymentMethod == 0 && <React.Fragment>
+        <div >
+        <label className="label1" >Card Holder Name</label>
+        <br />
+        <input
+          type="text"
+          className="input1"
+          name="radio"
+          placeholder="Name"
+          // id="use-wallet"
+          
+          required
+        />
+      </div>
+        <PaymentElement id="payment-element" /></React.Fragment>}
       </div>
       {paymentMethod == 1 && balance < props.price && <div>
         Insufficient funds</div>}
-      <button disabled={isProcessing || !stripe || !elements || (paymentMethod == 1 && balance < props.price)} id="submit">
+        <button className="cancelApp" onClick={handleCancel}>Cancel</button>
+
+      <button className="checkoutApp" disabled={isProcessing || !stripe || !elements || (paymentMethod == 1 && balance < props.price)} id="submit">
         <span id="button-text">
-          {isProcessing ? "Processing ... " : "Pay now"}
+          {isProcessing ? "Processing ... " : "Complete Order"}
         </span>
       </button>
-      <button onClick={handleCancel}>Cancel</button>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>

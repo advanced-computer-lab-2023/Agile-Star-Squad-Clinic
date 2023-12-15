@@ -18,7 +18,6 @@ const AddingInfo = () => {
   const stateData = location.state;
   console.log(stateData.dateOfAppointment)
   
-  //console.log(stateData.doctor,"llll");
   
   useEffect(() => {
     
