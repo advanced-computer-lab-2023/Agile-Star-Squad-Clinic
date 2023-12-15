@@ -36,6 +36,12 @@ const prescriptionSchema = new mongoose.Schema({
         default: "Unfilled"
     },
 
+    items: [
+        {
+            type: Object
+        }
+    ]
+
 })
 
 const Prescription = mongoose.model('Prescription', prescriptionSchema);

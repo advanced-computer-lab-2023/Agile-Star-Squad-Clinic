@@ -4,6 +4,9 @@
     font-family: 'Roboto Flex';
     margin-inline: 50px;
     margin-block: 30px;
+    -webkit-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
 }
 
 .header {
@@ -44,6 +47,62 @@
     margin-right: 1rem;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
+}
+
+.calendarContainer {
+    position: absolute;
+    top: 30px;
+    left: -140px;
+    z-index: 10;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px 0px rgba(29, 22, 23, 0.4);
+}
+
+.calendar {
+    border: none;
+    border-radius: 15px;
+    border-bottom: 1px solid darkgray;
+}
+
+.filledButton {
+    cursor: pointer;
+    margin-right: 1rem;
+    color: #00b0b9;
+    background-color: #CFEDEA;
+    border-radius: 7px;
+    padding-inline: 7.5px;
+    padding-block: 2px;
+    opacity: 0.5;
+    transition: all 0.2s ease-in-out;
+}
+
+.filledEnabled {
+    font-weight: 500;
+    color: #00b0b9;
+    opacity: 1;
+    background-color: #CFEDEA;
+    transition: all 0.2s ease-in-out;
+}
+
+.unfilledButton {
+    cursor: pointer;
+    margin-right: 1rem;
+    color: #F07167;
+    background-color: #FFE9E2;
+    border-radius: 7px;
+    padding-inline: 7.5px;
+    padding-block: 2px;
+    opacity: 0.5;
+    transition: all 0.2s ease-in-out;
+}
+
+.unfilledEnabled {
+    font-weight: 500;
+    color: #F07167;
+    background-color: #FFE9E2;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
 }
 
 .downloadButton {
@@ -90,7 +149,7 @@
     align-items: center;
     color: black;
     font-size: 14px;
-    height: 40px;
+    padding-block: 1px;
     padding-right: 30px;
     border-bottom: 1px solid #E7E7E7;
     cursor: pointer;
