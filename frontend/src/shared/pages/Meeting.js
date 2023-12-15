@@ -19,6 +19,9 @@ const Meeting = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [meetingId, setMeetingId] = useState(null);
+
+  let isFirstTime = true;
+
   const [user, setUser] = useState({
     id: userCtx.userId,
     role: userCtx.role,
@@ -27,7 +30,10 @@ const Meeting = () => {
   });
 
   useEffect(() => {
-    fetchData();
+    if (isFirstTime) {
+      fetchData();
+      isFirstTime = false;
+    }
   }, []);
 
   const fetchData = async () => {
@@ -37,6 +43,7 @@ const Meeting = () => {
       });
       setMeetingId(meetingResult.data.data.meeting.meetingId);
     } catch (error) {
+      console.log(error);
       const meetingId = await createMeeting({ token: authToken });
       await axios.post(
         'http://localhost:3000/meeting',
