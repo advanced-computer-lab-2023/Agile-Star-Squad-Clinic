@@ -4,6 +4,7 @@ const Prescription = require('../models/appointmentModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 const Appointment = require('../models/appointmentModel');
+const Notifications = require('../models/notificationsModel');
 
 exports.getAllAppointments = catchAsync(async (req, res, next) => {
   const appointments = await Appointment.find()
@@ -22,19 +23,22 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   const newAppointment = await Appointment.create(req.body);
   const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
+  const newNotification = await Notifications.create(patient , doctor);
   
   doctor.appointments.push(newAppointment);
   await doctor.save();
+  doctor.notifications.push(newNotification);
+  await doctor.save();
   patient.appointments.push(newAppointment);
-  
   await patient.save();
- 
- 
+  patient.notifications.push(newNotification);
+  await patient.save();
 
   res.status(200).json({
     status: 'success',
     data: {
       appointment: newAppointment,
+      notification: newNotification
     },
   });
 });

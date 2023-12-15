@@ -94,7 +94,13 @@ const doctorSchema = new mongoose.Schema(
       {
         type: Array,
       }
-    ]
+    ],
+    notifications: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Notification',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
