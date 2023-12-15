@@ -5,6 +5,10 @@ const router = express.Router({
   mergeParams: true,
 });
 
-router.route('/').post(meetingController.addMeeting).get(meetingController.getMeeting).delete(meetingController.deleteMeeting);
+router.route('/')
+.post(meetingController.addMeeting)
+.get(meetingController.getMeeting)
+.delete(meetingController.deleteMeeting)
+.patch(meetingController.patchMeeting);
 
 module.exports = router;

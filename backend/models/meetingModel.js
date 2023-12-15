@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 
 const meetingSchema = new mongoose.Schema({
-    meetingId: String
+    meetingId: String,
+    doctor: {
+        type: Object,
+      },
+      patient: {
+        type: Object,
+      },
 });
 
 const Meeting = mongoose.model('meeting', meetingSchema);

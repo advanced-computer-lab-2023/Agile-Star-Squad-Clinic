@@ -19,7 +19,12 @@ const Meeting = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [meetingId, setMeetingId] = useState(null);
-  const [name, setName] = useState(null);
+  const [user, setUser] = useState({
+    id: userCtx.userId,
+    role: userCtx.role,
+    name: null,
+    imgUrl: null,
+  });
 
   useEffect(() => {
     fetchData();
@@ -49,20 +54,43 @@ const Meeting = () => {
         },
       );
       if (userCtx.role === 'patient') {
-        setName(nameResult.data.data.patient.name);
+        setUser((prev) => ({
+          ...prev,
+          name: nameResult.data.data.patient.name,
+          imgUrl: nameResult.data.data.patient.imgUrl,
+        }));
       } else {
-        setName(nameResult.data.data.doctor.name);
+        setUser((prev) => ({
+          ...prev,
+          name: nameResult.data.data.doctor.name,
+          imgUrl: nameResult.data.data.doctor.imgUrl,
+        }));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    if (meetingId && name) {
-      setIsLoading(false);
+  const populateMeetingModel = async () => {
+    try {
+      await axios.patch(
+        'http://localhost:3000/meeting',
+        { meetingId, user },
+        {
+          withCredentials: true,
+        },
+      );
+    } catch (error) {
+      console.log(error);
     }
-  }, [meetingId, name]);
+  };
+
+  useEffect(() => {
+    if (meetingId && user.name) {
+      setIsLoading(false);
+      populateMeetingModel();
+    }
+  }, [meetingId, user]);
 
   const onMeetingLeave = () => {
     axios
@@ -94,7 +122,7 @@ const Meeting = () => {
           meetingId,
           micEnabled: true,
           webcamEnabled: true,
-          name,
+          name: user.name,
         }}
         token={authToken}
       >
