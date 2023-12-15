@@ -30,6 +30,7 @@ import AcceptedRequest from './requests/acceptedRequest';
 import ChangePassword from './login/pages/ChangePassword';
 import Subscription from './checkout/components/payment/SubscriptionForm';
 import './App.css';
+import Prescriptions from './patient/pages/prescriptions/Prescriptions';
 
 function App() {
   const user = useContext(UserContext);
@@ -52,7 +53,7 @@ function App() {
             exact
           />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
-          <Route path="/appointments" element={<Appointments />} exact />
+          <Route path="/appointments" element={<Prescriptions />} exact />
           <Route path="/messages" element={<Messages />} exact />
           <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="/patient/family" element={<PatientFamily />} exact />
