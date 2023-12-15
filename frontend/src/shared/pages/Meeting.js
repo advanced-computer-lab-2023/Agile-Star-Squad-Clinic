@@ -186,7 +186,7 @@ const MeetingView = (props) => {
       <CircularProgress />
     </div>
   ) : (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
       {[...participants.keys()].map((participantId) => (
         <ParticipantView participantId={participantId} key={participantId} />
       ))}
