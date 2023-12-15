@@ -45,7 +45,11 @@ const Meeting = () => {
           withCredentials: true,
         },
       );
-      setName(nameResult.data.data.patient.name);
+      if (userCtx.role === 'patient') {
+        setName(nameResult.data.data.patient.name);
+      } else {
+        setName(nameResult.data.data.doctor.name);
+      }
     } catch (error) {
       console.log(error);
     }

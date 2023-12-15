@@ -29,7 +29,6 @@ import RejectedRequest from './requests/rejectedRequest';
 import AcceptedRequest from './requests/acceptedRequest';
 import ChangePassword from './login/pages/ChangePassword';
 import Subscription from './checkout/components/payment/SubscriptionForm';
-import MeetingPage from './shared/pages/MeetingPage';
 import './App.css';
 import Meeting from './shared/pages/Meeting';
 
