@@ -89,11 +89,11 @@ export default function SubscriptionForm(props) {
         elements,
         confirmParams: {
 
-          return_url: navigate(-1),
+          return_url: 'http://localhost:3001/healthPackages',
         },
       });
     } catch (error) {
-      console.log(error);setMessage('Failed to process payment.');
+      setMessage('Failed to process payment.');
     }
     setIsProcessing(false);
 

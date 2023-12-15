@@ -16,7 +16,6 @@ const AddingInfo = () => {
   const navigate = useNavigate();
   
   const stateData = location.state;
-  console.log(stateData.dateOfAppointment)
   
   
   useEffect(() => {
@@ -79,7 +78,7 @@ const AddingInfo = () => {
               </div>
             </div>
             <p id='datesDoctor' style={{paddingTop:'10px'}}>Dr. {stateData.doctor.name}</p>
-            <p id='total1'style={{paddingTop:'10px',paddingBottom:'50px'}}>{price} LE</p>
+            <p id='total1'style={{paddingTop:'10px',paddingBottom:'50px'}}>{Math.floor(stateData.doctor.hourlyRate*1.1)} LE</p>
                 
             <p id='total2'>Sub Total: {Math.floor(stateData.doctor.hourlyRate*1.1)}LE </p>
             <div>

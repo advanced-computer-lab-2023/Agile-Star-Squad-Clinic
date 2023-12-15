@@ -29,7 +29,6 @@ const PatientAccountSettings = (props) => {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
-      console.log(json.data);
       setsubscriptionDate(json.data.patient.subscriptionDate);
       setexpiringDate(json.data.patient.expiringDate);
       setMedicalRecords(json.data.patient.medicalRecord);
@@ -49,7 +48,6 @@ const PatientAccountSettings = (props) => {
           },
         },
       );
-      console.log(response);
       if (response.ok) {
         setButtonPressed(true);
         setPackage(null);
@@ -86,20 +84,17 @@ const PatientAccountSettings = (props) => {
     };
 
     try {
-      console.log(healthRecordUrl);
       const requestOptions = {
         method: 'PATCH',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
         body: JSON.stringify(data),
       };
-      console.log(requestOptions.body);
-      console.log(requestOptions);
+      
 
       const response = await fetch(
         `http://localhost:3000/patients/${patient.userId}`,
         requestOptions,
       );
-      console.log(response);
       if (!response.ok) {
         alert('Failed to upload health record');
       }

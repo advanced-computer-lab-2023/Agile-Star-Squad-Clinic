@@ -27,7 +27,6 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   patient.appointments.push(newAppointment);
   await patient.save();
   doctor.appointments.push(newAppointment);
-  console.log(doctor);
 
   await doctor.save();
  

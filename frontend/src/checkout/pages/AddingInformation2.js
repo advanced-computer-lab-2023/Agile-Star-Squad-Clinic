@@ -31,7 +31,6 @@ const AddingInfo = () => {
 
   const handleFamilyMemberSelection = (isFamilyMemberSelected) => {
     // Do something with the information that a family member is selected
-    console.log(isFamilyMemberSelected)
     setfamilyMemberDiscount(isFamilyMemberSelected)
     
     // Adjust discounts or other logic based on family member selection

@@ -43,7 +43,6 @@ exports.doctorSignup = catchAsync(async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       status: 'error',
       message: 'Internal Server Error',
@@ -224,9 +223,7 @@ exports.setTimeSlots = catchAsync(async (req, res, next) => {
 
 exports.setDoctorAsMember = catchAsync(async (req, res, next) => {
   const doctorId = req.params.doctorId;
-  console.log("here!")
   const doctor = await Doctor.findByIdAndUpdate(doctorId, {status: "member"});
-  console.log(doctor);
 
   if (!doctor) {
     return next(new AppError('Doctor not found', 404));
@@ -240,8 +237,7 @@ exports.setDoctorAsMember = catchAsync(async (req, res, next) => {
 });
 
 exports.addHealthRecord = catchAsync(async (req, res, next) => {
-  console.log("ehna hena");
-  console.log(req.body);
+  
   const updatedPatient = await Patient.findByIdAndUpdate(
     req.params.patientId,
     {

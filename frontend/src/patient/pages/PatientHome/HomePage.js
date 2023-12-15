@@ -61,7 +61,6 @@ const PatientHomePage = () => {
     });
   };
   const fetchUpcomingAppointments = () => {
-    console.log('fetching');
     fetch(`http://localhost:3000/patients/${patientId}/upcomingAppointments`, {
       credentials: 'include',
     }).then(async (response) => {
@@ -101,7 +100,6 @@ const Dashboard = (props) => {
     return { weekday, month, day, time, doctorName, doctorSpecialty };
   });
 
-  console.log(props.prescriptions);
 
   const getAppointmentItem = (appointment) => {
     return (

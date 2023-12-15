@@ -45,8 +45,7 @@ const PatientHome = () => {
     const getCookie = (name) => {
       const value = `;${document.cookie}`;
       const parts = value.split(`;${name}=`);
-      console.log(value);
-      console.log(parts);
+      
       if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
@@ -280,13 +279,12 @@ const PatientHome = () => {
     const newPrescriptions = prescriptions.filter((presc) => {
       const date = new Date(presc['dateOfCreation']);
       pickedDate = new Date(pickedDate);
-      console.log(date);
-      console.log(pickedDate);
+      
       console.log(
         `${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDate()}` ===
           `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
       );
-      console.log('\n\n\n');
+    
       return (
         `${pickedDate.getFullYear()}-${pickedDate.getMonth()}-${pickedDate.getDate()}` ===
         `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`

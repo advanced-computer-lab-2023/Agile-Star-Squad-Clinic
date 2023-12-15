@@ -43,8 +43,7 @@ function Component2({ setTab3, email }) {
             id = res.data.data.user._id;
           });
 
-        console.log(id);
-        console.log(newPassword);
+        
         fetch(`http://localhost:3000/auth/resetPassword/${id}`, {
           method: 'PATCH',
           headers: {

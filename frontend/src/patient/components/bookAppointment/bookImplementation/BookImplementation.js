@@ -122,7 +122,6 @@ const BookImplementation = (props) => {
   }
 
   const handleDropdownChange = (event) => {
-    console.log(event.target.value);
     setSelectedOption(event.target.value);
   };
 
@@ -155,7 +154,6 @@ const BookImplementation = (props) => {
     const appointmentDate = new Date(chosenDate);
     appointmentDate.setHours(hours);
     appointmentDate.setMinutes(minutes);
-    console.log(appointmentDate);
     const dataToSend = {
       packageToUse,
       patientName,

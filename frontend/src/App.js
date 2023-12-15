@@ -139,7 +139,6 @@ function App() {
         if (res.data.data.user === null) {
           user.logout();
         } else {
-          console.log(res.data.data);
           user.login({
             role: res.data.data.role,
             userId: res.data.data.id,
@@ -160,7 +159,6 @@ function App() {
   //         ...res.data.data[user.role],
   //       }));
 
-  //       console.log(res.data.data);
   //     });
   // }, [user]);
 

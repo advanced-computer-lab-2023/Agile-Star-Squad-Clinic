@@ -34,15 +34,13 @@ const PatientDetails = (props) => {
     };
 
     try {
-      // console.log(healthRecordUrl);
       const requestOptions = {
         method: 'PATCH',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
         body: JSON.stringify(data),
         credentials: 'include',
       };
-      // console.log(requestOptions.body);
-      // console.log(requestOptions);
+     
 
       const response = await fetch(
         `http://localhost:3000/doctors/healthRecord/${props.data.id}`,
@@ -50,7 +48,6 @@ const PatientDetails = (props) => {
       ).catch((error) => {
         console.log(error);
       });
-      // console.log(response);
       if (!response.ok) {
         alert('Failed to upload health record');
       }
@@ -64,7 +61,6 @@ const PatientDetails = (props) => {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
-      console.log(json);
       setMedicalRecords(props.data.medicalRecord);
     });
   };

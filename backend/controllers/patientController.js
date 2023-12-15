@@ -180,13 +180,14 @@ exports.kimoSubscribe = catchAsync(async (req, res, next) => {
   if (!patient) {
     return next(new AppError('Patient not found', 404));
   }
+  
   try {
+    
      await Patient.findByIdAndUpdate(patientId, {
     package: packageId,
     subscriptionDate: Date.now(),
     expiringDate: Date.now() + (365 * 24 * 60 * 60 * 1000),
   });
-    console.log("all ggood")
   } catch (error) {
     console.log(error);
   }
@@ -273,8 +274,6 @@ exports.removeSubscription = catchAsync(async (req, res, next) => {
 });
 
 exports.addHealthRecord = catchAsync(async (req, res, next) => {
-  console.log("ehna hena");
-  console.log(req.body);
   const updatedPatient = await Patient.findByIdAndUpdate(
     req.params.id,
     {
