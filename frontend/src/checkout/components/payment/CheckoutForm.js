@@ -28,7 +28,7 @@ export default function CheckoutForm(props) {
     setIsProcessing(true);
 
     try {
-      
+        
 
         let paymentIntentData = {
 
@@ -143,16 +143,17 @@ export default function CheckoutForm(props) {
               <p>Reservation No.</p>
             </div>
             {/* <h4>Payment Details</h4> */}
+            <div style={{padding:'10px'}}>
       <input
         type="checkbox"
         // id="use-wallet"
-        
+        class="form-check-input mt-0"
         checked={useWallet}
         onChange={(e) => setUseWallet(e.target.checked)}
+        
       />
-  
-      <label htmlFor="use-wallet">Pay with Wallet</label>
-      
+      <label htmlFor="use-wallet" className="choicePayment" >Pay with Wallet</label>
+      </div>
       <div>{!useWallet &&<React.Fragment>  <div >
               <label className="label1">Card Holder Name</label>
               <br />
@@ -163,7 +164,7 @@ export default function CheckoutForm(props) {
                 placeholder="Name"
                 // id="use-wallet"
                 checked={useWallet == 0}
-                
+                required
               />
             </div>
         <PaymentElement id="payment-element" /></React.Fragment>}

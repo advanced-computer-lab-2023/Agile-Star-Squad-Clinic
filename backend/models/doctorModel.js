@@ -78,6 +78,11 @@ const doctorSchema = new mongoose.Schema(
       enum: ["member" , "accepted"],
       default: "accepted"
     },
+    wallet:{
+      type: Number,
+      default:0,
+  
+    },
     // role: {
     //   type: String,
     //   default: "doctor",

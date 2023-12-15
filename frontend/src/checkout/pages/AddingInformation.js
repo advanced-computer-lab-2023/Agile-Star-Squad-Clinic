@@ -62,9 +62,9 @@ const AddingInfo = () => {
           </Card>
         </div>
         <div className="col" id="card2" >
-          <Card style={{width:'fit-content',padding:'40px'}}>
-            <h3 id='datesDoctor' >Order Summary</h3>
-            <div >
+          <Card style={{width:'fit-content',padding:'60px'}}>
+            <p id='datesDoctor' style={{textAlign:'left'}}>Order Summary</p>
+            <div style={{paddingTop:'30px',paddingBottom:'10px'}}>
               <img
                 style={{ width: '100px', height: '100px', borderRadius: '10%',display:"inline-block" }}
                 src={
@@ -75,12 +75,13 @@ const AddingInfo = () => {
                
               />
               <div style={{display:"inline-block",paddingLeft:'10px'}}>
-              <p id='datesDoctor'>{stateData.dateOfAppointment.toDateString()}</p>
+              <p id='datesDoctor' >{stateData.dateOfAppointment.toDateString()}</p>
               <p id='datesDoctor'>{stateData.timeOfAppointment}</p>
               </div>
             </div>
-            <p id='datesDoctor'>{stateData.doctor.name}</p>
-            <p id='total1'>Total : {price}</p>
+            <p id='datesDoctor' style={{paddingTop:'10px'}}>Dr. {stateData.doctor.name}</p>
+            <p id='total1'style={{paddingTop:'10px',paddingBottom:'50px'}}>{price} LE</p>
+                
             <p id='total2'>Sub Total: {Math.floor(stateData.doctor.hourlyRate*1.1)}LE </p>
             <div>
               {packagePresent && (

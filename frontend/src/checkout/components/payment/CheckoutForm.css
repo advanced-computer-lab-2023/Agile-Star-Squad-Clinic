@@ -78,3 +78,13 @@ line-height: normal;
 margin-right: 350px;
 padding-bottom: 4px;
 }
+.choicePayment{
+  font-family: 'Inter';
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+padding:0px 0px 0px 10px;
+margin-bottom: 15px;
+
+}

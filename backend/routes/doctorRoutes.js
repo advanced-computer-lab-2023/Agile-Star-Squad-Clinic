@@ -52,4 +52,7 @@ router
   .get(middleware.doctorAuth, doctorController.getDoctorPatient)
   .patch(middleware.doctorAuth, doctorController.addHealthRecord);
 
+router
+  .route('/:doctorId/wallet')
+  .post(doctorController.updateWallet)
 module.exports = router;

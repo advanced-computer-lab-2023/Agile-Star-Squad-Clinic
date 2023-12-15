@@ -80,6 +80,7 @@ export default function SubscriptionForm(props) {
       });
 
       if (!response.ok) {
+    
         throw new Error('Failed to send data to the server.');
       }
 
@@ -103,7 +104,8 @@ export default function SubscriptionForm(props) {
     e.preventDefault();
     setIsProcessing(true);
     const newBalance = +balance - (+props.price);
-    console.log(newBalance);
+    
+    if(newBalance>=0){
 
     try {
       const response = await fetch(
@@ -136,10 +138,10 @@ export default function SubscriptionForm(props) {
     } catch (error) {
       // Handle network errors
       alert('Network error: ' + error.message);
+    }}
+    else{
+      setMessage("Insufficient balance in your wallet.")
     }
-
-
-
 
 
     setIsProcessing(false)
@@ -149,7 +151,6 @@ export default function SubscriptionForm(props) {
 
     navigate(-1);
   };
-  console.log("yyyyy ", selectedMemberId)
   return (
     <form id="payment-form" onSubmit={paymentMethod == 0 ? handleSubmit : handleWallet}>
       <div className="d-flex justify-content-between">
