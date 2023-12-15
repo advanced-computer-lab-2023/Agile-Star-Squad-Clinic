@@ -74,8 +74,8 @@ const doctorSchema = new mongoose.Schema(
       },
     ],
     status: {
-      type : String,
-      enum: ["member" , "accepted"],
+      type: String,
+      enum: ["member", "accepted"],
       default: "accepted"
     },
     wallet:{
@@ -83,6 +83,13 @@ const doctorSchema = new mongoose.Schema(
       default:0,
   
     },
+
+    chats: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Chat'
+      }
+    ],
     // role: {
     //   type: String,
     //   default: "doctor",

@@ -65,6 +65,11 @@ router
   );
 
 router
+    .route("/:patientId/chats")
+    .get(middleware.patientAuth,
+      patientController.getChatIds);
+
+router
   .route('/:doctorId/doctorUpcomingAppointments')
   .get(
     middleware.patientAuth,
