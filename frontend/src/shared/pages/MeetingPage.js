@@ -152,7 +152,8 @@ function MeetingPage() {
   const [name, setName] = useState(null);
 
   useEffect(() => {
-    axios
+    const fetchData = () => {
+      axios
       .get('http://localhost:3000/meeting', { withCredentials: true })
       .then((res) => {
         setMeetingId(res.data.data.meeting.meetingId);
@@ -169,11 +170,14 @@ function MeetingPage() {
         if (userCtx.role === 'patient') setName(res.data.data.patient.name);
         else if (userCtx.role === 'doctor') setName(res.data.data.doctor.name);
       });
+    }
+
+    fetchData();
   }, []);
 
   const getMeetingAndToken = async (id) => {
     const meetingId =
-      id == null ? await createMeeting({ token: authToken }) : id;
+      id == null ?? await createMeeting({ token: authToken });
     axios.post(
       'http://localhost:3000/meeting',
       { meetingId },

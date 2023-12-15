@@ -31,6 +31,7 @@ import ChangePassword from './login/pages/ChangePassword';
 import Subscription from './checkout/components/payment/SubscriptionForm';
 import MeetingPage from './shared/pages/MeetingPage';
 import './App.css';
+import Meeting from './shared/pages/Meeting';
 
 function App() {
   const user = useContext(UserContext);
@@ -64,7 +65,7 @@ function App() {
             path="/meeting"
             element={
               <React.StrictMode>
-                <MeetingPage />
+                <Meeting />
               </React.StrictMode>
             }
             exact
@@ -88,7 +89,7 @@ function App() {
               path="/meeting"
               element={
                 <React.StrictMode>
-                  <MeetingPage />
+                  <Meeting />
                 </React.StrictMode>
               }
               exact
