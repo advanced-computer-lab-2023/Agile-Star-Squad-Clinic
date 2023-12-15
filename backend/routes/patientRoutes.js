@@ -20,6 +20,10 @@ router
   .post(middleware.patientAuth, patientController.addFamilyMember);
 
 router
+  .route('/:patientId/familyMembers/:id')
+  .delete(middleware.patientAuth, patientController.removeFamilyMember);
+
+router
   .route('/')
   .get(patientController.getAllPatients)
   .post(patientController.signup);
@@ -75,5 +79,16 @@ router
     middleware.patientAuth,
     appointmentController.upComingAppointmentsForDoctors
   );
+
+router
+  .route('/:patientId/cards')
+  .post(patientController.addCard);
+
+router
+  .route('/:patientId/cards/:cardNumber')
+  .delete(patientController.deleteCard);
+
+
+  
 
 module.exports = router;
