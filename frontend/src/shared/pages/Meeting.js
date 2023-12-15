@@ -10,6 +10,7 @@ import ReactPlayer from 'react-player';
 import axios from 'axios';
 import UserContext from '../../user-store/user-context';
 import { Link } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import styles from './Meeting.module.css';
 
@@ -76,7 +77,16 @@ const Meeting = () => {
   };
 
   return isLoading ? (
-    <div>Loading</div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <CircularProgress />
+    </div>
   ) : (
     <div>
       <MeetingProvider
@@ -130,7 +140,16 @@ const MeetingView = (props) => {
   };
 
   return isLoading ? (
-    <div>Loading</div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <CircularProgress />
+    </div>
   ) : (
     <div style={{ display: 'flex' }}>
       {[...participants.keys()].map((participantId) => (
