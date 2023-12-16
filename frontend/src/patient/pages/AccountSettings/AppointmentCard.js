@@ -173,6 +173,10 @@ const AppointmentsCard = (props) => {
     return `${formattedDate} | ${time}`;
   };
 
+  const onRescheduleAppointment = (newAppointment) => {
+    //update the front end
+  };
+
   const getButtons = (app) => {
     const onclick = () => {
       if (tab != 0 && tab != 1) {
@@ -190,8 +194,7 @@ const AppointmentsCard = (props) => {
         `http://localhost:3000/patients/appointments/${app._id}`,
         { withCredentials: true },
       );
-      setAppointments((prev) => prev.filter((a) => a._id != app._id));
-      setAllAppointments((prev) => prev.filter((a) => a._id != app._id));
+      //update the front end
     };
 
     return (
@@ -225,6 +228,7 @@ const AppointmentsCard = (props) => {
           exit={() => setShowModal(false)}
           appointment={chosenApp}
           buttonText={modalText}
+          onRescheduleAppointment={onRescheduleAppointment}
         />
       )}
       <SideCard>

@@ -172,7 +172,7 @@ const RescheduleAppointmentModal = (props) => {
     await axios.post('http://localhost:3000/doctors/appointments', dataToSend, {
       withCredentials: true,
     });
-    // props.onRescheduleAppointment();
+    props.onRescheduleAppointment(dataToSend);
     props.exit();
   };
   const expandTimeRange = (timeRanges) => {
