@@ -98,6 +98,7 @@
   height: 50px;
   background-color: #193842;
   color: #ffffff;
+  font-weight: 700;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -141,6 +142,48 @@ input.numField::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+.dropzoneTitle {
+  font-size: 16px;
+  margin-top: 15px;
+  text-align: start;
+  margin-left: 10px;
+}
+
+.myDropzone {
+  background-color: #F8F8FF;
+  width: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 28px;
+  color: #0F0F0F;
+  border: 1px dashed #96B7C7;
+  border-radius: 12px;
+  /* margin-top: 10px; */
+  height: 150px;
+  padding-top: 25px;
+  padding-bottom: 15px;
+  padding-inline: 10px;
+  cursor: pointer;
+}
+
+.dropzoneSubtitle {
+  color: #676767;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 10px;
+}
+
+.myDropzone aside {
+  justify-content: center;
+}
+
+.dropzoneDivider {
+  width: 100%;
+  margin-bottom: 34px;
+}
+
 
 input[type=number].numField {
   .container {
