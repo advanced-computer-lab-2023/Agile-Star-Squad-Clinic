@@ -11,7 +11,9 @@ import classes from './DoctorHome.module.css';
 const DoctorHome = () => {
   const navigate = useNavigate();
   const doctorId = useContext(UserContext).userId;
+  const doctorName = useContext(UserContext).name;
   const [users, setUsers] = useState([]);
+
 
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointements, setFilteredAppointements] = useState([]);
@@ -24,7 +26,7 @@ const DoctorHome = () => {
   const [showAppointment, setShowAppointment] = useState(false);
   const [showUser, setShowUser] = useState(false);
 
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState({}); 
   const [selectedRow, setSelectedRow] = useState({});
 
   const [patientSearchField, setPatientSearchField] = useState('');
@@ -32,8 +34,8 @@ const DoctorHome = () => {
   const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
-    fetchMyPatients();
-    fetchUpcomingAppointments();
+    // fetchMyPatients();
+    // fetchUpcomingAppointments();
     fetchMyInfo();
   }, []);
 
@@ -89,98 +91,98 @@ const DoctorHome = () => {
   //   { field: "affiliation", headerName: "Affiliation" },
   // ];
 
-  const fetchMyPatients = () => {
-    fetch(`http://localhost:3000/doctors/${doctorId}/patients`, {
-      credentials: 'include',
-    }).then(async (response) => {
-      const json = await response.json();
-      const patientsJson = json.data.patients; //check
-      setUsers(
-        patientsJson.map((patient) => {
-          return {
-            id: patient['_id'],
-            username: patient['username'],
-            name: patient['name'],
-            email: patient['email'],
-            dateOfBirth: patient['dateOfBirth'],
-            gender: patient['gender'],
-            mobileNumber: patient['mobileNumber'],
-            emergencyContact: patient['emergencyContact'],
-            doctor: patient['doctor'],
-            familyMembers: patient['familyMembers'],
-            medicalRecord: patient['medicalRecord'],
-          };
-        })
-      );
-      setFilteredPatients(
-        patientsJson.map((patient) => {
-          return {
-            id: patient['_id'],
-            username: patient['username'],
-            name: patient['name'],
-            email: patient['email'],
-            dateOfBirth: patient['dateOfBirth'],
-            gender: patient['gender'],
-            mobileNumber: patient['mobileNumber'],
-            emergencyContact: patient['emergencyContact'],
-            doctor: patient['doctor'],
-            familyMembers: patient['familyMembers'],
-            medicalRecord: patient['medicalRecord'],
-          };
-        })
-      );
-      setFilteredPatients(
-        patientsJson.map((patient) => {
-          return {
-            id: patient['_id'],
-            username: patient['username'],
-            name: patient['name'],
-            email: patient['email'],
-            dateOfBirth: patient['dateOfBirth'],
-            gender: patient['gender'],
-            mobileNumber: patient['mobileNumber'],
-            emergencyContact: patient['emergencyContact'],
-            doctor: patient['doctor'],
-            familyMembers: patient['familyMembers'],
-            medicalRecord: patient['medicalRecord'],
-          };
-        })
-      );
-    });
-  };
+  // const fetchMyPatients = () => {
+  //   fetch(`http://localhost:3000/doctors/${doctorId}/patients`, {
+  //     credentials: 'include',
+  //   }).then(async (response) => {
+  //     const json = await response.json();
+  //     const patientsJson = json.data.patients; //check
+  //     setUsers(
+  //       patientsJson.map((patient) => {
+  //         return {
+  //           id: patient['_id'],
+  //           username: patient['username'],
+  //           name: patient['name'],
+  //           email: patient['email'],
+  //           dateOfBirth: patient['dateOfBirth'],
+  //           gender: patient['gender'],
+  //           mobileNumber: patient['mobileNumber'],
+  //           emergencyContact: patient['emergencyContact'],
+  //           doctor: patient['doctor'],
+  //           familyMembers: patient['familyMembers'],
+  //           medicalRecord: patient['medicalRecord'],
+  //         };
+  //       })
+  //     );
+  //     setFilteredPatients(
+  //       patientsJson.map((patient) => {
+  //         return {
+  //           id: patient['_id'],
+  //           username: patient['username'],
+  //           name: patient['name'],
+  //           email: patient['email'],
+  //           dateOfBirth: patient['dateOfBirth'],
+  //           gender: patient['gender'],
+  //           mobileNumber: patient['mobileNumber'],
+  //           emergencyContact: patient['emergencyContact'],
+  //           doctor: patient['doctor'],
+  //           familyMembers: patient['familyMembers'],
+  //           medicalRecord: patient['medicalRecord'],
+  //         };
+  //       })
+  //     );
+  //     setFilteredPatients(
+  //       patientsJson.map((patient) => {
+  //         return {
+  //           id: patient['_id'],
+  //           username: patient['username'],
+  //           name: patient['name'],
+  //           email: patient['email'],
+  //           dateOfBirth: patient['dateOfBirth'],
+  //           gender: patient['gender'],
+  //           mobileNumber: patient['mobileNumber'],
+  //           emergencyContact: patient['emergencyContact'],
+  //           doctor: patient['doctor'],
+  //           familyMembers: patient['familyMembers'],
+  //           medicalRecord: patient['medicalRecord'],
+  //         };
+  //       })
+  //     );
+  //   });
+  // };
 
-  const fetchUpcomingAppointments = () => {
-    //hardcode id
-    fetch(
-      `http://localhost:3000/doctors/${doctorId}/upComingAppointments`,
-      {
-        credentials: 'include',
-      }
-    ).then(async (response) => {
-      const json = await response.json();
-      const appointmentsJson = json.data.appointments;
-      setAppointments(
-        appointmentsJson.map((appointment) => {
-          return {
-            id: appointment['_id'],
-            dateOfAppointment: appointment['dateOfAppointment'],
-            status: appointment['status'],
-            patient: appointment['patient'],
-          };
-        })
-      );
-      setFilteredAppointements(
-        appointmentsJson.map((appointment) => {
-          return {
-            id: appointment['_id'],
-            dateOfAppointment: appointment['dateOfAppointment'],
-            status: appointment['status'],
-            patient: appointment['patient'],
-          };
-        })
-      );
-    });
-  };
+  // const fetchUpcomingAppointments = () => {
+  //   //hardcode id
+  //   fetch(
+  //     `http://localhost:3000/doctors/${doctorId}/upComingAppointments`,
+  //     {
+  //       credentials: 'include',
+  //     }
+  //   ).then(async (response) => {
+  //     const json = await response.json();
+  //     const appointmentsJson = json.data.appointments;
+  //     setAppointments(
+  //       appointmentsJson.map((appointment) => {
+  //         return {
+  //           id: appointment['_id'],
+  //           dateOfAppointment: appointment['dateOfAppointment'],
+  //           status: appointment['status'],
+  //           patient: appointment['patient'],
+  //         };
+  //       })
+  //     );
+  //     setFilteredAppointements(
+  //       appointmentsJson.map((appointment) => {
+  //         return {
+  //           id: appointment['_id'],
+  //           dateOfAppointment: appointment['dateOfAppointment'],
+  //           status: appointment['status'],
+  //           patient: appointment['patient'],
+  //         };
+  //       })
+  //     );
+  //   });
+  // };
 
   // const fetchMyInfo = () => {
   //   //hardcode id
@@ -296,71 +298,43 @@ const DoctorHome = () => {
   const changePasswordHandler = () => {
     navigate('/changePassword');
   };
+  const color1 = '#ABD1D3'
+  const color2 = '#AED3E2'
+  const color3 = '#96B7C7'
+  const color4 = '#193842'
+
+  console.log(info)
 
   return (
     <div className="center">
-      <DoctorNavBar/>
-      {/* {showAppointment && (
-        <AppointmentDetails data={selectedRow} exit={exitAppointmentModal} />
-      )} */}
-      {/* {showInfo && <MyInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
-      {/* {showUser && <PatientDetails data={selectedRow} exit={exitUserModal} />} */}
-      {/* onDelete={deleteUser} */}
-      {/* <div>
-        <span>
-          <button onClick={() => setCurrentTab('patients')}>My Patients</button>
-        </span>
-        <span>
-          <button onClick={() => setCurrentTab('my-info')}>Account Info</button>
-        </span>
-        <span>
-          <button onClick={() => setCurrentTab('appointments')}>
-            Appointments
-          </button>
-        </span>
-        <span>
-          <button onClick={changePasswordHandler}>change password</button>
-        </span>
-      </div> */}
-      {/* {currentTab === 'my-info' && <MyInfo info={info} />}
-      {currentTab === 'patients' && (
-        <>
-          <h3>Patients</h3>
-          <span>
-            <input
-              type="text"
-              placeholder="Search"
-              value={patientSearchField}
-              onChange={patientSearchHandler}
-            />
-          </span>
-          <DataTable
-            columns={patientCols}
-            rows={filteredPatients}
-            onRowClick={showUserModal}
-          />
-        </>
-      )}
-      {currentTab === 'appointments' && (
-        <>
-          <h3>Upcoming Appointments</h3>
-          <select value={appointmentFilter} onChange={appDropdownHandler}>
-            {appointmentFilters}
-          </select>
-          {showAppDateFilter && (
-            <input
-              type="date"
-              value={appDateFilter}
-              onChange={appDateFilterHandler}
-            />
-          )}
-          <DataTable
-            columns={appointmentCols}
-            rows={upComingAppointments}
-            onRowClick={showAppointmentModal}
-          />
-        </>
-      )} */}
+      <DoctorNavBar />
+      <div className={classes.main}>
+       {info && info.name && <div className={classes.welcomeText}>
+          Welcome, Dr. {info.name}!
+        </div>}
+        <div className={classes.secondaryText}>
+          Have a nice day at work
+        </div>
+        <div className={classes.ContainerBlock}>
+          <div className={classes.smallContainer} style={{ backgroundColor: color1 }}>
+            <p>test 2</p>
+          </div>
+          <div className={classes.smallContainer} style={{ backgroundColor: color2 }}>
+            <p>test 2</p>
+          </div>
+          <div className={classes.smallContainer} style={{ backgroundColor: color3 }}>
+            <p>test 2</p>
+          </div>
+          <div className={classes.smallContainer} style={{ backgroundColor: color4 }}>
+            <p>test 2</p>
+          </div>
+        </div>
+
+        <div>
+
+        </div>
+      </div>
+
 
     </div>
   );

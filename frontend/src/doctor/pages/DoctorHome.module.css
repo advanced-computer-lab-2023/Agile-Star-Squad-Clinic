@@ -1,0 +1,44 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+
+}
+.smallContainer{ 
+    display: flex;
+    border-radius: 9px;
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    color: white;
+}
+
+.ContainerBlock{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin-top: 5%;
+}
+
+.welcomeText{ 
+    display: flex;
+    align-content: left;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 50px;
+    width: 80%;
+    color: #193842;
+}
+
+.secondaryText{
+    display: flex;
+    align-content: left;
+    font-size: 20px;
+    width: 80%;
+    color: #9C9C9C;
+}
