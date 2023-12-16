@@ -284,16 +284,20 @@ const DoctorRequestForm = () => {
                     required />
                   <input className={`${classes.daySelect} ${classes.textBox} mb-0`} value={year} type="number" id="dobYear" name="year" placeholder="YYYY" onChange={e => setDOBYear(e.target.value)} required />
                 </div>
-                <div className='d-flex justify-content-between mb-3'>
-                  <div className='col-4 px-2'>
+                <div className='d-flex justify-content-between mb-3' style={{marginLeft: '-55px'}}>
+                  <div className='col-3 px-2'>
+                    <div className={classes.dropzoneTitle}>Profile Picture</div>
+                    <MyDropzone files={personalImageForm} setFiles={setPersonalImage} maxFiles={1} toast={(s) => { }} />
+                  </div>
+                  <div className='col-3 px-2'>
                     <div className={classes.dropzoneTitle}>Personal ID</div>
                     <MyDropzone files={idImageForm} setFiles={setIdImage} maxFiles={1} toast={(s) => { }} />
                   </div>
-                  <div className='col-4 px-2'>
+                  <div className='col-3 px-2'>
                     <div className={classes.dropzoneTitle}>Medical Degree</div>
                     <MyDropzone files={medicalDegreeForm} setFiles={setDegreeImage} maxFiles={1} toast={(s) => { }} />
                   </div>
-                  <div className='col-4 px-2'>
+                  <div className='col-3 px-2'>
                     <div className={classes.dropzoneTitle}>Medical License</div>
                     <MyDropzone files={medicalLicenseForm} setFiles={setLicenseImage} maxFiles={1} toast={(s) => { }} />
                   </div>
@@ -360,8 +364,8 @@ const MyDropzone = (props) => {
             <div className='h-100' {...getRootProps()}>
               <input {...getInputProps()} />
               {files.length > 0 && <aside style={thumbsContainer}>
-                            {thumbs}
-                        </aside>}
+                {thumbs}
+              </aside>}
               {files.length == 0 && <div>
                 <img height={50} src={uploadImg} />
                 <div className="mt-3">Drag & drop files or Browse</div>
