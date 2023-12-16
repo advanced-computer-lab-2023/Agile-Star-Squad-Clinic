@@ -102,11 +102,11 @@ We welcome contributions from the community. Please ensure that your pull reques
 
 ## Credits
 
-<div>
-<a href="https://github.com/youssef-mostafa25">
-  <img src="https://github.com/youssef-mostafa25.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
-</div>
-<div>
-<a href="https://github.com/Habibaelkabbany">
+<div style="display: flex;">
+  <a href="https://github.com/youssef-mostafa25" style="margin-right: 20px;">
+    <img src="https://github.com/youssef-mostafa25.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
+  </a>
+
+  <a href="https://github.com/Habibaelkabbany">
   <img src="https://github.com/Habibaelkabbany.png" width="100" height="100" alt="Your Name" style="border-radius: 100%;">
 </div>
