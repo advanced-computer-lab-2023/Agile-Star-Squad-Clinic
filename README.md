@@ -107,11 +107,12 @@ We welcome contributions from the community. Please ensure that your pull reques
     <img src="https://github.com/youssef-mostafa25.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
   </a>
 
-  <a href="https://github.com/Habibaelkabbany">
+  <a href="https://github.com/Habibaelkabbany" style="margin-right: 20px;">
   <img src="https://github.com/Habibaelkabbany.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
   </a>
+  
 
-<a href="https://github.com/Assem-Mohamed">
+<a href="https://github.com/Assem-Mohamed" style="margin-right: 20px;">
   <img src="https://github.com/Assem-Mohamed.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
   </a >
 </div>
