@@ -27,7 +27,7 @@ const packageSchema = new mongoose.Schema({
 
     description: {
         type: String,
-        required: [true, 'Please provide a prescription.'],
+       
         // maxlength: [255, 'A prescription must have less or equal to 255 characters'],
     },
 

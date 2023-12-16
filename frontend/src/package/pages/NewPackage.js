@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import Card from '../../shared/components/Card/Card';
 import styles from './NewPackage.module.css';
 
-const NewPackage = () => {
+const NewPackage = ({ onSubmitSuccess }) => {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
@@ -13,10 +11,10 @@ const NewPackage = () => {
   const [doctorSessionDiscount, setDoctorSessionDiscount] = useState('');
   const [medicineDiscount, setMedicineDiscount] = useState('');
   const [familyMemberDiscount, setFamilyMemberDiscount] = useState('');
-  const [description, setDescription] = useState('');
+  const [formVisible, setFormVisible] = useState(true); // Track form visibility
 
   const submitHandler = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
 
     // Validate form data
     if (
@@ -36,7 +34,6 @@ const NewPackage = () => {
       doctorSessionDiscount,
       medicineDiscount,
       familyMemberDiscount,
-     
     };
 
     try {
@@ -47,25 +44,28 @@ const NewPackage = () => {
       });
 
       if (response.ok) {
-        // Handle a successful response
-        alert('Package Added Succesfully');
-
+        alert('Package Added Successfully');
         navigate('/packages');
+        setFormVisible(false); // Hide the form after successful submission
+        onSubmitSuccess();
       } else {
-        // Handle errors if the server response is not ok
         alert('Failed to send data.');
       }
     } catch (error) {
-      // Handle network errors
       alert('Network error: ' + error.message);
     }
+    
   };
+  
   return (
-    <Card className={`${styles.addForm}`}>
-  <div className={styles.topBorder}></div>
-  <div className={styles.title}>Add Health Package</div>
-  <form onSubmit={submitHandler}>
-  <div className={styles.fieldGroup}>
+    <>
+    <div id="form">
+      {formVisible && (
+        <Card className={`${styles.addForm}`}>
+          <div className={styles.topBorder}></div>
+          <div className={styles.title}>Add Health Package</div>
+          <form  onSubmit={submitHandler} className={styles.form}>
+          <div className={styles.fieldGroup}>
     <div className={styles.nameField}>
       <span className={styles.smallText}>Package Name</span>
       <input
@@ -120,14 +120,15 @@ const NewPackage = () => {
       />
     </div>
   </div>
-  
-  <button className={styles.addButton} type="submit">
-    SAVE
-  </button>
-</form>
 
-
-    </Card>
+            <button className={styles.addButton} type="submit">
+              SAVE
+            </button>
+          </form>
+        </Card>
+      )}
+      </div>
+    </>
   );
 };
 

@@ -1,10 +1,19 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import classes from './PackageList.module.css';
 import {  Container } from 'react-bootstrap';
+import UpdatePackage from "../pages/UpdatePackage";
 
 
 const PackageItem = (props) => {
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  console.log(showUpdateForm);
+
+  const toggleUpdateForm = () => {
+    setShowUpdateForm((prevShowUpdateForm) => !prevShowUpdateForm);
+    console.log(showUpdateForm); // Add this line to log the state
+  };
+  
   const confirmDeleteHandler = async () => {
     try {
       await fetch(`http://localhost:3000/packages/${props.id}`, {
@@ -29,7 +38,11 @@ const PackageItem = (props) => {
         <Container className={classes.packageItem}>
         <h2 className={classes.packageName}>{props.name}</h2>
         <div className={classes.packageDetails}>
+        <button className={classes.viewButton} onClick={toggleUpdateForm}>
+            View
+          </button>
           <hr className={classes.packageLine}/>
+          
             <p >
               <span className={classes.detailTitle}>
                 Doctor Session Discount:
@@ -40,6 +53,7 @@ const PackageItem = (props) => {
               <span className={classes.detailTitle}>Medicine Discount:</span>{" "}
               <span className={classes.detailInfo}>{props.medicineDiscount}%</span>
             </p>
+            
             <p>
               <span className={classes.detailTitle}>
                 Family Member Discount:
@@ -60,14 +74,16 @@ const PackageItem = (props) => {
        
         <div className={classes.packageActions}>
         
-        <Link to={`/updatePackage/${props.id}`}>
-            <button className={classes.viewButton}>View</button>
-          </Link>
-          {/* <button className="btn btn-primary sm" onClick={confirmDeleteHandler}>
-            Delete
-          </button> */}
+        
+         
         </div>
       </Container>
+      {showUpdateForm && (
+        <div className={classes.overlay }  >
+          
+          <UpdatePackage updates={setShowUpdateForm} packageId={props.id} />
+        </div>
+      )}
       </div>
   );
 };

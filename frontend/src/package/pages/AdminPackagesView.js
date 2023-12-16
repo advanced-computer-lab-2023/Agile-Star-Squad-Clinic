@@ -33,15 +33,34 @@ const AdminPackagesView = () => {
     sendRequest();
   }, []);
 
-  // const placeDeletedHandler = (deletedPlaceId) => {
-  //   setLoadedPackages((prevPackages) =>
-  //     prevPackages.filter((prevPackage) => prevPackage._id !== deletedPlaceId)
-  //   );
-  // };
+  
   
   const toggleAddForm = () => {
     setShowAddForm((prevShowAddForm) => !prevShowAddForm);
   };
+  
+  const handleFormSubmitSuccess = () => {
+    setShowAddForm(false); // Close the form after successful submission
+  };
+  const closeForm = () => {
+    setShowAddForm(false);
+  };
+  
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const formElement = document.getElementById('form'); // Replace 'yourFormId' with the actual ID of your form
+      if (formElement && !formElement.contains(event.target)) {
+        setShowAddForm(false); // Close the form when clicking outside of it
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setShowAddForm]);
+
 
   return (
     <div>
@@ -60,7 +79,7 @@ const AdminPackagesView = () => {
       </div>
       {showAddForm && (
         <div className={classes.overlay}>
-            <NewPackage/>
+           <NewPackage onSubmitSuccess={handleFormSubmitSuccess} />
            
           
         </div>

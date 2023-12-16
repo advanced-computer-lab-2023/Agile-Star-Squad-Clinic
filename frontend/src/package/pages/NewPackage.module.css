@@ -7,7 +7,13 @@
     border-radius:   26px ;
     
 }
-
+.updateForm{
+  width: 584px;
+  height: 380px;
+  flex-shrink: 0;
+  border-radius:   26px ;
+  
+}
 .topBorder {
     border-top: solid 73px #EA580C;
     position: inherit;
@@ -34,6 +40,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px; /* Adjust the gap as needed */
+    margin-bottom: 5%;
   }
   
   .field{
@@ -46,7 +53,10 @@
     min-width: 240px;
     max-width: 190px;
   }
-  
+  .form{
+    position: absolute;
+    top:25%;
+  }
  
   
   .form-control {
@@ -54,14 +64,28 @@
     max-width: 150px; /* Set the maximum width to 150px or adjust as needed */
   }
   .addButton {
-    position: absolute;
-    bottom: 3%;
-    right: 3%;
-    margin: 10px;
+    position: inherit;
+    
+    left: 77%;
+    margin: 54px 13px 13px 12px;
     border-radius: 11px;
     background: #EA580C;
     width: 94px;
     height: 36px;
     color: #FFF;
+  }
+  .deleteButton{
+    font-family: 'Poppins';
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 20px; /* 100% */
+    border-color: #ED3443;
+    color: #ED3443;
+    border-radius: 11px;
+    position: inherit;
+    margin: 206px 11px 13px 6px;
+    width: 107px;
+    height: 36px;
+    background: #FFF;
   }
   
