@@ -31,6 +31,7 @@ import ChangePassword from './login/pages/ChangePassword';
 import Subscription from './checkout/components/payment/SubscriptionForm';
 import './App.css';
 import Meeting from './shared/pages/Meeting';
+import BrowseDoctors from './patient/pages/PatientHome/BrowseDoctors';
 
 function App() {
   const user = useContext(UserContext);
@@ -55,6 +56,7 @@ function App() {
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/appointments" element={<Appointments />} exact />
           <Route path="/messages" element={<Messages />} exact />
+          <Route path="/doctors" element={<BrowseDoctors />} exact />
           <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="/patient/family" element={<PatientFamily />} exact />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />

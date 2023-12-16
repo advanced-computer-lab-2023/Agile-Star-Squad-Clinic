@@ -1,0 +1,240 @@
+.medicineSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding-top: 60px;
+    padding-inline: 120px;
+}
+
+.medicineSectionTitle {
+    font-size: 48px;
+    font-weight: 500;
+    color: #0C1320;
+    margin-bottom: 30px;
+}
+
+.medicineSearchContainer {
+    position: relative;
+    display: flex;
+    background-color: rgba(217, 217, 217, 0.44);
+    width: 50%;
+    height: 55px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+.calendarContainer {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scale: 0.8;
+    right: -60px;
+    top: 8px;
+    height: 40px;
+    width: 40px;
+    border-radius: 18px;
+    box-shadow: -4px -4px 10px 0px rgba(0, 0, 0, 0.12), 4px 4px 10px 0px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+.calendarContainer:hover {
+    transform: scale(1.01) translateY(-2px);
+    transition: all 0.2s ease;
+}
+
+.calendarWrapper {
+    position: absolute;
+    top: 50px;
+    right: -220px;
+    z-index: 10;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px 0px rgba(29, 22, 23, 0.4);
+}
+
+.calendar {
+    border: none;
+    border-radius: 15px;
+    border-bottom: 1px solid darkgray;
+}
+
+.medicineSearchIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+}
+
+.medicineSearchInput {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    width: 100%;
+}
+
+.categoriesWrapper {
+    display: flex;
+    /* margin-bottom: 30px; */
+}
+
+.categoryTile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    margin-inline: 5px;
+    height: 110px;
+    width: 100px;
+    padding-top: 22px;
+    padding-bottom: 15px;
+    border-radius: 20px;
+    line-height: 130%;
+    /* box-shadow: -4px -4px 10px 0px rgba(0, 0, 0, 0.12), 4px 4px 10px 0px rgba(0, 0, 0, 0.12); */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.categoryTile:hover {
+    transform: scale(1.02) translateY(-7px) ;
+    transform-style: preserve-3d;
+    box-shadow: -4px -4px 10px 0px rgba(0, 0, 0, 0.12), 4px 4px 10px 0px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+}
+
+.categoryTile.active {
+    box-shadow: -4px -4px 10px 0px rgba(0, 0, 0, 0.12), 4px 4px 10px 0px rgba(0, 0, 0, 0.12);
+    padding-top: 20px;
+    padding-bottom: 13px;
+}
+
+.categoryTitle {
+    transform-style: preserve-3d;
+    font-size: 11px;
+    text-align: center;
+	-webkit-backface-visibility: hidden;    
+	backface-visibility: hidden;
+}
+
+.resultsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 35px;
+    padding-inline: 50px;
+    margin-top: 15px;
+    padding-bottom: 200px;
+    background: #EDEDED;
+    background-clip:border-box;
+}
+
+.doctorContainer {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    height: 150px;
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: -3px -3px 8px 0px rgba(0, 0, 0, 0.12), 3px 3px 8px 0px rgba(0, 0, 0, 0.12);
+    margin-bottom: 30px;
+}
+
+.doctorImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 80px;
+    border-radius: 12px;
+}
+
+.doctorImg img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.sessionPrice {
+    color: #0D0D0D;
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.doctorName {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+.doctorSpecialty {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.doctorCity {
+    font-size: 11px;
+    color: #7E7E7E;
+}
+
+.doctorBio {
+    font-size: 11.5px;
+    color: #2E2E2E;
+    text-align: start;
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.medicineDesc1 {
+    font-size: 12px;
+    line-height: 16.5px;
+    margin-bottom: 2px;
+}
+
+.medicineDesc2 {
+    font-size: 13px;
+    line-height: 16.5px;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+}
+
+.addToCartButton {
+    cursor: pointer;
+    border-radius: 9px;
+    width: 100%;
+    background: #3182CE;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    padding-block: 6px;
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .1);
+    transition: all 0.2s ease;
+}
+
+.addToCartButton:hover {
+    background: #1d5a92;
+    transition: all 0.2s ease;
+}
+
+.viewButton {
+    cursor: pointer;
+    border-radius: 9px;
+    width: 100%;
+    background: #29873C;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    padding-block: 6px;
+}
+
+.viewButton:hover {
+    background: #1d682c;
+    transition: all 0.2s ease;
+}
