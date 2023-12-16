@@ -6,9 +6,7 @@ import PatientDetails from './PatientDetails';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
 import DoctorNavBar from "../components/DoctorNavBar";
-
-
-
+import classes from './DoctorHome.module.css';
 
 const DoctorHome = () => {
   const navigate = useNavigate();
@@ -302,13 +300,13 @@ const DoctorHome = () => {
   return (
     <div className="center">
       <DoctorNavBar/>
-      {showAppointment && (
+      {/* {showAppointment && (
         <AppointmentDetails data={selectedRow} exit={exitAppointmentModal} />
-      )}
+      )} */}
       {/* {showInfo && <MyInfo exit={exitAdminModal} refresh={refreshUserData} />} */}
-      {showUser && <PatientDetails data={selectedRow} exit={exitUserModal} />}
+      {/* {showUser && <PatientDetails data={selectedRow} exit={exitUserModal} />} */}
       {/* onDelete={deleteUser} */}
-      <div>
+      {/* <div>
         <span>
           <button onClick={() => setCurrentTab('patients')}>My Patients</button>
         </span>
@@ -323,8 +321,8 @@ const DoctorHome = () => {
         <span>
           <button onClick={changePasswordHandler}>change password</button>
         </span>
-      </div>
-      {currentTab === 'my-info' && <MyInfo info={info} />}
+      </div> */}
+      {/* {currentTab === 'my-info' && <MyInfo info={info} />}
       {currentTab === 'patients' && (
         <>
           <h3>Patients</h3>
@@ -362,13 +360,8 @@ const DoctorHome = () => {
             onRowClick={showAppointmentModal}
           />
         </>
-      )}
+      )} */}
 
-      <div>
-        {/* <button onClick={() => setShowInfo(true)}>Add New Admin</button> */}
-      </div>
-
-      {/* <DataTable columns={patientCols} rows={filteredPatients} onRowClick={onPatientClick} /> */}
     </div>
   );
 };
