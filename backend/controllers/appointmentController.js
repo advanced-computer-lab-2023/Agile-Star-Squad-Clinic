@@ -23,7 +23,7 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   const newAppointment = await Appointment.create(req.body);
   const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
-  const newNotification = await Notifications.create(req.body.patient , req.body.doctor);
+  const newNotification = await Notifications.create({patient: req.body.patient , doctor: req.body.doctor});
   
   doctor.appointments.push(newAppointment);
   await doctor.save();

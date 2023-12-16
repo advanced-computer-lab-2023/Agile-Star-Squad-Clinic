@@ -57,7 +57,7 @@ const doctorSchema = new mongoose.Schema(
     },
     personalImage: {
       type: String,
-      required: [true, "Please provide your personal image."],
+      // required: [true, "Please provide your personal image."],
     },
     appointments: [
       {
@@ -77,6 +77,11 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       enum: ["member", "accepted"],
       default: "accepted"
+    },
+    wallet:{
+      type: Number,
+      default:0,
+  
     },
 
     chats: [

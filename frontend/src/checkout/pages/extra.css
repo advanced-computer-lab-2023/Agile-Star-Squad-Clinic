@@ -1,0 +1,42 @@
+.headins{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+}
+.headins p{
+  color: var(--600, #3182CE);
+  font-family: 'Inter';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  /* padding-bottom: 20px; */
+}
+#hring {
+  width: 25px;
+  height: 1px;
+  background: #3182ce;
+}
+#datesDoctor,#total1,#total2{
+  color: #000;
+font-family: 'Inter';
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+text-align: left;
+
+}
+#total1{
+  font-weight: 700;
+  padding: 10px 0px;
+}
+#total2{
+  color: var(--700, #4A5568);
+  font-size: 16px;
+  padding: 16px 0px;
+}
+#card2{
+  width: 100%;
+}

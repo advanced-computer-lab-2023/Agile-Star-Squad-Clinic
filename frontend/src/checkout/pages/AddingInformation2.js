@@ -3,9 +3,8 @@ import Card from '../../shared/components/Card/Card';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import PaymentSub from '../components/payment/PaymentSub';
 import { useLocation } from 'react-router-dom';
-import Payment from '../components/payment/Payment';
 import UserContext from "../../user-store/user-context";
-
+import "./extra.css";
 const AddingInfo = () => {
   const [showItem, setShowItem] = useState(false);
   const [showDelivery, setShowDelivery] = useState(false);
@@ -16,7 +15,7 @@ const AddingInfo = () => {
   const [doctorName, setDoctorName] = useState('');
   const [appDate, setAppDate] = useState('');
   const [paymentMethod, setPaymentMethod] = useState(0);
-  const [packageData, setPackageData] = useState();
+  const [packageImage, setPackageImage] = useState();
   const [discount,setDiscount]=useState(0);
   const userCtx = useContext(UserContext);
   const location = useLocation()
@@ -29,12 +28,12 @@ const AddingInfo = () => {
 
   const stateData = location.state;
 
-  console.log(stateData);
 
   const handleFamilyMemberSelection = (isFamilyMemberSelected) => {
     // Do something with the information that a family member is selected
-    setfamilyMemberDiscount(isFamilyMemberSelected)
     console.log(isFamilyMemberSelected)
+    setfamilyMemberDiscount(isFamilyMemberSelected)
+    
     // Adjust discounts or other logic based on family member selection
   };
   useEffect(() => {
@@ -45,10 +44,14 @@ const AddingInfo = () => {
       if(responseData.data.patient.package!=null){
         setDiscount(responseData.data.patient.package.familyMemberDiscount)
       }
+      if(familyMemberDiscount)
       setPrice(Math.floor((stateData.price)- (discount/ 100) * (stateData.price)));
-    
+      else{
+        setPrice( (stateData.price));
+
+      }
     });
-  }, []);
+  }, [familyMemberDiscount]);
 
   useEffect(() => {
 
@@ -64,14 +67,29 @@ const AddingInfo = () => {
       );
     }
   }, []);
+  useEffect(()=>{
+      if(stateData.name == 'Platinum'){
+        setPackageImage('/platinum.png')
+      }
+      else if(stateData.name == 'Gold'){
+        setPackageImage('/gold.png')
+      }
+      else if(stateData.name == 'Silver'){
+        setPackageImage('/silver.png')
+      }
+      else{
+        setPackageImage('/other.png')
+      }
+  },stateData.name)
   // setAppDate(DUMMY_APPOINTMENT[0].date.toUTCString())
   return (
     //
-    <div className="container">
+    <div className="container" >
       <NavBar />
       <br />
       <br />
-      <div className="row  justify-content-evenly gx-5">
+      
+      <div className="row  justify-content-evenly  gx-5">
         <div className="col card1">
           <Card>
             
@@ -80,24 +98,23 @@ const AddingInfo = () => {
           </Card>
         </div>
         <div className="col" id="card2">
-          <Card>
-            <h3>{packageData && packageData.name}</h3>
+          <Card style={{width:'fit-content',padding:'50px'}}>
+          <p id='datesDoctor' style={{textAlign:'left'}}>Order Summary</p>
 
-            
-            <p>
+            <div style={{paddingBottom:'10px',paddingTop:'30px'}}>
+          <img src={packageImage} style={{ width: '100px', height: '100px',display:"inline-block" }}></img>
+           <h3 style={{display:"inline-block"}}>{stateData.name} Package </h3>
+          </div>
+            <p id='total2'>
               Sub Total: {stateData.price}LE </p>
               <div>
                 {familyMemberDiscount&&
-                <p>
+                <p id='total2'>
                   Package Discount : -{Math.floor((discount / 100) *(stateData.price))}LE
                 </p>}
                 </div>
-              <p>Total : {price -(Math.floor((discount / 100) *(stateData.price)))} </p>
-            <div>
-              <p>
-
-              </p> </div>
-
+              <p id='total1'>Total : {price } LE </p>
+           
           </Card>
         </div>
       </div>

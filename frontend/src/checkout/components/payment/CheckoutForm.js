@@ -1,5 +1,5 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import React ,{ useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import './CheckoutForm.css'
@@ -29,25 +29,26 @@ export default function CheckoutForm(props) {
 
     try {
       
-
-        let paymentIntentData = {
-
-          doctor: props.doctorId,
-          patient: props.patientId,
-          dateOfAppointment: props.appDate,
-          status: 'upcoming'
-        };
-
-        // Send data to the backend
-        const response = await fetch('http://localhost:3000/doctors/appointments', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(paymentIntentData),
-        });
-
-        if (!response.ok) {
+      let paymentIntentData = {
+        
+        doctor: props.doctorId,
+        patient: props.patientId,
+        dateOfAppointment: props.appDate,
+        status: 'upcoming'
+      };
+      console.log(paymentIntentData);
+      
+      // Send data to the backend
+      const response = await fetch('http://localhost:3000/doctors/appointments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentIntentData),
+      });
+      
+      if (!response.ok) {
+         
           throw new Error('Failed to send data to the server.');
         }
         // navigate('/patient/appointment/book/')
@@ -104,7 +105,8 @@ export default function CheckoutForm(props) {
         if (response.ok) {
           // Handle a successful response
           setMessage("Payment successful via wallet!");
-          alert("Payment successful via wallet!")
+          alert("Payment successful via wallet!");
+          navigate(-1);
 
         } else {
           // Handle errors if the server response is not ok
@@ -131,24 +133,55 @@ export default function CheckoutForm(props) {
   };
   return (
     <form id="payment-form" onSubmit={!useWallet ? handleSubmit : handleWallet}>
+       <div className='headins'>
+              <p >Account</p>
+              <hr id='hring'></hr>
+              <img src="/checkbox.png" alt="done"/>
+              <hr id='hring'></hr>
+              <p>Payment</p>
+              <hr id='hring'></hr>
+              <img src="/checkbox.png" alt="done"/>
+              <hr id='hring'></hr>
+              <p>Reservation No.</p>
+            </div>
+            {/* <h4>Payment Details</h4> */}
+            <div style={{padding:'10px'}}>
       <input
         type="checkbox"
-        id="use-wallet"
+        // id="use-wallet"
+        class="form-check-input mt-0"
         checked={useWallet}
         onChange={(e) => setUseWallet(e.target.checked)}
+        
       />
-      <label htmlFor="use-wallet">Pay with Wallet</label>
-      <div>{!useWallet &&
-        <PaymentElement id="payment-element" />}
+      <label htmlFor="use-wallet" className="choicePayment" >Pay with Wallet</label>
       </div>
-      <button disabled={isProcessing || !stripe || !elements} id="submit">
+      <div>{!useWallet &&<React.Fragment>  <div >
+              <label className="label1">Card Holder Name</label>
+              <br />
+              <input
+                type="text"
+                className="input1"
+                name="radio"
+                placeholder="Name"
+                // id="use-wallet"
+               
+                required
+              />
+            </div>
+        <PaymentElement id="payment-element" /></React.Fragment>}
+      </div>
+      {message && <div id="payment-message">{message}</div>}
+
+      <button className="cancelApp" onClick={handleCancel}>Cancel</button>
+      <button className="checkoutApp" disabled={isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isProcessing ? "Processing ... " : "Pay now"}
+          {isProcessing ? "Processing ... " : "Complete Order"}
         </span>
       </button>
-      <button onClick={handleCancel}>Cancel</button>
+      
       {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+     
     </form>
   );
 }

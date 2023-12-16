@@ -286,3 +286,22 @@ exports.getDoctorPatient = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.updateWallet = catchAsync(async (req, res, next) => {
+  const doctorId = req.params.doctorId;
+
+
+
+  const doctor = await Doctor.findById(doctorId);
+  if (!doctor) {
+    return next(new AppError('Doctor not found', 404));
+  }
+
+
+  await Doctor.findByIdAndUpdate(doctor._id, {
+    wallet: req.body.walletAmount,
+  });
+
+  res.status(200).json({
+    status: 'success',
+  });
+});

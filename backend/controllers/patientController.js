@@ -175,6 +175,7 @@ exports.kimoSubscribe = catchAsync(async (req, res, next) => {
   const patientId = req.params.id;
   const packageId = req.body.packageId;
   const patient = await Patient.findById(patientId)
+  
 
   if (!patient) {
     return next(new AppError('Patient not found', 404));
