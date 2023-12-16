@@ -20,12 +20,20 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     enum: ['upcoming', 'completed', 'cancelled', 'rescheduled'],
   },
+  patientMessage:
+  {
+    type: String,
+  },
+  doctorMessage:
+  {
+    type: String,
+  },
   timeStamp: {
     type: Date,
     default: Date.now
   }
 });
 
-const Notifications = mongoose.model('Notifications', notificationSchema);
+const Notifications = mongoose.model('Notification', notificationSchema);
 
 module.exports = Notifications;

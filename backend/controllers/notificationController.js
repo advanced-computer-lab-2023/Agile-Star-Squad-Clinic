@@ -2,6 +2,8 @@
 const Notifications = require('../models/notificationsModel');
 const Package = require('../models/packageModel');
 const { default: mongoose } = require('mongoose');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 // exports.addNotification = catchAsync(async (req, res, next) => {
 //   const newNotification = await Notifications.create(req.body);
@@ -36,6 +38,9 @@ const { default: mongoose } = require('mongoose');
 
 exports.deleteNotification = catchAsync(async (req, res, next) => {
   const notification = await Notifications.findByIdAndDelete(req.params.id);
+
+  // console.log(req.params.);
+
   if (!notification) {
     return next(new AppError('No notification found with that ID', 404));
   }

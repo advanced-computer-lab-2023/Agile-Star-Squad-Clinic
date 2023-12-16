@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
 import bell from './bell.png';
 import UserContext from '../../../user-store/user-context';
-import Carousel from 'react-bootstrap/Carousel';
+import img from './white.png';
 
 const BellDropdown = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const userCtx = useContext(UserContext);
-    const patientId = userCtx.userId;
+    const userId = userCtx.userId;
     const [myNotifications, setMyNotifications] = useState([]);
 
     useEffect(() => {
@@ -15,7 +15,36 @@ const BellDropdown = () => {
     }, []);
 
     const fetchMyNotifications = () => {
-        fetch(`http://localhost:3000/patients/${patientId}/notifications`, {
+        if (userCtx.role == 'patient') {
+            fetch(`http://localhost:3000/patients/${userId}/notifications`, {
+                credentials: 'include',
+            }).then(async (response) => {
+                const json = await response.json();
+                console.log(response);
+                const notificationsJson = json.data.notifications;
+                setMyNotifications(
+                    notificationsJson.map((notification) => ({ id: notification['_id'], ...notification }))
+                );
+            });
+        }
+        else if(userCtx.role == 'doctor'){
+            fetch(`http://localhost:3000/doctors/${userId}/notifications`, {
+                method: 'DELETE',
+                credentials: 'include',
+            }).then(async (response) => {
+                const json = await response.json();
+                console.log(response);
+                const notificationsJson = json.data.notifications;
+                setMyNotifications(
+                    notificationsJson.map((notification) => ({ id: notification['_id'], ...notification }))
+                );
+            });
+        }
+    };
+
+    const deleteNotification = (notificationId) => {
+
+        fetch(`http://localhost:3000/doctors/${userId}/notifications`, {
             credentials: 'include',
         }).then(async (response) => {
             const json = await response.json();
@@ -48,14 +77,33 @@ const BellDropdown = () => {
                         border: '1px solid #ccc',
                         marginTop: '5px',
                         zIndex: 1, // Ensure the dropdown is above other content
+                        backgroundImage: `url(${img})`,
+                        backgroundSize: 'cover',
+                        padding: '10px',
+                        width: '500%',
+                        maxHeight: '200px', // Set the maximum height for scrolling
+                        overflowY: 'auto', // Make the list scrollable
                     }}
                 >
                     {/* Display fetched notifications dynamically */}
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                        {myNotifications.map((notification) => (
-                            <li key={notification.id}>{notification.patient}</li>
-                        ))}
-                    </ul>
+                    {userCtx.role === 'patient' || userCtx.role === 'doctor' ? (
+                        <ul style={{ listStyle: 'none', padding: 0, width: '100%' }}>
+                            {myNotifications.map((notification) => (
+                                <li key={notification.id} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '0.25px solid var(--text-icons-faded-grey, #464a54)' }}>
+                                    <span>{notification.patientMessage || notification.doctorMessage}</span>
+                                    <span
+                                        style={{ cursor: 'pointer', color: '#464a54', marginRight: '-5px', marginTop: '-5px' }}
+                                        onClick={() => deleteNotification(notification._id)}
+                                    >
+                                        X
+                                    </span>
+                                    <hr></hr>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>You don't have permission to view notifications.</p>
+                    )}
                 </div>
             )}
         </div>

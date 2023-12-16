@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
 import MyInfo from '../../doctor/pages/MyInfo';
 import classes from './DoctorNavBar.module.css';
+import BellDropdown from '../../shared/components/NotificationBell/BellDropdown';
 
 
 
@@ -80,6 +81,7 @@ const NavBar = (props) => {
               {/* <a href="#" className="btn btn-white">
                 Wallet: {walletAmount}
               </a> */}
+              <BellDropdown />
               <Link to="/messages" style={{ all: 'unset' }}>
                 <a href="#" className="btn btn-white">
                   Messages

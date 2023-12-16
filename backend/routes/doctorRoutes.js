@@ -2,6 +2,7 @@ const express = require('express');
 const doctorController = require('../controllers/doctorController');
 const appointmentController = require('../controllers/appointmentController');
 const middleware = require('../middleware/middleware.js');
+const notificationController = require('../controllers/notificationController.js')
 
 const router = express.Router({
   mergeParams: true,
@@ -41,6 +42,11 @@ router
     middleware.doctorAuth,
     appointmentController.upComingAppointmentsForDoctors
   );
+
+  router
+  .route('/:doctorId/notifications/:notificationId')
+  .get(middleware.doctorAuth , doctorController.getMyNotifications)
+  .delete(middleware.doctorAuth , notificationController.deleteNotification);
 
 router
 .route('/:id')

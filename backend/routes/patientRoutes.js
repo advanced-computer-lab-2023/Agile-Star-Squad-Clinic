@@ -3,6 +3,7 @@ const patientController = require('../controllers/patientController');
 const doctorRouter = require('./doctorRoutes');
 const appointmentController = require('../controllers/appointmentController');
 const prescriptionController = require('../controllers/prescriptionController');
+const notificationController = require('../controllers/notificationController.js');
 const middleware = require('../middleware/middleware.js');
 
 const router = express.Router();
@@ -58,8 +59,9 @@ router
   .get(appointmentController.upComingAppointmentsForPatients);
 
 router
-  .route('/:patientId/notifications')
-  .get(middleware.patientAuth , patientController.getMyNotifications);
+  .route('/:patientId/notifications/:notificationId')
+  .get(middleware.patientAuth , patientController.getMyNotifications)
+  .delete(middleware.patientAuth , notificationController.deleteNotification);
 
 router
   .route('/:patientId/wallet')

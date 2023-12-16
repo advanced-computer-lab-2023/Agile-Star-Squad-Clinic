@@ -364,16 +364,23 @@ exports.updateWallet = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyNotifications = catchAsync(async(req, res, next) =>{
+  try{
   const patient  = await Patient.findById(req.params.patientId).populate(
     "notifications"
   );
+  
   res.status(200).json({
     status: 'success',
     data: {
-      notifations: patient.notifications,
+      notifications: patient.notifications,
     },
   });
+}
+catch(err){
+  console.log(err)
+}
 });
+
 
 exports.getChatIds = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;

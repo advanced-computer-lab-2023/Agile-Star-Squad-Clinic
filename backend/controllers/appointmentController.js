@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 const Appointment = require('../models/appointmentModel');
 const Notifications = require('../models/notificationsModel');
+const sendEmail = require('../utils/email');
 
 exports.getAllAppointments = catchAsync(async (req, res, next) => {
   const appointments = await Appointment.find()
@@ -23,7 +24,12 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   const newAppointment = await Appointment.create(req.body);
   const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
-  const newNotification = await Notifications.create({ patient: req.body.patient, doctor: req.body.doctor, appoinmentDate: req.body.dateOfAppointment, appointmentStatus: req.body.status });
+
+  const pMessage = `Your appointment with doctor ${doctor.name} has been scheduled at ${req.body.dateOfAppointment}`
+  const dMessage = `Your appointment with patient ${patient.name} has been scheduled at ${req.body.dateOfAppointment}`
+
+
+  const newNotification = await Notifications.create({ patient: req.body.patient, doctor: req.body.doctor, appoinmentDate: req.body.dateOfAppointment, appointmentStatus: req.body.status, patientMessage: pMessage, doctorMessage: dMessage });
 
   doctor.appointments.push(newAppointment);
   await doctor.save();
@@ -34,13 +40,36 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   patient.notifications.push(newNotification);
   await patient.save();
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      appointment: newAppointment,
-      notification: newNotification
-    },
-  });
+
+  await patient.save({ validateBeforeSave: false });
+  await doctor.save({ validateBeforeSave: false });
+
+  try {
+
+    await sendEmail({
+      email: patient.email,
+      subject: 'You Have New Notification!',
+      message: pMessage,
+    });
+
+    await sendEmail({
+      email: doctor.email,
+      subject: 'You Have New Notification!',
+      message: dMessage,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        appointment: newAppointment,
+        notification: newNotification
+      },
+    });
+  }
+
+  catch (err) {
+    console.log(err)
+  }
 });
 
 const isDateInFuture = (dateToCompare) => {
