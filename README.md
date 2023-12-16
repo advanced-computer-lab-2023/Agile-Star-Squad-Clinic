@@ -56,9 +56,6 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 - Secure login system for patients and doctors.
 - Role-based access control to protect sensitive information.
 
-### 6. Responsive Design:
-- The website is designed to be responsive and user-friendly, providing a seamless experience on both desktop and mobile devices.
-
 <a name="usage"></a>
 
 ## How to Use the Website
