@@ -5,6 +5,9 @@ import MyInfo from './MyInfo';
 import PatientDetails from './PatientDetails';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
+import DoctorNavBar from "../components/DoctorNavBar";
+
+
 
 
 const DoctorHome = () => {
@@ -298,6 +301,7 @@ const DoctorHome = () => {
 
   return (
     <div className="center">
+      <DoctorNavBar/>
       {showAppointment && (
         <AppointmentDetails data={selectedRow} exit={exitAppointmentModal} />
       )}
@@ -317,7 +321,7 @@ const DoctorHome = () => {
           </button>
         </span>
         <span>
-          <button onClick={changePasswordHandler}>change password</button>;
+          <button onClick={changePasswordHandler}>change password</button>
         </span>
       </div>
       {currentTab === 'my-info' && <MyInfo info={info} />}
