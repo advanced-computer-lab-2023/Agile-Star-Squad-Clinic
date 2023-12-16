@@ -33,7 +33,7 @@ router
   .patch(middleware.adminAuth, patientController.addHealthRecord)
   .delete(middleware.adminAuth, patientController.removePatient);
 
-router  
+router
   .route('/:id/kimoSubscribe')
   .post(patientController.kimoSubscribe);
 
@@ -56,6 +56,11 @@ router
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
+
+router
+  .route('/:patientId/notifications')
+  .get(middleware.patientAuth , patientController.getMyNotifications);
+
 router
   .route('/:patientId/wallet')
   .post(patientController.updateWallet)
@@ -65,9 +70,9 @@ router
   );
 
 router
-    .route("/:patientId/chats")
-    .get(middleware.patientAuth,
-      patientController.getChatIds);
+  .route("/:patientId/chats")
+  .get(middleware.patientAuth,
+    patientController.getChatIds);
 
 router
   .route('/:doctorId/doctorUpcomingAppointments')

@@ -61,7 +61,6 @@ const PatientHomePage = () => {
     });
   };
   const fetchUpcomingAppointments = () => {
-    console.log('fetching');
     fetch(`http://localhost:3000/patients/${patientId}/upcomingAppointments`, {
       credentials: 'include',
     }).then(async (response) => {

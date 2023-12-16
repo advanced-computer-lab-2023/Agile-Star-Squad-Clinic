@@ -3,6 +3,7 @@ import './NavBar.css';
 import logo from '../../../logo.png';
 import { Link } from 'react-router-dom';
 import UserContext from '../../../user-store/user-context';
+import BellDropdown from '../NotificationBell/BellDropdown';
 
 const NavBar = (props) => {
   const [walletAmount, setWalletAmount] = useState('');
@@ -70,6 +71,7 @@ const NavBar = (props) => {
           </div>
           <div className="d-flex mx-4">
             <div className="btn-group ">
+              <BellDropdown />
               <a href="#" className="btn btn-white">
                 Wallet: {walletAmount}
               </a>
