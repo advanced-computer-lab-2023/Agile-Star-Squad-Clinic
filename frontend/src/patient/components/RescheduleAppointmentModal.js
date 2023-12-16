@@ -235,7 +235,7 @@ const RescheduleAppointmentModal = (props) => {
           onClick={rescheduleAppointmentHandler}
           disabled={chosenDate === undefined || chosenTime === undefined}
         >
-          Schedule Appoinment
+          {props.buttonText}
         </button>
       </div>
     </Modal>

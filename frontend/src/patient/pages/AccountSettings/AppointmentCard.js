@@ -19,6 +19,7 @@ const AppointmentsCard = (props) => {
   const [allAppointments, setAllAppointments] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [chosenApp, setChosenApp] = useState(null);
+  const [modalText, setModalText] = useState('');
 
   const [showModal, setShowModal] = useState(false);
 
@@ -174,6 +175,8 @@ const AppointmentsCard = (props) => {
       if (tab != 0 && tab != 1) {
         navigate('/patient/appointment/book');
       } else {
+        if (tab == 0) setModalText('Reschedule Appointment');
+        else setModalText('Follow Up Appointment');
         setChosenApp(app);
         setShowModal(true);
       }
@@ -204,6 +207,7 @@ const AppointmentsCard = (props) => {
         <RescheduleAppointmentModal
           exit={() => setShowModal(false)}
           appointment={chosenApp}
+          buttonText={modalText}
         />
       )}
       <SideCard>
