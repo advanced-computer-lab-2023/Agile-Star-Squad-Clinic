@@ -14,6 +14,7 @@ const doctorRouter = require('./routes/doctorRoutes');
 const prescriptionRouter = require('./routes/prescriptionRoutes');
 const packageRouter = require('./routes/packageRoutes');
 const paymentRouter = require('./routes/paymentRoutes');
+const meetingRouter = require('./routes/meetingRoutes');
 const Prescription = require('./models/prescriptionModel');
 const patientController = require('./controllers/patientController');
 const { resolve } = require("path");
@@ -150,6 +151,7 @@ app.use('/prescriptions', prescriptionRouter);
 app.use('/packages', packageRouter);
 app.use('/payments',paymentRouter);
 app.use('/auth', authRouter);
+app.use('/meeting', meetingRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`));
