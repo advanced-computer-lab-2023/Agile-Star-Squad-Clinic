@@ -100,7 +100,9 @@ const Prescriptions = () => {
                     return prescriptions;
                 }
                 );
-                setPrescriptionDoctors(Array.from(prescDoctors));
+                setTimeout(() => {
+                    setPrescriptionDoctors(Array.from(prescDoctors));
+                }, 10);
             });
         };
         fetchPrescriptions();
