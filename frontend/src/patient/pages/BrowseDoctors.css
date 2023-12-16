@@ -284,7 +284,8 @@ p {
 
 .filter-button-container , .appointments{
   position: absolute;
-  top: 25%; /* Adjust the top distance as needed */
+  top: 15%; /* Adjust the top distance as needed */
+  z-index: 1;
   left: 80%; /* Adjust the right distance as needed */
   background-color:transparent;
   padding: 10px;

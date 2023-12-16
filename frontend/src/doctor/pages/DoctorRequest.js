@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import Dropzone from "react-dropzone"
 import { useNavigate } from 'react-router-dom';
 import storage from '../../index';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import classes from '../doctorRequest.module.css';
-import logo from './logo.png';
-import Medicines from './Medicines.png';
+import logo from '../images/logo.png';
+import Medicines from '../images/Medicines.png';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import uploadImg from "../../assets/doctorRequest/upload.png"
 
 const DoctorRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -33,71 +35,6 @@ const DoctorRequestForm = () => {
 
   const navigate = useNavigate();
 
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: '#f5f5f5',
-      border: 'none',
-      borderBottom: '1px solid #E2E4E5',
-      textAlign: 'start'
-    }),
-
-    placeholder: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? '#000' : '#888',
-    }),
-    dropdownIndicator: (provided) => ({
-      ...provided,
-      transition: 'transform 0.3s',
-      transform: 'rotate(0deg)',
-      borderLeft: 'none',
-    }),
-    indicatorSeparator: () => ({}),
-    menu: (provided) => ({
-      ...provided,
-      borderRadius: '20px',
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      borderRadius: '14px',
-      fontSize: '14px',
-      fontWeight: state.isFocused ? "500" : "400",
-      color: state.isFocused ? "black" : "#666666",
-      textAlign: "left",
-      backgroundColor: "transparent"
-    }),
-    value: (provided) => ({
-      ...provided,
-      borderRadius: '20px',
-      backgroundColor: 'transparent'
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      fontSize: '14px',
-    }),
-    valueContainer: (provided) => ({
-      ...provided,
-      backgroundColor: "transparent"
-    }),
-    menuList: (base) => ({
-      ...base,
-
-      "::-webkit-scrollbar": {
-        width: "3px",
-        height: "0px",
-      },
-      "::-webkit-scrollbar-track": {
-        background: "transparent"
-      },
-      "::-webkit-scrollbar-thumb": {
-        background: "#888",
-        borderRadius: '3px',
-      },
-      "::-webkit-scrollbar-thumb:hover": {
-        background: "#555"
-      }
-    })
-  };
   const dayOptions = () => {
     let days = [];
     for (let i = 1; i <= 31; i++) {
@@ -235,7 +172,7 @@ const DoctorRequestForm = () => {
         <div className={`${classes.secondBackground} col-7`}>
           {
             <div className={classes.customText}>
-              <p className={classes.p1}>Create Account</p>
+              <p className={classes.p1}>Account Registration</p>
 
               <form onSubmit={handleSubmit} className={classes.formContainer}>
                 <div className={classes.textBoxContainer}>
@@ -330,7 +267,7 @@ const DoctorRequestForm = () => {
                 <div className="d-flex justify-content-betweem w100">
 
                   <Select
-                    className="daySelect"
+                    className={classes.daySelect}
                     value={day}
                     styles={customStyles}
                     options={dayOptions()}
@@ -338,43 +275,34 @@ const DoctorRequestForm = () => {
                     onChange={(value) => setDOBDay(value)}
                     required />
                   <Select
-                    className="daySelect"
+                    className={classes.daySelect}
                     value={month}
                     styles={customStyles}
                     options={monthOptions()}
                     placeholder={'MM'}
                     onChange={(value) => setDOBMonth(value)}
                     required />
-                  <input className="daySelect numField" value={year} type="number" id="dobYear" name="year" placeholder="YYYY" onChange={e => setDOBYear(e.target.value)} required />
+                  <input className={`${classes.daySelect} ${classes.textBox} mb-0`} value={year} type="number" id="dobYear" name="year" placeholder="YYYY" onChange={e => setDOBYear(e.target.value)} required />
                 </div>
-                <div>
-                  <label>ID</label>
-                  <input
-                    type="file"
-                    name="idImage"
-                    value={idImage}
-                    onChange={onIdImageChange}
-                  />
+                <div className='d-flex justify-content-between mb-3' style={{marginLeft: '-55px'}}>
+                  <div className='col-3 px-2'>
+                    <div className={classes.dropzoneTitle}>Profile Picture</div>
+                    <MyDropzone files={personalImageForm} setFiles={setPersonalImage} maxFiles={1} toast={(s) => { }} />
+                  </div>
+                  <div className='col-3 px-2'>
+                    <div className={classes.dropzoneTitle}>Personal ID</div>
+                    <MyDropzone files={idImageForm} setFiles={setIdImage} maxFiles={1} toast={(s) => { }} />
+                  </div>
+                  <div className='col-3 px-2'>
+                    <div className={classes.dropzoneTitle}>Medical Degree</div>
+                    <MyDropzone files={medicalDegreeForm} setFiles={setDegreeImage} maxFiles={1} toast={(s) => { }} />
+                  </div>
+                  <div className='col-3 px-2'>
+                    <div className={classes.dropzoneTitle}>Medical License</div>
+                    <MyDropzone files={medicalLicenseForm} setFiles={setLicenseImage} maxFiles={1} toast={(s) => { }} />
+                  </div>
                 </div>
-                <div>
-                  <label>Medical License</label>
-                  <input
-                    type="file"
-                    name="medicalLicense"
-                    value={medicalLicense}
-                    onChange={onMedicalLicenseChange}
-                  />
-                </div>
-                <div>
-                  <label>Medical Degree</label>
-                  <input
-                    type="file"
-                    name="medicalDegree"
-                    value={medicalDegree}
-                    onChange={onMedicalDegreeChange}
-                  />
-                </div>
-                <button className={classes.button} type="submit">Request registration</button>
+                <button className={classes.button} type="submit">Request Registration</button>
               </form>
             </div>
           }
@@ -385,3 +313,171 @@ const DoctorRequestForm = () => {
 };
 
 export default DoctorRequestForm;
+
+const MyDropzone = (props) => {
+  const files = props.files;
+  const setFiles = props.setFiles;
+  const onDrop = useCallback((acceptedFiles) => {
+    if (files.length + acceptedFiles.length > props.maxFiles) {
+      props.toast(`Upload a maximum of ${props.maxFiles} files`);
+      return;
+    }
+    if (acceptedFiles?.length) {
+      console.log(
+        Object.assign(acceptedFiles[0], {
+          preview: URL.createObjectURL(acceptedFiles[0]),
+        }),
+      );
+      setFiles((prevFiles) => [
+        ...prevFiles,
+        ...acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          }),
+        ),
+      ]);
+    }
+  });
+
+  const rejectFile = () => {
+    props.toast(`Only .PNG and .JPG files are accepted`);
+    return;
+  };
+
+  const thumbs = files.map((file) => (
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img src={file.preview} style={img} />
+      </div>
+    </div>
+  ));
+
+  return (
+    <div className={classes.myDropzone}>
+      <Dropzone
+        onDrop={onDrop}
+        onDropRejected={rejectFile}
+        accept={{ 'image/png': ['png'], 'image/jpeg': ['jpg'] }}
+      >
+        {({ getRootProps, getInputProps }) => (
+          <section className='h-100'>
+            <div className='h-100' {...getRootProps()}>
+              <input {...getInputProps()} />
+              {files.length > 0 && <aside style={thumbsContainer}>
+                {thumbs}
+              </aside>}
+              {files.length == 0 && <div>
+                <img height={50} src={uploadImg} />
+                <div className="mt-3">Drag & drop files or Browse</div>
+                <div className={classes.dropzoneSubtitle}>
+                  Supported formats: JPEG, PNG, PDF
+                </div>
+              </div>}
+            </div>
+          </section>
+        )}
+      </Dropzone>
+    </div>
+  );
+};
+
+const thumb = {
+  display: 'inline-flex',
+  borderRadius: 2,
+  border: '1px solid #eaeaea',
+  marginBottom: 8,
+  marginRight: 8,
+  width: '100%',
+  height: '100%',
+  padding: 4,
+  boxSizing: 'border-box',
+};
+
+const thumbInner = {
+  display: 'flex',
+  marginInline: 'auto',
+  overflow: 'hidden',
+};
+
+const img = {
+  display: 'block',
+  width: 'auto',
+  height: '100%',
+};
+
+const thumbsContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  width: '100%',
+  height: '100%',
+  marginTop: 8,
+};
+
+
+
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: '#f5f5f5',
+    border: 'none',
+    borderBottom: '1px solid #E2E4E5',
+    textAlign: 'start'
+  }),
+
+  placeholder: (provided, state) => ({
+    ...provided,
+    color: state.isFocused ? '#000' : '#888',
+  }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    transition: 'transform 0.3s',
+    transform: 'rotate(0deg)',
+    borderLeft: 'none',
+  }),
+  indicatorSeparator: () => ({}),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: '20px',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: '14px',
+    fontSize: '14px',
+    fontWeight: state.isFocused ? "500" : "400",
+    color: state.isFocused ? "black" : "#666666",
+    textAlign: "left",
+    backgroundColor: "transparent"
+  }),
+  value: (provided) => ({
+    ...provided,
+    borderRadius: '20px',
+    backgroundColor: 'transparent'
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    fontSize: '14px',
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    backgroundColor: "transparent"
+  }),
+  menuList: (base) => ({
+    ...base,
+
+    "::-webkit-scrollbar": {
+      width: "3px",
+      height: "0px",
+    },
+    "::-webkit-scrollbar-track": {
+      background: "transparent"
+    },
+    "::-webkit-scrollbar-thumb": {
+      background: "#888",
+      borderRadius: '3px',
+    },
+    "::-webkit-scrollbar-thumb:hover": {
+      background: "#555"
+    }
+  })
+};

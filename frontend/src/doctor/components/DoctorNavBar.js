@@ -1,41 +1,44 @@
 import React, { useContext, useState, useEffect } from 'react';
-import './NavBar.css';
-import logo from '../../../logo.png';
+import './DoctorNavBar.module.css';
+import logo from '../images/logo.png';
 import { Link } from 'react-router-dom';
-import UserContext from '../../../user-store/user-context';
-import BellDropdown from '../NotificationBell/BellDropdown';
+import UserContext from '../../user-store/user-context';
+import MyInfo from '../../doctor/pages/MyInfo';
+import classes from './DoctorNavBar.module.css';
+
+
 
 const NavBar = (props) => {
-  const [walletAmount, setWalletAmount] = useState('');
+
+  
+  // const [walletAmount, setWalletAmount] = useState('');
   const userCtx = useContext(UserContext);
 
-  useEffect(() => {
-    getWallet();
-  }, []);
+  // useEffect(() => {
+  //   getWallet();
+  // }, []);
 
-  const getWallet = async () => {
-    fetch(`http://localhost:3000/patients/${userCtx.userId}`, {
-      credentials: 'include',
-    }).then(async (response) => {
-      const json = await response.json();
-      setWalletAmount(json.data.patient.wallet);
-    });
-  };
+  // const getWallet = async () => {
+  //   fetch(`http://localhost:3000/patients/${userCtx.userId}`, {
+  //     credentials: 'include',
+  //   }).then(async (response) => {
+  //     const json = await response.json();
+  //     setWalletAmount(json.data.patient.wallet);
+  //   });
+  // };
 
   return (
     <div className="bodyN">
       <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
         <div className="container-fluid">
-          <Link to={'/patient/home'} className="navbar-brand">
+          <Link to={'/doctor/home'} className="navbar-brand">
             <img
               src={logo}
-              alt=""
-              width="30"
-              height="24"
+              alt="clinic"
+
               className="d-inline-block align-text-top"
               id="logo"
             />
-            clinic
           </Link>
           <button
             className="navbar-toggler"
@@ -51,17 +54,20 @@ const NavBar = (props) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#">
-                  Doctors
-                </a>
+                <Link to="/PatientDetails" style={{ all: 'unset' }}>
+                  <a className="nav-link" aria-current="page" href="#">
+                    Patients
+                  </a>
+                </Link>
+
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to="/healthPackages" style={{ all: 'unset' }}>
                   <a className="nav-link " href="#">
                     Health Packages
                   </a>
                 </Link>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <a className="nav-link" href="#">
                   About us
@@ -71,21 +77,23 @@ const NavBar = (props) => {
           </div>
           <div className="d-flex mx-4">
             <div className="btn-group ">
-              <BellDropdown />
-              <a href="#" className="btn btn-white">
+              {/* <a href="#" className="btn btn-white">
                 Wallet: {walletAmount}
-              </a>
+              </a> */}
               <Link to="/messages" style={{ all: 'unset' }}>
                 <a href="#" className="btn btn-white">
                   Messages
                 </a>
               </Link>
               <Link to="/appointments" style={{ all: 'unset' }}>
-                <a href="#" className="btn btn-white">
-                  Appointments
-                </a>
+                <button className = {classes.button}>
+                  <a href="#" className="btn btn-white">
+                    Appointments
+                  </a>
+                </button>
+
               </Link>
-              <Link to={'/patient/account'}>
+              <Link to={'/doctorAccountSettings'}>
                 <a href="#" className="btn btn-white" id="last">
                   Account
                 </a>
@@ -93,8 +101,8 @@ const NavBar = (props) => {
             </div>
           </div>
         </div>
-      </nav>
-    </div>
+      </nav >
+    </div >
   );
 };
 export default NavBar;
