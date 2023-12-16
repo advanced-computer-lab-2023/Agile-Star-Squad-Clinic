@@ -13,8 +13,8 @@ const JoinMeetingCard = (props) => {
       </div>
       <div className={styles.right}>
         <p className={styles.time}>{props.time}</p>
-        {props.for && <p className={styles.for}>{props.for}</p>}
-        {props.with && <p className={styles.for}>{props.with}</p>}
+        {props.for && <p className={styles.for}>For: {props.for}</p>}
+        {props.with && <p className={styles.for}>With: {props.with}</p>}
       </div>
       <Link to="/meeting">
         <button className={styles.joinBtn}>JOIN MEETING</button>
