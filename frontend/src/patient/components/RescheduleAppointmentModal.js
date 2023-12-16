@@ -28,13 +28,12 @@ const RescheduleAppointmentModal = (props) => {
       );
       setUser(response.data.data.patient);
     } catch (error) {
-      console.log('Error:');
-      console.error(error);
+      alert('get patient error');
+      console.error('Error:', error);
     }
   };
 
   const getDoctor = async () => {
-    console.log(props.appointment);
     try {
       const response = await axios.get(
         `http://localhost:3000/doctors/${props.appointment.doctorId}`,
@@ -42,6 +41,7 @@ const RescheduleAppointmentModal = (props) => {
       );
       setDoctor(response.data.data.doctor);
     } catch (error) {
+      alert('get doctor error');
       console.error('Error:', error);
     }
   };
@@ -54,6 +54,7 @@ const RescheduleAppointmentModal = (props) => {
       );
       setUpComingAppointments(response.data.data.appointments);
     } catch (error) {
+      alert('get upcoming appointments error');
       console.error('Error:', error);
     }
   };
@@ -154,16 +155,25 @@ const RescheduleAppointmentModal = (props) => {
     const appointmentDate = new Date(chosenDate);
     appointmentDate.setHours(hours);
     appointmentDate.setMinutes(minutes);
-    console.log(appointmentDate);
     const dataToSend = {
       packageToUse,
       patientName,
       addAppointmentTo,
-      doctor,
+      doctor: doctor._id,
+      patient: userCtx.userId,
+      status: 'rescheduled',
       dateOfAppointment: appointmentDate,
       timeOfAppointment: chosenTime,
     };
-    navigate('/patient/checkout', { state: dataToSend });
+    await axios.delete(
+      `http://localhost:3000/patients/appointments/${props.appointment._id}`,
+      { withCredentials: true },
+    );
+    await axios.post('http://localhost:3000/doctors/appointments', dataToSend, {
+      withCredentials: true,
+    });
+    // props.onRescheduleAppointment();
+    props.exit();
   };
   const expandTimeRange = (timeRanges) => {
     const expandedTimeRanges = [];

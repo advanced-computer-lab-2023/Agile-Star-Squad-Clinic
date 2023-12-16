@@ -8,6 +8,7 @@ import calendarImg from '../../../assets/patientAccount/calendar.png';
 import closeImg from '../../../assets/patientAccount/close.png';
 import { useNavigate } from 'react-router-dom';
 import RescheduleAppointmentModal from '../../components/RescheduleAppointmentModal';
+import axios from 'axios';
 
 const AppointmentsCard = (props) => {
   const navigate = useNavigate();
@@ -28,7 +29,9 @@ const AppointmentsCard = (props) => {
       props.appointments.map((app) => {
         const status =
           app.status.charAt(0).toUpperCase() + app.status.substring(1);
+        console.log(app);
         return {
+          _id: app._id,
           doctorId: app.doctorId,
           doctorName: app.doctorName,
           status,
@@ -182,6 +185,15 @@ const AppointmentsCard = (props) => {
       }
     };
 
+    const cancelBookingHandler = async () => {
+      await axios.delete(
+        `http://localhost:3000/patients/appointments/${app._id}`,
+        { withCredentials: true },
+      );
+      setAppointments((prev) => prev.filter((a) => a._id != app._id));
+      setAllAppointments((prev) => prev.filter((a) => a._id != app._id));
+    };
+
     return (
       <div className="d-flex justify-content-between">
         <button
@@ -193,9 +205,14 @@ const AppointmentsCard = (props) => {
           </div>
         </button>
         {tab == 0 && (
-          <div className={classes.cancelButton + ' ms-2 py-2'}>
-            Cancel Booking
-          </div>
+          <button
+            onClick={cancelBookingHandler}
+            style={{ background: 'none', border: 'none', padding: 0 }}
+          >
+            <div className={classes.cancelButton + ' ms-2 py-2'}>
+              Cancel Booking
+            </div>
+          </button>
         )}
       </div>
     );
