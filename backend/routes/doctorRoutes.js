@@ -6,6 +6,7 @@ const middleware = require('../middleware/middleware.js');
 const router = express.Router({
   mergeParams: true,
 });
+
 router
   .route('/appointments')
   .get(middleware.doctorAuth, appointmentController.getAllAppointments)

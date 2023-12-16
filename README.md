@@ -74,7 +74,13 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 
 7. **Medical Records**: If you're a patient, you can view your medical records by going to the "My Medical Records" page. Here, you can also add new entries to your medical history.
 
+8. **Video Call**: After booking an appointment, you can have a video call with the doctor. This feature is available on the "My Appointments" page. Make sure you have a stable internet connection for the best experience.
+
+9. **Chat**: Once you have started an appointment, you can chat with the doctor through the "Chat" feature available on the "My Appointments" page.
+
 Remember to log out when you're done using the website to ensure your account remains secure.
+
+
 
 
 <a name="contribution"></a>
@@ -104,14 +110,23 @@ We welcome contributions from the community. Please ensure that your pull reques
 
 <div style="display: flex;">
   <a href="https://github.com/youssef-mostafa25" style="margin-right: 20px;">
-    <img src="https://github.com/youssef-mostafa25.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
+    <img src="https://github.com/youssef-mostafa25.png" width="100" height="100" alt="Youssef Hossam" style="border-radius: 50%;">
   </a>
 
-  <a href="https://github.com/Habibaelkabbany">
-  <img src="https://github.com/Habibaelkabbany.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
+  <a href="https://github.com/Habibaelkabbany" style="margin-right: 20px;">
+  <img src="https://github.com/Habibaelkabbany.png" width="100" height="100" alt="Habiba El Kabbany" style="border-radius: 50%;">
   </a>
+  
 
-<a href="https://github.com/Assem-Mohamed">
-  <img src="https://github.com/Assem-Mohamed.png" width="100" height="100" alt="Your Name" style="border-radius: 50%;">
+<a href="https://github.com/Assem-Mohamed" style="margin-right: 20px;">
+  <img src="https://github.com/Assem-Mohamed.png" width="100" height="100" alt="Assem Mohamed" style="border-radius: 50%;">
+  </a >
+  
+  <a href="https://github.com/mariiamemad" style="margin-right: 20px;">
+  <img src="https://github.com/mariiamemad.png" width="100" height="100" alt="Mariam Emad" style="border-radius: 50%;">
+  </a >
+
+  <a href="https://github.com/Lasheen2001" style="margin-right: 20px;">
+  <img src="https://github.com/Lasheen2001.png" width="100" height="100" alt="Ahmed Lasheen" style="border-radius: 50%;">
   </a >
 </div>

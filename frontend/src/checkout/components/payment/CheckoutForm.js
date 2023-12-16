@@ -105,7 +105,8 @@ export default function CheckoutForm(props) {
         if (response.ok) {
           // Handle a successful response
           setMessage("Payment successful via wallet!");
-          alert("Payment successful via wallet!")
+          alert("Payment successful via wallet!");
+          navigate(-1);
 
         } else {
           // Handle errors if the server response is not ok
