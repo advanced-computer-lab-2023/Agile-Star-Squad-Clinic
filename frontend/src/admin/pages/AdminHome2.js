@@ -31,36 +31,21 @@ const AdminHome2 = (props) => {
   useEffect(() => {
     filterUsersByRole(activeRole);
   }, [activeRole]);
- 
-
 
   useEffect(() => {
-    const fetchData = async () => {
-      // Fetch data here
-      try {
-        // Fetch patients, doctors, admins, and other necessary data
-        await fetchPatients();
-        await fetchDoctors();
-        await fetchAdmins();
-        await fetchPendingRequests();
-        await fetchPackages();
+    fetchPatients();
+    fetchDoctors();
+    fetchAdmins();
+    fetchPendingRequests();
+    fetchPackages();
+  }, []); 
 
-        // Set dataLoaded to true after fetching all data
-        setDataLoaded(true);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
-
-  useEffect(() => {
-    // If data has been loaded, simulate a click on the "Patients" button
-    if (dataLoaded) {
-      handleRoleButtonClick('patient');
-    }
-  }, [dataLoaded]);
+  // useEffect(() => {
+  //   // If data has been loaded, simulate a click on the "Patients" button
+  //   if (dataLoaded) {
+  //     handleRoleButtonClick('patient');
+  //   }
+  // }, [dataLoaded]);
   useEffect(() => {
     selectedRequestRef.current = selectedRequest;
   }, [selectedRequest]);
@@ -75,64 +60,17 @@ const AdminHome2 = (props) => {
     }
   };
 
-  const handleRoleButtonClick = (role) => {
-    filterUsersByRole(role);
-  };
-
-  const logout = async () => {
-    await userCtx.logout();
-    navigate('/');
-  };
-
-  const changePasswordHandler = () => {
-    navigate('/changePassword');
-  };
-
-  const statusChangeHandler = (id, status) => {
-    setRequests(
-      requests.map((request) => {
-        if (request.id === id) {
-          request.status = status;
-        }
-        return request;
-      })
-    );
-  };
-
   const fetchPendingRequests = async () => {
     try {
       const response = await axios.get('http://localhost:3000/admins/requests');
       const pendingRequests = response.data.data.requests.filter(
-        (request) => request.status === 'Pending'
+        (request) => request.status === 'Pending',
       );
       setRequests(pendingRequests);
     } catch (error) {
       console.error('Error fetching pending requests:', error);
     }
   };
-
-  const filterUsersByRole = (role) => {
-    let filtered = [];
-
-    switch (role) {
-      case 'patient':
-        filtered = users.filter((user) => user.role === 'Patient');
-        break;
-      case 'doctor':
-        filtered = users.filter((user) => user.role === 'Doctor');
-        break;
-      case 'admin':
-        filtered = users.filter((user) => user.role === 'Admin');
-        break;
-      default:
-        filtered = users.filter((user) => user.role === 'Patient');
-        break;
-    }
-
-    setFilteredUsers(filtered);
-    setActiveRole(role); // Set the active role for styling
-  };
-
   const fetchPatients = async () => {
     try {
       const response = await fetch('http://localhost:3000/patients/');
@@ -179,7 +117,7 @@ const AdminHome2 = (props) => {
           speciality: doctor['speciality'],
           mobileNumber: doctor['mobileNumber'] ?? '-',
           role: 'Doctor',
-          dateOfCreation: doctor['dateOfCreation']  ,
+          dateOfCreation: doctor['dateOfCreation'],
         })),
       ]);
     } catch (error) {
@@ -206,25 +144,60 @@ const AdminHome2 = (props) => {
       console.error('Error fetching admins:', error);
     }
   };
+  const handleRoleButtonClick = (role) => {
+    filterUsersByRole(role);
+  };
+
+  const logout = async () => {
+    await userCtx.logout();
+    navigate('/');
+  };
+
+  const changePasswordHandler = () => {
+    navigate('/changePassword');
+  };
+
+  const statusChangeHandler = (id, status) => {
+    setRequests(
+      requests.map((request) => {
+        if (request.id === id) {
+          request.status = status;
+        }
+        return request;
+      }),
+    );
+    refreshUserData();
+  };
+
+  const filterUsersByRole = (role) => {
+    let filtered = [];
+
+    switch (role) {
+      case 'patient':
+        filtered = users.filter((user) => user.role === 'Patient');
+        break;
+      case 'doctor':
+        filtered = users.filter((user) => user.role === 'Doctor');
+        break;
+      case 'admin':
+        filtered = users.filter((user) => user.role === 'Admin');
+        break;
+      default:
+        filtered = users.filter((user) => user.role === 'Patient');
+        break;
+    }
+
+    setFilteredUsers(filtered);
+    setActiveRole(role); // Set the active role for styling
+  };
 
   const refreshUserData = () => {
     setUsers([]);
+    fetchPatients();
+    fetchDoctors();
+    fetchAdmins();
+    fetchPendingRequests();
   };
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await fetchPendingRequests();
-        await fetchPatients();
-        await fetchDoctors();
-        await fetchAdmins();
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-  
-    fetchData();
-  }, [refreshUserData]);
 
   const deleteUser = (username) => {
     const user = users.find((value) => value.username === username);
@@ -245,7 +218,10 @@ const AdminHome2 = (props) => {
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
 
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
 
@@ -254,61 +230,62 @@ const AdminHome2 = (props) => {
 
   const accept = async (props) => {
     try {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-            body: JSON.stringify({ ...props }),
-            credentials: 'include'
-        };
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({ ...props }),
+        credentials: 'include',
+      };
 
-        const response = await fetch(
-            'http://localhost:3000/admins/requests',
-            requestOptions
-        );
+      const response = await fetch(
+        'http://localhost:3000/admins/requests',
+        requestOptions,
+      );
 
-        if (response.ok) {
-            // Handle a successful response
-            alert('Doctor accepted successfully!');
-            setStatus('Accepted');
-            statusChangeHandler(props.id,'Accepted');
-           
-        } else {
-            // Handle errors if the server response is not ok
-            alert('Accepting request Failed!');
-        }
+      if (response.ok) {
+        // Handle a successful response
+        alert('Doctor accepted successfully!');
+        setStatus('Accepted');
+        statusChangeHandler(props.id, 'Accepted');
+        refreshUserData();
+      } else {
+        // Handle errors if the server response is not ok
+        alert('Accepting request Failed!');
+      }
     } catch (error) {
-        // Handle network errors
-        alert('Network error: ' + error.message);
+      // Handle network errors
+      alert('Network error: ' + error.message);
     }
-}
+  };
 
-const reject = async (props) => {
+  const reject = async (props) => {
     try {
-        const requestOptions = {
-            method: 'PATCH',
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-            body: JSON.stringify({ ...props }),
-            credentials: 'include'
-        };
-        const response = await fetch(
-            'http://localhost:3000/admins/requests',
-            requestOptions
-        );
+      const requestOptions = {
+        method: 'PATCH',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({ ...props }),
+        credentials: 'include',
+      };
+      const response = await fetch(
+        'http://localhost:3000/admins/requests',
+        requestOptions,
+      );
 
-        if (response.ok) {
-            // Handle a successful response
-            alert('Doctor rejected!');
-            setStatus('Rejected');
-            statusChangeHandler(props.id,'Rejected');     
-        } else {
-            // Handle errors if the server response is not ok
-            alert('Rejecting request Failed!');
-        }
+      if (response.ok) {
+        // Handle a successful response
+        alert('Doctor rejected!');
+        setStatus('Rejected');
+        statusChangeHandler(props.id, 'Rejected');
+        refreshUserData();
+      } else {
+        // Handle errors if the server response is not ok
+        alert('Rejecting request Failed!');
+      }
     } catch (error) {
-        // Handle network errors
-        alert('Network error: ' + error.message);
+      // Handle network errors
+      alert('Network error: ' + error.message);
     }
-}
+  };
 
   const showDetails = (request) => {
     if (request && request.id) {
@@ -355,7 +332,7 @@ const reject = async (props) => {
   const handleDeleteClick = (event, username) => {
     // Prevent the event from propagating to the parent row and triggering showUserModal
     event.stopPropagation();
-  
+
     // Call your delete function here
     deleteUser(username);
   };
@@ -402,80 +379,92 @@ const reject = async (props) => {
     const currentDate = new Date();
     const oneDayAgo = new Date(currentDate);
     oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-  
-    const options = { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-    
+
+    const options = {
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+
     return oneDayAgo.toLocaleDateString('en-US', options);
   };
-  
-  
-  
- 
+
   return (
     <>
       <div>
         <div>
           <AdminNavBar />
-         <Container className={classes.requests}>
-  <h2 className={classes.title}>Requests</h2>
-  <div className="container">
-    <div className="row">
-      <table className="table table-hover">
-        <tbody>
-          {requests.map((request) => (
-            <tr key={request.id} onClick={() => showDetails(request)}>
-              <td className={classes.req}>
-                <img src={req} alt="req" />
-              </td>
-              <td className={classes.bold}>
-      {request.name} - {request.affiliation}
-      <div className={classes.small}>
-      {request.speciality}-{calculateAge(request.dateOfBirth)},   { formatDefaultDate(request.creationDate ? new Date(request.creationDate) : undefined)}
-
-
-      </div>
-    </td>
-              {status.toLowerCase() === 'pending' && (
-                <ActionButtons reject={() => reject(request)} accept={() => accept(request)} />
-              )}
-              <td className={`${classes.rejectReq} ${classes.borderBottom}`}>
-                <img
-                  src={x}
-                  alt="req-rej"
-                  className={classes.rej}
-                  onClick={(e) => {
-                    selectedRequest &&
-                      selectedRequestRef.current &&
-                      selectedRequestRef.current.reject(request);
-                    e.stopPropagation(); // Stop event propagation
-                    reject(request);
-                  }}
-                />
-              </td>
-              <td className={`${classes.acceptReq} ${classes.borderBottom}`}>
-                <img
-                  src={check}
-                  width="25"
-                  height="25"
-                  alt="req-acc"
-                  className={classes.acc}
-                  onClick={(e) => {
-                    selectedRequest &&
-                      selectedRequestRef.current &&
-                      selectedRequestRef.current.accept(request);
-                    e.stopPropagation(); // Stop event propagation
-                    accept(request);
-                  }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</Container>
-
+          <Container className={classes.requests}>
+            <h2 className={classes.title}>Requests</h2>
+            <div className="container">
+              <div className="row">
+                <table className="table table-hover">
+                  <tbody>
+                    {requests.map((request) => (
+                      <tr key={request.id} onClick={() => showDetails(request)}>
+                        <td className={classes.req}>
+                          <img src={req} alt="req" />
+                        </td>
+                        <td className={classes.bold}>
+                          {request.name} - {request.affiliation}
+                          <div className={classes.small}>
+                            {request.speciality}-
+                            {calculateAge(request.dateOfBirth)},{' '}
+                            {formatDefaultDate(
+                              request.creationDate
+                                ? new Date(request.creationDate)
+                                : undefined,
+                            )}
+                          </div>
+                        </td>
+                        {status.toLowerCase() === 'pending' && (
+                          <ActionButtons
+                            reject={() => reject(request)}
+                            accept={() => accept(request)}
+                          />
+                        )}
+                        <td
+                          className={`${classes.rejectReq} ${classes.borderBottom}`}
+                        >
+                          <img
+                            src={x}
+                            alt="req-rej"
+                            className={classes.rej}
+                            onClick={(e) => {
+                              selectedRequest &&
+                                selectedRequestRef.current &&
+                                selectedRequestRef.current.reject(request);
+                              e.stopPropagation(); // Stop event propagation
+                              reject(request);
+                            }}
+                          />
+                        </td>
+                        <td
+                          className={`${classes.acceptReq} ${classes.borderBottom}`}
+                        >
+                          <img
+                            src={check}
+                            width="25"
+                            height="25"
+                            alt="req-acc"
+                            className={classes.acc}
+                            onClick={(e) => {
+                              selectedRequest &&
+                                selectedRequestRef.current &&
+                                selectedRequestRef.current.accept(request);
+                              e.stopPropagation(); // Stop event propagation
+                              accept(request);
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </Container>
 
           <Container className={classes.packages}>
             <div className={classes.edit}>
@@ -486,16 +475,15 @@ const reject = async (props) => {
             <h2 className={classes.title}>Packages</h2>
             <div className="container">
               <div className="row">
-                <Table  hover className="custom-table">
-                  
-                    <tr className={classes.packageTitles}>
-                      <th >Package</th>
-                      <th>Session Disc.</th>
-                      <th>Medicine Disc.</th>
-                      <th>Family Member Disc.</th>
-                      <th>Price</th>
-                    </tr>
-                  
+                <Table hover className="custom-table">
+                  <tr className={classes.packageTitles}>
+                    <th>Package</th>
+                    <th>Session Disc.</th>
+                    <th>Medicine Disc.</th>
+                    <th>Family Member Disc.</th>
+                    <th>Price</th>
+                  </tr>
+
                   <tbody>
                     {packages.map((pkg) => (
                       <tr key={pkg._id} className="custom-row">
@@ -513,153 +501,178 @@ const reject = async (props) => {
           </Container>
 
           <Container className={classes.users}>
-  <div className={classes.filter}>
-    {/* Buttons to filter user roles */}
-    <button
-      className={`${classes.filterButton} ${activeRole === 'patient' ? classes.active : ''}`}
-      onClick={() => handleRoleButtonClick('patient')}
-    >
-      Patients
-    </button>
-    <button
-      className={`${classes.filterButton} ${activeRole === 'doctor' ? classes.active : ''}`}
-      onClick={() => handleRoleButtonClick('doctor')}
-    >
-      Doctors
-    </button>
-    <button
-      className={`${classes.filterButton} ${activeRole === 'admin' ? classes.active : ''}`}
-      onClick={() => handleRoleButtonClick('admin')}
-    >
-      Admins
-    </button>
-  </div>
-  <div className="container">
-  <div className="row">
-    <Table   hover className={"custom-table"}>
-        <tr>
-          {activeRole === 'patient' && (
-            <>
-              <th className={classes.userTitle}>Name</th>
-              <th className={classes.userTitle}>Subscription</th>
-              <th className={classes.userTitle}>Email</th>
-              <th className={classes.userTitle}>Member Since</th>
-              {/* Add more patient-specific columns as needed */}
-            </>
-          )}
-          {activeRole === 'doctor' && (
-            <>
-              <th className={classes.userTitle}>Name</th>
-              <th className={classes.userTitle}>Speciality</th>
-              <th className={classes.userTitle}>Affiliation</th>
-              <th className={classes.userTitle}>Member Since</th>
-              {/* Add more doctor-specific columns as needed */}
-            </>
-          )}
-          {activeRole === 'admin' && (
-            <>
-              <th className={classes.userTitle}>Username</th>
-              <th className={classes.userTitle}>Member Since</th>
-            </>
-          )}
-        </tr>
-      
-      <tbody className={classes.userBody}>
-        {/* Map through your users and render each row */}
-        {filteredUsers.map((user) => (
-          <tr key={user.id} className={classes.customRow} onClick={() => showUserModal(user)}>
-            {/* Render user-specific cells based on the active role */}
-            {activeRole === 'patient' && (
-              <>
-                <td className={classes.userInfo}>{user.name}</td>
-                <td>{user.package ? user.package.name : 'No Subscription'}</td>
-                <td>{user.email}</td>
-                <td className={classes.userCell}>
-      <div
-        className={classes.userDate}
-        style={getYearColor(extractYearFromDate(user.creationDate))}
-      >
-        {extractYearFromDate(user.creationDate)}
-      </div>
-    </td>
-                {/* Add more patient-specific cells as needed */}
-              </>
-            )}
-            {activeRole === 'doctor' && (
-              <>
-                <td className={classes.userInfo}>{user.name}</td>
-                <td>{user.speciality}</td>
-                <td>{user.affiliation}</td>
-                <td className={classes.userCell}>
-      <div
-        className={classes.userDate}
-        style={getYearColor(extractYearFromDate(user.dateOfCreation))}
-      >
-        {extractYearFromDate(user.dateOfCreation)}
-      </div>
-    </td>
-                {/* Add more doctor-specific cells as needed */}
-              </>
-            )}
-            {activeRole === 'admin' && (
-              <>
-                <td className={classes.userInfo}>{user.username}</td>
-                <td className={classes.userCell}>
-      <div
-        className={classes.userDateAdmin}
-        style={getYearColor(extractYearFromDate(user.creationDate))}
-      >
-        {extractYearFromDate(user.creationDate)}
-      </div>
-    </td>
-              </>
-            )}
-            
-            <td className={classes.userCell}>
-            <button className={classes.deleteButton} onClick={(e) => handleDeleteClick(e, user.username)}>
-                    X
-            </button>
-           </td>
-                        
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  </div>
-  </div>
-</Container>
+            <div className={classes.filter}>
+              {/* Buttons to filter user roles */}
+              <button
+                className={`${classes.filterButton} ${
+                  activeRole === 'patient' ? classes.active : ''
+                }`}
+                onClick={() => handleRoleButtonClick('patient')}
+              >
+                Patients
+              </button>
+              <button
+                className={`${classes.filterButton} ${
+                  activeRole === 'doctor' ? classes.active : ''
+                }`}
+                onClick={() => handleRoleButtonClick('doctor')}
+              >
+                Doctors
+              </button>
+              <button
+                className={`${classes.filterButton} ${
+                  activeRole === 'admin' ? classes.active : ''
+                }`}
+                onClick={() => handleRoleButtonClick('admin')}
+              >
+                Admins
+              </button>
+            </div>
+            <div className="container">
+              <div className="row">
+                <Table hover className={'custom-table'}>
+                  <tr>
+                    {activeRole === 'patient' && (
+                      <>
+                        <th className={classes.userTitle}>Name</th>
+                        <th className={classes.userTitle}>Subscription</th>
+                        <th className={classes.userTitle}>Email</th>
+                        <th className={classes.userTitle}>Member Since</th>
+                        {/* Add more patient-specific columns as needed */}
+                      </>
+                    )}
+                    {activeRole === 'doctor' && (
+                      <>
+                        <th className={classes.userTitle}>Name</th>
+                        <th className={classes.userTitle}>Speciality</th>
+                        <th className={classes.userTitle}>Affiliation</th>
+                        <th className={classes.userTitle}>Member Since</th>
+                        {/* Add more doctor-specific columns as needed */}
+                      </>
+                    )}
+                    {activeRole === 'admin' && (
+                      <>
+                        <th className={classes.userTitle}>Username</th>
+                        <th className={classes.userTitle}>Member Since</th>
+                      </>
+                    )}
+                  </tr>
 
+                  <tbody className={classes.userBody}>
+                    {/* Map through your users and render each row */}
+                    {filteredUsers.map((user) => (
+                      <tr
+                        key={user.id}
+                        className={classes.customRow}
+                        onClick={() => showUserModal(user)}
+                      >
+                        {/* Render user-specific cells based on the active role */}
+                        {activeRole === 'patient' && (
+                          <>
+                            <td className={classes.userInfo}>{user.name}</td>
+                            <td>
+                              {user.package
+                                ? user.package.name
+                                : 'No Subscription'}
+                            </td>
+                            <td>{user.email}</td>
+                            <td className={classes.userCell}>
+                              <div
+                                className={classes.userDate}
+                                style={getYearColor(
+                                  extractYearFromDate(user.creationDate),
+                                )}
+                              >
+                                {extractYearFromDate(user.creationDate)}
+                              </div>
+                            </td>
+                            {/* Add more patient-specific cells as needed */}
+                          </>
+                        )}
+                        {activeRole === 'doctor' && (
+                          <>
+                            <td className={classes.userInfo}>{user.name}</td>
+                            <td>{user.speciality}</td>
+                            <td>{user.affiliation}</td>
+                            <td className={classes.userCell}>
+                              <div
+                                className={classes.userDate}
+                                style={getYearColor(
+                                  extractYearFromDate(user.dateOfCreation),
+                                )}
+                              >
+                                {extractYearFromDate(user.dateOfCreation)}
+                              </div>
+                            </td>
+                            {/* Add more doctor-specific cells as needed */}
+                          </>
+                        )}
+                        {activeRole === 'admin' && (
+                          <>
+                            <td className={classes.userInfo}>
+                              {user.username}
+                            </td>
+                            <td className={classes.userCell}>
+                              <div
+                                className={classes.userDateAdmin}
+                                style={getYearColor(
+                                  extractYearFromDate(user.creationDate),
+                                )}
+                              >
+                                {extractYearFromDate(user.creationDate)}
+                              </div>
+                            </td>
+                          </>
+                        )}
 
-    {selectedUser && (
-        <UserDetails
-          data={selectedUser}
-          exit={exitUserModal}
-          onDelete={deleteUser}
-        />
-      )}
-        {showUser && <UserDetails data={selectedUser} exit={exitUserModal} onDelete={deleteUser} />}
-        
-        
-      </div>
-      
+                        <td className={classes.userCell}>
+                          <button
+                            className={classes.deleteButton}
+                            onClick={(e) => handleDeleteClick(e, user.username)}
+                          >
+                            X
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+          </Container>
+
+          {selectedUser && (
+            <UserDetails
+              data={selectedUser}
+              exit={exitUserModal}
+              onDelete={deleteUser}
+            />
+          )}
+          {showUser && (
+            <UserDetails
+              data={selectedUser}
+              exit={exitUserModal}
+              onDelete={deleteUser}
+            />
+          )}
+        </div>
       </div>
     </>
-
   );
 };
-  // ActionButtons component
-  const ActionButtons = (props) => {
-    return (
-      <div className="d-flex justify-content-end mt-5">
-        <button className="formButtons formDeleteButton" onClick={props.onReject}>
-          Reject
-        </button>
-        <button className="formButtons" onClick={props.onAccept}>
-          {!props.isLoading && <span>Accept</span>}
-          {props.isLoading && <div className="loader" />}
-        </button>
-      </div>
-    );
-  };
-  
+// ActionButtons component
+const ActionButtons = (props) => {
+  return (
+    <div className="d-flex justify-content-end mt-5">
+      <button className="formButtons formDeleteButton" onClick={props.onReject}>
+        Reject
+      </button>
+      <button className="formButtons" onClick={props.onAccept}>
+        {!props.isLoading && <span>Accept</span>}
+        {props.isLoading && <div className="loader" />}
+      </button>
+    </div>
+  );
+};
+
 export default AdminHome2;
