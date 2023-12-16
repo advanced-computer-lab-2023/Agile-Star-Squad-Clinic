@@ -1,10 +1,10 @@
 import Card from '../../../shared/components/Card/Card';
-import ReactDOM from "react-dom";
 import { useState } from 'react'
 import styles from '../../components/RequestDetails.module.css'; 
 
 const RequestDetails = (props) => {
     const [formVisible, setFormVisible] = useState(true);
+
     const [status, setStatus] = useState(props.data['status']);
     function formatDate(date) {
         const day = date.getDate().toString().padStart(2, '0');
@@ -33,6 +33,7 @@ const RequestDetails = (props) => {
                 alert('Doctor accepted successfully!');
                 setStatus('Accepted');
                 props.onStatusChange(props.data['id'], 'Accepted');
+                setFormVisible(false);
             } else {
                 // Handle errors if the server response is not ok
                 alert('Accepting request Failed!');
@@ -41,6 +42,7 @@ const RequestDetails = (props) => {
             // Handle network errors
             alert('Network error: ' + error.message);
         }
+ 
     }
 
     const onReject = async () => {
@@ -61,6 +63,7 @@ const RequestDetails = (props) => {
                 alert('Doctor rejected!');
                 setStatus('Rejected');
                 props.onStatusChange(props.data['id'], 'Rejected');
+                setFormVisible(false);
             } else {
                 // Handle errors if the server response is not ok
                 alert('Rejecting request Failed!');
@@ -71,131 +74,126 @@ const RequestDetails = (props) => {
         }
     }
     
-    return(
-            <>
-        <div id="form">
-          {formVisible && (
-            <Card className={`${styles.addForm}`}>
-              <div className={styles.doctor}>Doctor Request</div>
-              <form   className={styles.form}>
-              <div className={styles.fieldGroup}>
-        <div className={styles.nameField}>
-            
-          <span className={styles.smallText}>Name</span>
-          <input
-            key={'name'}
-            type="text"
-            className="form-control"
-            value={props.data['name']}
-            readOnly
-          />
-        </div>
-        <div className={styles.field}>
-          <span className={styles.smallText}>Email</span>
-          <input
-            type="number"
-            className="form-control"
-            value={props.data['email']}
-            readOnly
-          />
-        </div>
-      </div>
-      <div className={styles.fieldGroup}>
-        <div className={styles.field}>
-          <span className={styles.smallText}>Username</span>
-          <input
-            type="number"
-            className="form-control"
-            value={props.data['username']}
-            readOnly
-          />
-        </div>
-        <div className={styles.field}>
-          <span className={styles.smallText}>Date of Birth</span>
-          <input
-            type="number"
-            className="form-control"
-            value={formatDate(new Date(props.data['dateOfBirth']))}
-            readOnly
-          />
-        </div>
-        <div className={styles.professional}>
-            <div>
-                <span className={styles.title}><h4>Hourly Rate</h4></span>
-                <span className={styles.info}>{props.data['hourlyRate']}</span>
-            </div>
-            <div>
-                <span className={styles.title}><h4>Affiliation</h4></span>
-                <span className={styles.info}>{props.data['affiliation']}</span>
-            </div>
-            <div>
-                <span className={styles.title}><h4>Educational Background</h4></span>
-                <span className={styles.info}>{props.data['educationalBackground']}</span>
-            </div>
-            <div>
-                <span className={styles.title}><h4>Speciality</h4></span>
-                <span className={styles.info}>{props.data['speciality']}</span>
-            </div>
-            </div>
-            <div>
-                <span className={styles.title}><h4>Status</h4></span>
-                <span className={styles.info}>{status}</span>
-            </div>
-            
-            <div>
-                <span><h4>ID Image</h4></span>
-                {props.data['idImage'].includes('pdf') ? (
-                    <a href={props.data['idImage']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-                ) : (
-                    <img width={130} src={props.data['idImage']} alt="ID Image" />
-                )}
-           
-            <div>
-                <span><h4>Medical License</h4></span>
-                {props.data['medicalLicense'].includes('pdf') ? (
-                    <a href={props.data['medicalLicense']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-                ) : (
-                    <img width={130} src={props.data['medicalLicense']} alt="Medical License" />
-                )}
-            </div>
-            <div>
-                <span><h4>Medical Degree</h4></span>
-                {props.data['medicalDegree'].includes('pdf') ? (
-                    <a href={props.data['medicalDegree']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-                ) : (
-                    <img width={130} src={props.data['medicalDegree']} alt="Medical Degree" />
-                )}
-            </div>
+    return (
+        <>
+            <div id="form">
+                {formVisible && (
+                    <Card className={`${styles.addForm}`}>
+                        <div className={styles.topBorder}></div>
+                        <div className={styles.doctor}>Doctor Request</div>
+                        <form className={styles.form}>
+                        <div className={styles.personal}>
+                        <div className={styles.headers}>Personal Details</div>
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.nameField}>
+                                    <span className={styles.smallText}>Name</span>
+                                    <div className={styles.formControl}>{props.data['name']}</div>
+                                </div>
+                                <div className={styles.field}>
+                                    <span className={styles.smallText}>Email</span>
+                                    <div className={styles.formControl}>{props.data['email']}</div>
+                                </div>
+                            </div>
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.field}>
+                                    <span className={styles.smallText}>Username</span>
+                                    <div className={styles.formControl}>{props.data['username']}</div>
+                                </div>
+                                <div className={styles.field}>
+                                    <span className={styles.smallText}>Date of Birth</span>
+                                    <div className={styles.formControl}>{formatDate(new Date(props.data['dateOfBirth']))}</div>
+                                </div>
+                            </div>
+                            </div>
+                              {/* Professional Information */}
+                        <div className={styles.professional}>
+                        <div className={styles.headers}>Professional Details</div>
+                        <div className={styles.fieldGroup}>
+                            <div>
+                                <span className={styles.smallText}>Affiliation</span>
+                                <div className={styles.formControl}>{props.data['affiliation']}</div>
+                            </div>
+                            <div>
+                                <span className={styles.smallText}>Educational Background</span>
+                                <div className="formControl">{props.data['educationalBackground']}</div>
+                            </div>
+                            </div>
+                            <div className={styles.fieldGroup}>
+                            <div>
+                                <span className={styles.smallText}>Speciality</span>
+                                <div className={styles.formControl}>{props.data['speciality']}</div>
+                            </div>
+                            <div>
+                                <span className={styles.smallText}>Hourly Rate</span>
+                                <div className={styles.formControl}>{props.data['hourlyRate']}</div>
+                            </div>
+                            </div>
+                        </div>
+                        <div className={styles.headers}>Documents</div>
+                        <div className={styles.images}>
 
-            {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
+                        
+                        {/* ID Image */}
+                        <div className={styles.spacing}>
+                            <span className={styles.smallText}>ID Image</span>
+                            <br></br>
+                            {props.data['idImage'].includes('pdf') ? (
+                                <a href={props.data['idImage']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                            ) : (
+                                <img width={130} src={props.data['idImage']} alt="ID Image" />
+                            )}
+                        </div>
+
+                        {/* Medical License */}
+                        <div className={styles.spacing}>
+                            <span className={styles.smallText}>Medical License</span>
+                            <br></br>
+                            {props.data['medicalLicense'].includes('pdf') ? (
+                                <a href={props.data['medicalLicense']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                            ) : (
+                                <img width={130} src={props.data['medicalLicense']} alt="Medical License" />
+                            )}
+                        </div>
+
+                        {/* Medical Degree */}
+                        <div className={styles.spacing} >
+                            <span className={styles.smallText}>Medical Degree</span>
+                            <br></br>
+                            {props.data['medicalDegree'].includes('pdf') ? (
+                                <a href={props.data['medicalDegree']} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                            ) : (
+                                <img width={130} src={props.data['medicalDegree']} alt="Medical Degree" />
+                            )}
+                        </div>
+                        {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
+                               
+                            </div>
+                        </form>
+                    </Card>
+                    
+                )}
             </div>
-      
-      </div>
-    
-                <button className={styles.addButton} type="submit">
-                  SAVE
-                </button>
-              </form>
-            </Card>
-          )}
-          </div>
         </>
-            
-            
-        
     );
-}
+    
+};
 
+
+            
 const ActionButtons = (props) => {
     return (
-        <div className="d-flex justify-content-end mt-5">
-            <button className="formButtons formDeleteButton" onClick={props.onReject}>Reject</button>
-            <button className="formButtons" onClick={props.onAccept}>
+        <div  className={styles.buttonPos}>
+            <button className={styles.reject} onClick={props.onReject}>Reject</button>
+            <button className={styles.accept} onClick={props.onAccept}>
                 {!props.isLoading && <span>Accept</span>}
                 {props.isLoading && <div className="loader" />}
             </button>
         </div>
     );
-};
+}          
+        
+ 
+
+
 
 export default RequestDetails;
