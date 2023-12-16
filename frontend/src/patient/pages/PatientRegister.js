@@ -136,7 +136,7 @@ const dayOptions = () => {
       "name": formData.name,
       "email": formData.email,
       "password": formData.password,
-      "dateOfBirth": `${dobYear}-${dobMonth}-${dobDay}`,
+      "dateOfBirth":new Date(`${dobDay.value}/${dobMonth.value}/${dobYear}`),
       "Gender": formData.gender,
       "mobileNumber": formData.mobileNumber,
       "nationalId": formData.nationalId,
