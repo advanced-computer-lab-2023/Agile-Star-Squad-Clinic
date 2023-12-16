@@ -23,8 +23,8 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   const newAppointment = await Appointment.create(req.body);
   const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
-  const newNotification = await Notifications.create({patient: req.body.patient , doctor: req.body.doctor});
-  
+  const newNotification = await Notifications.create({ patient: req.body.patient, doctor: req.body.doctor, appoinmentDate: req.body.dateOfAppointment, appointmentStatus: req.body.status });
+
   doctor.appointments.push(newAppointment);
   await doctor.save();
   doctor.notifications.push(newNotification);
@@ -83,7 +83,7 @@ exports.allAppointmentsForPatients = catchAsync(async (req, res, next) => {
     const date = new Date(app.dateOfAppointment);
     let status = app.status;
     if (app.status === "upcoming" && !isDateInFuture(app.dateOfAppointment)) {
-      Appointment.findByIdAndUpdate(app._id, {status: "completed"})
+      Appointment.findByIdAndUpdate(app._id, { status: "completed" })
       app.status = "completed";
     }
     const appointment = {
