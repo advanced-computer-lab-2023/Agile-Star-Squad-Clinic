@@ -5,9 +5,8 @@
 1. [ Description. ](#desc)
 2. [ Features. ](#feats)
 3. [ Usage. ](#usage)
-4. [ Installation. ](#install)
-5. [ Contribution Guidelines. ](#contribute)
-6. [ Credits. ](#credits)
+4. [ Contribution. ](#contribution)
+5. [ Credits. ](#credits)
 
 <a name="desc"></a>
 
@@ -81,31 +80,26 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 Remember to log out when you're done using the website to ensure your account remains secure.
 
 
-<a name="install"></a>
+<a name="contribution"></a>
 
-## Installation
+## Contribution and Installation Guidelines
 
-If you're a developer interested in contributing to the project, you can install it locally by following these steps:
-
-1. Clone the repository to your local machine.
-2. Open two terminals.
-3. In the first terminal, navigate to the backend directory of the project by running `cd backend`. This is where the backend code resides.
-4. Run `npm install` to install the necessary backend dependencies.
-5. Run `npm start` to start the backend server.
-6. In the second terminal, navigate to the frontend directory of the project by running `cd frontend`. This is where the frontend code resides.
-7. Run `npm install` to install the necessary frontend dependencies.
-8. Run `npm start` to start the frontend development server.
-
-<a name="contribute"></a>
-
-## Contribution Guidelines
-
-We welcome contributions from the community. If you're interested in contributing, please follow these steps:
+If you're a developer interested in contributing to the project, you can install it locally and make contributions by following these steps:
 
 1. Fork the repository.
-2. Create a new branch for your changes.
-3. Make your changes in your branch.
-4. Submit a pull request with a detailed description of your changes.
+2. Clone your forked repository to your local machine.
+3. Open two terminals.
+4. In the first terminal, navigate to the backend directory of the project by running `cd backend`. This is where the backend code resides.
+5. Run `npm install` to install the necessary backend dependencies.
+6. Run `npm start` to start the backend server.
+7. In the second terminal, navigate to the frontend directory of the project by running `cd frontend`. This is where the frontend code resides.
+8. Run `npm install` to install the necessary frontend dependencies.
+9. Run `npm start` to start the frontend development server.
+10. Create a new branch for your changes.
+11. Make your changes in your branch.
+12. Submit a pull request with a detailed description of your changes.
+
+We welcome contributions from the community. Please ensure that your pull request provides a detailed description of the changes you propose.
 
 <a name="credits"></a>
 
