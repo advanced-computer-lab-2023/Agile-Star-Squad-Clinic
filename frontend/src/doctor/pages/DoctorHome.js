@@ -5,15 +5,13 @@ import MyInfo from './MyInfo';
 import PatientDetails from './PatientDetails';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
-import DoctorNavBar from "../components/DoctorNavBar";
+import DoctorNavBar from '../components/DoctorNavBar';
 import classes from './DoctorHome.module.css';
 
 const DoctorHome = () => {
   const navigate = useNavigate();
-  const doctorId = useContext(UserContext).userId;
-  const doctorName = useContext(UserContext).name;
+  const userCtx = useContext(UserContext);
   const [users, setUsers] = useState([]);
-
 
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointements, setFilteredAppointements] = useState([]);
@@ -26,7 +24,7 @@ const DoctorHome = () => {
   const [showAppointment, setShowAppointment] = useState(false);
   const [showUser, setShowUser] = useState(false);
 
-  const [info, setInfo] = useState({}); 
+  const [info, setInfo] = useState({});
   const [selectedRow, setSelectedRow] = useState({});
 
   const [patientSearchField, setPatientSearchField] = useState('');
@@ -36,8 +34,10 @@ const DoctorHome = () => {
   useEffect(() => {
     // fetchMyPatients();
     // fetchUpcomingAppointments();
-    fetchMyInfo();
-  }, []);
+    if (userCtx && userCtx.userId) {
+      fetchMyInfo();
+    }
+  }, [userCtx]);
 
   useEffect(() => {
     setShowAppDateFilter(false);
@@ -52,7 +52,7 @@ const DoctorHome = () => {
           break;
         default:
           newAppointements = appointments.filter(
-            (appoint) => appoint.status == appointmentFilter
+            (appoint) => appoint.status == appointmentFilter,
           );
           setFilteredAppointements(newAppointements);
 
@@ -209,10 +209,11 @@ const DoctorHome = () => {
   // };
   const fetchMyInfo = () => {
     //hardcode id
-    fetch(`http://localhost:3000/doctors/${doctorId}`, {
+    fetch(`http://localhost:3000/doctors/${userCtx.userId}`, {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
+      console.log('json', json);
       const doctor = json.data.doctor; //check
       setInfo({
         ...doctor,
@@ -236,7 +237,7 @@ const DoctorHome = () => {
       setFilteredPatients(users);
     } else {
       const newPatients = users.filter((patient) =>
-        patient.name.includes(searchValue)
+        patient.name.includes(searchValue),
       );
       setFilteredPatients(newPatients);
     }
@@ -298,44 +299,50 @@ const DoctorHome = () => {
   const changePasswordHandler = () => {
     navigate('/changePassword');
   };
-  const color1 = '#ABD1D3'
-  const color2 = '#AED3E2'
-  const color3 = '#96B7C7'
-  const color4 = '#193842'
+  const color1 = '#ABD1D3';
+  const color2 = '#AED3E2';
+  const color3 = '#96B7C7';
+  const color4 = '#193842';
 
-  console.log(info)
+  console.log(info);
 
   return (
     <div className="center">
       <DoctorNavBar />
       <div className={classes.main}>
-       {info && info.name && <div className={classes.welcomeText}>
-          Welcome, Dr. {info.name}!
-        </div>}
-        <div className={classes.secondaryText}>
-          Have a nice day at work
-        </div>
+        {info && info.name && (
+          <div className={classes.welcomeText}>Welcome, Dr. {info.name}!</div>
+        )}
+        <div className={classes.secondaryText}>Have a nice day at work</div>
         <div className={classes.ContainerBlock}>
-          <div className={classes.smallContainer} style={{ backgroundColor: color1 }}>
+          <div
+            className={classes.smallContainer}
+            style={{ backgroundColor: color1 }}
+          >
             <p>test 2</p>
           </div>
-          <div className={classes.smallContainer} style={{ backgroundColor: color2 }}>
+          <div
+            className={classes.smallContainer}
+            style={{ backgroundColor: color2 }}
+          >
             <p>test 2</p>
           </div>
-          <div className={classes.smallContainer} style={{ backgroundColor: color3 }}>
+          <div
+            className={classes.smallContainer}
+            style={{ backgroundColor: color3 }}
+          >
             <p>test 2</p>
           </div>
-          <div className={classes.smallContainer} style={{ backgroundColor: color4 }}>
+          <div
+            className={classes.smallContainer}
+            style={{ backgroundColor: color4 }}
+          >
             <p>test 2</p>
           </div>
         </div>
 
-        <div>
-
-        </div>
+        <div></div>
       </div>
-
-
     </div>
   );
 };
