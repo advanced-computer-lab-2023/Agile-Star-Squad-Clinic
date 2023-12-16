@@ -5,13 +5,15 @@
   left: 5%;
   top: 15%;
   width: 718px;
-  height: 524px;
+  max-height: 400px; /* Set a maximum height as per your requirement */
   flex-shrink: 0;
   border-radius: 20px;
   border: 1px solid #F8F9FA;
   background: var(--white-100, #FFF);
   box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50);
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max height */
 }
+
 
 .title {
   position: relative;
@@ -37,7 +39,7 @@
 }
 
 .container {
-  position: relative; /* Change to relative positioning */
+  position: inherit; 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -111,7 +113,7 @@
     left: 55%;
     top:15%;
     width: 588px;
-     height: 254px;
+     height: 300px;
      flex-shrink: 0;
      border-radius: 20px;
      border: 1px solid #F8F9FA;
@@ -199,7 +201,7 @@
 
 .users {
   position: absolute;
-  top: 90%;
+  top: 66%;
   left: 5%;
   width: 1325px;
   height: 579px;

@@ -125,7 +125,7 @@ function App() {
           />
           <Route path="/healthPackages" element={<HealthPackages />} exact />
           <Route path="/doctor/home" element={<DoctorHome />} exact />
-          <Route path="/admin/home" element={<AdminHome />} exact />
+          <Route path="/admin/home" element={<AdminHome2 />} exact />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />

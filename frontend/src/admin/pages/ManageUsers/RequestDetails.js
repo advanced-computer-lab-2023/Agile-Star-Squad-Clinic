@@ -1,11 +1,17 @@
-import Modal from '../../../shared/components/Modal/Modal';
+import Card from '../../../shared/components/Card/Card';
 import ReactDOM from "react-dom";
 import { useState } from 'react'
+import styles from '../../components/RequestDetails.module.css'; 
 
 const RequestDetails = (props) => {
-    console.log("requests"+props.data.name);
-
+    const [formVisible, setFormVisible] = useState(true);
     const [status, setStatus] = useState(props.data['status']);
+    function formatDate(date) {
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
 
     const onAccept = async () => {
         try {
@@ -64,42 +70,78 @@ const RequestDetails = (props) => {
             alert('Network error: ' + error.message);
         }
     }
-
-    return ReactDOM.createPortal(
-        <Modal exit={props.exit} >
-            <div style={{maxHeight: "70vh"}}>
+    
+    return(
+            <>
+        <div id="form">
+          {formVisible && (
+            <Card className={`${styles.addForm}`}>
+              <div className={styles.doctor}>Doctor Request</div>
+              <form   className={styles.form}>
+              <div className={styles.fieldGroup}>
+        <div className={styles.nameField}>
+            
+          <span className={styles.smallText}>Name</span>
+          <input
+            key={'name'}
+            type="text"
+            className="form-control"
+            value={props.data['name']}
+            readOnly
+          />
+        </div>
+        <div className={styles.field}>
+          <span className={styles.smallText}>Email</span>
+          <input
+            type="number"
+            className="form-control"
+            value={props.data['email']}
+            readOnly
+          />
+        </div>
+      </div>
+      <div className={styles.fieldGroup}>
+        <div className={styles.field}>
+          <span className={styles.smallText}>Username</span>
+          <input
+            type="number"
+            className="form-control"
+            value={props.data['username']}
+            readOnly
+          />
+        </div>
+        <div className={styles.field}>
+          <span className={styles.smallText}>Date of Birth</span>
+          <input
+            type="number"
+            className="form-control"
+            value={formatDate(new Date(props.data['dateOfBirth']))}
+            readOnly
+          />
+        </div>
+        <div className={styles.professional}>
             <div>
-                <span><h4>Username</h4></span>
-                <span>{props.data['username']}</span>
+                <span className={styles.title}><h4>Hourly Rate</h4></span>
+                <span className={styles.info}>{props.data['hourlyRate']}</span>
             </div>
             <div>
-                <span><h4>Name</h4></span>
-                <span>{props.data['name']}</span>
+                <span className={styles.title}><h4>Affiliation</h4></span>
+                <span className={styles.info}>{props.data['affiliation']}</span>
             </div>
             <div>
-                <span><h4>Date of Birth</h4></span>
-                <span>{props.data['dateOfBirth']}</span>
+                <span className={styles.title}><h4>Educational Background</h4></span>
+                <span className={styles.info}>{props.data['educationalBackground']}</span>
             </div>
             <div>
-                <span><h4>Hourly Rate</h4></span>
-                <span>{props.data['hourlyRate']}</span>
+                <span className={styles.title}><h4>Speciality</h4></span>
+                <span className={styles.info}>{props.data['speciality']}</span>
+            </div>
             </div>
             <div>
-                <h4>Affiliation</h4>
-                <span>{props.data['affiliation']}</span>
+                <span className={styles.title}><h4>Status</h4></span>
+                <span className={styles.info}>{status}</span>
             </div>
-            <div>
-                <span><h4>Educational Background</h4></span>
-                <span>{props.data['educationalBackground']}</span>
-            </div>
-            <div>
-                <span><h4>Speciality</h4></span>
-                <span>{props.data['speciality']}</span>
-            </div>
-            <div>
-                <span><h4>Status</h4></span>
-                <span>{status}</span>
-            </div>
+            
             <div>
                 <span><h4>ID Image</h4></span>
                 {props.data['idImage'].includes('pdf') ? (
@@ -107,7 +149,7 @@ const RequestDetails = (props) => {
                 ) : (
                     <img width={130} src={props.data['idImage']} alt="ID Image" />
                 )}
-            </div>
+           
             <div>
                 <span><h4>Medical License</h4></span>
                 {props.data['medicalLicense'].includes('pdf') ? (
@@ -127,7 +169,20 @@ const RequestDetails = (props) => {
 
             {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
             </div>
-        </Modal>, document.getElementById("backdrop-root")
+      
+      </div>
+    
+                <button className={styles.addButton} type="submit">
+                  SAVE
+                </button>
+              </form>
+            </Card>
+          )}
+          </div>
+        </>
+            
+            
+        
     );
 }
 
