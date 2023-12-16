@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '../../shared/components/Card/Card';
+import styles from './NewPackage.module.css';
 
 const NewPackage = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const NewPackage = () => {
       doctorSessionDiscount,
       medicineDiscount,
       familyMemberDiscount,
-      description,
+     
     };
 
     try {
@@ -60,89 +61,72 @@ const NewPackage = () => {
     }
   };
   return (
-    <Card>
-      <form onSubmit={submitHandler}>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Name:
-          </label>
-          <input
-            key={'name'}
-            type="text"
-            class="form-control"
-            placeholder="Enter a Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Price Per Year:
-          </label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter a Price"
-            required
-            value={pricePerYear}
-            onChange={(e) => setPricePerYear(e.target.value)}
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Doctor Session Discount:
-          </label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter a Discount Number"
-            required
-            value={doctorSessionDiscount}
-            onChange={(e) => setDoctorSessionDiscount(e.target.value)}
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Medicine Discount:
-          </label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter a Discount Number"
-            required
-            value={medicineDiscount}
-            onChange={(e) => setMedicineDiscount(e.target.value)}
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Family Member Discount:
-          </label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter a Discount Number"
-            required
-            value={familyMemberDiscount}
-            onChange={(e) => setFamilyMemberDiscount(e.target.value)}
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label">
-            Description:
-          </label>
-          <textarea
-            class="form-control"
-            rows="3"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-        </div>
-        <button class="btn btn-primary sm" id="subbutton" type="submit">
-          Submit
-        </button>
-      </form>
+    <Card className={`${styles.addForm}`}>
+  <div className={styles.topBorder}></div>
+  <div className={styles.title}>Add Health Package</div>
+  <form onSubmit={submitHandler}>
+  <div className={styles.fieldGroup}>
+    <div className={styles.nameField}>
+      <span className={styles.smallText}>Package Name</span>
+      <input
+        key={'name'}
+        type="text"
+        className="form-control"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+    </div>
+    <div className={styles.field}>
+      <span className={styles.smallText}>Price</span>
+      <input
+        type="number"
+        className="form-control"
+        required
+        value={pricePerYear}
+        onChange={(e) => setPricePerYear(e.target.value)}
+      />
+    </div>
+  </div>
+  <div className={styles.fieldGroup}>
+    <div className={styles.field}>
+      <span className={styles.smallText}>Session Discount</span>
+      <input
+        type="number"
+        className="form-control"
+        required
+        value={doctorSessionDiscount}
+        onChange={(e) => setDoctorSessionDiscount(e.target.value)}
+      />
+    </div>
+    <div className={styles.field}>
+      <span className={styles.smallText}>Medicine Discount</span>
+      <input
+        type="number"
+        className="form-control"
+        required
+        value={medicineDiscount}
+        onChange={(e) => setMedicineDiscount(e.target.value)}
+      />
+    </div>
+    <div className={styles.field}>
+      <span className={styles.smallText}>Family Discount</span>
+      <input
+        type="number"
+        className="form-control"
+        required
+        value={familyMemberDiscount}
+        onChange={(e) => setFamilyMemberDiscount(e.target.value)}
+      />
+    </div>
+  </div>
+  
+  <button className={styles.addButton} type="submit">
+    SAVE
+  </button>
+</form>
+
+
     </Card>
   );
 };

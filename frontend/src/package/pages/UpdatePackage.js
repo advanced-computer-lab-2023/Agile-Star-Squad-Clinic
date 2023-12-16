@@ -98,6 +98,20 @@ const UpdatePackage = () => {
       alert('Network error: ' + error.message);
     }
   };
+  const confirmDeleteHandler = async () => {
+    try {
+      await fetch(`http://localhost:3000/packages/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      alert('Package deleted successfully.');
+      navigate('/packages');
+    } catch (err) {
+      alert('Failed to delete package.');
+    }
+  };
+
   return (
     <Card>
       <form onSubmit={submitHandler}>
@@ -180,6 +194,9 @@ const UpdatePackage = () => {
         </div>
         <button class="btn btn-primary sm" id="subbutton" type="submit">
           Submit
+        </button>
+        <button className="btn btn-primary sm" id="deleteButton" onClick={confirmDeleteHandler}>
+          Delete
         </button>
       </form>
     </Card>

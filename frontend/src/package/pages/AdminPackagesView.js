@@ -33,11 +33,11 @@ const AdminPackagesView = () => {
     sendRequest();
   }, []);
 
-  const placeDeletedHandler = (deletedPlaceId) => {
-    setLoadedPackages((prevPackages) =>
-      prevPackages.filter((prevPackage) => prevPackage._id !== deletedPlaceId)
-    );
-  };
+  // const placeDeletedHandler = (deletedPlaceId) => {
+  //   setLoadedPackages((prevPackages) =>
+  //     prevPackages.filter((prevPackage) => prevPackage._id !== deletedPlaceId)
+  //   );
+  // };
   
   const toggleAddForm = () => {
     setShowAddForm((prevShowAddForm) => !prevShowAddForm);
@@ -60,16 +60,13 @@ const AdminPackagesView = () => {
       </div>
       {showAddForm && (
         <div className={classes.overlay}>
-          <Card className={classes.NewPackage}>
             <NewPackage/>
-            <button className="btn btn-primary sm" onClick={toggleAddForm}>
-              Cancel
-            </button>
-          </Card>
+           
+          
         </div>
       )}
       {loadedPackages && (
-        <PackageList items={loadedPackages} onDelete={placeDeletedHandler} />
+        <PackageList items={loadedPackages}  />
       )}
     </div>
   );
