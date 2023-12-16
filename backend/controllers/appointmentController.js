@@ -85,6 +85,7 @@ exports.allAppointmentsForPatients = catchAsync(async (req, res, next) => {
     const appointment = {
       _id: app._id,
       doctorName: doctor.name,
+      category: doctor.speciality,
       doctorId: doctor.id,
       date: date,
       status: status,

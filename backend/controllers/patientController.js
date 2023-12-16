@@ -91,7 +91,8 @@ exports.removePatient = catchAsync(async (req, res, next) => {
 
 exports.addFamilyMember = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
-  const memberData = req.body;
+  let memberData = req.body;
+
   const patient = await Patient.findById(patientId);
 
   if (!patient) {
@@ -107,6 +108,17 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
         { mobileNumber: memberData.mobileNumber },
       ],
     });
+
+    const birthDate = new Date(memberPatientAccount.dateOfBirth);
+    const age = new Date().getFullYear() - birthDate.getFullYear();
+
+    memberData = {
+      name: memberPatientAccount.name,
+      NationalID: memberPatientAccount.nationalId,
+      age,
+      gender: memberPatientAccount.gender,
+      relation: memberData.relation,
+    }
   } 
   
   const newMember = new Family({
@@ -116,16 +128,38 @@ exports.addFamilyMember = catchAsync(async (req, res, next) => {
   });
 
   const updatedFamily = [...patient.familyMembers, newMember._id];
-  await Family.create(newMember).catch((error) => {
-    console.error('Error creating family member:', error.message);
-    throw error; // Re-throw the error for further handling
+  try {
+    await Family.create(newMember);
+  } catch (error) {
+    if(error.message.includes('duplicate key error')){
+      error.message = 'This member belongs to another patient'
+    }
+    return res.status(404).json({
+      status: 'fail',
+      data: {
+        message: error.message,
+      },
   });
+  }
+  
   await Patient.findByIdAndUpdate(patient._id, {
     familyMembers: updatedFamily,
   });
   res.status(200).json({
     status: 'success',
+      member: newMember,
   });
+});
+
+exports.removeFamilyMember = catchAsync(async (req, res, next) => {
+  const patientId = req.params.patientId;
+  const id = req.params.id;
+
+  await Family.findByIdAndDelete(id);
+  const patient = await Patient.findById(patientId);
+
+  patient.familyMembers.pull(id);
+  await patient.save();
 });
 
 exports.getFamilyMembers = catchAsync(async (req, res, next) => {
@@ -362,7 +396,8 @@ exports.updateWallet = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getChatIds = catchAsync(async (req, res, next) => {
+exports.addCard = catchAsync(async (req, res, next) => {
+  const { name, cardNumber, expiryMonth, expiryYear, cvv, label } = req.body;
   const patientId = req.params.patientId;
 
   const patient = await Patient.findById(patientId);
@@ -370,13 +405,49 @@ exports.getChatIds = catchAsync(async (req, res, next) => {
     return next(new AppError('Patient not found', 404));
   }
 
+  const newCard = {
+    name,
+    cardNumber,
+    expiryMonth,
+    expiryYear,
+    cvv,
+    label,
+  };
 
-  const chats = patient.chats;
+  patient.cards.push(newCard);
+  await patient.save();
 
   res.status(200).json({
-    chats,
+    status: 'success',
+    data: {
+      patient,
+    },
   });
 });
 
+exports.deleteCard = catchAsync(async (req, res, next) => {
+  const { cardNumber } = req.params;
+  const patientId = req.params.patientId;
+
+  const patient = await Patient.findById(patientId);
+  if (!patient) {
+    return next(new AppError('Patient not found', 404));
+  }
+
+  const cardIndex = patient.cards.findIndex((card) => card.number.toString() === cardNumber);
+  if (cardIndex === -1) {
+    return next(new AppError('Card not found', 404));
+  }
+
+  patient.cards.splice(cardIndex, 1);
+  await patient.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});
 
 // Modules.exports = {createPatient}
