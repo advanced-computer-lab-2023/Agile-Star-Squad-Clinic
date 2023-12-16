@@ -7,6 +7,8 @@ import { useState, useEffect, useContext } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import BrowseDoctors from './BrowseDoctors';
 import UserContext from '../../../user-store/user-context';
+import JoinMeetingCard from '../../../shared/components/Meeting/JoinMeetingCard';
+import axios from 'axios';
 
 const imageUrl =
   'https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D';
@@ -46,7 +48,7 @@ const PatientHomePage = () => {
             id: prescription['_id'],
             ...prescription,
           };
-        })
+        }),
       );
       prescriptionsJson.forEach((prescription) => {
         setPrescriptionItems((previous) => {
@@ -73,7 +75,7 @@ const PatientHomePage = () => {
             id: appointment['_id'],
             ...appointment,
           };
-        })
+        }),
       );
     });
   };
@@ -90,6 +92,15 @@ const PatientHomePage = () => {
 };
 
 const Dashboard = (props) => {
+  const now = new Date();
+  let currentAppointment = null;
+  let time = null;
+
+  const [user, setUser] = useState({});
+  const [doctor, setDoctor] = useState({});
+
+  const userCtx = useContext(UserContext);
+
   const appointments = props.appointments.map((appointment) => {
     const date = new Date(appointment.date);
     const weekday = getWeekday(date.getDay());
@@ -98,8 +109,33 @@ const Dashboard = (props) => {
     const time = getTime(date);
     const doctorName = appointment.doctorName.toUpperCase();
     const doctorSpecialty = appointment.doctorSpecialty;
+
+    if (
+      date.getDate() === now.getDate() &&
+      date.getMonth() === now.getMonth() &&
+      date.getFullYear() === now.getFullYear() &&
+      date.getHours() === now.getHours() + 2
+    ) {
+      console.log('current appointment', appointment);
+      currentAppointment = appointment;
+    }
     return { weekday, month, day, time, doctorName, doctorSpecialty };
   });
+
+  useEffect(() => {
+    if (currentAppointment) {
+      axios
+        .get(`http://localhost:3000/doctors/${currentAppointment.doctorId}`)
+        .then((response) => {
+          setDoctor(response.data.data.doctor);
+        });
+      axios
+        .get(`http://localhost:3000/patients/${userCtx.userId}`)
+        .then((response) => {
+          setUser(response.data.data.patient);
+        });
+    }
+  }, [currentAppointment]);
 
   console.log(props.prescriptions);
 
@@ -161,27 +197,55 @@ const Dashboard = (props) => {
     );
   };
 
+  function getTime(date) {
+    let hours = date.getHours() - 2;
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const time = hours + ':' + minutes + ' ' + ampm;
+    return time;
+  }
+
   return (
     <>
       <section className={classes.dashSection}>
         <div className={classes.dashContainers}>
           <div className="col-1" />
-          <div className={`col-5 ${classes.appointmentWrapper}`}>
-            <h3>UPCOMING APPOINTMENTS</h3>
-            <div className={classes.appointmentContainer}>
-              <Carousel controls={false} interval={5000}>
-                {appointments.map((appointment) =>
-                  getAppointmentItem(appointment)
-                )}
-              </Carousel>
+          {!currentAppointment && (
+            <div className={`col-5 ${classes.appointmentWrapper}`}>
+              <h3>UPCOMING APPOINTMENTS</h3>
+              <div className={classes.appointmentContainer}>
+                <Carousel controls={false} interval={5000}>
+                  {appointments.map((appointment) =>
+                    getAppointmentItem(appointment),
+                  )}
+                </Carousel>
+              </div>
             </div>
-          </div>
+          )}
+          {currentAppointment && (
+            <div className={`col-5 ${classes.appointmentWrapper}`}>
+              <h3>CURRENT APPOINTMENT</h3>
+              <JoinMeetingCard
+                name={doctor.name}
+                specialty={doctor.speciality}
+                time={getTime(new Date(currentAppointment.date))}
+                for={user.name}
+                imageUrl={
+                  doctor.image ??
+                  'https://www.w3schools.com/howto/img_avatar.png'
+                }
+              />
+            </div>
+          )}
           <div className="col-1" />
           <div className="col-4">
             <h3>ACTIVE PRESCRIPTIONS</h3>
             <div className={`${classes.prescriptionContainer} scroller`}>
               {props.prescriptions.map((prescription) =>
-                getPrescriptionItem(prescription)
+                getPrescriptionItem(prescription),
               )}
             </div>
           </div>

@@ -75,6 +75,7 @@ function App() {
         </Routes>
       );
     } else if (user.role === 'doctor') {
+      console.lof(user.status);
       if (user.status === 'accepted') {
         return (
           <Routes>
@@ -141,13 +142,6 @@ function App() {
             element={<DoctorRegisterForm />}
             exact
           />
-          <Route path="/healthPackages" element={<HealthPackages />} exact />
-          <Route path="/doctor/home" element={<DoctorHome />} exact />
-          <Route path="/admin/home" element={<AdminHome />} exact />
-          <Route path="/addPackage" element={<NewPackage />} exact />
-          <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
-          <Route path="/packages" element={<AdminPackagesView />} exact />
-          <Route path="admin/manage" element={<ManageUsersPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       );
@@ -160,7 +154,7 @@ function App() {
         if (res.data.data.user === null) {
           user.logout();
         } else {
-          console.log(res.data.data);
+          console.log('auth/me', res.data.data);
           user.login({
             role: res.data.data.role,
             userId: res.data.data.id,
