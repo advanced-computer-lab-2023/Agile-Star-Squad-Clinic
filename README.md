@@ -74,7 +74,13 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 
 7. **Medical Records**: If you're a patient, you can view your medical records by going to the "My Medical Records" page. Here, you can also add new entries to your medical history.
 
+8. **Video Call**: After booking an appointment, you can have a video call with the doctor. This feature is available on the "My Appointments" page. Make sure you have a stable internet connection for the best experience.
+
+9. **Chat**: Once you have started an appointment, you can chat with the doctor through the "Chat" feature available on the "My Appointments" page.
+
 Remember to log out when you're done using the website to ensure your account remains secure.
+
+
 
 
 <a name="contribution"></a>
