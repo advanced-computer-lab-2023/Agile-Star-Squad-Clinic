@@ -78,11 +78,6 @@ const NavBar = (props) => {
                   Messages
                 </a>
               </Link>
-              <Link to="/meeting" style={{ all: 'unset' }}>
-                <a href="#" className="btn btn-white">
-                  Join Meeting
-                </a>
-              </Link>
               <Link to="/appointments" style={{ all: 'unset' }}>
                 <a href="#" className="btn btn-white">
                   Appointments

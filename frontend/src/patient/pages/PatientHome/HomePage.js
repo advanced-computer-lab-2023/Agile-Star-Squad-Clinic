@@ -7,6 +7,7 @@ import { useState, useEffect, useContext } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import BrowseDoctors from '../BrowseDoctors';
 import UserContext from '../../../user-store/user-context';
+import JoinMeetingCard from '../../../shared/components/Meeting/JoinMeetingCard';
 
 const imageUrl =
   'https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D';
@@ -46,7 +47,7 @@ const PatientHomePage = () => {
             id: prescription['_id'],
             ...prescription,
           };
-        })
+        }),
       );
       prescriptionsJson.forEach((prescription) => {
         setPrescriptionItems((previous) => {
@@ -73,7 +74,7 @@ const PatientHomePage = () => {
             id: appointment['_id'],
             ...appointment,
           };
-        })
+        }),
       );
     });
   };
@@ -166,22 +167,32 @@ const Dashboard = (props) => {
       <section className={classes.dashSection}>
         <div className={classes.dashContainers}>
           <div className="col-1" />
-          <div className={`col-5 ${classes.appointmentWrapper}`}>
+          {/* <div className={`col-5 ${classes.appointmentWrapper}`}>
             <h3>UPCOMING APPOINTMENTS</h3>
             <div className={classes.appointmentContainer}>
               <Carousel controls={false} interval={5000}>
                 {appointments.map((appointment) =>
-                  getAppointmentItem(appointment)
+                  getAppointmentItem(appointment),
                 )}
               </Carousel>
             </div>
+          </div> */}
+          <div className={`col-5 ${classes.appointmentWrapper}`}>
+            <h3>CURRENT APPOINTMENT</h3>
+            <JoinMeetingCard
+              name="Dr. John Doe"
+              specialty="Cardiologist"
+              time="10:00 AM"
+              for="For: John Doe"
+              imageUrl="https://www.w3schools.com/howto/img_avatar.png"
+            />
           </div>
           <div className="col-1" />
           <div className="col-4">
             <h3>ACTIVE PRESCRIPTIONS</h3>
             <div className={`${classes.prescriptionContainer} scroller`}>
               {props.prescriptions.map((prescription) =>
-                getPrescriptionItem(prescription)
+                getPrescriptionItem(prescription),
               )}
             </div>
           </div>
