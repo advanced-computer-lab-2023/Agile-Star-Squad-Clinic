@@ -2,13 +2,20 @@ import React, { useState, useEffect, useContext } from 'react';
 import storage from '../../index';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ReactDOM from 'react-dom';
-import classes from './PatientAccountSettings.module.css';
+//import classes from './PatientAccountSettings.module.css';
 import NavBar from '../../shared/components/NavBar/NavBar';
 import UserContext from '../../user-store/user-context';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Account.css';
+import patient1 from '../../assets/patientHomepage/patient1.png';
+import fam from '../../assets/patientHomepage/fam.png';
+import med from '../../assets/patientHomepage/med.png';
+import pay from '../../assets/patientHomepage/pay.png';
+import setting from '../../assets/patientHomepage/setting.png';
 
 const PatientAccountSettings = (props) => {
+
   const patient = useContext(UserContext);
   const navigate = useNavigate();
   const [healthPackage, setPackage] = useState(null);
@@ -29,6 +36,7 @@ const PatientAccountSettings = (props) => {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
+      console.log(json.data);
       setsubscriptionDate(json.data.patient.subscriptionDate);
       setexpiringDate(json.data.patient.expiringDate);
       setMedicalRecords(json.data.patient.medicalRecord);
@@ -37,6 +45,7 @@ const PatientAccountSettings = (props) => {
       setcancellationDate(json.data.patient.cancellationDate);
     });
   };
+  
   const handeleUnsubscribeButtonclick = async () => {
     try {
       const response = await fetch(
@@ -48,6 +57,7 @@ const PatientAccountSettings = (props) => {
           },
         },
       );
+      console.log(response);
       if (response.ok) {
         setButtonPressed(true);
         setPackage(null);
@@ -84,17 +94,20 @@ const PatientAccountSettings = (props) => {
     };
 
     try {
+      console.log(healthRecordUrl);
       const requestOptions = {
         method: 'PATCH',
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
         body: JSON.stringify(data),
       };
-      
+      console.log(requestOptions.body);
+      console.log(requestOptions);
 
       const response = await fetch(
         `http://localhost:3000/patients/${patient.userId}`,
         requestOptions,
       );
+      console.log(response);
       if (!response.ok) {
         alert('Failed to upload health record');
       }
@@ -143,110 +156,25 @@ const PatientAccountSettings = (props) => {
   return (
     <body>
       <NavBar />
+     <div className='patient-info'>
+        <h2 className='name'>{currentPatient.name}</h2>
+        <img className='patient-image'src= {patient1} />
+     </div>
+     <section className='patient-actions'>
       <div>
-        {healthPackage !== null && (
-          <button onClick={handeleUnsubscribeButtonclick}>
-            Unsubscribe from current package
-          </button>
-        )}
-      </div>
-      <div>
-        <>
-          <div>
-            {healthPackage != null && <div>Category: {healthPackage.name}</div>}
-          </div>
-          <div>
-            {healthPackage != null && (
-              <div>Price Per Year: {healthPackage.pricePerYear}</div>
-            )}
-          </div>
-          <div>
-            {healthPackage != null && (
-              <div>
-                Doctor Session Discount: {healthPackage.doctorSessionDiscount}
-              </div>
-            )}
-          </div>
-          <div>
-            {healthPackage != null && (
-              <div>Medicine Discount: {healthPackage.medicineDiscount}</div>
-            )}
-          </div>
-          <div>
-            {healthPackage != null && (
-              <div>
-                Family Member Discount: {healthPackage.familyMemberDiscount}
-              </div>
-            )}
-          </div>
-          <div>
-            {healthPackage != null && (
-              <div>Description: {healthPackage.description}</div>
-            )}
-          </div>
-          <div>
-            {healthPackage != null && (
-              <div>Subscription Date: {subscriptionDate}</div>
-            )}
-          </div>
-          <div>
-            {healthPackage != null && (
-              <div>Expiration Date: {expiringDate}</div>
-            )}
-          </div>
-        </>
-        <>
-          {isButtonPressed && <div>You unsubscribed successfully</div>}
-          {cancellationDate !== null && (
-            <div>Cancellation Date: {cancellationDate}</div>
-          )}
-        </>
-      </div>
-      <button onClick={familyMembersHandler}>Family Members</button>
-      <div className={classes.healthRecordContainer}>
-        <h3 className="text-start ms-3 my-4">Health Records</h3>
-        {medicalRecordUrls != null && (
-          <div className={classes.healthRecordImages}>
-            {medicalRecordUrls.map((url) => {
-              return (
-                <div
-                  className="position-relative mx-4 shadow-sm"
-                  style={{ width: '130px' }}
-                >
-                  {!url.includes('pdf') && <a href={url} target="_blank"><img src={url} width={130} /></a>}
-                  {url.includes('pdf') && (
-                    <a href={url} target="_blank">
-                      View PDF
-                    </a>
-                  )}
-                  <button
-                    className={classes.imageRemove}
-                    onClick={(e) => deleteImage(e, url)}
-                  >
-                    x
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        <div>
-          <label>Health Record</label>
-          <input
-            type="file"
-            name="healthRecord"
-            value={healthRecordInput}
-            onChange={onHealthRecordChange}
-          />
+        <h3>Settings</h3>
+        <div className='account-settings'>
+        <img src={setting} />
         </div>
-        <button onClick={handleHealthRecordUpload}>Upload Health Record</button>
       </div>
 
-      <div className="mt-5">
-        <button onClick={logout}>Logout</button>
-        <button onClick={changePasswordHandler}>Change Password</button>
-      </div>
+      
+       
+      </section>
     </body>
+    
   );
+  
+
 };
 export default PatientAccountSettings;

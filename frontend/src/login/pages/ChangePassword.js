@@ -45,7 +45,6 @@ function ChangePassword() {
           .catch((err) => {
             console.log(err);
           });
-        console.log(response);
         navigate('/');
       } else {
         alert('Your password does not match the criteria');

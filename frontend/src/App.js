@@ -20,7 +20,7 @@ import AddingInfo2 from './checkout/pages/AddingInformation2';
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
-import PatientAccountSettings from './patient/pages/PatientAccountSettings';
+import PatientAccountSettings from './patient/pages/AccountSettings/Account';
 import Appointments from './patient/pages/appointments/Appointments';
 import Messages from './patient/pages/messages/Messages';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
@@ -153,7 +153,6 @@ function App() {
         if (res.data.data.user === null) {
           user.logout();
         } else {
-          console.log('auth/me', res.data.data);
           user.login({
             role: res.data.data.role,
             userId: res.data.data.id,
@@ -174,7 +173,6 @@ function App() {
   //         ...res.data.data[user.role],
   //       }));
 
-  //       console.log(res.data.data);
   //     });
   // }, [user]);
 
