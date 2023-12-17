@@ -90,6 +90,20 @@ exports.deleteAppointment = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateAppointment = catchAsync(async (req, res, next) => {
+  const appointment = await Appointment.findByIdAndUpdate(
+    req.params.id,
+    req.body
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      appointment,
+    },
+  });
+});
+
 const isDateInFuture = (dateToCompare) => {
   const currentDate = new Date();
   return dateToCompare > currentDate;
