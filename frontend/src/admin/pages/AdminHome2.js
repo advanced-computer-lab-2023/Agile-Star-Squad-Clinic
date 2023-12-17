@@ -16,7 +16,7 @@ const AdminHome2 = (props) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
-  const [status, setStatus] = useState(props.data ? props.data['status'] : '');
+  const [status, setStatus] = useState(props.data ? props.data['status'] : 'pending');
   const [selectedRequest, setSelectedRequest] = useState(null);
   const selectedRequestRef = useRef(null);
   const [packages, setPackages] = useState([]);
@@ -27,6 +27,8 @@ const AdminHome2 = (props) => {
   const [activeRole, setActiveRole] = useState('patient');
   const [users, setUsers] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [showRequestDetails, setshowRequestDetails] = useState(false);
+
 
   useEffect(() => {
     filterUsersByRole(activeRole);
@@ -290,6 +292,7 @@ const AdminHome2 = (props) => {
   const showDetails = (request) => {
     if (request && request.id) {
       setSelectedRequest(request);
+      setshowRequestDetails(true);
     } else {
       console.error('Invalid or undefined request object:', request);
     }
@@ -656,6 +659,7 @@ const AdminHome2 = (props) => {
             />
           )}
         </div>
+        {showRequestDetails && <RequestDetails data={selectedRequest}></RequestDetails>}
       </div>
     </>
   );
