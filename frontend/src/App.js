@@ -75,7 +75,6 @@ function App() {
         </Routes>
       );
     } else if (user.role === 'doctor') {
-      console.lof(user.status);
       if (user.status === 'accepted') {
         return (
           <Routes>
