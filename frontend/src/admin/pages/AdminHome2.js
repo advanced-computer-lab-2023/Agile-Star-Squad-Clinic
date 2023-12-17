@@ -16,7 +16,7 @@ const AdminHome2 = (props) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
-  const [status, setStatus] = useState(props.data ? props.data['status'] : '');
+  const [status, setStatus] = useState(props.data ? props.data['status'] : 'pending');
   const [selectedRequest, setSelectedRequest] = useState(null);
   const selectedRequestRef = useRef(null);
   const [packages, setPackages] = useState([]);
@@ -27,7 +27,7 @@ const AdminHome2 = (props) => {
   const [activeRole, setActiveRole] = useState('patient');
   const [users, setUsers] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [showRequestDetails, setShowRequestDetails] = useState(false);
+  const [showRequestDetails, setshowRequestDetails] = useState(false);
 
 
   useEffect(() => {
@@ -42,14 +42,15 @@ const AdminHome2 = (props) => {
     fetchPackages();
   }, []); 
   
-
   useEffect(() => {
     // If data has been loaded, simulate a click on the "Patients" button
     if (setUsers) {
       handleRoleButtonClick('patient');
     }
   }, [users]);
-  
+    useEffect(() => {
+    selectedRequestRef.current = selectedRequest;
+  }, [selectedRequest]);
   useEffect(() => {
     const handleClickOutside = (event) => {
       const formElement = document.getElementById('form'); // Replace 'yourFormId' with the actual ID of your form
@@ -64,11 +65,6 @@ const AdminHome2 = (props) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setShowRequestDetails]);
-
-  useEffect(() => {
-    selectedRequestRef.current = selectedRequest;
-  }, [selectedRequest]);
-
   const fetchPackages = async () => {
     try {
       const response = await axios.get('http://localhost:3000/packages/');
@@ -302,7 +298,7 @@ const AdminHome2 = (props) => {
   const showDetails = (request) => {
     if (request && request.id) {
       setSelectedRequest(request);
-      setShowRequestDetails(true); // Set the state to true to show details
+      setshowRequestDetails(true);
     } else {
       console.error('Invalid or undefined request object:', request);
     }
@@ -671,6 +667,7 @@ const AdminHome2 = (props) => {
 
      
         </div>
+        {showRequestDetails && <RequestDetails data={selectedRequest}></RequestDetails>}
       </div>
     </>
   );
