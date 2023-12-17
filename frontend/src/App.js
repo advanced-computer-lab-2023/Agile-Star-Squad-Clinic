@@ -37,6 +37,7 @@ import BrowseDoctors from './patient/pages/PatientHome/BrowseDoctors';
 import Prescriptions from './patient/pages/prescriptions/Prescriptions';
 import PatientDetails from './doctor/pages/PatientDetails';
 import DoctorHomepage from './doctor/pages/home/DoctorHomepage';
+import PatientDetails2 from './doctor/pages/PatientDetails2';
 
 function App() {
   const user = useContext(UserContext);
@@ -89,9 +90,10 @@ function App() {
       } else {
         return (
           <Routes>
-            <Route path="/doctor/home" element={<DoctorHome />} exact />
+            <Route path="/doctor/home" element={<DoctorHomepage />} exact />
             <Route path="/patientDetails" element={<PatientDetails  />} exact />
             <Route path="changePassword" element={<ChangePassword />} exact />
+            <Route path="/patient" element={<DoctorHome />} exact />
           <Route path="/messages" element={<Messages />} exact />
             <Route
               path="/meeting"

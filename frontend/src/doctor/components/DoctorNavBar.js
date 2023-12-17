@@ -55,11 +55,11 @@ const NavBar = (props) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link to="/PatientDetails" style={{ all: 'unset' }}>
+                {/* <Link to="/PatientDetails" style={{ all: 'unset' }}>
                   <a className="nav-link" aria-current="page" href="#">
                     Patients
                   </a>
-                </Link>
+                </Link> */}
 
               </li>
               {/* <li className="nav-item">
@@ -69,11 +69,11 @@ const NavBar = (props) => {
                   </a>
                 </Link>
               </li> */}
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a className="nav-link" href="#">
                   About us
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="d-flex mx-4">

@@ -3,7 +3,7 @@ import DataTable from '../../shared/components/DataTable/DataTable';
 import AppointmentDetails from './AppointmentDetails';
 import MyInfo from './MyInfo';
 import PatientDetails from './PatientDetails';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
 import DoctorNavBar from '../components/DoctorNavBar';
 import classes from './DoctorHome.module.css';
@@ -31,6 +31,9 @@ const DoctorHome = () => {
   const [patientSearchField, setPatientSearchField] = useState('');
 
   const [filteredPatients, setFilteredPatients] = useState([]);
+  const location = useLocation();
+  console.log(location.state);
+  const patient = location.state;
 
   useEffect(() => {
     // fetchMyPatients();
@@ -93,7 +96,7 @@ const DoctorHome = () => {
   // ];
 
   // const fetchMyPatients = () => {
-  //   fetch(`http://localhost:3000/doctors/${doctorId}/patients`, {
+  //   fetch(`http://xxlhost:3000/doctors/${doctorId}/patients`, {
   //     credentials: 'include',
   //   }).then(async (response) => {
   //     const json = await response.json();
@@ -296,15 +299,14 @@ const DoctorHome = () => {
       status: appointment.status,
     };
   });
-  const[patient,setCurrentPatient]=useState('');
-
+  
   const fetchPackage = async () => {
     fetch('http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a', {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
       // console.log(patient);  
-      setCurrentPatient(json.data.patient);
+      // setCurrentPatient(json.data.patient);
       
     });}
     fetchPackage();
