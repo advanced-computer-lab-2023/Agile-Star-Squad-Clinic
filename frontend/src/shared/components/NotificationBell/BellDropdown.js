@@ -20,7 +20,6 @@ const BellDropdown = () => {
                 credentials: 'include',
             }).then(async (response) => {
                 const json = await response.json();
-                console.log(response);
                 const notificationsJson = json.data.notifications;
                 setMyNotifications(
                     notificationsJson.map((notification) => ({ id: notification['_id'], ...notification }))
@@ -29,7 +28,6 @@ const BellDropdown = () => {
         }
         else if(userCtx.role == 'doctor'){
             fetch(`http://localhost:3000/doctors/${userId}/notifications`, {
-                method: 'DELETE',
                 credentials: 'include',
             }).then(async (response) => {
                 const json = await response.json();
@@ -44,15 +42,15 @@ const BellDropdown = () => {
 
     const deleteNotification = (notificationId) => {
 
-        fetch(`http://localhost:3000/doctors/${userId}/notifications`, {
+        fetch(`http://localhost:3000/doctors/${userId}/notifications/${notificationId}`, {
+            method: 'DELETE',
             credentials: 'include',
-        }).then(async (response) => {
-            const json = await response.json();
-            console.log(response);
-            const notificationsJson = json.data.notifications;
-            setMyNotifications(
-                notificationsJson.map((notification) => ({ id: notification['_id'], ...notification }))
-            );
+        }).then(() => {
+            // Remove the deleted notification from the local state
+            setMyNotifications((prevNotifications) => prevNotifications.filter(notification => notification.id !== notificationId));
+        })
+        .catch((error) => {
+            console.error('Error deleting notification:', error);
         });
     };
 
@@ -90,7 +88,7 @@ const BellDropdown = () => {
                         <ul style={{ listStyle: 'none', padding: 0, width: '100%' }}>
                             {myNotifications.map((notification) => (
                                 <li key={notification.id} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '0.25px solid var(--text-icons-faded-grey, #464a54)' }}>
-                                    <span>{notification.patientMessage || notification.doctorMessage}</span>
+                                    <span>{userCtx.role === 'patient' ? notification.patientMessage :notification.doctorMessage }</span>
                                     <span
                                         style={{ cursor: 'pointer', color: '#464a54', marginRight: '-5px', marginTop: '-5px' }}
                                         onClick={() => deleteNotification(notification._id)}

@@ -45,8 +45,11 @@ router
 
   router
   .route('/:doctorId/notifications/:notificationId')
-  .get(middleware.doctorAuth , doctorController.getMyNotifications)
   .delete(middleware.doctorAuth , notificationController.deleteNotification);
+
+  router
+  .route('/:doctorId/notifications')
+  .get(middleware.doctorAuth , doctorController.getMyNotifications)
 
 router
 .route('/:id')

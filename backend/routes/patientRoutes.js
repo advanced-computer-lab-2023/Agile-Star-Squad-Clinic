@@ -60,9 +60,12 @@ router
 
 router
   .route('/:patientId/notifications/:notificationId')
-  .get(middleware.patientAuth , patientController.getMyNotifications)
   .delete(middleware.patientAuth , notificationController.deleteNotification);
 
+  router
+  .route('/:patientId/notifications')
+  .get(middleware.patientAuth , patientController.getMyNotifications)
+  
 router
   .route('/:patientId/wallet')
   .post(patientController.updateWallet)
