@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
 import DoctorNavBar from '../components/DoctorNavBar';
 import classes from './DoctorHome.module.css';
+import PatientDetails2 from './PatientDetails2';
 
 const DoctorHome = () => {
   const navigate = useNavigate();
@@ -213,7 +214,7 @@ const DoctorHome = () => {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
-      console.log('json', json);
+      // console.log('json', json);
       const doctor = json.data.doctor; //check
       setInfo({
         ...doctor,
@@ -295,6 +296,19 @@ const DoctorHome = () => {
       status: appointment.status,
     };
   });
+  const[patient,setCurrentPatient]=useState('');
+
+  const fetchPackage = async () => {
+    fetch('http://localhost:3000/patients/65270e13cfa9abe7a31a4d8a', {
+      credentials: 'include',
+    }).then(async (response) => {
+      const json = await response.json();
+      // console.log(patient);  
+      setCurrentPatient(json.data.patient);
+      
+    });}
+    fetchPackage();
+ 
 
   const changePasswordHandler = () => {
     navigate('/changePassword');
@@ -304,12 +318,12 @@ const DoctorHome = () => {
   const color3 = '#96B7C7';
   const color4 = '#193842';
 
-  console.log(info);
+  // console.log(patient);
 
   return (
     <div className="center">
       <DoctorNavBar />
-      <div className={classes.main}>
+      {/* <div className={classes.main}>
         {info && info.name && (
           <div className={classes.welcomeText}>Welcome, Dr. {info.name}!</div>
         )}
@@ -341,8 +355,10 @@ const DoctorHome = () => {
           </div>
         </div>
 
+
         <div></div>
-      </div>
+      </div> */}
+  {patient && <PatientDetails2 data={patient}/>}
     </div>
   );
 };

@@ -35,6 +35,7 @@ import AdminAccount from './admin/pages/AdminAccount';
 import Meeting from './shared/pages/Meeting';
 import BrowseDoctors from './patient/pages/PatientHome/BrowseDoctors';
 import Prescriptions from './patient/pages/prescriptions/Prescriptions';
+import PatientDetails from './doctor/pages/PatientDetails';
 
 function App() {
   const user = useContext(UserContext);
@@ -88,6 +89,7 @@ function App() {
         return (
           <Routes>
             <Route path="/doctor/home" element={<DoctorHome />} exact />
+            <Route path="/patientDetails" element={<PatientDetails  />} exact />
             <Route path="changePassword" element={<ChangePassword />} exact />
             <Route
               path="/meeting"
