@@ -86,9 +86,9 @@ const patientSchema = new mongoose.Schema({
       ref: 'Appointment',
     },
   ],
-  wallet:{
+  wallet: {
     type: Number,
-    default:0,
+    default: 0,
 
   },
 
@@ -98,14 +98,22 @@ const patientSchema = new mongoose.Schema({
       ref: 'Chat'
     }
   ],
-  
-  cancellationDate:{
+
+  cancellationDate: {
     type: Date,
-    default:null},
-  
-  subscriptionDate:Date,
-  
-  expiringDate:Date,
+    default: null
+  },
+
+  notifications: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Notification',
+    },
+  ],
+
+  subscriptionDate: Date,
+
+  expiringDate: Date,
 
 });
 
