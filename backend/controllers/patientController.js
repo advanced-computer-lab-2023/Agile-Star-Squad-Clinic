@@ -417,11 +417,13 @@ catch(err){
 
 exports.getChatIds = catchAsync(async (req, res, next) => {
   const patientId = req.params.patientId;
-  const patient = await Patient.findById(patientId);
-  if (!patient) {
+  let user = await Patient.findById(patientId);
+  if (!user) {
+    user = await Doctor.findById(patientId);
+    if (!user)
     return next(new AppError('Patient not found', 404));
   }
-  const chats = patient.chats;
+  const chats = user.chats;
 
   res.status(200).json({
     chats,
