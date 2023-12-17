@@ -73,9 +73,19 @@ const DoctorRequestForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    let personalImageUrl;
     let idDownloadUrl;
     let licenseDownloadUrl;
     let degreeDownloadUrl;
+
+    if (personalImageForm !== '') {
+      const idImageRef = ref(storage, `${personalImageForm.name}`);
+      await uploadBytesResumable(idImageRef, personalImageForm).then(
+        async (snapshot) => {
+          personalImageUrl = await getDownloadURL(snapshot.ref);
+        },
+      );
+    }
 
     if (idImageForm !== '') {
       const idImageRef = ref(storage, `${idImageForm.name}`);
@@ -104,16 +114,19 @@ const DoctorRequestForm = () => {
       );
     }
 
+    const date = new Date(`${dobYear}-${dobMonth.value}-${dobDay.value}`);
+
     const data = {
       username: formData.username,
       name: formData.name,
       email: formData.email,
       password: formData.password,
-      dateOfBirth: `${dobYear}-${dobMonth}-${dobDay}`,
+      dateOfBirth: date,
       hourlyRate: formData.hourlyRate,
       affiliation: formData.affiliation,
       educationalBackground: formData.educationalBackground,
       speciality: formData.speciality,
+      personalImage: personalImageUrl,
       idImage: idDownloadUrl,
       medicalLicense: licenseDownloadUrl,
       medicalDegree: degreeDownloadUrl,
