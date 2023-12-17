@@ -188,7 +188,10 @@ const PatientAccountSettings = (props) => {
       return newRecords;
     });
   };
-
+  useEffect(()=>{
+    if (index==9)
+      logout()
+  },[index])
   const logout = async () => {
     await patient.logout();
     navigate('/');
@@ -201,6 +204,7 @@ const PatientAccountSettings = (props) => {
   const familyMembersHandler = () => {
     navigate('/patient/family');
   };
+  
 
   const { healthRecordInput } = healthRecord;
   return (

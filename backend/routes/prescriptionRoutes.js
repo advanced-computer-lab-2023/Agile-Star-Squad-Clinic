@@ -11,7 +11,10 @@ router
   .route('/')
   .get(prescriptionController.getAllPrescription)
   .post(middleware.doctorAuth,prescriptionController.createPrescription);
-
+router
+  .route('/list')
+  .post(prescriptionController.getPrescriptionByIds)
+  
 // router
 //   .route('/:id')
 //   .get(doctorController.getDoctor)
