@@ -73,13 +73,10 @@ exports.viewAllRequests = catchAsync(async (req, res, next) => {
 async function getPasswordFromDatabase(id) {
   // You need to implement the logic to retrieve the password from your database
   // This might involve making a database query using a database library (e.g., Mongoose for MongoDB)
-  // console.log(id);
-  // console.log("henaa");
-
+  
   // For example, if you are using Mongoose, you might do something like this:
   const user = await Request.findById(id).select("password"); // Replace 'User' with your model name
-  // console.log("tab hena?");
-  // console.log(user);
+  
   return user
 
   // if (user) {
@@ -90,13 +87,10 @@ async function getPasswordFromDatabase(id) {
 }
 
 exports.acceptRequest = catchAsync(async (req, res, next) => {
-  // console.log("============");
-  // console.log(req.body);
-  // console.log("============");
+  
   try {
     const user = await getPasswordFromDatabase(req.body.id);
-    // console.log(user);
-    // console.log("============");
+   
     const data ={
       name: req.body.name,
       username: req.body.username,
@@ -106,9 +100,9 @@ exports.acceptRequest = catchAsync(async (req, res, next) => {
       affiliation: req.body.affiliation,
       speciality: req.body.speciality,
       educationalBackground: req.body.educationalBackground,
+      personalImage: req.body.personalImage,
       password: user.password,
     }
-    // console.log(data);
     // req.body.password = password;
     const newDoctor = await Doctor.create(data);
     await Request.findByIdAndUpdate(req.body.id, { status: 'Accepted' }, { new: true });

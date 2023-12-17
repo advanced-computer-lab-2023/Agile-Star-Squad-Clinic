@@ -3,6 +3,7 @@ const patientController = require('../controllers/patientController');
 const doctorRouter = require('./doctorRoutes');
 const appointmentController = require('../controllers/appointmentController');
 const prescriptionController = require('../controllers/prescriptionController');
+const notificationController = require('../controllers/notificationController.js');
 const middleware = require('../middleware/middleware.js');
 
 const router = express.Router();
@@ -20,6 +21,10 @@ router
   .post(middleware.patientAuth, patientController.addFamilyMember);
 
 router
+  .route('/:patientId/familyMembers/:id')
+  .delete(middleware.patientAuth, patientController.removeFamilyMember);
+
+router
   .route('/')
   .get(patientController.getAllPatients)
   .post(patientController.signup);
@@ -33,7 +38,7 @@ router
   .patch(middleware.adminAuth, patientController.addHealthRecord)
   .delete(middleware.adminAuth, patientController.removePatient);
 
-router  
+router
   .route('/:id/kimoSubscribe')
   .post(patientController.kimoSubscribe);
 
@@ -56,6 +61,15 @@ router
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
+
+router
+  .route('/:patientId/notifications/:notificationId')
+  .delete(middleware.patientAuth , notificationController.deleteNotification);
+
+  router
+  .route('/:patientId/notifications')
+  .get(middleware.patientAuth , patientController.getMyNotifications)
+  
 router
   .route('/:patientId/wallet')
   .post(patientController.updateWallet)
@@ -65,10 +79,26 @@ router
   );
 
 router
+  .route("/:patientId/chats")
+  .get(middleware.patientAuth,
+    patientController.getChatIds);
+
+router
   .route('/:doctorId/doctorUpcomingAppointments')
   .get(
     middleware.patientAuth,
     appointmentController.upComingAppointmentsForDoctors
   );
+
+router
+  .route('/:patientId/cards')
+  .post(patientController.addCard);
+
+router
+  .route('/:patientId/cards/:cardNumber')
+  .delete(patientController.deleteCard);
+
+
+  
 
 module.exports = router;

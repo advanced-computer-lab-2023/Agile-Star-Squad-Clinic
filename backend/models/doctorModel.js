@@ -55,6 +55,10 @@ const doctorSchema = new mongoose.Schema(
       type: Number,
       default: 5,
     },
+    personalImage: {
+      type: String,
+      // required: [true, "Please provide your personal image."],
+    },
     appointments: [
       {
         type: mongoose.Schema.ObjectId,
@@ -70,10 +74,21 @@ const doctorSchema = new mongoose.Schema(
       },
     ],
     status: {
-      type : String,
-      enum: ["member" , "accepted"],
+      type: String,
+      enum: ["member", "accepted"],
       default: "accepted"
     },
+    wallet:{
+      type: Number,
+      default:0,
+    },
+
+    chats: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Chat'
+      }
+    ],
     // role: {
     //   type: String,
     //   default: "doctor",
@@ -83,7 +98,13 @@ const doctorSchema = new mongoose.Schema(
       {
         type: Array,
       }
-    ]
+    ],
+    notifications: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Notification',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

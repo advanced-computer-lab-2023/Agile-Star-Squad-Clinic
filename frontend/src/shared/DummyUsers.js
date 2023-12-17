@@ -24,7 +24,6 @@ const setUserRole = (role) => {
       DUMMY_USER = DUMMY_USERS.doctor;
       break;
     default:
-      console.log('this is the default setUserRole, user set to guest');
       DUMMY_USER = DUMMY_USERS.patient;
       break;
   }

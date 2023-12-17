@@ -20,8 +20,9 @@ import AddingInfo2 from './checkout/pages/AddingInformation2';
 import BookAppointment from './patient/pages/bookAppointment/BookAppointment';
 import UserContext from './user-store/user-context';
 import SignupOptions from './login/pages/SignupOptions';
-import PatientAccountSettings from './patient/pages/PatientAccountSettings';
+import PatientAccountSettings from './patient/pages/AccountSettings/Account';
 import Appointments from './patient/pages/appointments/Appointments';
+import Messages from './patient/pages/messages/Messages';
 import PatientHomePage from './patient/pages/PatientHome/HomePage';
 import PendingRequest from './requests/pendingRequest';
 import RejectedRequest from './requests/rejectedRequest';
@@ -32,6 +33,8 @@ import './App.css';
 import AdminHome2 from './admin/pages/AdminHome2';
 import RequestDetails from './admin/pages/ManageUsers/RequestDetails';
 import AdminAccount from './admin/pages/AdminAccount';
+import Meeting from './shared/pages/Meeting';
+import BrowseDoctors from './patient/pages/PatientHome/BrowseDoctors';
 
 function App() {
   const user = useContext(UserContext);
@@ -55,11 +58,22 @@ function App() {
           />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/appointments" element={<Appointments />} exact />
+          <Route path="/messages" element={<Messages />} exact />
+          <Route path="/doctors" element={<BrowseDoctors />} exact />
           <Route path="changePassword" element={<ChangePassword />} exact />
           <Route path="/patient/family" element={<PatientFamily />} exact />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
           <Route path="/package/checkout" element={<AddingInfo2 />} exact />
           <Route path="/completion" element={<Subscription />} exact />
+          <Route
+            path="/meeting"
+            element={
+              <React.StrictMode>
+                <Meeting />
+              </React.StrictMode>
+            }
+            exact
+          />
           <Route path="*" element={<Navigate to="/patient/home" />} />
         </Routes>
       );
@@ -75,6 +89,15 @@ function App() {
           <Routes>
             <Route path="/doctor/home" element={<DoctorHome />} exact />
             <Route path="changePassword" element={<ChangePassword />} exact />
+            <Route
+              path="/meeting"
+              element={
+                <React.StrictMode>
+                  <Meeting />
+                </React.StrictMode>
+              }
+              exact
+            />
             <Route path="*" element={<Navigate to="/doctor/home" />} />
           </Routes>
         );
@@ -142,7 +165,6 @@ function App() {
         if (res.data.data.user === null) {
           user.logout();
         } else {
-          console.log(res.data.data);
           user.login({
             role: res.data.data.role,
             userId: res.data.data.id,
@@ -163,7 +185,6 @@ function App() {
   //         ...res.data.data[user.role],
   //       }));
 
-  //       console.log(res.data.data);
   //     });
   // }, [user]);
 

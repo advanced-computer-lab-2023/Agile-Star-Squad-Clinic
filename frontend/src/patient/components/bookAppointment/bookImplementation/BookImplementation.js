@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Calendar from '../calender/Calendar';
@@ -26,8 +26,6 @@ const BookImplementation = (props) => {
     }
   };
 
-  getPatient();
-
   const [chosenDate, setChosenDate] = useState();
   const [chosenTime, setChosenTime] = useState();
   const [selectedOption, setSelectedOption] = useState(userCtx.userId);
@@ -41,7 +39,10 @@ const BookImplementation = (props) => {
     setFamilyMembers(members.data.data.members);
   };
 
-  getFamilyMembers();
+  useEffect(() => {
+    getPatient();
+    getFamilyMembers();
+  }, []);
 
   const chooseDate = (date) => {
     setChosenTime();
@@ -121,7 +122,6 @@ const BookImplementation = (props) => {
   }
 
   const handleDropdownChange = (event) => {
-    console.log(event.target.value);
     setSelectedOption(event.target.value);
   };
 
@@ -154,15 +154,14 @@ const BookImplementation = (props) => {
     const appointmentDate = new Date(chosenDate);
     appointmentDate.setHours(hours);
     appointmentDate.setMinutes(minutes);
-   console.log(appointmentDate)
-  const dataToSend = {
-    packageToUse,
-    patientName,
-    addAppointmentTo,
-    doctor: props.doctor,
-    dateOfAppointment: appointmentDate,
-    timeOfAppointment: chosenTime,
-  };
+    const dataToSend = {
+      packageToUse,
+      patientName,
+      addAppointmentTo,
+      doctor: props.doctor,
+      dateOfAppointment: appointmentDate,
+      timeOfAppointment: chosenTime,
+    };
     navigate('/patient/checkout', { state: dataToSend });
   };
   const expandTimeRange = (timeRanges) => {

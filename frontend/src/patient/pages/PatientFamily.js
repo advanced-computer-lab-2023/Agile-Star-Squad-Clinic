@@ -28,7 +28,6 @@ const PatientFamily = () => {
         }
         setNewFamilyMember(responseData);
       } catch (error) {
-        console.log('HAS NOT FETCHED');
         setError(error.message);
       }
       setFamilyMembers(false);

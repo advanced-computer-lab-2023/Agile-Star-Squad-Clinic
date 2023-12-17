@@ -11,9 +11,7 @@ const FamilyMember = ({
   relation,
   memberPatientId,
 }) => {
-  // useEffect(() => {
-  //   console.log("PROPSSS: ", name)
-  // }, [])
+  
   return (
     <li className="family-member">
       <Card className="family-member__content">

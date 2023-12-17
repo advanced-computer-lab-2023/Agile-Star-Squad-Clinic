@@ -87,15 +87,46 @@ const patientSchema = new mongoose.Schema({
       ref: 'Appointment',
     },
   ],
-  wallet:{
+  wallet: {
     type: Number,
-    default:0,
+    default: 0,
 
   },
-  
-  cancellationDate:{
+
+  chats: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Chat'
+    }
+  ],
+
+  cancellationDate: {
     type: Date,
-    default:null},
+    default: null
+  },
+
+  notifications: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Notification',
+    },
+  ],
+
+  subscriptionDate: Date,
+
+  expiringDate: Date,
+    
+
+  cards: [
+    {
+      name: String,
+      cardNumber: String,
+      expiryMonth: String,
+      expiryYear: String,
+      cvv: String,
+      label: String,
+    },
+  ],
   
   subscriptionDate:Date,
   

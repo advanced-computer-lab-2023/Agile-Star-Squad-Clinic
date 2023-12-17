@@ -223,7 +223,7 @@ exports.logIn = catchAsync(async (req, res, next) => {
     return next(new AppError('Username or Password is incorrect ', 404));
   }
 
-  console.log(status);
+
 
   const token = createToken(user._id, role, status);
   res.cookie('jwt', token, {
