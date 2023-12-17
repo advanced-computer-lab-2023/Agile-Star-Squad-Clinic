@@ -106,7 +106,7 @@ const DoctorHomepage = () => {
         console.log(patient)
 
         const toPatient = () => {
-            navigate("/patient", { state: patient })
+            navigate("/patient", {state: patient })
         }
 
         return <div className={classes.patientTile}>
