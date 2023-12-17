@@ -19,7 +19,7 @@
 }
 
 .appointmentInfo {
-    position: relative;
+    position: fixed;
     left: 30%;
     display: inline-block;
     width: 70%;
