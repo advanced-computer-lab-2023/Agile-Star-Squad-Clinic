@@ -31,10 +31,10 @@ import ChangePassword from './login/pages/ChangePassword';
 import Subscription from './checkout/components/payment/SubscriptionForm';
 import './App.css';
 import AdminHome2 from './admin/pages/AdminHome2';
-import RequestDetails from './admin/pages/ManageUsers/RequestDetails';
 import AdminAccount from './admin/pages/AdminAccount';
 import Meeting from './shared/pages/Meeting';
 import BrowseDoctors from './patient/pages/PatientHome/BrowseDoctors';
+import Prescriptions from './patient/pages/prescriptions/Prescriptions';
 
 function App() {
   const user = useContext(UserContext);
@@ -57,7 +57,7 @@ function App() {
             exact
           />
           <Route path="/patient/checkout" element={<AddingInfo />} exact />
-          <Route path="/appointments" element={<Appointments />} exact />
+          <Route path="/appointments" element={<Prescriptions />} exact />
           <Route path="/messages" element={<Messages />} exact />
           <Route path="/doctors" element={<BrowseDoctors />} exact />
           <Route path="changePassword" element={<ChangePassword />} exact />
@@ -105,7 +105,11 @@ function App() {
     } else if (user.role === 'admin') {
       return (
         <Routes>
-          <Route path="/admin/home" element={<AdminHome2 user={user} />} exact />
+          <Route
+            path="/admin/home"
+            element={<AdminHome2 user={user} />}
+            exact
+          />
           <Route path="/addPackage" element={<NewPackage />} exact />
           <Route path="/updatePackage/:id" element={<UpdatePackage />} exact />
           <Route path="/packages" element={<AdminPackagesView />} exact />
