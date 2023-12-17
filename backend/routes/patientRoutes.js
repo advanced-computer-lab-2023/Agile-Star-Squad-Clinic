@@ -3,6 +3,7 @@ const patientController = require('../controllers/patientController');
 const doctorRouter = require('./doctorRoutes');
 const appointmentController = require('../controllers/appointmentController');
 const prescriptionController = require('../controllers/prescriptionController');
+const notificationController = require('../controllers/notificationController.js');
 const middleware = require('../middleware/middleware.js');
 
 const router = express.Router();
@@ -33,7 +34,7 @@ router
   .patch(middleware.adminAuth, patientController.addHealthRecord)
   .delete(middleware.adminAuth, patientController.removePatient);
 
-router  
+router
   .route('/:id/kimoSubscribe')
   .post(patientController.kimoSubscribe);
 
@@ -56,6 +57,15 @@ router
 router
   .route('/:patientId/upcomingAppointments')
   .get(appointmentController.upComingAppointmentsForPatients);
+
+router
+  .route('/:patientId/notifications/:notificationId')
+  .delete(middleware.patientAuth , notificationController.deleteNotification);
+
+  router
+  .route('/:patientId/notifications')
+  .get(middleware.patientAuth , patientController.getMyNotifications)
+  
 router
   .route('/:patientId/wallet')
   .post(patientController.updateWallet)
@@ -65,9 +75,9 @@ router
   );
 
 router
-    .route("/:patientId/chats")
-    .get(middleware.patientAuth,
-      patientController.getChatIds);
+  .route("/:patientId/chats")
+  .get(middleware.patientAuth,
+    patientController.getChatIds);
 
 router
   .route('/:doctorId/doctorUpcomingAppointments')

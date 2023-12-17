@@ -5,7 +5,7 @@ import classes from './HomePage.module.css';
 import './HomePage.css';
 import { useState, useEffect, useContext } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import BrowseDoctors from '../BrowseDoctors';
+import BrowseDoctors from './BrowseDoctors';
 import UserContext from '../../../user-store/user-context';
 import JoinMeetingCard from '../../../shared/components/Meeting/JoinMeetingCard';
 import axios from 'axios';
@@ -63,7 +63,6 @@ const PatientHomePage = () => {
     });
   };
   const fetchUpcomingAppointments = () => {
-    console.log('fetching');
     fetch(`http://localhost:3000/patients/${patientId}/upcomingAppointments`, {
       credentials: 'include',
     }).then(async (response) => {
@@ -254,7 +253,7 @@ const Dashboard = (props) => {
         <div className={classes.calendar}></div>
       </section>
       <section>
-        <BrowseDoctors />
+        <BrowseDoctors where={"here"} />
       </section>
     </>
   );

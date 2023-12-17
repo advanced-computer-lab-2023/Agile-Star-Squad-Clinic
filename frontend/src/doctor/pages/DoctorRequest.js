@@ -1,15 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import Dropzone from "react-dropzone"
+import Dropzone from 'react-dropzone';
 import { useNavigate } from 'react-router-dom';
 import storage from '../../index';
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import classes from '../doctorRequest.module.css';
 import logo from '../images/logo.png';
 import Medicines from '../images/Medicines.png';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import uploadImg from "../../assets/doctorRequest/upload.png"
+import uploadImg from '../../assets/doctorRequest/upload.png';
 
 const DoctorRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -32,13 +32,12 @@ const DoctorRequestForm = () => {
   const [dobMonth, setDOBMonth] = useState('');
   const [dobYear, setDOBYear] = useState('');
 
-
   const navigate = useNavigate();
 
   const dayOptions = () => {
     let days = [];
     for (let i = 1; i <= 31; i++) {
-      days.push({ value: i, label: i })
+      days.push({ value: i, label: i });
     }
     return days;
   };
@@ -46,10 +45,10 @@ const DoctorRequestForm = () => {
   const monthOptions = () => {
     let months = [];
     for (let i = 1; i <= 12; i++) {
-      months.push({ value: i, label: i })
+      months.push({ value: i, label: i });
     }
     return months;
-  }
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -61,58 +60,77 @@ const DoctorRequestForm = () => {
 
   const onIdImageChange = (file) => {
     setIdImage(file.target.files[0]);
-  }
+  };
 
   const onMedicalLicenseChange = (file) => {
     setLicenseImage(file.target.files[0]);
-  }
+  };
 
   const onMedicalDegreeChange = (file) => {
     setDegreeImage(file.target.files[0]);
-  }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    let personalImageUrl;
     let idDownloadUrl;
     let licenseDownloadUrl;
     let degreeDownloadUrl;
 
-    if (idImageForm !== "") {
+    if (personalImageForm !== '') {
+      const idImageRef = ref(storage, `${personalImageForm.name}`);
+      await uploadBytesResumable(idImageRef, personalImageForm).then(
+        async (snapshot) => {
+          personalImageUrl = await getDownloadURL(snapshot.ref);
+        },
+      );
+    }
+
+    if (idImageForm !== '') {
       const idImageRef = ref(storage, `${idImageForm.name}`);
-      await uploadBytesResumable(idImageRef, idImageForm).then(async (snapshot) => {
-        idDownloadUrl = await getDownloadURL(snapshot.ref);
-      });
+      await uploadBytesResumable(idImageRef, idImageForm).then(
+        async (snapshot) => {
+          idDownloadUrl = await getDownloadURL(snapshot.ref);
+        },
+      );
     }
 
-    if (medicalLicenseForm !== "") {
+    if (medicalLicenseForm !== '') {
       const medicalLicenseRef = ref(storage, `${medicalLicenseForm.name}`);
-      await uploadBytesResumable(medicalLicenseRef, medicalLicenseForm).then(async (snapshot) => {
-        licenseDownloadUrl = await getDownloadURL(snapshot.ref)
-      });
+      await uploadBytesResumable(medicalLicenseRef, medicalLicenseForm).then(
+        async (snapshot) => {
+          licenseDownloadUrl = await getDownloadURL(snapshot.ref);
+        },
+      );
     }
 
-    if (medicalDegreeForm !== "") {
+    if (medicalDegreeForm !== '') {
       const medicalDegreeRef = ref(storage, `${medicalDegreeForm.name}`);
-      await uploadBytesResumable(medicalDegreeRef, medicalDegreeForm).then(async (snapshot) => {
-        degreeDownloadUrl = await getDownloadURL(snapshot.ref)
-      });
+      await uploadBytesResumable(medicalDegreeRef, medicalDegreeForm).then(
+        async (snapshot) => {
+          degreeDownloadUrl = await getDownloadURL(snapshot.ref);
+        },
+      );
     }
+
+    const date = new Date(`${dobYear}-${dobMonth.value}-${dobDay.value}`);
 
     const data = {
-      "username": formData.username,
-      "name": formData.name,
-      "email": formData.email,
-      "password": formData.password,
-      "dateOfBirth": `${dobYear}-${dobMonth}-${dobDay}`,
-      "hourlyRate": formData.hourlyRate,
-      "affiliation": formData.affiliation,
-      "educationalBackground": formData.educationalBackground,
-      "speciality": formData.speciality,
-      "idImage": idDownloadUrl,
-      "medicalLicense": licenseDownloadUrl,
-      "medicalDegree": degreeDownloadUrl
-    }
+      username: formData.username,
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      dateOfBirth: date,
+      hourlyRate: formData.hourlyRate,
+      affiliation: formData.affiliation,
+      educationalBackground: formData.educationalBackground,
+      speciality: formData.speciality,
+      personalImage: personalImageUrl,
+      idImage: idDownloadUrl,
+      medicalLicense: licenseDownloadUrl,
+      medicalDegree: degreeDownloadUrl,
+    };
 
     try {
       const requestOptions = {
@@ -123,7 +141,7 @@ const DoctorRequestForm = () => {
       };
       const response = await fetch(
         'http://localhost:3000/doctors',
-        requestOptions
+        requestOptions,
       );
 
       if (response.ok) {
@@ -161,12 +179,16 @@ const DoctorRequestForm = () => {
 
   return (
     <body className={classes.background}>
-      <div className='d-flex'>
+      <div className="d-flex">
         <div className={`${classes.mainBackground} col-5`}>
           <div className={classes.logo}>
             <img src={logo} alt="Clinic Logo" />
           </div>
-          <img src={Medicines} alt="Medicines" className={classes.medicinesImage} />
+          <img
+            src={Medicines}
+            alt="Medicines"
+            className={classes.medicinesImage}
+          />
         </div>
 
         <div className={`${classes.secondBackground} col-7`}>
@@ -182,7 +204,7 @@ const DoctorRequestForm = () => {
                       name="username"
                       value={username}
                       onChange={handleInputChange}
-                      placeholder='Username'
+                      placeholder="Username"
                       className={classes.textBox}
                     />
                   </div>
@@ -192,7 +214,7 @@ const DoctorRequestForm = () => {
                       name="name"
                       value={name}
                       onChange={handleInputChange}
-                      placeholder='Full Name'
+                      placeholder="Full Name"
                       className={classes.textBox}
                     />
                   </div>
@@ -204,7 +226,7 @@ const DoctorRequestForm = () => {
                       name="email"
                       value={email}
                       onChange={handleInputChange}
-                      placeholder='Email Address'
+                      placeholder="Email Address"
                       className={classes.textBox}
                     />
                   </div>
@@ -214,20 +236,19 @@ const DoctorRequestForm = () => {
                       name="password"
                       value={password}
                       onChange={handleInputChange}
-                      placeholder='Password'
+                      placeholder="Password"
                       className={classes.textBox}
                     />
                   </div>
                 </div>
                 <div className={classes.textBoxContainer}>
-
                   <div>
                     <input
                       type="text"
                       name="hourlyRate"
                       value={hourlyRate}
                       onChange={handleInputChange}
-                      placeholder='Hourly Rate'
+                      placeholder="Hourly Rate"
                       className={classes.textBox}
                     />
                   </div>
@@ -237,35 +258,35 @@ const DoctorRequestForm = () => {
                       name="speciality"
                       value={speciality}
                       onChange={handleInputChange}
-                      placeholder='Speciality'
+                      placeholder="Speciality"
                       className={classes.textBox}
                     />
                   </div>
                 </div>
-                <div className={classes.textBoxContainer}><div>
-                  <input
-                    type="text"
-                    name="affiliation"
-                    value={affiliation}
-                    onChange={handleInputChange}
-                    placeholder='Affiliation'
-                    className={classes.textBox}
-                  />
-                </div>
+                <div className={classes.textBoxContainer}>
+                  <div>
+                    <input
+                      type="text"
+                      name="affiliation"
+                      value={affiliation}
+                      onChange={handleInputChange}
+                      placeholder="Affiliation"
+                      className={classes.textBox}
+                    />
+                  </div>
                   <div>
                     <input
                       type="text"
                       name="educationalBackground"
                       value={educationalBackground}
                       onChange={handleInputChange}
-                      placeholder='Educational Background'
+                      placeholder="Educational Background"
                       className={classes.textBox}
                     />
                   </div>
                 </div>
 
                 <div className="d-flex justify-content-betweem w100">
-
                   <Select
                     className={classes.daySelect}
                     value={day}
@@ -273,7 +294,8 @@ const DoctorRequestForm = () => {
                     options={dayOptions()}
                     placeholder={'DD'}
                     onChange={(value) => setDOBDay(value)}
-                    required />
+                    required
+                  />
                   <Select
                     className={classes.daySelect}
                     value={month}
@@ -281,34 +303,69 @@ const DoctorRequestForm = () => {
                     options={monthOptions()}
                     placeholder={'MM'}
                     onChange={(value) => setDOBMonth(value)}
-                    required />
-                  <input className={`${classes.daySelect} ${classes.textBox} mb-0`} value={year} type="number" id="dobYear" name="year" placeholder="YYYY" onChange={e => setDOBYear(e.target.value)} required />
+                    required
+                  />
+                  <input
+                    className={`${classes.daySelect} ${classes.textBox} mb-0`}
+                    value={year}
+                    type="number"
+                    id="dobYear"
+                    name="year"
+                    placeholder="YYYY"
+                    onChange={(e) => setDOBYear(e.target.value)}
+                    required
+                  />
                 </div>
-                <div className='d-flex justify-content-between mb-3' style={{marginLeft: '-55px'}}>
-                  <div className='col-3 px-2'>
+                <div
+                  className="d-flex justify-content-between mb-3"
+                  style={{ marginLeft: '-55px' }}
+                >
+                  <div className="col-3 px-2" style={{ zIndex: '1' }}>
                     <div className={classes.dropzoneTitle}>Profile Picture</div>
-                    <MyDropzone files={personalImageForm} setFiles={setPersonalImage} maxFiles={1} toast={(s) => { }} />
+                    <MyDropzone
+                      files={personalImageForm}
+                      setFiles={setPersonalImage}
+                      maxFiles={1}
+                      toast={(s) => { }}
+                    />
                   </div>
-                  <div className='col-3 px-2'>
+                  <div className="col-3 px-2">
                     <div className={classes.dropzoneTitle}>Personal ID</div>
-                    <MyDropzone files={idImageForm} setFiles={setIdImage} maxFiles={1} toast={(s) => { }} />
+                    <MyDropzone
+                      files={idImageForm}
+                      setFiles={setIdImage}
+                      maxFiles={1}
+                      toast={(s) => { }}
+                    />
                   </div>
-                  <div className='col-3 px-2'>
+                  <div className="col-3 px-2">
                     <div className={classes.dropzoneTitle}>Medical Degree</div>
-                    <MyDropzone files={medicalDegreeForm} setFiles={setDegreeImage} maxFiles={1} toast={(s) => { }} />
+                    <MyDropzone
+                      files={medicalDegreeForm}
+                      setFiles={setDegreeImage}
+                      maxFiles={1}
+                      toast={(s) => { }}
+                    />
                   </div>
-                  <div className='col-3 px-2'>
+                  <div className="col-3 px-2">
                     <div className={classes.dropzoneTitle}>Medical License</div>
-                    <MyDropzone files={medicalLicenseForm} setFiles={setLicenseImage} maxFiles={1} toast={(s) => { }} />
+                    <MyDropzone
+                      files={medicalLicenseForm}
+                      setFiles={setLicenseImage}
+                      maxFiles={1}
+                      toast={(s) => { }}
+                    />
                   </div>
                 </div>
-                <button className={classes.button} type="submit">Request Registration</button>
+                <button className={classes.button} type="submit">
+                  Request Registration
+                </button>
               </form>
             </div>
           }
         </div>
-      </div >
-    </body >
+      </div>
+    </body>
   );
 };
 
@@ -340,7 +397,7 @@ const MyDropzone = (props) => {
   });
 
   const rejectFile = () => {
-    props.toast(`Only .PNG and .JPG files are accepted`);
+    props.toast(`Only .PNG, .JPG and .PDF files are accepted`);
     return;
   };
 
@@ -357,22 +414,28 @@ const MyDropzone = (props) => {
       <Dropzone
         onDrop={onDrop}
         onDropRejected={rejectFile}
-        accept={{ 'image/png': ['png'], 'image/jpeg': ['jpg'] }}
+        accept={{
+          'image/png': ['png'],
+          'image/jpeg': ['jpg'],
+          'application/pdf': ['pdf'],
+        }}
       >
         {({ getRootProps, getInputProps }) => (
-          <section className='h-100'>
-            <div className='h-100' {...getRootProps()}>
+          <section className="h-100">
+            <div className="h-100" {...getRootProps()}>
               <input {...getInputProps()} />
-              {files.length > 0 && <aside style={thumbsContainer}>
-                {thumbs}
-              </aside>}
-              {files.length == 0 && <div>
-                <img height={50} src={uploadImg} />
-                <div className="mt-3">Drag & drop files or Browse</div>
-                <div className={classes.dropzoneSubtitle}>
-                  Supported formats: JPEG, PNG, PDF
+              {files.length > 0 && (
+                <aside style={thumbsContainer}>{thumbs}</aside>
+              )}
+              {files.length == 0 && (
+                <div>
+                  <img height={50} src={uploadImg} />
+                  <div className="mt-3">Drag & drop files or Browse</div>
+                  <div className={classes.dropzoneSubtitle}>
+                    Supported formats: JPEG, PNG, PDF
+                  </div>
                 </div>
-              </div>}
+              )}
             </div>
           </section>
         )}
@@ -414,15 +477,13 @@ const thumbsContainer = {
   marginTop: 8,
 };
 
-
-
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
     backgroundColor: '#f5f5f5',
     border: 'none',
     borderBottom: '1px solid #E2E4E5',
-    textAlign: 'start'
+    textAlign: 'start',
   }),
 
   placeholder: (provided, state) => ({
@@ -444,15 +505,15 @@ const customStyles = {
     ...provided,
     borderRadius: '14px',
     fontSize: '14px',
-    fontWeight: state.isFocused ? "500" : "400",
-    color: state.isFocused ? "black" : "#666666",
-    textAlign: "left",
-    backgroundColor: "transparent"
+    fontWeight: state.isFocused ? '500' : '400',
+    color: state.isFocused ? 'black' : '#666666',
+    textAlign: 'left',
+    backgroundColor: 'transparent',
   }),
   value: (provided) => ({
     ...provided,
     borderRadius: '20px',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   }),
   singleValue: (provided) => ({
     ...provided,
@@ -460,24 +521,24 @@ const customStyles = {
   }),
   valueContainer: (provided) => ({
     ...provided,
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent',
   }),
   menuList: (base) => ({
     ...base,
 
-    "::-webkit-scrollbar": {
-      width: "3px",
-      height: "0px",
+    '::-webkit-scrollbar': {
+      width: '3px',
+      height: '0px',
     },
-    "::-webkit-scrollbar-track": {
-      background: "transparent"
+    '::-webkit-scrollbar-track': {
+      background: 'transparent',
     },
-    "::-webkit-scrollbar-thumb": {
-      background: "#888",
+    '::-webkit-scrollbar-thumb': {
+      background: '#888',
       borderRadius: '3px',
     },
-    "::-webkit-scrollbar-thumb:hover": {
-      background: "#555"
-    }
-  })
+    '::-webkit-scrollbar-thumb:hover': {
+      background: '#555',
+    },
+  }),
 };

@@ -81,7 +81,6 @@ const doctorSchema = new mongoose.Schema(
     wallet:{
       type: Number,
       default:0,
-  
     },
 
     chats: [
@@ -99,7 +98,13 @@ const doctorSchema = new mongoose.Schema(
       {
         type: Array,
       }
-    ]
+    ],
+    notifications: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Notification',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

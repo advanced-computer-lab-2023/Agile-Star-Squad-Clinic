@@ -130,6 +130,7 @@
   max-height: 40px;
   max-width: 80px;
   margin-right: 10px;
+  z-index: 2;
   display: inline-block;
 }
 
