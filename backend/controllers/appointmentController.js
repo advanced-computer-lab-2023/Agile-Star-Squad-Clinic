@@ -72,6 +72,24 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.deleteAppointment = catchAsync(async (req, res, next) => {
+  const appointment = await Appointment.findByIdAndDelete(req.params.id);
+  const patient = await Patient.findById(appointment.patient);
+  const doctor = await Doctor.findById(appointment.doctor);
+
+  patient.appointments.pull(appointment._id);
+  await patient.save();
+  doctor.appointments.pull(appointment._id);
+  await doctor.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      appointment,
+    },
+  });
+});
+
 const isDateInFuture = (dateToCompare) => {
   const currentDate = new Date();
   return dateToCompare > currentDate;
