@@ -153,7 +153,7 @@ const Messages = () => {
   }, [chats]);
 
   return (
-    <>
+    <div style={{height: "100vh", overflow: "hidden"}}>
       <div className="container m-0">
         <div className={`row ${styles.row}`}>
           <div className={`col-4 pt-4 ${styles.messageCol}`}>
@@ -252,7 +252,7 @@ const Messages = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

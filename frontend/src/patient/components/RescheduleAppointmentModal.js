@@ -155,23 +155,33 @@ const RescheduleAppointmentModal = (props) => {
     const appointmentDate = new Date(chosenDate);
     appointmentDate.setHours(hours);
     appointmentDate.setMinutes(minutes);
+    const status =
+      props.buttonText === 'Reschedule Appointment'
+        ? 'rescheduled'
+        : 'upcoming';
     const dataToSend = {
       packageToUse,
       patientName,
       addAppointmentTo,
       doctor: doctor._id,
       patient: userCtx.userId,
-      status: 'rescheduled',
+      status,
       dateOfAppointment: appointmentDate,
       timeOfAppointment: chosenTime,
     };
-    await axios.delete(
+    // await axios.delete(
+    //   `http://localhost:3000/patients/appointments/${props.appointment._id}`,
+    //   { withCredentials: true },
+    // );
+    // await axios.post('http://localhost:3000/doctors/appointments', dataToSend, {
+    //   withCredentials: true,
+    // });
+
+    await axios.patch(
       `http://localhost:3000/patients/appointments/${props.appointment._id}`,
+      dataToSend,
       { withCredentials: true },
     );
-    await axios.post('http://localhost:3000/doctors/appointments', dataToSend, {
-      withCredentials: true,
-    });
     props.onRescheduleAppointment(dataToSend);
     props.exit();
   };

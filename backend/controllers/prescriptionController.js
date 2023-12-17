@@ -52,3 +52,18 @@ exports.getPatientPrescriptions = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.getPrescriptionByIds = catchAsync(async (req, res, next) => {
+  const { prescriptionIds } = req.body; // Assuming prescriptionIds is an array of IDs
+  
+  // Fetch prescriptions using IDs
+
+  
+  const prescriptions = await Prescription.find({ _id: { $in: req.body.prescriptions } });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      prescriptions,
+    },
+  });
+});
