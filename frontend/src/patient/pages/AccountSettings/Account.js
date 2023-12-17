@@ -22,6 +22,7 @@ import AppointmentsCard from './AppointmentCard';
 import FamilyCard from './FamilyCard';
 import PaymentCard from './PaymentCard';
 import MedicalCard from './MedicalCard';
+import AccountDetailsCard from './AccountDetailsCard';
 
 const PatientAccountSettings = (props) => {
   const patient = useContext(UserContext);
@@ -267,6 +268,7 @@ const PatientAccountSettings = (props) => {
           imagePath={logoutImg}
         />
       </SettingsContainer>
+      {index == 0 && <AccountDetailsCard />}
       {index == 1 && <FamilyCard members={familyMembers} setMembers={setFamilyMembers} />}
       {index == 2 && <MedicalCard />}
       {index == 3 && <PaymentCard />}
