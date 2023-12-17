@@ -90,6 +90,7 @@ function App() {
           <Routes>
             <Route path="/doctor/home" element={<DoctorHomepage />} exact />
             <Route path="changePassword" element={<ChangePassword />} exact />
+          <Route path="/messages" element={<Messages />} exact />
             <Route
               path="/meeting"
               element={
