@@ -25,11 +25,11 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
   const patient = await Patient.findById(req.body.patient);
   const doctor = await Doctor.findById(req.body.doctor);
 
-  const pMessage = `Your appointment with doctor ${doctor.name} has been scheduled at ${req.body.dateOfAppointment}`
-  const dMessage = `Your appointment with patient ${patient.name} has been scheduled at ${req.body.dateOfAppointment}`
+  const pMessage = `Your appointment with doctor ${doctor.name} has been scheduled to be at ${req.body.dateOfAppointment}`
+  const dMessage = `Your appointment with patient ${patient.name} has been scheduled to be at ${req.body.dateOfAppointment}`
 
 
-  const newNotification = await Notifications.create({ patient: req.body.patient, doctor: req.body.doctor, appoinmentDate: req.body.dateOfAppointment, appointmentStatus: req.body.status, patientMessage: pMessage, doctorMessage: dMessage });
+  const newNotification = await Notifications.create({ patient: req.body.patient, doctor: req.body.doctor, appoinmentDate: req.body.dateOfAppointment, appointmentStatus: newAppointment.status, patientMessage: pMessage, doctorMessage: dMessage });
 
   doctor.appointments.push(newAppointment);
   await doctor.save();
@@ -77,17 +77,48 @@ exports.deleteAppointment = catchAsync(async (req, res, next) => {
   const patient = await Patient.findById(appointment.patient);
   const doctor = await Doctor.findById(appointment.doctor);
 
+
+  const pMessage = `Your appointment with doctor ${doctor.name} at ${req.body.dateOfAppointment} has been canceled`
+  const dMessage = `Your appointment with patient ${patient.name} at ${req.body.dateOfAppointment} has been canceled`
+
+  const newNotification = await Notifications.create({ patient: req.body.patient, doctor: req.body.doctor, appoinmentDate: req.body.dateOfAppointment, appointmentStatus: newAppointment.status, patientMessage: pMessage, doctorMessage: dMessage });
+
+
   patient.appointments.pull(appointment._id);
   await patient.save();
   doctor.appointments.pull(appointment._id);
   await doctor.save();
+  doctor.notifications.push(newNotification);
+  await doctor.save();
+  patient.notifications.push(newNotification);
+  await patient.save();
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      appointment,
-    },
-  });
+  try {
+
+    await sendEmail({
+      email: patient.email,
+      subject: 'You Have New Notification!',
+      message: pMessage,
+    });
+
+    await sendEmail({
+      email: doctor.email,
+      subject: 'You Have New Notification!',
+      message: dMessage,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        appointment,
+      },
+    });
+
+  }
+
+  catch (err) {
+    console.log(err)
+  }
 });
 
 const isDateInFuture = (dateToCompare) => {
@@ -114,7 +145,7 @@ exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
         id: appointment.id,
         patientName: patient.name,
         date: appointment.dateOfAppointment
-        
+
       }
       appointments.push(app);
     }
