@@ -43,12 +43,12 @@ const AdminHome2 = (props) => {
   }, []); 
   
 
-  // useEffect(() => {
-  //   // If data has been loaded, simulate a click on the "Patients" button
-  //   if (dataLoaded) {
-  //     handleRoleButtonClick('patient');
-  //   }
-  // }, [dataLoaded]);
+  useEffect(() => {
+    // If data has been loaded, simulate a click on the "Patients" button
+    if (setUsers) {
+      handleRoleButtonClick('patient');
+    }
+  }, [users]);
   
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -167,14 +167,7 @@ const AdminHome2 = (props) => {
     filterUsersByRole(role);
   };
 
-  const logout = async () => {
-    await userCtx.logout();
-    navigate('/');
-  };
 
-  const changePasswordHandler = () => {
-    navigate('/changePassword');
-  };
 
   const statusChangeHandler = (id, status) => {
     setRequests(
@@ -209,7 +202,7 @@ const AdminHome2 = (props) => {
     setFilteredUsers(filtered);
     setActiveRole(role); // Set the active role for styling
   };
-console.log(selectedRequest);
+
   const refreshUserData = () => {
     setUsers([]);
     fetchPatients();
@@ -662,19 +655,19 @@ console.log(selectedRequest);
             </div>
           </Container>
 
-          {selectedUser && (
-            <UserDetails
-              data={selectedUser}
-              exit={exitUserModal}
-              onDelete={deleteUser}
-            />
-          )}
-        {showRequestDetails && (
-  <RequestDetails
-    data={selectedRequest}
-   
-  />
-)}
+                      {selectedUser && (
+                        <UserDetails
+                          data={selectedUser}
+                          exit={exitUserModal}
+                          onDelete={deleteUser}
+                        />
+                      )}
+                    {showRequestDetails && (
+              <RequestDetails id='form'
+                data={selectedRequest}
+              
+              />
+            )}
 
      
         </div>
