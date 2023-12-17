@@ -107,7 +107,10 @@ const PatientDetails2 = (props) => {
   // const PatientDetails = () => {
   //   return getPatientBody();
   // };
-
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toDateString(); // Adjust this to fit your desired date format
+  };
   
     return (
       <React.Fragment>
@@ -204,10 +207,22 @@ const PatientDetails2 = (props) => {
               return (
                 <>
                   <div>
-                    <p>{url.body}</p>
-                    <p>{url.dateOfCreation}</p>
+                    <p>Description: {url.body}</p>
+                    <p>Date Prescribed: {(formatDate(url.dateOfCreation))}</p>
+                    <p>Prescribed Medications: </p>
                     {/* <p>{url}</p> */}
+                    {url.items.map((item) => {
+              return (
+                <>
+                  <div>
+                    <p>{item.name}</p>
                     
+                    
+                  </div>
+                </>
+              );
+            })}
+            <hr></hr>
                   </div>
                 </>
               );

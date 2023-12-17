@@ -56,7 +56,7 @@ exports.getPrescriptionByIds = catchAsync(async (req, res, next) => {
   const { prescriptionIds } = req.body; // Assuming prescriptionIds is an array of IDs
   
   // Fetch prescriptions using IDs
-  console.log(req.body)
+
   
   const prescriptions = await Prescription.find({ _id: { $in: req.body.prescriptions } });
 
