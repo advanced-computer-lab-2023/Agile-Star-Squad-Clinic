@@ -326,7 +326,7 @@ const DoctorRequestForm = () => {
                       files={personalImageForm}
                       setFiles={setPersonalImage}
                       maxFiles={1}
-                      toast={(s) => {}}
+                      toast={(s) => { }}
                     />
                   </div>
                   <div className="col-3 px-2">
@@ -335,7 +335,7 @@ const DoctorRequestForm = () => {
                       files={idImageForm}
                       setFiles={setIdImage}
                       maxFiles={1}
-                      toast={(s) => {}}
+                      toast={(s) => { }}
                     />
                   </div>
                   <div className="col-3 px-2">
@@ -344,7 +344,7 @@ const DoctorRequestForm = () => {
                       files={medicalDegreeForm}
                       setFiles={setDegreeImage}
                       maxFiles={1}
-                      toast={(s) => {}}
+                      toast={(s) => { }}
                     />
                   </div>
                   <div className="col-3 px-2">
@@ -353,7 +353,7 @@ const DoctorRequestForm = () => {
                       files={medicalLicenseForm}
                       setFiles={setLicenseImage}
                       maxFiles={1}
-                      toast={(s) => {}}
+                      toast={(s) => { }}
                     />
                   </div>
                 </div>
@@ -397,7 +397,7 @@ const MyDropzone = (props) => {
   });
 
   const rejectFile = () => {
-    props.toast(`Only .PNG and .JPG files are accepted`);
+    props.toast(`Only .PNG, .JPG and .PDF files are accepted`);
     return;
   };
 
@@ -414,7 +414,11 @@ const MyDropzone = (props) => {
       <Dropzone
         onDrop={onDrop}
         onDropRejected={rejectFile}
-        accept={{ 'image/png': ['png'], 'image/jpeg': ['jpg'] }}
+        accept={{
+          'image/png': ['png'],
+          'image/jpeg': ['jpg'],
+          'application/pdf': ['pdf'],
+        }}
       >
         {({ getRootProps, getInputProps }) => (
           <section className="h-100">
