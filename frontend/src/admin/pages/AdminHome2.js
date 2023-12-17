@@ -41,17 +41,30 @@ const AdminHome2 = (props) => {
     fetchPendingRequests();
     fetchPackages();
   }, []); 
-
+  
   // useEffect(() => {
   //   // If data has been loaded, simulate a click on the "Patients" button
   //   if (dataLoaded) {
   //     handleRoleButtonClick('patient');
   //   }
   // }, [dataLoaded]);
-  useEffect(() => {
+    useEffect(() => {
     selectedRequestRef.current = selectedRequest;
   }, [selectedRequest]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const formElement = document.getElementById('form'); // Replace 'yourFormId' with the actual ID of your form
+      if (formElement && !formElement.contains(event.target)) {
+        setShowRequestDetails(false); // Close the form when clicking outside of it
+      }
+    };
 
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setShowRequestDetails]);
   const fetchPackages = async () => {
     try {
       const response = await axios.get('http://localhost:3000/packages/');
@@ -192,7 +205,7 @@ const AdminHome2 = (props) => {
     setFilteredUsers(filtered);
     setActiveRole(role); // Set the active role for styling
   };
-
+console.log(selectedRequest);
   const refreshUserData = () => {
     setUsers([]);
     fetchPatients();
@@ -297,6 +310,7 @@ const AdminHome2 = (props) => {
       console.error('Invalid or undefined request object:', request);
     }
   };
+  
 
   const editHandler = () => {
     // Navigate to the "Packages Page" when the "Edit" button is clicked
@@ -651,13 +665,13 @@ const AdminHome2 = (props) => {
               onDelete={deleteUser}
             />
           )}
-          {showUser && (
-            <UserDetails
-              data={selectedUser}
+        {showUser && (
+  <UserDetails
+    data={selectedUser}
               exit={exitUserModal}
               onDelete={deleteUser}
-            />
-          )}
+  />
+)}
         </div>
         {showRequestDetails && <RequestDetails data={selectedRequest}></RequestDetails>}
       </div>
