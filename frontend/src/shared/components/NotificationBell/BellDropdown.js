@@ -81,6 +81,7 @@ const BellDropdown = () => {
                         width: '500%',
                         maxHeight: '200px', // Set the maximum height for scrolling
                         overflowY: 'auto', // Make the list scrollable
+                        borderRadius: '10px'
                     }}
                 >
                     {/* Display fetched notifications dynamically */}
@@ -90,10 +91,10 @@ const BellDropdown = () => {
                                 <li key={notification.id} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '0.25px solid var(--text-icons-faded-grey, #464a54)' }}>
                                     <span>{userCtx.role === 'patient' ? notification.patientMessage :notification.doctorMessage }</span>
                                     <span
-                                        style={{ cursor: 'pointer', color: '#464a54', marginRight: '-5px', marginTop: '-5px' }}
+                                        style={{ cursor: 'pointer', color: 'red', marginRight: '-5px', marginTop: '-7px' }}
                                         onClick={() => deleteNotification(notification._id)}
                                     >
-                                        X
+                                        x
                                     </span>
                                     <hr></hr>
                                 </li>
