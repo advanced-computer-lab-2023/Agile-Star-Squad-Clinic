@@ -43,12 +43,12 @@ const AdminHome2 = (props) => {
   }, []); 
   
 
-  // useEffect(() => {
-  //   // If data has been loaded, simulate a click on the "Patients" button
-  //   if (dataLoaded) {
-  //     handleRoleButtonClick('patient');
-  //   }
-  // }, [dataLoaded]);
+  useEffect(() => {
+    // If data has been loaded, simulate a click on the "Patients" button
+    if (setUsers) {
+      handleRoleButtonClick('patient');
+    }
+  }, [users]);
   
   useEffect(() => {
     const handleClickOutside = (event) => {
