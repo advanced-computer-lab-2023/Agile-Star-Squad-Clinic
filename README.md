@@ -134,7 +134,7 @@ We welcome contributions from the community. Please ensure that your pull reques
 <div style="display: flex;">
 
 <a href="https://github.com/BigMizo" style="margin-right: 20px;">
-  <img src="https://github.com/BigMizo.png" width="100" height="100" alt="Ahmed Lasheen" style="border-radius: 50%;">
+  <img src="https://github.com/BigMizo.png" width="100" height="100" alt="Mazen Tamer" style="border-radius: 50%;">
   </a >
   
 </div>
