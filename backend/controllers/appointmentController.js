@@ -83,15 +83,24 @@ exports.upComingAppointmentsForDoctors = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findById(req.params.doctorId).populate(
     'appointments'
   );
-  const patients = await Patient.findById(req.body.patient);
+  // const patients = await Patient.findById(req.body.patient);
   // const patients = doctor.patients
   // patients.forEach((name) =>{
   //   names.push(name);
   // })
-  doctor.appointments.forEach((appointment) => {
-    if (isDateInFuture(appointment.dateOfAppointment))
-      appointments.push(appointment);
-  });
+  for (const appointment of doctor.appointments) {
+    if (isDateInFuture(appointment.dateOfAppointment)) {
+      const patient = await Patient.findById(appointment.patient);
+      const app = {
+        // ...appointment,
+        id: appointment.id,
+        patientName: patient.name,
+        date: appointment.dateOfAppointment
+        
+      }
+      appointments.push(app);
+    }
+  }
   res.status(200).json({
     status: 'success',
     data: {

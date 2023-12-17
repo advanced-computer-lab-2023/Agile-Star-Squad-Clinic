@@ -32,6 +32,7 @@ import Subscription from './checkout/components/payment/SubscriptionForm';
 import './App.css';
 import Meeting from './shared/pages/Meeting';
 import BrowseDoctors from './patient/pages/PatientHome/BrowseDoctors';
+import DoctorHomepage from './doctor/pages/home/DoctorHomepage';
 
 function App() {
   const user = useContext(UserContext);
@@ -84,7 +85,7 @@ function App() {
       } else {
         return (
           <Routes>
-            <Route path="/doctor/home" element={<DoctorHome />} exact />
+            <Route path="/doctor/home" element={<DoctorHomepage />} exact />
             <Route path="changePassword" element={<ChangePassword />} exact />
             <Route
               path="/meeting"
