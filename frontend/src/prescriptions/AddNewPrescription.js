@@ -60,7 +60,7 @@ const AddNewPrescription = (props) => {
         <form onSubmit={addPresHandler}>
         <div>
           <label>Details</label>
-          <input type="text" value={addedBody} onChange={(e) => setAddedBody(e.target.value)} required></input>
+          <input type="text" className="form-control" value={addedBody} onChange={(e) => setAddedBody(e.target.value)} required></input>
         </div>
         
         <div>
@@ -77,17 +77,17 @@ const AddNewPrescription = (props) => {
             <h4>Add Medication:</h4>
             <div>
               <label>Name</label>
-              <input type="text" value={itemName} onChange={(e) => setItemName(e.target.value)} />
+              <input type="text" className="form-control" value={itemName} onChange={(e) => setItemName(e.target.value)} />
             </div>
             <div>
               <label>Dosage</label>
-              <input type="text" value={itemDosage} onChange={(e) => setItemDosage(e.target.value)} />
+              <input type="text" className="form-control" value={itemDosage} onChange={(e) => setItemDosage(e.target.value)} />
             </div>
             <div>
               <label>Frequency</label>
-              <input type="text" value={itemFrequency} onChange={(e) => setItemFrequency(e.target.value)} />
+              <input type="text" className="form-control" value={itemFrequency} onChange={(e) => setItemFrequency(e.target.value)} />
             </div>
-            <button type="submit" >Add</button>
+            <button type="submit" >Add Medicine</button>
           </div>}
         </form>
       </React.Fragment>
