@@ -1,14 +1,46 @@
 .personalDetails{
-    width: fit-content;
+    width: 100%;
     display: grid;
     grid: 100px/ auto auto;
     grid-gap:10px;
+    /* display: flex; */
+    align-items: center;
+    /* height: 70px; */
+    padding-inline: 15px;
+    margin-block: 10px;
+   
+}
+.carousel-container {
+    margin-top: 20px;
+    width: 330px;
+    height: 50px;
+   
+  
+    margin:  auto; /* To center align the carousel */
+  }
+.overall{
+    background-color: #F2F2F2;
+    /* height: 380px; */
+    width: 70%;
+    overflow-y: scroll;
+    border-radius: 24px;
+    filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
 }
 #personalImage{
     width: 90px;
     height: 90px;
 }
 .healthRecord{
-    width: 50%;
-    display: block;
+    width: 70%;
+    /* display: block; */
+    display: flex;
+    align-items: center;
+    /* height: 70px; */
+    /* padding-inline: 15px; */
+    margin-block: 10px;
+    background-color: #F2F2F2;
+    /* height: 380px; */
+    overflow-y: scroll;
+    border-radius: 24px;
+    filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
 }

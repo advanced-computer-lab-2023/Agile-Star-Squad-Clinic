@@ -16,7 +16,7 @@ const PatientPersonalDetails = (props) =>{
       };
 
     return(
-        <Card >
+        <Card className="overall">
         <div>     
             <h3>Personal Details</h3>         
         </div>

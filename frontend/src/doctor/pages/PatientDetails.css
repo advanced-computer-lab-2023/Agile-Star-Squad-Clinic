@@ -12,7 +12,17 @@
     background-color: #6c9193;
 }
 .prescriptionDetails{
-    width: fit-content;
+    width: 60%;
     padding: 40px;
     text-align: left;
+    display: flex;
+    align-items: center;
+    /* height: 70px; */
+    padding-inline: 15px;
+    margin-block: 10px;
+    background-color: #F2F2F2;
+    /* height: 380px; */
+    overflow-y: scroll;
+    border-radius: 24px;
+    filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
 }
