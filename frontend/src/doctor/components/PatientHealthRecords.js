@@ -123,10 +123,11 @@ const PatientHealthRecord =(props) =>{
         name="healthRecord"
         value={healthRecordInput}
         onChange={onHealthRecordChange}
+        className='patientButton'
       />
     </div>
-<div>
-    <button onClick={handleHealthRecordUpload}>Upload Health Record</button>
+<div style={{paddingTop:'20px'}}>
+    <button className="mainButton" onClick={handleHealthRecordUpload}>Upload Health Record</button>
     </div></div>
   </Card>
   );

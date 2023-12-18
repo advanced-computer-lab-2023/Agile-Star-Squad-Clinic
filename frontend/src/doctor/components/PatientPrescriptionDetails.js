@@ -67,22 +67,23 @@ const PatientPrescriptionDetails  =(props)=>{
   return(
     <React.Fragment>
     <Card className="prescriptionDetails" >
-    <div>     
-           <h3 style={{textAlign:'center'}}>Prescription Details</h3>         
-       <button onClick={addPrescriptionHandler}>Add New Prescription</button>
+    <div className='prescriptionHeader'>     
+           <h3 style={{textAlign:'center'}}>Prescriptions</h3>         
+       <button onClick={addPrescriptionHandler}>Add</button>
        </div>
-       
+       <div className='prescriptionList'>
        {finalPrescriptions.length != 0 &&
          finalPrescriptions.map((url,index) => {
            return (
              <>
-               <div>
+               <div className="prescriptionItem">
                  <p>Prescription  {index + 1}</p>
                  <button className="patientButton" onClick={() => viewButtonHandler(url)}>View</button>
                </div>
              </>
            );
          })}
+         </div>
      </Card>
      {detailsOn && chosenPrescription && (
        

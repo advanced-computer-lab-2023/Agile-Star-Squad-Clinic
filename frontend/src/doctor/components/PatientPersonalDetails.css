@@ -44,3 +44,32 @@
     border-radius: 24px;
     filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
 }
+.mainButton{
+    background-color: rgb(241, 144, 79);
+    cursor: pointer;
+   
+    padding-block: 5px;
+    padding-inline: 20px;
+    border-radius: 15px;
+    font-weight: 500;
+    border-width: 0;
+    color: white;
+    
+}
+.mainButton:hover{
+    background-color:  rgb(203, 121, 66);
+}
+.patientButton {
+    cursor: pointer;
+    background-color: #ABD1D3;
+    padding-block: 5px;
+    padding-inline: 20px;
+    border-radius: 15px;
+    font-weight: 500;
+    border-width: 0;
+    color: white;
+}
+
+.patientButton:hover{
+    background-color: #6c9193;
+}
