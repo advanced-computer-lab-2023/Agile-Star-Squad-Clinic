@@ -1,246 +1,113 @@
 import ReactDOM from 'react-dom';
 import React, { useState, useEffect, useContext } from 'react';
-import storage from '../../index';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import Modal from '../../shared/components/Modal/Modal';
 import Card from '../../shared/components/Card/Card';
+import DoctorNavBar from '../components/DoctorNavBar';
+import PatientHealthRecord from '../components/PatientHealthRecords';
 import UserContext from '../../user-store/user-context';
 import axios from 'axios';
+import PrescriptionDetail from '../../prescriptions/pages/PrescriptionDetails';
+import { useLocation } from 'react-router-dom';
+import PatientPersonalDetails from '../components/PatientPersonalDetails';
+import './PatientDetails.css'
+import AddNewPrescription from '../../prescriptions/AddNewPrescription';
 
-const PatientDetails2 = (props) => { 
-  const [healthRecord, setHealthRecord] = useState('');
-  const [medicalRecordUrls, setMedicalRecords] = useState([]);
-  const[finalPrescriptions,setPrescriptions]=useState([]);
+const PatientDetails2 = () => {
+  
+  const [finalPrescriptions, setPrescriptions] = useState([]);
+  const [detailsOn, setDetailsOn] = useState(false);
+  const [addNewOn, setaddNewOn] = useState(false);
+  const [chosenPrescription, setChosenPrescription] = useState(null);
   const doctor = useContext(UserContext);
+  const location = useLocation();
+  const patient = location.state;
 
-  const onDelete = () => {
-    props.onDelete(props.data['username']);
-    props.exit();
-  };
-
-
-
-
-
-  const handleHealthRecordUpload = async () => {
-    let healthRecordUrl;
-    if (healthRecord !== '') {
-      const healthRecordRef = ref(storage, `${healthRecord.name}`);
-      await uploadBytesResumable(healthRecordRef, healthRecord).then(
-        async (snapshot) => {
-          healthRecordUrl = await getDownloadURL(snapshot.ref);
-        },
-      );
-    }
-    setMedicalRecords((records) => {
-      return [...records, healthRecordUrl];
-    });
-    const data = {
-      medicalRecord: healthRecordUrl,
-    };
-
-    try {
-      const requestOptions = {
-        method: 'PATCH',
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        body: JSON.stringify(data),
-        credentials: 'include',
-      };
-     
-
-      const response = await fetch(
-        `http://localhost:3000/doctors/healthRecord/${props.data.id}`,
-        requestOptions,
-      ).catch((error) => {
-        console.log(error);
-      });
-      if (!response.ok) {
-        alert('Failed to upload health record');
-      }
-    } catch (error) {
-      console.error('Error uploading health record:', error);
-    }
-  };
-
-  const fetchPackages = async () => {
-    fetch(`http://localhost:3000/doctors/healthRecord/${props.data.id}`, {
-      credentials: 'include',
-    }).then(async (response) => {
-      const json = await response.json();
-      setMedicalRecords(props.data.medicalRecord);
-    });
-  };
-
-  useEffect(() => {
-    fetchPackages();
-  }, []);
   const fetchPrescriptions = async () => {
-    try{
-    fetch(`http://localhost:3000/patients/${props.data.id}/prescriptions`, {
-      credentials: 'include',
-    }).then(async (response) => {
-      const json = await response.json();
-      const prescriptions=props.data.prescription;
-      // setPrescriptions(prescriptions.filter(prescription => prescription.doctor === doctor.userId));
-      const response2 = await axios.post('http://localhost:3000/prescriptions/list', {
-        prescriptions,
+    try {
+      fetch(`http://localhost:3000/patients/${patient._id}/prescriptions`, {
+        credentials: 'include',
+      }).then(async (response) => {
+        const json = await response.json();
+        const prescriptions = patient.prescription;
+        // console.log("hello123",prescriptions[0]);
+        // console.log("hello123",prescriptions.filter(prescription => prescription.doctor === doctor.userId));
+        
+        const response2 = await axios.post(
+          'http://localhost:3000/prescriptions/list',
+          {
+            prescriptions,
+          },
+        );
+        // console.log("hello123",response2.data.data.prescriptions.filter(prescription => prescription.doctor === doctor.userId));
+        setPrescriptions(response2.data.data.prescriptions.filter(prescription => prescription.doctor === doctor.userId));
       });
-      console.log(response2)
-      setPrescriptions(response2.data.data.prescriptions);
-      
-    });
-   
-  }
-    catch(error){
-    console.log(error);}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+ const submitPrescHandler =()=>{
+   fetchPrescriptions();
+ }
   useEffect(() => {
+    
     fetchPrescriptions();
   }, []);
-  const onHealthRecordChange = (file) => {
-    setHealthRecord(file.target.files[0]);
+
+  const addPrescriptionHandler = () => {
+    setaddNewOn(true);
   };
 
-  const { healthRecordInput } = healthRecord;
+  const handleClose=()=>{setDetailsOn(false)}
+  const handleClose2=()=>{setaddNewOn(false)}
+  const viewButtonHandler = (prescription) => {
+ 
+    setChosenPrescription(prescription);
 
-  // const PatientDetails = () => {
-  //   return getPatientBody();
-  // };
+    setDetailsOn(true);
+  };
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toDateString(); // Adjust this to fit your desired date format
   };
-  
-    return (
-      <React.Fragment>
-        <Card id='personalDetails'>
-        <div>
-          <span>
-            <h4>Username</h4>
-          </span>
-          <span>{props.data['username']}</span>
-        </div>
-        <div>
-         
-          <img src='/patient1.png'/>
-        </div>
-        <div>
-          <span>
-            <h4>Name</h4>
-          </span>
-          <span>{props.data['name']}</span>
-        </div>
-        <div>
-          <span>
-            <h4>Email</h4>
-          </span>
-          <span>{props.data['email']}</span>
-        </div>
-        <div>
-          <span>
-            <h4>Date of Birth</h4>
-          </span>
-          <span>{props.data['dateOfBirth']}</span>
-        </div>
-        <div>
-          <h4>Gender</h4>
-          <span>{props.data['gender']}</span>
-        </div>
-        <div>
-          <span>
-            <h4>Mobile Number</h4>
-          </span>
-          <span>{props.data['mobileNumber']}</span>
-        </div>
-        <div>
-          <span>
-            <h4>Emergency Contact</h4>
-          </span>
-          <span>{props.data['emergencyContact']['fullName']}</span>
-          <br />
-          <span>{props.data['emergencyContact']['phoneNumber']}</span>
-        </div>
-        </Card>
-        <Card id='healthRecord'>
-        <div>
-          <span>
-            <h4>Medical Record</h4>
-          </span>
-          <div className="d-flex flex-row">
-            {medicalRecordUrls.map((url) => {
-              return (
-                <>
-                  {!url.includes('pdf') && (
-                    <a className="mx-3" href={url} target="_blank">
-                      {' '}
-                      <img src={url} width={130} />
-                    </a>
-                  )}
-                  {url.includes('pdf') && (
-                    <div className="mx-3" style={{ width: '130px' }}>
-                      <a href={url} target="_blank">
-                        View PDF
-                      </a>
-                    </div>
-                  )}
-                </>
-              );
-            })}
-          </div>
-        </div>
-        <div>
-          <label>Health Record</label>
-          <input
-            type="file"
-            name="healthRecord"
-            value={healthRecordInput}
-            onChange={onHealthRecordChange}
-          />
-        </div>
 
-        <button onClick={handleHealthRecordUpload}>Upload Health Record</button>
-        </Card>
-        <Card id='prescriptions'>
-            {finalPrescriptions.length!=0 && (
-            finalPrescriptions.map((url) => {
-              return (
-                <>
-                  <div>
-                    <p>Description: {url.body}</p>
-                    <p>Date Prescribed: {(formatDate(url.dateOfCreation))}</p>
-                    <p>Prescribed Medications: </p>
-                    {/* <p>{url}</p> */}
-                    {url.items.map((item) => {
-              return (
-                <>
-                  <div>
-                    <p>{item.name}</p>
-                    
-                    
-                  </div>
-                </>
-              );
-            })}
-            <hr></hr>
-                  </div>
-                </>
-              );
-            }))}
-        </Card>
-      </React.Fragment>
-    );
-  };
+  return (
+    <React.Fragment>
+      <DoctorNavBar />
+      <div className='container' style={{display:'flex',justifyContent:'space-between'}}>
+     <PatientPersonalDetails data={patient}/>
+     <PatientHealthRecord data={patient}/>
+     <Card className="prescriptionDetails" >
+     <div>     
+            <h3 style={{textAlign:'center'}}>Prescription Details</h3>         
+        <button onClick={addPrescriptionHandler}>Add New Prescription</button>
+        </div>
+        {finalPrescriptions.length != 0 &&
+          finalPrescriptions.map((url,index) => {
+            return (
+              <>
+                <div>
+                  <p>Prescription  {index + 1}</p>
+                  <button className="patientButton" onClick={() => viewButtonHandler(url)}>View</button>
+                </div>
+              </>
+            );
+          })}
+      </Card>
+      {detailsOn && chosenPrescription && (
+       
+          <PrescriptionDetail data={chosenPrescription} exit={handleClose}/>
+        
+      )}
+      {addNewOn &&  (
+       
+          <AddNewPrescription doctor={doctor} patient={patient._id} exit={handleClose2} onAddPrescription={submitPrescHandler}/>
+        
+      )}
+      </div>
+    </React.Fragment>
+  );
+};
 
 
-// const ActionButtons = (props) => {
-//   return (
-//     <div className="d-flex justify-content-end mt-5">
-//       {/* <button className="formButtons formDeleteButton" onClick={props.onDelete}>
-//         Delete
-//       </button> */}
-//     </div>
-//   );
-// };
 
 export default PatientDetails2;

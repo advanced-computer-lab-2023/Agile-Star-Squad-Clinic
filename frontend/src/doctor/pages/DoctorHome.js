@@ -32,7 +32,7 @@ const DoctorHome = () => {
 
   const [filteredPatients, setFilteredPatients] = useState([]);
   const location = useLocation();
-  console.log(location.state);
+  // console.log("ZEEEEEEEEEEEEEEEEEEEEEEE",location.state);
   const patient = location.state;
 
   useEffect(() => {

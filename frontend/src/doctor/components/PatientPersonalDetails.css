@@ -1,0 +1,14 @@
+.personalDetails{
+    width: fit-content;
+    display: grid;
+    grid: 100px/ auto auto;
+    grid-gap:10px;
+}
+#personalImage{
+    width: 90px;
+    height: 90px;
+}
+.healthRecord{
+    width: 50%;
+    display: block;
+}
