@@ -61,8 +61,6 @@ const AddNewPrescription = (props) => {
       dosage: itemDosage,
       frequency: itemFrequency,
     };
-    alert('Medicine Added Successfully');
-    console.log(newItem);
     setItems([...items, newItem]);
     setItemName('');
     setItemDosage('');
