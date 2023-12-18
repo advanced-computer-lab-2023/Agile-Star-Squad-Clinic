@@ -18,7 +18,7 @@ const PatientPersonalDetails = (props) =>{
     return(
         <Card className="overall">
         <div>     
-            <h3>Personal Details</h3>         
+            <h3 className='welcomeText' style={{paddingBottom:'5px'}}>Personal Details</h3>         
         </div>
         <div className="personalDetails">
         <div>

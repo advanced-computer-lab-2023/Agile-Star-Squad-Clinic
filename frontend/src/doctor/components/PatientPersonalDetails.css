@@ -1,75 +1,99 @@
-.personalDetails{
-    width: 100%;
-    display: grid;
-    grid: 100px/ auto auto;
-    grid-gap:10px;
-    /* display: flex; */
-    align-items: center;
-    /* height: 70px; */
-    padding-inline: 15px;
-    margin-block: 10px;
-   
+.personalDetails {
+  width: 100%;
+  display: grid;
+  grid: 100px / auto auto;
+  grid-gap: 10px;
+  /* display: flex; */
+  align-items: center;
+  /* height: 70px; */
+  padding-inline: 15px;
+  margin-block: 10px;
 }
 .carousel-container {
-    margin-top: 20px;
-    width: 330px;
-    height: 50px;
-   
-  
-    margin:  auto; /* To center align the carousel */
-  }
-.overall{
-    background-color: #F2F2F2;
-    /* height: 380px; */
-    width: 70%;
-    overflow-y: scroll;
-    border-radius: 24px;
-    filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
+  margin-top: 20px;
+  width: 330px;
+  height: 50px;
+
+  margin: auto; /* To center align the carousel */
 }
-#personalImage{
-    width: 90px;
-    height: 90px;
+.overall {
+  background-color: #f2f2f2;
+  /* height: 380px; */
+  width: 100%;
+  overflow-y: scroll;
+  border-radius: 24px;
+  margin-top: 10px;
+  filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.1))
+    drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.1));
 }
-.healthRecord{
-    width: 70%;
-    /* display: block; */
-    display: flex;
-    align-items: center;
-    /* height: 70px; */
-    /* padding-inline: 15px; */
-    margin-block: 10px;
-    background-color: #F2F2F2;
-    /* height: 380px; */
-    overflow-y: scroll;
-    border-radius: 24px;
-    filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
+#personalImage {
+  width: 90px;
+  height: 90px;
 }
-.mainButton{
-    background-color: rgb(241, 144, 79);
-    cursor: pointer;
-   
-    padding-block: 5px;
-    padding-inline: 20px;
-    border-radius: 15px;
-    font-weight: 500;
-    border-width: 0;
-    color: white;
-    
+.healthRecord {
+  width: 100%;
+  /* display: block; */
+  display: flex;
+  align-items: center;
+  /* height: 70px; */
+  padding-inline: 15px;
+  margin-block: 10px;
+  background-color: #f2f2f2;
+  /* height: 380px; */
+  overflow-y: scroll;
+  border-radius: 24px;
+  filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.1))
+    drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.1));
 }
-.mainButton:hover{
-    background-color:  rgb(203, 121, 66);
+.mainButton {
+  background-color: rgb(241, 144, 79);
+  cursor: pointer;
+
+  padding-block: 5px;
+  padding-inline: 20px;
+  border-radius: 15px;
+  font-weight: 500;
+  border-width: 0;
+  color: white;
+}
+.mainButton:hover {
+  background-color: rgb(203, 121, 66);
 }
 .patientButton {
-    cursor: pointer;
-    background-color: #ABD1D3;
-    padding-block: 5px;
-    padding-inline: 20px;
-    border-radius: 15px;
-    font-weight: 500;
-    border-width: 0;
-    color: white;
+  cursor: pointer;
+  background-color: #abd1d3;
+  padding-block: 5px;
+  padding-inline: 20px;
+  border-radius: 15px;
+  font-weight: 500;
+  border-width: 0;
+  color: white;
 }
 
-.patientButton:hover{
-    background-color: #6c9193;
+.patientButton:hover {
+  background-color: #6c9193;
 }
+
+.prescriptionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0px;
+  padding-bottom: 15px;
+}
+
+/* Style for the "Prescription" title */
+
+.welcomeText{ 
+    /* margin: 0; */
+    display: flex;
+    margin-top: 0px;
+    align-content: left;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 15px;
+    color: #193842;
+    /* margin-bottom: 20px; */
+  }
+  

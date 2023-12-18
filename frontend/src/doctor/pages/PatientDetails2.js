@@ -22,11 +22,23 @@ const PatientDetails2 = () => {
   return (
     <React.Fragment>
       <DoctorNavBar />
-      <div className='container' style={{display:'flex',justifyContent:'space-between'}}>
-     <PatientPersonalDetails data={patient}/>
+      <div className='container ' >
+        <div className='row justify-content-center'>
+        <div className='col'>
+     <PatientPersonalDetails data={patient}/></div>
+     <div className='col'>
      <PatientHealthRecord data={patient}/>
-    
+     </div>
+     </div>
+     <div className='row justify-content-center'>
+      <div className='col'>
       <PatientPrescriptionDetails  patient={patient} doctor={doctor}/>
+      </div>
+      <div className='col'>
+      <PatientPrescriptionDetails  patient={patient} doctor={doctor}/>
+      </div>
+      </div>
+      
       </div>
     </React.Fragment>
   );

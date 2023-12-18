@@ -13,8 +13,8 @@
     background-color: #6c9193;
 }
 .prescriptionDetails{
-    width: 60%;
-    padding: 0px;
+    width: 100%;
+    padding: 10px;
     text-align: left;
     display: flex;
     align-items: center;
@@ -36,21 +36,35 @@
 /* Align title and button at the top */
 
 .prescriptionHeader button{
-    margin-left: 100px;
+    margin-left: 220px;
     background-color: rgb(241, 144, 79);
+    width: 150%;
    
+}
+.row{
+  margin-left: 0px;
+  width: 110%;
+  margin-top: 10px;
 }
 .prescriptionHeader button:hover {
     background-color:  rgb(203, 121, 66);
 }
-
+.welcomeText{ 
+  display: flex;
+  align-content: left;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 20px;
+  width: 80%;
+  color: #193842;
+}
 
   .prescriptionHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
   
   /* Style for the "Prescription" title */
