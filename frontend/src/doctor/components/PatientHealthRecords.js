@@ -1,25 +1,23 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import storage from '../../index';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import Card from '../../shared/components/Card/Card';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './PatientPersonalDetails.css'
+import './PatientPersonalDetails.css';
 
-
-const PatientHealthRecord =(props) =>{
-    const [healthRecord, setHealthRecord] = useState('');
+const PatientHealthRecord = (props) => {
+  const [healthRecord, setHealthRecord] = useState('');
   const [medicalRecordUrls, setMedicalRecords] = useState([]);
-    const patient = props.data;
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-     
-    };
+  const patient = props.data;
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
   const handleHealthRecordUpload = async () => {
     let healthRecordUrl;
     if (healthRecord !== '') {
@@ -29,10 +27,9 @@ const PatientHealthRecord =(props) =>{
           healthRecordUrl = await getDownloadURL(snapshot.ref);
         },
       );
-    }
-    else{
-      alert("Please choose a file first")
-      return
+    } else {
+      alert('Please choose a file first');
+      return;
     }
     setMedicalRecords((records) => {
       return [...records, healthRecordUrl];
@@ -48,7 +45,7 @@ const PatientHealthRecord =(props) =>{
         body: JSON.stringify(data),
         credentials: 'include',
       };
-      console.log(patient)
+      console.log(patient);
       const response = await fetch(
         `http://localhost:3000/doctors/healthRecord/${patient._id}`,
         requestOptions,
@@ -79,58 +76,64 @@ const PatientHealthRecord =(props) =>{
     setHealthRecord(file.target.files[0]);
   };
   const { healthRecordInput } = healthRecord;
-  console.log("me2",medicalRecordUrls[0])
-  return(
+  return (
     <Card className="healthRecord">
-     
-     <div className='welcomeText'>
+      <div className="welcomeText">
         {/* <p  className='welcomeText'>Medical Record</p> */}
         Medical Record
       </div>
-    <div className="carousel-container">
-      
-      {/* <div className="d-flex flex-row"> */}
-      
-      <Slider  {...settings}>
-        {medicalRecordUrls.map((url) => {
-          return (
-            <>
-              {!url.includes('pdf') && (
-                <div  style={{ width: '330px' }}>
-                <a  href={url} target="_blank">
-                  {' '}
-                  <img src={url} width={330} style={{maxHeight:'200px'}} />
-                </a>
-                </div>
-              )}
-              {url.includes('pdf') && (
-                <div  style={{ width: '330px' }}>
-                  <a href={url} target="_blank">
-                    View PDF
-                  </a>
-                </div>
-              )}
-            </>
-          );
-        })}
-      </Slider>
+      <div className="carousel-container">
+        {/* <div className="d-flex flex-row"> */}
+
+        <Slider {...settings}>
+          {medicalRecordUrls.map((url) => {
+            return (
+              <>
+                {!url.includes('pdf') && (
+                  <div style={{ width: '330px' }}>
+                    <a href={url} target="_blank">
+                      {' '}
+                      <img
+                        src={url}
+                        width={330}
+                        style={{ maxHeight: '200px' }}
+                      />
+                    </a>
+                  </div>
+                )}
+                {url.includes('pdf') && (
+                  <div style={{ width: '330px' }}>
+                    <a href={url} target="_blank">
+                      View PDF
+                    </a>
+                  </div>
+                )}
+              </>
+            );
+          })}
+        </Slider>
       </div>
-    
-    <div style={{marginTop:'200px'}}>
-    <div>
-      <label><strong>Health Record</strong></label>
-      <input
-        type="file"
-        name="healthRecord"
-        value={healthRecordInput}
-        onChange={onHealthRecordChange}
-        className='patientButton'
-      />
-    </div>
-<div style={{paddingTop:'20px'}}>
-    <button className="mainButton" onClick={handleHealthRecordUpload}>Upload Health Record</button>
-    </div></div>
-  </Card>
+
+      <div style={{ marginTop: '200px' }}>
+        <div>
+          <label>
+            <strong>Health Record</strong>
+          </label>
+          <input
+            type="file"
+            name="healthRecord"
+            value={healthRecordInput}
+            onChange={onHealthRecordChange}
+            className="patientButton"
+          />
+        </div>
+        <div style={{ paddingTop: '20px' }}>
+          <button className="mainButton" onClick={handleHealthRecordUpload}>
+            Upload Health Record
+          </button>
+        </div>
+      </div>
+    </Card>
   );
-}
+};
 export default PatientHealthRecord;

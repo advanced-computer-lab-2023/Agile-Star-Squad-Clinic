@@ -11,20 +11,19 @@ const AddNewPrescription = (props) => {
   const [itemFrequency, setItemFrequency] = useState('');
   const [showAddItemInputs, setShowAddItemInputs] = useState(false);
   const [medicineList, setMedicineList] = useState([]);
-  const [medicine, setMedicine] = useState(null);
+  const [medicineId, setMedicineId] = useState(null);
 
   const fetchMedicineList = async () => {
     const response = await axios.get('http://localhost:4000/medicine');
-    console.log(response.data.data.medicines);
     setMedicineList(response.data.data.medicines);
-    setMedicine(response.data.data.medicines[0]);
+    setMedicineId(response.data.data.medicines[0]._id);
   };
 
   useEffect(() => {
     fetchMedicineList();
   }, []);
 
-  const onDelete = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     const toAddPrescription = {
       doctor: props.doctor.userId,
@@ -32,7 +31,6 @@ const AddNewPrescription = (props) => {
       body: addedBody,
       items: items,
     };
-    console.log('Presc', toAddPrescription);
 
     try {
       const response = await fetch('http://localhost:3000/prescriptions', {
@@ -55,6 +53,9 @@ const AddNewPrescription = (props) => {
   const addPresHandler = (e) => {
     // setaddNewOn(true);
     e.preventDefault();
+    const medicine = medicineList.find(
+      (medicine) => medicine._id == medicineId,
+    );
     const newItem = {
       medicineId: medicine._id,
       name: medicine.name,
@@ -107,9 +108,9 @@ const AddNewPrescription = (props) => {
               <div>
                 <label>Name</label>
                 <select
-                  value={medicine.name}
+                  value={medicineId.name}
                   onChange={(e) => {
-                    setMedicine(e.target.value);
+                    setMedicineId(e.target.value);
                   }}
                 >
                   {medicineList.map((medicine, index) => (
@@ -146,7 +147,7 @@ const AddNewPrescription = (props) => {
   return ReactDOM.createPortal(
     <Modal exit={props.exit}>
       {getPrescBody()}
-      <ActionButtons onDelete={onDelete} />
+      <ActionButtons onDelete={onSubmit} />
     </Modal>,
     document.getElementById('backdrop-root'),
   );
