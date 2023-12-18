@@ -13,7 +13,9 @@ router
   .get(appointmentController.getAllAppointments)
   .post(middleware.patientAuth, appointmentController.createAppointment);
 
-router.route('/appointments/:id').delete(appointmentController.deleteAppointment);
+router.route('/appointments/:id')
+  .delete(appointmentController.deleteAppointment)
+  .patch(appointmentController.updateAppointment);
 
 router.use('/:id/doctors', middleware.patientAuth, doctorRouter);
 

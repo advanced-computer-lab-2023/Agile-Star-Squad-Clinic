@@ -261,7 +261,6 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyNotifications = catchAsync(async(req, res, next) =>{
-  console.log("DAKHALT")
   const doctor  = await Doctor.findById(req.params.doctorId).populate(
     "notifications"
   );

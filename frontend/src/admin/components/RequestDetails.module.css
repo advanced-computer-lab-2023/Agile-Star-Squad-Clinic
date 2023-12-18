@@ -2,9 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@600&display=swap');
 .addForm{
   width: 764px;
-  height: 840px;
+  height: 750px;
     border-radius: 26px 26px 0px 0px;
     left:28%  ;
+    display: flex;
+    margin-bottom: 10%;
+    scroll-behavior: inherit;
 
 }
 .topBorder {
@@ -56,7 +59,7 @@ margin-top: 0%;
     display: flex;
     flex-wrap: wrap;
     gap: 16px; /* Adjust the gap as needed */
-    margin-bottom: 5%;
+    margin-bottom: 2%;
   }
   .images{
     display: flex;
@@ -80,10 +83,10 @@ margin-top: 0%;
     align-items: flex-start;
     grid-row-gap: 15px;
     width: 764px;
-  height: 840px;
+  height: 820px;
   }
  .personal{
-  padding-top:  5%;
+  padding-top:  4%;
   
   text-align: -webkit-left;
  }
@@ -122,7 +125,7 @@ margin-top: 0%;
   }
   
   .buttonPos{
-    margin-bottom: 64%;
+    margin-bottom: 60%;
     margin-left: 54%;
   }
   .images{
@@ -131,4 +134,23 @@ margin-top: 0%;
   .spacing{
     margin-left: 5%;
   }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Adjust the z-index as needed */
+  }
+  
+  .formContainer {
+    position: fixed;
+    top: 60%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Make sure this is higher than the overlay z-index */
+    scroll-behavior: smooth;
+  }
+  
   
