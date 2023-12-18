@@ -59,6 +59,10 @@ router
   .get(middleware.patientAuth, prescriptionController.getPatientPrescriptions);
 
 router
+  .route('/prescriptions/:username')
+  .get(middleware.patientAuth, prescriptionController.getPatientPrescriptionsByUsername);
+
+router
   .route('/:patientId/appointments')
   .get(appointmentController.allAppointmentsForPatients);
 
