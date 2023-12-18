@@ -68,8 +68,8 @@ const PatientPrescriptionDetails  =(props)=>{
     <React.Fragment>
     <Card className="prescriptionDetails" >
     <div className='prescriptionHeader'>     
-           <h3 style={{textAlign:'center'}}>Prescriptions</h3>         
-       <button onClick={addPrescriptionHandler}>Add</button>
+           <h3 className='welcomeText' style={{textAlign:'center'}}>Prescriptions</h3>         
+       <button onClick={addPrescriptionHandler}>Add New Prescription</button>
        </div>
        <div className='prescriptionList'>
        {finalPrescriptions.length != 0 &&
@@ -77,7 +77,7 @@ const PatientPrescriptionDetails  =(props)=>{
            return (
              <>
                <div className="prescriptionItem">
-                 <p>Prescription  {index + 1}</p>
+                 <p ><strong>Prescription  {index + 1} </strong><br/> {url.body}</p>
                  <button className="patientButton" onClick={() => viewButtonHandler(url)}>View</button>
                </div>
              </>

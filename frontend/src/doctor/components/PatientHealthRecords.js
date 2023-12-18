@@ -83,9 +83,10 @@ const PatientHealthRecord =(props) =>{
   return(
     <Card className="healthRecord">
      
-     <span>
-        <h3>Medical Record</h3>
-      </span>
+     <div className='welcomeText'>
+        {/* <p  className='welcomeText'>Medical Record</p> */}
+        Medical Record
+      </div>
     <div className="carousel-container">
       
       {/* <div className="d-flex flex-row"> */}
@@ -117,7 +118,7 @@ const PatientHealthRecord =(props) =>{
     
     <div style={{marginTop:'200px'}}>
     <div>
-      <label>Health Record</label>
+      <label><strong>Health Record</strong></label>
       <input
         type="file"
         name="healthRecord"
