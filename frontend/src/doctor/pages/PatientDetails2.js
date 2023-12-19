@@ -20,7 +20,7 @@ const PatientDetails2 = () => {
     <React.Fragment>
       <DoctorNavBar />
       <div className="container " >
-        <div className="row justify-content-center" >
+        <div className="row justify-content-center" id='row321'>
           <div className="col" >
             <PatientPersonalDetails data={patient}/>
           </div>

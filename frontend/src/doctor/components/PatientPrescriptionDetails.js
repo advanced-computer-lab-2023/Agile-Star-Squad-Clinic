@@ -70,7 +70,7 @@ const PatientPrescriptionDetails  =(props)=>{
     <Card className="prescriptionDetails" >
     <div className='prescriptionHeader'>     
            <h3 className='welcomeText' style={{textAlign:'center'}}>Prescriptions</h3>         
-       <button onClick={addPrescriptionHandler}>Add New Prescription</button>
+       <button onClick={addPrescriptionHandler} >Add New Prescription</button>
        </div>
        <div className='prescriptionList'>
        {finalPrescriptions.length != 0 &&
@@ -79,13 +79,21 @@ const PatientPrescriptionDetails  =(props)=>{
              <>
                <div className="prescriptionItem">
                  <p ><strong>Prescription  {index + 1} </strong><br/> {url.body}</p>
-                 <button className="patientButton" onClick={() => viewButtonHandler(url)}>View</button>
+                 <div>
+                 <button className="patientButton" onClick={() => viewButtonHandler(url)}>Edit</button>
+                 <button className="patientButton" onClick={() => viewButtonHandler(url)} style={{marginLeft:"10px"}}>View</button>
+                 </div>
                </div>
              </>
            );
          })}
          </div>
      </Card>
+     {detailsOn && chosenPrescription && (
+       
+        <PrescriptionDetail data={chosenPrescription} exit={handleClose}/>
+      
+    )}
      {detailsOn && chosenPrescription && (
        
         <PrescriptionDetail data={chosenPrescription} exit={handleClose}/>

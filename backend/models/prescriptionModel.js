@@ -19,7 +19,7 @@ const prescriptionSchema = new mongoose.Schema({
 
     body: {
         type: String,
-        required: [true, 'Please provide a prescription.'],
+    //    required: [true, 'Please provide a prescription.'],
         // maxlength: [255, 'A prescription must have less or equal to 255 characters'],
     },
 

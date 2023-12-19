@@ -5,7 +5,7 @@ import Card from '../../shared/components/Card/Card';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './PatientPersonalDetails.css';
+import styles from'./PatientPersonalDetails.module.css';
 
 const PatientHealthRecord = (props) => {
   const [healthRecord, setHealthRecord] = useState('');
