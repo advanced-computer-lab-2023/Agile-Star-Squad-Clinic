@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/Card/Card';
 import styles from './NewPackage.module.css';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
 const NewPackage = ({ onSubmitSuccess }) => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const NewPackage = ({ onSubmitSuccess }) => {
       !medicineDiscount ||
       !familyMemberDiscount
     ) {
-      alert('Please fill in all required fields.');
+      toastMeError('Please fill in all required fields.');
       return;
     }
 
@@ -44,15 +45,15 @@ const NewPackage = ({ onSubmitSuccess }) => {
       });
 
       if (response.ok) {
-        alert('Package Added Successfully');
+        toastMeSuccess('Package Added Successfully');
         navigate('/packages');
         setFormVisible(false); // Hide the form after successful submission
         onSubmitSuccess();
       } else {
-        alert('Failed to send data.');
+        toastMeError('Failed to send data.');
       }
     } catch (error) {
-      alert('Network error: ' + error.message);
+      toastMeError('Network error: ' + error.message);
     }
     
   };

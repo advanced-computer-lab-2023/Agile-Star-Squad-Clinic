@@ -2,6 +2,7 @@ import InputField from '../../../shared/components/InputField/InputField';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../../../shared/components/Modal/Modal';
+import { toastMeSuccess } from '../../../shared/components/util/functions';
 
 const AdminForm = (props) => {
     const [username, setUsername] = useState("");
@@ -38,7 +39,7 @@ const AdminForm = (props) => {
         const result = await fetch(`http://localhost:3000/admins`, requestOptions)
         props.exit();
         if (result.status === 403) {
-            alert((await result.json()).message)
+            toastMeSuccess((await result.json()).message)
         } else {
             props.refresh()
         }

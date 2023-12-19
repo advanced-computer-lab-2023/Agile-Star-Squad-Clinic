@@ -7,6 +7,7 @@ import UserContext from '../../../user-store/user-context';
 import CartContext from '../cart/Cart';
 import './AddingInfo.css'
 import axios from 'axios';
+import { toastMeError } from '../shared/components/util/functions';
 
 const citiesInEgypt = [
   {
@@ -189,11 +190,11 @@ export default function CheckoutForm(props) {
           navigate('/');
         } else {
           // Handle errors if the server response is not ok
-          alert('Failed to update data.');
+          toastMeError('Failed to update data.');
         }
       } catch (error) {
         // Handle network errors
-        alert('Network error: ' + error.message);
+        toastMeError('Network error: ' + error.message);
       }
     } else {
       setMessage('Insufficient balance in your wallet.');

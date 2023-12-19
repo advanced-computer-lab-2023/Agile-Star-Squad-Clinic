@@ -5,6 +5,7 @@ import InputField from './InputField/InputField';
 import Button from './Button/Button';
 import OTP from './OTP/OTP';
 import axios from 'axios';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 let otpBackend = 0;
 
 function Component1({ setTab2 , email }) {
@@ -18,7 +19,7 @@ function Component1({ setTab2 , email }) {
         if (otpBackend == otp) {
           setTab2(true);
         } else {
-          return alert('Incorrect OTP');
+          return toastMeError('Incorrect OTP');
         }
       });
   };
@@ -33,9 +34,9 @@ function Component1({ setTab2 , email }) {
     .then((res) => {
     })
     .catch((err) => {
-      alert(err.response.data.message);
+      toastMeError(err.response.data.message);
     });
-    alert('An OTP has been sent to your email!');
+    toastMeSuccess('An OTP has been sent to your email!');
   };
   return (
     <div className="col-md-7" id={styles.rightCol}>
