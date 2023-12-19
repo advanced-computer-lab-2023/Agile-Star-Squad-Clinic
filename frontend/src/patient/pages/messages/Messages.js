@@ -17,8 +17,9 @@ const Messages = () => {
   const messagesEndRef = React.createRef()
 
   const app = new Realm.App({ id: "application-1-kfjsh" })
-  const mongodb = app.currentUser.mongoClient("mongodb-atlas");
-  const collection = mongodb.db("clinic").collection("chats");
+  let user;
+  let mongodb;
+  let collection
   const isPatient = userCtx.role == "patient";
 
   // get users chat ids
@@ -29,7 +30,10 @@ const Messages = () => {
     fetchChatIds();
   }, []);
 
-  const fetchChatIds = () => {
+  const fetchChatIds = async () => {
+    user = await app.logIn(Realm.Credentials.anonymous());
+    mongodb = app.currentUser.mongoClient("mongodb-atlas");
+    collection = mongodb.db("clinic").collection("chats");
     fetch(`http://localhost:3000/patients/${userCtx.userId}/chats`, {
       credentials: 'include',
     }).then(async (response) => {
@@ -39,7 +43,6 @@ const Messages = () => {
   }
 
   const setupChats = async (chatIds) => {
-    const user = await app.logIn(Realm.Credentials.anonymous());
     for (const chatId of chatIds) {
       const initialChat = await collection.findOne({ "_id": new ObjectId(chatId) });
       setChats(chats => [...chats, initialChat]);
