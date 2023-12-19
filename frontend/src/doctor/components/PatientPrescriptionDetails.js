@@ -39,8 +39,9 @@ const PatientPrescriptionDetails  =(props)=>{
     }
   };
 
- const submitPrescHandler =()=>{
-   fetchPrescriptions();
+ const submitPrescHandler =(newPrescription)=>{
+  //  fetchPrescriptions();
+  setPrescriptions((prev)=>{return[...prev,newPrescription]})
  }
   useEffect(() => {
     
@@ -63,7 +64,7 @@ const PatientPrescriptionDetails  =(props)=>{
     const date = new Date(dateString);
     return date.toDateString(); // Adjust this to fit your desired date format
   };
-
+  console.log(finalPrescriptions)
   return(
     <React.Fragment>
     <Card className="prescriptionDetails" >

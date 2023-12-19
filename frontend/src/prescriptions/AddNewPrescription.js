@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom';
 import React, { useEffect, useState } from 'react';
 import Modal from '../shared/components/Modal/Modal';
 import axios from 'axios';
+import plus from './plus.png'
+import styles from './AddNewPrescription.module.css'
 
 const AddNewPrescription = (props) => {
   const [addedBody, setAddedBody] = useState('');
@@ -12,9 +14,11 @@ const AddNewPrescription = (props) => {
   const [showAddItemInputs, setShowAddItemInputs] = useState(false);
   const [medicineList, setMedicineList] = useState([]);
   const [medicineId, setMedicineId] = useState(null);
+  const [doctorName,setDoctorName]=useState('')
 
   const fetchMedicineList = async () => {
     const response = await axios.get('http://localhost:4000/medicine');
+
     setMedicineList(response.data.data.medicines);
     setMedicineId(response.data.data.medicines[0]._id);
   };
@@ -22,11 +26,22 @@ const AddNewPrescription = (props) => {
   useEffect(() => {
     fetchMedicineList();
   }, []);
+  const fetchdoctor = async () => {
+    const response = await axios.get(`http://localhost:3000/doctors/${props.doctor.userId}`);
+
+    setDoctorName(response.data.data.doctor.name);
+    
+  };
+
+  useEffect(() => {
+    fetchdoctor();
+  }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();
     const toAddPrescription = {
       doctor: props.doctor.userId,
+      doctorName: doctorName,
       patient: props.patient,
       body: addedBody,
       items: items,
@@ -42,7 +57,7 @@ const AddNewPrescription = (props) => {
       if (response.ok) {
         alert('Prescription Added Successfully');
         props.exit();
-        props.onAddPrescription();
+        props.onAddPrescription(toAddPrescription);
       } else {
         alert('Failed to send data.');
       }
@@ -50,6 +65,9 @@ const AddNewPrescription = (props) => {
       alert('Network error: ' + error.message);
     }
   };
+  const cancelHandler=(e)=>{
+    props.exit()
+  }
   const addPresHandler = (e) => {
     // setaddNewOn(true);
     e.preventDefault();
@@ -88,6 +106,7 @@ const AddNewPrescription = (props) => {
           </div>
 
           <div>
+            <br/>
             <h4>Prescribed Medications: </h4>
             {items.map((item, index) => (
               <div key={index}>
@@ -99,8 +118,9 @@ const AddNewPrescription = (props) => {
             ))}
           </div>
           {!showAddItemInputs && (
-            <button onClick={() => setShowAddItemInputs(true)}>
-              Add New Item
+            <button  className={styles.patientButton} onClick={() => setShowAddItemInputs(true)}>
+              Add New Medicine 
+              <img src={plus} alt='plus' width={18} height={18} style={{marginBottom:'3px', marginLeft:'5px'}}/>
             </button>
           )}
           {showAddItemInputs && medicineList && (
@@ -109,7 +129,8 @@ const AddNewPrescription = (props) => {
               <div>
                 <label>Name</label>
                 <select
-                className="form-control" 
+              
+                // class="dropdown"
                   value={medicineId.name}
                   onChange={(e) => {
                     setMedicineId(e.target.value);
@@ -138,9 +159,12 @@ const AddNewPrescription = (props) => {
                   className="form-control" 
                   value={itemFrequency}
                   onChange={(e) => setItemFrequency(e.target.value)}
+                  style={{paddingBottom:'15px'}}
                 />
               </div>
-              <button type="submit">Add</button>
+              <br/>
+              <button type="submit" className={styles.patientButton}  >Add Medicine </button>
+              <button onClick={()=>setShowAddItemInputs(false)}className={styles.patientButton} style={{marginLeft:"10px"}} >Cancel</button>
             </div>
           )}
         </form>
@@ -151,7 +175,7 @@ const AddNewPrescription = (props) => {
   return ReactDOM.createPortal(
     <Modal exit={props.exit}>
       {getPrescBody()}
-      <ActionButtons onDelete={onSubmit} />
+      <ActionButtons onDelete={onSubmit} onCancel={cancelHandler}/>
     </Modal>,
     document.getElementById('backdrop-root'),
   );
@@ -160,7 +184,9 @@ const AddNewPrescription = (props) => {
 const ActionButtons = (props) => {
   return (
     <div className="d-flex justify-content-end mt-5">
-      <button onClick={props.onDelete}>Add</button>
+      
+      <button onClick={props.onCancel} className={styles.mainButton} style={{marginRight:'420px'}}>Cancel</button>
+      <button onClick={props.onDelete} className={styles.mainButton}>Submit</button>
     </div>
   );
 };

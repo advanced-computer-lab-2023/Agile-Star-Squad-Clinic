@@ -1,6 +1,6 @@
 .patientButton ,.prescriptionHeader button{
     cursor: pointer;
-    background-color: #ABD1D3;
+    background-color: cadetblue;
     padding-block: 5px;
     padding-inline: 20px;
     border-radius: 15px;

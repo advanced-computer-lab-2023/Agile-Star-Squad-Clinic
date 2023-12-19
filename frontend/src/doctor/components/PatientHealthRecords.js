@@ -77,7 +77,7 @@ const PatientHealthRecord = (props) => {
   };
   const { healthRecordInput } = healthRecord;
   return (
-    <Card className="healthRecord">
+    <Card className="healthRecord" >
       <div className="welcomeText">
         {/* <p  className='welcomeText'>Medical Record</p> */}
         Medical Record
@@ -116,7 +116,7 @@ const PatientHealthRecord = (props) => {
 
       <div style={{ marginTop: '200px' }}>
         <div>
-          <label>
+          <label style={{ marginRight: '20px' }}>
             <strong>Health Record</strong>
           </label>
           <input
@@ -125,10 +125,11 @@ const PatientHealthRecord = (props) => {
             value={healthRecordInput}
             onChange={onHealthRecordChange}
             className="patientButton"
+            
           />
         </div>
         <div style={{ paddingTop: '20px' }}>
-          <button className="mainButton" onClick={handleHealthRecordUpload}>
+          <button className="mainButton" onClick={handleHealthRecordUpload} style={{marginBottom:'15px'}} >
             Upload Health Record
           </button>
         </div>
