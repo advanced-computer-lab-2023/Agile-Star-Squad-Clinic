@@ -23,13 +23,13 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
-html, body {
+/* html, body {
     width: 1429px;
     min-height: 1336px;
     margin: 0;
     padding: 0;
     background-color: #FAFBFC;
-  }
+  } */
   .overlay {
     position: fixed;
     top: 0;

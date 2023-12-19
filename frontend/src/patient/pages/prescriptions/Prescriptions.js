@@ -73,7 +73,7 @@ const Prescriptions = () => {
                         prescDoctors.add(prescription.doctorName);
                         prescription.items.forEach(item => {
                             prescriptions.push({
-                                id: prescription.id,
+                                id: prescription._id,
                                 date: formatDate(new Date(prescription.dateOfCreation)),
                                 status: prescription.status,
                                 doctor: prescription.doctorName,
@@ -89,7 +89,7 @@ const Prescriptions = () => {
                     prescriptionsJson.forEach((prescription) => {
                         prescription.items.forEach(item => {
                             prescriptions.push({
-                                id: prescription.id,
+                                id: prescription._id,
                                 date: formatDate(new Date(prescription.dateOfCreation)),
                                 status: prescription.status,
                                 doctor: prescription.doctorName,
@@ -150,7 +150,7 @@ const Prescriptions = () => {
     }
 
     const getTiles = () => {
-        return <div>
+        return <div style={{height: "100%", overflow:"scroll"}}>
             {filteredPrescriptions.map((presc =>
                 <PrescriptionTile setSelectedPrescriptions={setSelectedPrescriptions} presc={presc} />
             ))}
