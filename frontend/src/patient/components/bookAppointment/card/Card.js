@@ -38,7 +38,7 @@ const Card = (props) => {
   );
 
   const currentDate = new Date();
-  const doctorDateOfCreation = new Date(doctor.dateOfCreation.$date);
+  const doctorDateOfCreation = new Date(doctor.dateOfCreation);
   const years =
     currentDate.getFullYear() - doctorDateOfCreation.getFullYear() ?? 4;
   const yearsSvg = (
@@ -67,32 +67,32 @@ const Card = (props) => {
     </svg>
   );
 
-  const rating = doctor.rating ?? 4.9;
-  const ratingSvg = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={svg.width}
-      height={svg.height}
-      viewBox="0 0 66 65"
-      fill="none"
-    >
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M28.7704 27.3611L21.5013 28.5913L21.3974 28.6127C20.3795 28.8606 19.9963 30.1116 20.7458 30.866L25.8873 36.0417L24.8374 43.1855L24.8264 43.2856C24.7503 44.311 25.8492 45.0561 26.8153 44.5914L33.4357 41.4062L40.056 44.5914L40.1499 44.6326C41.1232 45.0202 42.1872 44.228 42.0339 43.1855L40.9834 36.0417L46.1255 30.866L46.1967 30.789C46.8713 30.0031 46.4298 28.7707 45.3701 28.5913L38.1003 27.3611L34.6581 20.9775C34.1395 20.0159 32.7318 20.0159 32.2133 20.9775L28.7704 27.3611Z"
-        fill="#193842"
-      />
-      <circle
-        opacity="0.1"
-        cx="33.4357"
-        cy="32.4945"
-        r="32.2445"
-        fill="#96B7C7"
-        stroke="#F5F5FF"
-        stroke-width="0.5"
-      />
-    </svg>
-  );
+  // const rating = doctor.rating ?? 4.9;
+  // const ratingSvg = (
+  //   <svg
+  //     xmlns="http://www.w3.org/2000/svg"
+  //     width={svg.width}
+  //     height={svg.height}
+  //     viewBox="0 0 66 65"
+  //     fill="none"
+  //   >
+  //     <path
+  //       fill-rule="evenodd"
+  //       clip-rule="evenodd"
+  //       d="M28.7704 27.3611L21.5013 28.5913L21.3974 28.6127C20.3795 28.8606 19.9963 30.1116 20.7458 30.866L25.8873 36.0417L24.8374 43.1855L24.8264 43.2856C24.7503 44.311 25.8492 45.0561 26.8153 44.5914L33.4357 41.4062L40.056 44.5914L40.1499 44.6326C41.1232 45.0202 42.1872 44.228 42.0339 43.1855L40.9834 36.0417L46.1255 30.866L46.1967 30.789C46.8713 30.0031 46.4298 28.7707 45.3701 28.5913L38.1003 27.3611L34.6581 20.9775C34.1395 20.0159 32.7318 20.0159 32.2133 20.9775L28.7704 27.3611Z"
+  //       fill="#193842"
+  //     />
+  //     <circle
+  //       opacity="0.1"
+  //       cx="33.4357"
+  //       cy="32.4945"
+  //       r="32.2445"
+  //       fill="#96B7C7"
+  //       stroke="#F5F5FF"
+  //       stroke-width="0.5"
+  //     />
+  //   </svg>
+  // );
 
   return (
     <div>
@@ -109,7 +109,7 @@ const Card = (props) => {
         <DoctorInfo
           className={styles.info}
           svg={patientsSvg}
-          number={patients + '+'}
+          number={patients}
           description="Patients"
         />
         <DoctorInfo
@@ -118,12 +118,12 @@ const Card = (props) => {
           number={years + '+'}
           description="Years"
         />
-        <DoctorInfo
+        {/* <DoctorInfo
           className={styles.info}
           svg={ratingSvg}
           number={rating}
           description="Rating"
-        />
+        /> */}
       </div>
       <div className={styles.doctorBackground}>
         <DoctorBackground

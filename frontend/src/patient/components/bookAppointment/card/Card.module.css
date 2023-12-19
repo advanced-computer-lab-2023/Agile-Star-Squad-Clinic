@@ -16,7 +16,7 @@
 .doctorInfo{
     display: flex;
     justify-content: space-between;
-    margin: 0% 20%;
+    margin: 0% 30%;
 }
 .info {
     flex: 1;
