@@ -42,11 +42,7 @@
     width: 150%;
    
 }
-#row321{
-  margin-left: 0px;
-  width: 110%;
-  margin-top: 10px;
-}
+
 .prescriptionHeader button:hover {
     background-color:  rgb(203, 121, 66);
 }
