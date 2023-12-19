@@ -9,6 +9,10 @@ const router = express.Router({
 });
 
 router
+.route('/chats/:id/:chatId')
+.get(doctorController.addChat);
+
+router
   .route('/appointments')
   .get(middleware.doctorAuth, appointmentController.getAllAppointments)
   .post(middleware.doctorAuth, appointmentController.createAppointment);
@@ -56,6 +60,8 @@ router
 .get(doctorController.getDoctor)
 .patch(middleware.doctorAuth, doctorController.updateDoctor)
 .delete(doctorController.removeDoctor);
+
+
 
 router
   .route('/healthRecord/:patientId')

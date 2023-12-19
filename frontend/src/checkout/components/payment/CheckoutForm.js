@@ -3,6 +3,7 @@ import React ,{ useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import './CheckoutForm.css'
+import { toastMeError, toastMeSuccess } from "../../../shared/components/util/functions";
 
 export default function CheckoutForm(props) {
   const stripe = useStripe();
@@ -104,16 +105,16 @@ export default function CheckoutForm(props) {
         if (response.ok) {
           // Handle a successful response
           setMessage("Payment successful via wallet!");
-          alert("Payment successful via wallet!");
+          toastMeSuccess("Payment successful via wallet!");
           navigate(-1);
 
         } else {
           // Handle errors if the server response is not ok
-          alert('Failed to update data.');
+          toastMeError('Failed to update data.');
         }
       } catch (error) {
         // Handle network errors
-        alert('Network error: ' + error.message);
+        toastMeError('Network error: ' + error.message);
       }
 
 

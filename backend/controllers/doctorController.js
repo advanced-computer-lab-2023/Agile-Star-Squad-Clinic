@@ -301,3 +301,21 @@ exports.updateWallet = catchAsync(async (req, res, next) => {
     status: 'success',
   });
 });
+
+exports.addChat = catchAsync(async (req, res, next) => {
+  console.log("hey")
+  const chatId = req.params.chatId;
+  const doctorId = req.params.id;
+  const doctor = await Doctor.findById(doctorId);
+  const newChats = [...doctor.chats, chatId];
+  if (!doctor) {
+    return next(new AppError('Doctor not found', 404));
+  }
+  await Doctor.findByIdAndUpdate(doctor._id, {
+    chats: newChats,
+  });
+
+  res.status(200).json({
+    status: 'success',
+  });
+});

@@ -4,6 +4,7 @@ import NavBar from '../../shared/components/NavBar/NavBar';
 import Payment from '../components/payment/Payment';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "./extra.css";
+import { toastMeSuccess } from '../../shared/components/util/functions';
 
 
 const AddingInfo = () => {
@@ -35,7 +36,7 @@ const AddingInfo = () => {
 
     if (query.get('success')) {
       
-     alert('Order placed! You will receive an email confirmation.');
+      toastMeSuccess('Order placed! You will receive an email confirmation.');
      
     }
 

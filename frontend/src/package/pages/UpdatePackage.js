@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/Card/Card';
 import styles from './NewPackage.module.css';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
 const UpdatePackage = ({ packageId ,updates}) => {
   const navigate = useNavigate();
@@ -33,10 +34,10 @@ const UpdatePackage = ({ packageId ,updates}) => {
           setMedicineDiscount(medicineDiscount);
           setFamilyMemberDiscount(familyMemberDiscount);
         } else {
-          alert('Failed to fetch package data.');
+          toastMeError('Failed to fetch package data.');
         }
       } catch (error) {
-        alert('Network error: ' + error.message);
+        toastMeError('Network error: ' + error.message);
       }
     };
 
@@ -61,13 +62,13 @@ const UpdatePackage = ({ packageId ,updates}) => {
       });
 
       if (response.ok) {
-        alert('Package updated successfully.');
+        toastMeSuccess('Package updated successfully.');
         navigate('/packages');
       } else {
-        alert('Failed to update data.');
+        toastMeError('Failed to update data.');
       }
     } catch (error) {
-      alert('Network error: ' + error.message);
+      toastMeError('Network error: ' + error.message);
     }
   };
 
@@ -79,10 +80,10 @@ const UpdatePackage = ({ packageId ,updates}) => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      alert('Package deleted successfully.');
+      toastMeSuccess('Package deleted successfully.');
       navigate('/packages');
     } catch (err) {
-      alert('Failed to delete package.');
+      toastMeError('Failed to delete package.');
     }
   };
   useEffect(() => {

@@ -5,6 +5,7 @@ import InputField from '../components/InputField/InputField';
 import Button from '../components/Button/Button';
 import axios from 'axios';
 import UserContext from '../../user-store/user-context';
+import { toastMeError } from '../../shared/components/util/functions';
 
 function ChangePassword() {
   const userCtx = useContext(UserContext);
@@ -47,12 +48,12 @@ function ChangePassword() {
           });
         navigate('/');
       } else {
-        alert('Your password does not match the criteria');
+        toastMeError('Your password does not match the criteria');
       }
     } else {
       setNewPassword('');
       setRetypePassword('');
-      alert('Passwords do not match');
+      toastMeError('Passwords do not match');
     }
   };
 

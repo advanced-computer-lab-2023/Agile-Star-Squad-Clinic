@@ -6,6 +6,7 @@ import Select from 'react-select';
 import classes from './PaymentCard.module.css';
 import axios from 'axios';
 import UserContext from '../../../user-store/user-context';
+import { toastMeError } from '../../../shared/components/util/functions';
 
   const AccountDetailsCard = (props) => {
     const navigate = useNavigate();
@@ -83,7 +84,7 @@ const handleSubmit = async (e) => {
         console.log(response);
         navigate('/');}
         else {
-            alert('Your password does not match the criteria');
+          toastMeError('Your password does not match the criteria');
         }
     
   }
@@ -97,7 +98,7 @@ const handleSubmit = async (e) => {
       <div className={classes.inputLabel}>Name: <span style={{fontSize:'14px',color:'black'}}> {name}
         </span></div>
       
-      <div style={{fontSize:'12px',marginTop: '5%',color:'red'}}>
+      <div style={{fontSize:'12px',marginTop: '5%',color:'red', textAlign:'left'}}>
         <ul >
           <strong>
             <li>Password must be at least 8 characters long.</li>
