@@ -5,7 +5,7 @@ import classes from './patientRegister.module.css';
 import logo from '../components/logo.png';
 import medicines from '../components/Medicines.png';
 import Select from 'react-select';
-import { toastMeError } from '../../shared/components/util/functions';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
 const PatientRegisterForm = () => {
   const navigate = useNavigate();
@@ -156,6 +156,7 @@ const dayOptions = () => {
 
       if (response.ok) {
         // Handle a successful response
+        toastMeSuccess('Registration Successful!');
         setUserRole('patient');
         navigate('/patient/home');
       } else {

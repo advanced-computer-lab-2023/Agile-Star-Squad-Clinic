@@ -148,9 +148,8 @@ const DoctorRequestForm = () => {
         navigate('/');
       } else {
         // Handle errors if the server response is not ok
-        const responseData = await response.json();
-        toastMeError(responseData.message);
-        navigate('/');
+        toastMeError("Registeration request failed, please try again.");
+        // navigate('/');
       }
     } catch (error) {
       // Handle network errors
