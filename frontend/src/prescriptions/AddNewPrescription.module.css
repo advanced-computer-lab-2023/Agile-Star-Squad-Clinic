@@ -1,0 +1,28 @@
+.mainButton {
+    background-color: rgb(241, 144, 79);
+    cursor: pointer;
+  
+    padding-block: 5px;
+    padding-inline: 20px;
+    border-radius: 15px;
+    font-weight: 500;
+    border-width: 0;
+    color: white;
+  }
+  .mainButton:hover {
+    background-color: rgb(203, 121, 66);
+  }
+  .patientButton {
+    cursor: pointer;
+    background-color: cadetblue;
+    padding-block: 5px;
+    padding-inline: 20px;
+    border-radius: 15px;
+    font-weight: 500;
+    border-width: 0;
+    color: white;
+  }
+  
+  .patientButton:hover {
+    background-color: #6c9193;
+  }

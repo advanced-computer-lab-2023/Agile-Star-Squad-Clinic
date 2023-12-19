@@ -42,3 +42,10 @@
     width: 80%;
     color: #9C9C9C;
 }
+.patientTile {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    padding-inline: 15px;
+    margin-block: 10px;
+}

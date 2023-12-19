@@ -15,7 +15,8 @@ const adminSchema = new mongoose.Schema({
     select: false,
     minLength: [8, 'Password must be at least 8 characters'],
   },
-  creationDate: Date,
+  creationDate:
+  { type: Date, default:Date.now},
 });
 
 const Admin = mongoose.model('Admin', adminSchema);

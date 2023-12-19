@@ -199,23 +199,13 @@ const AppointmentsCard = (props) => {
 
     return (
       <div className="d-flex justify-content-between">
-        <button
-          onClick={onclick}
-          style={{ background: 'none', border: 'none', padding: 0, margin: 0 }}
-        >
-          <div className={classes.rescheduleButton + ' me-2 py-2'}>
+          <div onClick={onclick} className={classes.rescheduleButton + ' me-2 py-2'}>
             {tab == 0 ? 'Reschedule' : tab == 1 ? 'Follow Up' : 'Book Again'}
           </div>
-        </button>
         {tab == 0 && (
-          <button
-            onClick={cancelBookingHandler}
-            style={{ background: 'none', border: 'none', padding: 0 }}
-          >
-            <div className={classes.cancelButton + ' ms-2 py-2'}>
+            <div onClick={cancelBookingHandler} className={classes.cancelButton + ' ms-2 py-2'}>
               Cancel Booking
             </div>
-          </button>
         )}
       </div>
     );

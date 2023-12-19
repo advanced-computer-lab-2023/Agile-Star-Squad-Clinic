@@ -7,7 +7,10 @@ const PrescriptionDetails = (props) => {
     props.onDelete(props.data["body"]);
     props.exit();
   };
-
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toDateString(); // Adjust this to fit your desired date format
+  };
   const getPrescBody = () => {
     
     return (
@@ -28,13 +31,28 @@ const PrescriptionDetails = (props) => {
           <span>
             <h4>Date of Prescription</h4>
           </span>
-          <span>{props.data["dateOfCreation"]}</span>
+          <span>{formatDate(props.data["dateOfCreation"])}</span>
         </div>
         <div>
           <span>
             <h4>Status</h4>
           </span>
           <span>{props.data["status"]}</span>
+        </div>
+        <div>
+          <span>
+            <h4>Prescribed Medications: </h4>
+          </span>
+         <ul> {props.data["items"].map((item) => {
+                    return (
+                      <>
+                        <li>
+                          <p>Name : {item.name} &nbsp; Dosage : {item.dosage} &nbsp; Frequency : {item.frequency} </p>
+                        </li>
+                      </>
+                    );
+                  })}
+                  </ul>
         </div>
         
       </React.Fragment>

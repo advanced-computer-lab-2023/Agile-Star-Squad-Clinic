@@ -52,11 +52,37 @@ exports.getPatientPrescriptions = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getPatientPrescriptionsByUsername = catchAsync(async (req, res, next) => {
+  const myApps = [];
+  try {
+    const patient = await Patient.findOne(
+    { username: req.params.username},
+    ).populate(
+      'prescription'
+      );
+      patient.prescription.forEach((prescription) => {
+        myApps.push(prescription);
+      });
+  res.status(200).json({
+    status: 'success',
+    data: {
+      prescriptions: patient.prescription,
+    },
+  });
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: error.message,
+    });
+  }
+});
+
 exports.getPrescriptionByIds = catchAsync(async (req, res, next) => {
   const { prescriptionIds } = req.body; // Assuming prescriptionIds is an array of IDs
   
   // Fetch prescriptions using IDs
-  console.log(req.body)
+
   
   const prescriptions = await Prescription.find({ _id: { $in: req.body.prescriptions } });
 

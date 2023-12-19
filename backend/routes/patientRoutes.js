@@ -13,7 +13,9 @@ router
   .get(appointmentController.getAllAppointments)
   .post(middleware.patientAuth, appointmentController.createAppointment);
 
-router.route('/appointments/:id').delete(appointmentController.deleteAppointment);
+router.route('/appointments/:id')
+  .delete(appointmentController.deleteAppointment)
+  .patch(appointmentController.updateAppointment);
 
 router.use('/:id/doctors', middleware.patientAuth, doctorRouter);
 
@@ -55,6 +57,10 @@ router
 router
   .route('/:patientId/prescriptions')
   .get(middleware.patientAuth, prescriptionController.getPatientPrescriptions);
+
+router
+  .route('/prescriptions/:username')
+  .get(middleware.patientAuth, prescriptionController.getPatientPrescriptionsByUsername);
 
 router
   .route('/:patientId/appointments')

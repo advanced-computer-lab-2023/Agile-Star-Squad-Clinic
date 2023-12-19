@@ -6,6 +6,9 @@ const RequestDetails = (props) => {
     const [formVisible, setFormVisible] = useState(true);
 
     const [status, setStatus] = useState(props.data['status']);
+    const closeForm = () => {
+        setFormVisible(false);
+      };
     
     function formatDate(date) {
         const day = date.getDate().toString().padStart(2, '0');
@@ -77,9 +80,11 @@ const RequestDetails = (props) => {
     
     return (
         <>
-            <div id="form">
-                {formVisible && (
-                    <Card className={`${styles.addForm}`}>
+      {formVisible && (
+        <>
+          <div className={styles.overlay} onClick={closeForm}></div>
+          <div id="form" className={styles.formContainer}>
+            <Card className={`${styles.addForm} ${styles.scrollable}`}>
                         <div className={styles.topBorder}></div>
                         <div className={styles.doctor}>Doctor Request</div>
                         <form className={styles.form}>
@@ -170,14 +175,14 @@ const RequestDetails = (props) => {
                                
                             </div>
                         </form>
-                    </Card>
-                    
-                )}
-            </div>
+                        </Card>
+          </div>
         </>
-    );
-    
+      )}
+    </>
+  );
 };
+
 
 
             
