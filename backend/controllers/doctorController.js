@@ -308,7 +308,6 @@ exports.addChat = catchAsync(async (req, res, next) => {
   const doctorId = req.params.id;
   const doctor = await Doctor.findById(doctorId);
   const newChats = [...doctor.chats, chatId];
-  console.log(newChats)
   if (!doctor) {
     return next(new AppError('Doctor not found', 404));
   }

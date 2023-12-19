@@ -89,6 +89,12 @@ const doctorSchema = new mongoose.Schema(
         ref: 'Chat'
       }
     ],
+    chatIds: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Chat'
+      }
+    ],
     // role: {
     //   type: String,
     //   default: "doctor",
