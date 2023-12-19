@@ -14,12 +14,15 @@ const Messages = () => {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [textbox, setTextbox] = useState("");
+  const [collection1, setCollection] = useState();
+  const [collectionProf1, setCollectionProf] = useState();
   const messagesEndRef = React.createRef()
 
   const app = new Realm.App({ id: "application-1-kfjsh" })
   let user;
   let mongodb;
-  let collection
+  let collection;
+  let collectionProf;
   const isPatient = userCtx.role == "patient";
 
   // get users chat ids
@@ -34,6 +37,10 @@ const Messages = () => {
     user = await app.logIn(Realm.Credentials.anonymous());
     mongodb = app.currentUser.mongoClient("mongodb-atlas");
     collection = mongodb.db("clinic").collection("chats");
+    collectionProf = mongodb.db("pharmacy").collection("professionalchats");
+    setCollection(collection);
+    setCollectionProf(collectionProf);
+
     fetch(`http://localhost:3000/patients/${userCtx.userId}/chats`, {
       credentials: 'include',
     }).then(async (response) => {
@@ -44,15 +51,22 @@ const Messages = () => {
 
   const setupChats = async (chatIds) => {
     for (const chatId of chatIds) {
-      const initialChat = await collection.findOne({ "_id": new ObjectId(chatId) });
+      let isProf = false;
+      let initialChat = await collection.findOne({ "_id": new ObjectId(chatId) });
+      if (initialChat == null) {
+        isProf = true;
+        initialChat = await collectionProf.findOne({ "_id": new ObjectId(chatId) });
+      }
       setChats(chats => [...chats, initialChat]);
 
-      listenToChat(chatId);
+      listenToChat(chatId, isProf);
     }
   }
 
-  const listenToChat = async (chatId) => {
-    for await (const change of collection.watch({ "_id": new ObjectId(chatId) })) {
+  const listenToChat = async (chatId, isProf) => {
+    let watchCollection = isProf ? collectionProf : collection;
+    for await (const change of watchCollection.watch({ "_id": new ObjectId(chatId) })) {
+      console.log("hi")
       const newChat = change.fullDocument;
       setChats(chats => {
         const result = [...chats]
@@ -60,7 +74,13 @@ const Messages = () => {
         if (isPatient) {
           index = result.findIndex(chat => chat.doctor.id == newChat.doctor.id)
         } else {
-          index = result.findIndex(chat => chat.patient.id == newChat.patient.id)
+          if (isProf) {
+            index = result.findIndex(chat => newChat.pharmacist != null && chat.pharmacist != null && chat.pharmacist._id.toString() == newChat.pharmacist._id.toString())
+            console.log(index)
+          }
+           else {
+            index = result.findIndex(chat => newChat.patient != null && chat.patient != null && chat.patient.id == newChat.patient.id)
+          }
         }
         result[index] = newChat;
         return result;
@@ -77,12 +97,17 @@ const Messages = () => {
       // we want name, and message
       const message = chat.lastMessage.message;
       let name, id;
-      if (userCtx.userId == chat.patient.id) {
+      if (userCtx.userId == chat.doctor.id) {
+        if (chat.pharmacist == null) {
+          name = chat.patient.name;
+          id = chat.patient.id;
+        } else {
+          name = chat.pharmacist.name;
+          id = chat.pharmacist._id.toString();
+        }
+      } else {
         name = chat.doctor.name;
         id = chat.doctor.id;
-      } else {
-        name = chat.patient.name;
-        id = chat.patient.id;
       }
       return <ChatRoom onClick={() => handleChatChange(chat)} key={chat._id} name={name} message={message} />
     });
@@ -117,7 +142,7 @@ const Messages = () => {
     if (isPatient) {
       return selectedChat.doctor.name
     } else {
-      return selectedChat.patient.name;
+      return selectedChat.patient == null ? selectedChat.pharmacist.name : selectedChat.patient.name;
     }
   }
 
@@ -136,7 +161,11 @@ const Messages = () => {
       chat.lastMessage = message;
       return chat;
     });
-    console.log(collection.findOneAndUpdate({ _id: selectedChat._id }, { $set: { messages: [...selectedChat.messages, message], lastMessage: message } }))
+    if (selectedChat.patient == null) {
+      console.log(collectionProf1.findOneAndUpdate({ _id: selectedChat._id }, { $set: { messages: [...selectedChat.messages, message], lastMessage: message } }))
+    } else {
+      console.log(collection1.findOneAndUpdate({ _id: selectedChat._id }, { $set: { messages: [...selectedChat.messages, message], lastMessage: message } }))
+    }
     setTextbox("")
   }
 
@@ -150,7 +179,7 @@ const Messages = () => {
 
   useEffect(() => {
     if (selectedChat != null) {
-      const newSelectedChat = chats.find(chat => chat.doctor.id == selectedChat.doctor.id && chat.patient.id == selectedChat.patient.id);
+      const newSelectedChat = chats.find(chat => chat._id.toString() == selectedChat._id.toString());
       setSelectedChat(newSelectedChat);
     }
   }, [chats]);
