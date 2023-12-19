@@ -119,10 +119,6 @@ const PatientDetails2 = (props) => {
           <span>{props.data['username']}</span>
         </div>
         <div>
-         
-          <img src='/patient1.png'/>
-        </div>
-        <div>
           <span>
             <h4>Name</h4>
           </span>

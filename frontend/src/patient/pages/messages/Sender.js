@@ -1,7 +1,7 @@
 import styles from './Messages.module.css';
 
 const Sender = (props) => {
-  const date = formatDate(Date(props.timestamp));
+  const date = formatDate(props.timestamp);
 
   return (
     <div>
