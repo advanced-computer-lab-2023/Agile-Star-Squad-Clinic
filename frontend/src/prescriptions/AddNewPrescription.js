@@ -4,6 +4,7 @@ import Modal from '../shared/components/Modal/Modal';
 import axios from 'axios';
 import plus from './plus.png'
 import styles from './AddNewPrescription.module.css'
+import { toastMeError, toastMeSuccess } from '../shared/components/util/functions';
 
 const AddNewPrescription = (props) => {
   const [addedBody, setAddedBody] = useState('');
@@ -55,14 +56,14 @@ const AddNewPrescription = (props) => {
       });
 
       if (response.ok) {
-        alert('Prescription Added Successfully');
+        toastMeSuccess('Prescription Added Successfully');
         props.exit();
         props.onAddPrescription(toAddPrescription);
       } else {
-        alert('Failed to send data.');
+        toastMeError('Failed to send data.');
       }
     } catch (error) {
-      alert('Network error: ' + error.message);
+      toastMeError('Network error: ' + error.message);
     }
   };
   const cancelHandler=(e)=>{

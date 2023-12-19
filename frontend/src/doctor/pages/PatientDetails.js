@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import storage from '../../index';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import Modal from '../../shared/components/Modal/Modal';
+import { toastMeError } from '../../shared/components/util/functions';
 
 const PatientDetails = (props) => { 
   const [healthRecord, setHealthRecord] = useState('');
@@ -49,7 +50,7 @@ const PatientDetails = (props) => {
         console.log(error);
       });
       if (!response.ok) {
-        alert('Failed to upload health record');
+        toastMeError('Failed to upload health record');
       }
     } catch (error) {
       console.error('Error uploading health record:', error);

@@ -7,6 +7,7 @@ import NavBar from '../../shared/components/NavBar/NavBar';
 import UserContext from '../../user-store/user-context';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toastMeError } from '../../shared/components/util/functions';
 
 const PatientAccountSettings = (props) => {
   const patient = useContext(UserContext);
@@ -96,7 +97,7 @@ const PatientAccountSettings = (props) => {
         requestOptions,
       );
       if (!response.ok) {
-        alert('Failed to upload health record');
+        toastMeError('Failed to upload health record');
       }
     } catch (error) {
       console.error('Error uploading health record:', error);

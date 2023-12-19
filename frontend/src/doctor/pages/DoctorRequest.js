@@ -9,6 +9,7 @@ import Medicines from '../images/Medicines.png';
 import Select from 'react-select';
 import 'react-toastify/dist/ReactToastify.css';
 import uploadImg from '../../assets/doctorRequest/upload.png';
+import { toastMeError } from '../../shared/components/util/functions';
 
 const DoctorRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -143,17 +144,17 @@ const DoctorRequestForm = () => {
 
       if (response.ok) {
         // Handle a successful response
-        alert('Request is pending...');
+        toastMeError('Request is pending...');
         navigate('/');
       } else {
         // Handle errors if the server response is not ok
         const responseData = await response.json();
-        alert(responseData.message);
+        toastMeError(responseData.message);
         navigate('/');
       }
     } catch (error) {
       // Handle network errors
-      alert('Network error: ' + error.message);
+      toastMeError('Network error: ' + error.message);
     }
   };
 

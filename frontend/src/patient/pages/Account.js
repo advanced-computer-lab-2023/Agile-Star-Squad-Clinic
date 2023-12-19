@@ -13,6 +13,7 @@ import fam from '../../assets/patientHomepage/fam.png';
 import med from '../../assets/patientHomepage/med.png';
 import pay from '../../assets/patientHomepage/pay.png';
 import setting from '../../assets/patientHomepage/setting.png';
+import { toastMeError } from '../../shared/components/util/functions';
 
 const PatientAccountSettings = (props) => {
 
@@ -109,7 +110,7 @@ const PatientAccountSettings = (props) => {
       );
       console.log(response);
       if (!response.ok) {
-        alert('Failed to upload health record');
+        toastMeError('Failed to upload health record');
       }
     } catch (error) {
       console.error('Error uploading health record:', error);

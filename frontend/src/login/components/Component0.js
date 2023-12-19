@@ -4,6 +4,7 @@ import styles from './login.module.css';
 import InputField from './InputField/InputField';
 import Button from './Button/Button';
 import axios from 'axios';
+import { toastMeError } from '../../shared/components/util/functions';
 
 function Component0({ setTab , setEmail2 }) {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ function Component0({ setTab , setEmail2 }) {
 
   const handleRequestLink = async (e) => {
     if (email === '') {
-      return alert("Please provide your email");
+      return toastMeError("Please provide your email");
     }
     const response = await axios
       .post(`http://localhost:3000/auth/resetPassword/${email}`)
@@ -19,7 +20,7 @@ function Component0({ setTab , setEmail2 }) {
         setTab(true);
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        toastMeError(err.response.data.message);
       });
   };
   const handleInput = (e) => {

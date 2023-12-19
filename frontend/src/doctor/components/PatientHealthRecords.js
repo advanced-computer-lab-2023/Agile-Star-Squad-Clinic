@@ -6,6 +6,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './PatientPersonalDetails.css';
+import { toastMeError } from '../../shared/components/util/functions';
 
 const PatientHealthRecord = (props) => {
   const [healthRecord, setHealthRecord] = useState('');
@@ -28,7 +29,7 @@ const PatientHealthRecord = (props) => {
         },
       );
     } else {
-      alert('Please choose a file first');
+      toastMeError('Please choose a file first');
       return;
     }
     setMedicalRecords((records) => {
@@ -53,7 +54,7 @@ const PatientHealthRecord = (props) => {
         console.log(error);
       });
       if (!response.ok) {
-        alert('Failed to upload health record');
+        toastMeError('Failed to upload health record');
       }
     } catch (error) {
       console.error('Error uploading health record:', error);
