@@ -5,16 +5,17 @@
 1. [ Motivation. ](#motivation)
 2. [ Build Status. ](#build-status)
 3. [ Code Style. ](#code-style)
-4. [ Screenshots. ](#ss)
-5. [ Technologies Used. ](#tech)
-6. [ Features. ](#feats)
-7. [ API Refrences. ](#api-ref)
-8. [ Tests. ](#tests)
-9. [ Usage. ](#usage)
-10. [ Contribution. ](#contribution)
-11. [ Collaborators. ](#collabs)
-12. [ Credits. ](#credits)
-13. [ License. ](#license)
+4. [ Screenshots. ](#screenshots)
+5. [ Technologies Used. ](#technology)
+6. [ Features. ](#features)
+7. [ Code Examples. ](#code-examples)
+8. [ API Refrences. ](#api-ref)
+9. [ Tests. ](#tests)
+10. [ Usage. ](#usage)
+11. [ Contribution. ](#contribution)
+12. [ Collaborators. ](#collabs)
+13. [ Credits. ](#credits)
+14. [ Licenses. ](#licenses)
 
 <a name="motivation"></a>
 
@@ -43,12 +44,12 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
     - The src is divided into assets, admin, checkout, doctor, login, package, patient, prescriptions, requests, shared, temp & user-store
   3. Each of the leaf folders mentioned above contains the main files of the project.
 
-<a name="ss"></a>
+<a name="screenshots"></a>
 
 ## Screenshots
 <!-- todo -->
 
-<a name="tech"></a>
+<a name="technology"></a>
 
 ## Technologies Used
 
@@ -66,7 +67,7 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 
 - **Video SDK**: This was used to facilitate video appointments between doctors and patients. It provided the necessary tools to establish a secure and reliable video connection, ensuring a smooth and efficient consultation process.
 
-<a name="feats"></a>
+<a name="features"></a>
 
 ## Features
 
@@ -387,7 +388,8 @@ We welcome contributions from the community. Please ensure that your pull reques
 
 
 
-<a name="license"></a>
+<a name="licenses"></a>
 
-## License
-<!-- todo -->
+## Licenses
+
+[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
