@@ -148,16 +148,10 @@ const BrowseDoctors = (props) => {
 
     const filteredDoctors = doctors.filter((doctor) => {
       const timeSlotsForDay = doctor.timeSlots[selectedDay];
-      if (selectedTime && timeSlotsForDay && timeSlotsForDay.includes(selectedTime)) {
         if (timeSlotsForDay && timeSlotsForDay.length !== 0) {
           return true;
         }
         return false
-      }
-      else if (!selectedTime && timeSlotsForDay && timeSlotsForDay.length !== 0) {
-        return true;
-      }
-      return false
     });
     setFilteredDoctors(filteredDoctors);
     return filteredDoctors;
