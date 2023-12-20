@@ -316,21 +316,47 @@ curl -X DELETE http://localhost:3000/patients/:id
 
 1. **Home Page**: When you first visit the website, you'll land on the home page. Here, you can learn more about the clinic and the services it offers.
 
+<img src="https://i.ibb.co/yqTTVrS/patient-Home-Page.png" alt="patient-Home-Page" border="0">
+
 2. **Registration**: If you're a new user, navigate to the "Register" page to create an account. You'll need to provide some basic information like your name, email address, and password.
+
+<img src="https://i.ibb.co/4J1Sc50/regPage.png" alt="regPage" border="0">
+
+- Patient Registration
+
+<img src="https://i.ibb.co/Xjj9q47/patient-Reg.png" alt="patient-Reg" border="0">
+
+- Doctor Registration Request
+
+<img src="https://i.ibb.co/S69NqqM/doctor-Reg.png" alt="doctor-Reg" border="0">
 
 3. **Login**: If you already have an account, click on the "Login" button on the top right of the page. Enter your email address and password to log in.
 
+<img src="https://i.ibb.co/4RpDJr0/login.png" alt="login" border="0">
+
 4. **Booking Appointments**: Once logged in, you can book an appointment by navigating to the "Book Appointment" page. Select a doctor, choose a date and time, and click "Book Appointment".
+
+<img src="https://i.ibb.co/N66bT1Q/bookApp.png" alt="bookApp" border="0">
 
 5. **Viewing Appointments**: To view your upcoming appointments, go to the "My Appointments" page. Here, you can also cancel appointments if necessary.
 
+<img src="https://i.ibb.co/HYgsKM5/apps.png" alt="apps" border="0">
+
 6. **Doctor Directory**: To view a list of all available doctors, navigate to the "Doctors" page. You can view detailed profiles of each doctor, including their specialization, experience, and available slots.
+
+<img src="https://i.ibb.co/nQG8M7y/doctors.png" alt="doctors" border="0">
 
 7. **Medical Records**: If you're a patient, you can view your medical records by going to the "My Medical Records" page. Here, you can also add new entries to your medical history.
 
-8. **Video Call**: After booking an appointment, you can have a video call with the doctor. This feature is available on the "My Appointments" page. Make sure you have a stable internet connection for the best experience.
+<img src="https://i.ibb.co/f12M5Fr/medical-Records.png" alt="medical-Records" border="0">
+
+8. **Video Call**: After booking an appointment, you can have a video call with the doctor. This feature is available on the "Patient Home" page. Make sure you have a stable internet connection for the best experience.
+
+<img src="https://i.ibb.co/qsTVs8P/meeting.png" alt="meeting" border="0">
 
 9. **Chat**: Once you have started an appointment, you can chat with the doctor through the "Chat" feature available on the "My Appointments" page.
+
+<img src="https://i.ibb.co/WyVsVDY/chat.png" alt="chat" border="0">
 
 Remember to log out when you're done using the website to ensure your account remains secure.
 
