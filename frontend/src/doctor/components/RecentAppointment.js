@@ -22,14 +22,21 @@ const RecentAppointment = (props) => {
       }).then(async (response) => {
         const json = await response.json();
         const appointments = await json.data.appointments;
-       
+
         // console.log("hello123",prescriptions.filter(prescription => prescription.doctor === doctor.userId));
+        const today = new Date(); // Current date
+        const lastMonth = new Date(); // Date from last month
+        lastMonth.setMonth(lastMonth.getMonth() - 1);
 
         setAppointments(
-            appointments.filter(
-              (appointment) => (appointment.doctorId === doctor.userId && appointment.status ==="completed" ),
-            ),
-          );
+          appointments.filter(
+            (appointment) =>
+              appointment.doctorId === doctor.userId &&
+              appointment.status === 'completed' &&
+              (new Date(appointment.date) > lastMonth && // Ensure the appointment date is after lastMonth
+      new Date(appointment.date) <= today )
+          ),
+        );
       });
     } catch (error) {
       console.log(error);
@@ -54,18 +61,17 @@ const RecentAppointment = (props) => {
     fetchAppointments();
   }, []);
 
-
   const viewButtonHandler = (prescription) => {
     setChosenAppointment(prescription);
 
     setDetailsOn(true);
   };
-  
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toDateString(); // Adjust this to fit your desired date format
   };
-//   console.log(finalAppointments);
+  //   console.log(finalAppointments);
   return (
     <React.Fragment>
       <Card className={styles.prescriptionDetails}>
@@ -73,7 +79,6 @@ const RecentAppointment = (props) => {
           <h3 className={styles.welcomeText} style={{ textAlign: 'center' }}>
             Appointments
           </h3>
-          
         </div>
         <div className={styles.prescriptionList}>
           {finalAppointments.length != 0 &&
@@ -86,7 +91,6 @@ const RecentAppointment = (props) => {
                       <br /> {formatDate(url.date)}
                     </p>
                     <div>
-                      
                       <button
                         className={styles.patientButton}
                         onClick={() => viewButtonHandler(url)}
@@ -103,13 +107,12 @@ const RecentAppointment = (props) => {
       </Card>
       {detailsOn && chosenAppointment && (
         <RescheduleAppointmentModal
-        exit={() => setDetailsOn(false)}
-        appointment={chosenAppointment}
-        buttonText={"Follow Up Appointment"}
-        onRescheduleAppointment={submitPrescHandler}
-      />
+          exit={() => setDetailsOn(false)}
+          appointment={chosenAppointment}
+          buttonText={'Follow Up Appointment'}
+          onRescheduleAppointment={submitPrescHandler}
+        />
       )}
-      
     </React.Fragment>
   );
 };
