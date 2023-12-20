@@ -80,6 +80,16 @@ const AdminForm = ( { onSubmitSuccess } ) => {
               <div className={styles.title}>Add Admin</div>
               <form  onSubmit={onAdd} className={styles.form}>
               <div className={styles.fieldGroup}>
+              <div className={styles.field}>
+          <span className={styles.smallText}>Username</span>
+          <input
+            type="text"
+            className="form-control"
+            required
+            value={username}
+            onChange={onUsernameChange}
+          />
+        </div>
         <div className={styles.nameField}>
           <span className={styles.smallText}>Email</span>
           <input
@@ -91,16 +101,7 @@ const AdminForm = ( { onSubmitSuccess } ) => {
             required
           />
         </div>  
-        <div className={styles.field}>
-          <span className={styles.smallText}>Username</span>
-          <input
-            type="text"
-            className="form-control"
-            required
-            value={username}
-            onChange={onUsernameChange}
-          />
-        </div>
+        
       </div>
       <div className={styles.fieldGroup}>
         <div className={styles.field}>
