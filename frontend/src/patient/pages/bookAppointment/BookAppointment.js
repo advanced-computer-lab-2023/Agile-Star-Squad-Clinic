@@ -48,18 +48,12 @@ const BookAppointment = (props) => {
 
   const navigate = useNavigate();
 
-  const backButtonClickHandler = () => {
-    navigate('/patient/home');
-  };
   return (
     <div style={{ height: '100vh' }}>
       <div className={styles.navBar}>
         <NavBar />
       </div>
       <div style={{ marginTop: '100px' }}>
-        <button className={styles.button} onClick={backButtonClickHandler}>
-          {arrow}
-        </button>
         <div className={styles.card}>
           <Card doctor={doctor} />
         </div>
