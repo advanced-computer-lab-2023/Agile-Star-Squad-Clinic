@@ -1,14 +1,14 @@
 import { useEffect, useState, useContext } from 'react';
-import { SideCard } from './Account';
+import { SideCard } from './AccountDr';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 //import styles from '../components/login.module.css';
-import classes from './PaymentCard.module.css';
+import classes from './Account.module.css';
 import axios from 'axios';
 import UserContext from '../../../user-store/user-context';
 import { toastMeError } from '../../../shared/components/util/functions';
 
-  const AccountDetailsCard = (props) => {
+  const AccountDetails = (props) => {
     const navigate = useNavigate();
     const [tab, setTab] = useState(0);
     const [name, setName] = useState('');
@@ -32,18 +32,17 @@ import { toastMeError } from '../../../shared/components/util/functions';
       lengthCheck && uppercaseCheck && lowercaseCheck && specialCharOrDigitCheck
     );
   };
-
   const handleNewPassword = (e) => {
     setNewPassword(e.target.value);
   };
 
 
 const fetchName = () =>{
-    fetch(`http://localhost:3000/patients/${doctor.userId}`, {
+    fetch(`http://localhost:3000/doctors/${doctor.userId}`, {
         credentials: 'include',
       }).then(async (response) => {
         const json = await response.json();
-          setName(json.data.patient.name);
+          setName(json.data.doctor.name);
     
       });
 }
@@ -113,7 +112,7 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default AccountDetailsCard;
+export default AccountDetails;
 
 const customStyles = {
   control: (provided, state) => ({
