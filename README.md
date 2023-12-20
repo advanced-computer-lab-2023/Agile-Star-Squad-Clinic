@@ -273,21 +273,110 @@ Here are some examples of how to test the different endpoints:
 
 **Postman**
 
-- Get all patients
+- Get all patients in backend
 ```
-GET: http://localhost:3000/patients 
+exports.getAllPatients = catchAsync(async (req, res, next) => {
+  const patients = await Patient.find().populate('package');
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patients,
+    },
+  });
+});
 ```
-- Signup as a patient
+
 ```
-POST: http://localhost:3000/patients
+GET Request: http://localhost:3000/patients 
 ```
-- Add health record to patient
+- Signup as a patient in backend
 ```
-PATCH: http://localhost:3000/endpoint/:id
+exports.signup = catchAsync(async (req, res, next) => {
+  const newPatient = await Patient.create(req.body)
+    .then((result) => {
+      return result; // Forward the result for further processing
+    })
+    .catch((error) => {
+      console.error('Error creating patient:', error.message);
+      throw error; // Re-throw the error for further handling
+    });
+
+  if (newPatient == null) {
+    res.status(404).json({
+      status: 'fail',
+      data: {
+        error: 'error',
+      },
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: newPatient,
+    },
+  });
+});
 ```
-- Delete patient
+
 ```
-DELETE: http://localhost:3000/endpoint/:id
+POST Request: http://localhost:3000/patients
+```
+- Add health record to patient in backend
+```
+exports.addHealthRecord = catchAsync(async (req, res, next) => {
+  const updatedPatient = await Patient.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: { medicalRecord: req.body.medicalRecord },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!updatedPatient) {
+    return next(new AppError('No patient found with that ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient: updatedPatient,
+    },
+  });
+});
+```
+
+```
+PATCH Request: http://localhost:3000/patients/:id
+```
+- Delete patient in backend
+```
+exports.removePatient = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findByIdAndDelete(req.params.id);
+  await Appointment.findAndDelete({
+    patient: req.params.id,
+  });
+  await Prescription.findAndDelete({
+    patient: req.params.id,
+  });
+
+  if (!patient) {
+    return next(new AppError('No patient found with that ID', 404));
+  }
+  
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+```
+
+```
+DELETE Request: http://localhost:3000/patients/:id
 ```
 
   **curl**
