@@ -4,6 +4,7 @@ import ReactDOM  from 'react-dom';
 import Modal from '../../../shared/components/Modal/Modal';
 import Card from '../../../shared/components/Card/Card';
 import styles from './AdminForm.module.css';
+import { toastMeError,toastMeSuccess } from '../../../shared/components/util/functions';
 
 const AdminForm = ( { onSubmitSuccess } ) => {
     const [username, setUsername] = useState("");
@@ -56,15 +57,15 @@ const AdminForm = ( { onSubmitSuccess } ) => {
             const responseData = await response.json();
             console.log('Response data:', responseData);
       
-            alert('Admin added successfully!');
+            toastMeSuccess('Admin added successfully!');
             onSubmitSuccess();
            
           } else {
-            alert('Failed to add admin. Please try again.');
+            toastMeError('Failed to add admin. Please try again.');
           }
         } catch (error) {
           console.error('Error adding admin:', error);
-          alert('An error occurred. Please try again.');
+          toastMeError('An error occurred. Please try again.');
         } finally {
           setLoading(false);
         }
