@@ -9,6 +9,7 @@ import RescheduleAppointmentModal from '../../patient/components/RescheduleAppoi
 
 const RecentAppointment = (props) => {
   const [finalAppointments, setAppointments] = useState([]);
+  const [finalFollowUps, setFollowUps] = useState([]);
   const [detailsOn, setDetailsOn] = useState(false);
   const [addNewOn, setaddNewOn] = useState(false);
   const [editOn, setEditOn] = useState(false);
@@ -42,6 +43,54 @@ const RecentAppointment = (props) => {
       console.log(error);
     }
   };
+  const fetchFollowUps = async () => {
+    try {
+      fetch(`http://localhost:3000/doctors/${doctor.userId}/`, {
+        credentials: 'include',
+      }).then(async (response) => {
+        const json = await response.json();
+        const myDoctor=await json.data.doctor;
+        const followUps= myDoctor.followUps;
+        console.log(followUps)
+        const filteredFollowUps = [];
+        for (let i = 0; i < followUps.length; i++) {
+          
+          if (followUps[i][0].data.data.patient === patient._id) {
+            filteredFollowUps.push(followUps[i][0]);
+          }
+        }
+        console.log(filteredFollowUps)
+        setFollowUps(filteredFollowUps);
+      //   setFollowUps(
+      //     followUps.filter(
+      //       (followUp) =>
+      //       followUp.data.doctorId === doctor.userId &&
+      //       followUp.status === 'completed' &&
+      //         (new Date(appointment.date) > lastMonth && // Ensure the appointment date is after lastMonth
+      // new Date(appointment.date) <= today )
+      //     ),
+      //   );
+        // const appointments = await json.data.appointments;
+
+        // console.log("hello123",prescriptions.filter(prescription => prescription.doctor === doctor.userId));
+      //   const today = new Date(); // Current date
+      //   const lastMonth = new Date(); // Date from last month
+      //   lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+      //   setAppointments(
+      //     appointments.filter(
+      //       (appointment) =>
+      //         appointment.doctorId === doctor.userId &&
+      //         appointment.status === 'completed' &&
+      //         (new Date(appointment.date) > lastMonth && // Ensure the appointment date is after lastMonth
+      // new Date(appointment.date) <= today )
+      //     ),
+      //   );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const submitPrescHandler = (newPrescription) => {
     //  fetchPrescriptions();
@@ -59,9 +108,15 @@ const RecentAppointment = (props) => {
   };
   useEffect(() => {
     fetchAppointments();
+    fetchFollowUps();
   }, []);
 
   const viewButtonHandler = (prescription) => {
+    setChosenAppointment(prescription);
+
+    setDetailsOn(true);
+  };
+  const rejectButtonHandler = (prescription) => {
     setChosenAppointment(prescription);
 
     setDetailsOn(true);
@@ -71,7 +126,7 @@ const RecentAppointment = (props) => {
     const date = new Date(dateString);
     return date.toDateString(); // Adjust this to fit your desired date format
   };
-  //   console.log(finalAppointments);
+    console.log("///",finalFollowUps);
   return (
     <React.Fragment>
       <Card className={styles.prescriptionDetails}>
@@ -81,14 +136,14 @@ const RecentAppointment = (props) => {
           </h3>
         </div>
         <div className={styles.prescriptionList}>
-          {finalAppointments.length != 0 &&
-            finalAppointments.map((url, index) => {
+          {finalFollowUps.length != 0 &&
+            finalFollowUps.map((url, index) => {
               return (
                 <>
                   <div className={styles.prescriptionItem}>
                     <p>
                       <strong>Appointment {index + 1} </strong>
-                      <br /> {formatDate(url.date)}
+                      {url && url && <>{url.data.data.patientName}</>}
                     </p>
                     <div>
                       <button
@@ -96,7 +151,14 @@ const RecentAppointment = (props) => {
                         onClick={() => viewButtonHandler(url)}
                         style={{ marginLeft: '200px' }}
                       >
-                        Follow Up
+                        Accept
+                      </button>
+                      <button
+                        className={styles.patientButton}
+                        onClick={() => rejectButtonHandler(url)}
+                        style={{ marginLeft: '200px' }}
+                      >
+                        Reject
                       </button>
                     </div>
                   </div>

@@ -71,6 +71,40 @@ exports.getAllPatients = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.scheduleFollowUp = catchAsync(async (req, res, next) => {
+  console.log("ay haga")
+  const patient = await Patient.findById(req.params.patientId).populate('package');
+  const doctor = await Doctor.findById(req.body.doctorId)
+  // const appointment = req.body.appointment
+  // console.log("patient",req.body)
+ 
+
+  let memberData = {
+    data: req.body,
+    status:"pending"
+
+  } 
+  // console.log(patient)
+  if(!patient){
+    return next(new AppError('No user found with that ID', 404));
+  }
+  
+  const updatedFollowUps =[...doctor.followUps,memberData]
+  // console.log(updatedFollowUps);
+  
+  
+  await Doctor.findByIdAndUpdate(doctor._id, {
+    followUps: updatedFollowUps,
+  });
+
+  res.status(200).json({
+    status: 'success',
+      followUps: memberData,
+  });
+
+  
+});
+
 exports.removePatient = catchAsync(async (req, res, next) => {
   const patient = await Patient.findByIdAndDelete(req.params.id);
   await Appointment.findAndDelete({
@@ -83,6 +117,7 @@ exports.removePatient = catchAsync(async (req, res, next) => {
   if (!patient) {
     return next(new AppError('No patient found with that ID', 404));
   }
+  
 
   res.status(204).json({
     status: 'success',
