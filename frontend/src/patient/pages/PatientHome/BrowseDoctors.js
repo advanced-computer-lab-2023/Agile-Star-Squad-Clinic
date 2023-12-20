@@ -132,7 +132,7 @@ const BrowseDoctors = (props) => {
     }
 
     if (categoryIndex !== -1) {
-      newDoctors = newDoctors.filter((doc) => doc.speciality === specialtyOptions[categoryIndex]);
+      newDoctors = newDoctors.filter((doc) => doc.speciality === specialtyOptions[categoryIndex].name);
     }
 
     if (pickedDate !== "") {
@@ -143,18 +143,11 @@ const BrowseDoctors = (props) => {
   };
 
   const applyDateFilter = () => {
-    console.log("APPLYING DATE FILTER");
     const selectedDay = new Date(pickedDate).getDay();
     const selectedTime = pickedTime.value;
-    console.log(selectedTime);
-    console.log(selectedDay);
-    console.log(doctors);
 
     const filteredDoctors = doctors.filter((doctor) => {
-      console.log(doctor);
-      console.log(doctor.timeSlots);
       const timeSlotsForDay = doctor.timeSlots[selectedDay];
-      console.log("TIME SLOTS FOR DAY", timeSlotsForDay);
       if (selectedTime && timeSlotsForDay && timeSlotsForDay.includes(selectedTime)) {
         if (timeSlotsForDay && timeSlotsForDay.length !== 0) {
           return true;
@@ -166,7 +159,6 @@ const BrowseDoctors = (props) => {
       }
       return false
     });
-    console.log(filteredDoctors);
     setFilteredDoctors(filteredDoctors);
     return filteredDoctors;
   };
