@@ -115,7 +115,6 @@ const Dashboard = (props) => {
       date.getFullYear() === now.getFullYear() &&
       date.getHours() === now.getHours() + 2
     ) {
-      console.log('current appointment', appointment);
       currentAppointment = appointment;
     }
     return { weekday, month, day, time, doctorName, doctorSpecialty };
@@ -135,8 +134,6 @@ const Dashboard = (props) => {
         });
     }
   }, [currentAppointment]);
-
-  console.log(props.prescriptions);
 
   const getAppointmentItem = (appointment) => {
     return (
