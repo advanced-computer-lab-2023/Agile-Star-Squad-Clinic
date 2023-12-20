@@ -143,7 +143,7 @@ const RecentAppointment = (props) => {
                   <div className={styles.prescriptionItem}>
                     <p>
                       <strong>Appointment {index + 1} </strong>
-                      {url && url[0]&& <>{url[0].data.data.patientName}</>}
+                      {url && url && <>{url.data.data.patientName}</>}
                     </p>
                     <div>
                       <button
