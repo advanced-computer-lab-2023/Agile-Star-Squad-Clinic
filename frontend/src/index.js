@@ -9,6 +9,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { UserContextProvider } from './user-store/user-context';
+import { ToastContainer } from 'react-toastify';
 
 const firebaseConfig = {
     apiKey: "AIzaSyB_EEjUYhdGRri3Zi2rfSv0r98uPcXnyJg",
@@ -28,6 +29,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <CookiesProvider>
     <UserContextProvider>
+      <ToastContainer />
       <App />
     </UserContextProvider>
   </CookiesProvider>

@@ -12,7 +12,7 @@ const PrescriptionTile = (props) => {
         } else {
             props.setSelectedPrescriptions(val => {
                 const result = [...val];
-                return result.filter(p => p.id != presc.id);
+                return result.filter(p => p.id != presc.id || p.name != presc.name);
             });
         }
     }, [checked]);

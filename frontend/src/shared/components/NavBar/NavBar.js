@@ -84,7 +84,7 @@ const NavBar = (props) => {
               </Link>
               <Link to="/appointments" style={{ all: 'unset' }}>
                 <a href="#" className="btn btn-white">
-                  Appointments
+                  Prescriptions
                 </a>
               </Link>
               <Link to={'/patient/account'}>

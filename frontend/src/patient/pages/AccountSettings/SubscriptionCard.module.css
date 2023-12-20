@@ -1,0 +1,51 @@
+.sideCardTitle {
+    color: #101828;
+    font-family: 'Poppins';
+    font-size: 18px;
+    font-weight: 600;
+    text-align: start;
+}
+
+
+.notSubscribed {
+    color: #101828;
+    font-size: 22px;
+    text-align: center;
+}
+
+.subscribeButton {
+    cursor: pointer;
+    background-color: #29873C;
+    color: white;
+    padding: 5px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.subscribeButton:hover{
+    background-color: #196027;
+    transition: all 0.2s ease;
+}
+
+
+.cancelButton {
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    padding: 5px 20px;
+    margin-top: 40px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.cancelButton:hover{
+    background-color: rgb(195, 11, 11);
+    transition: all 0.2s ease;
+}
+
+.packageImage {
+    width: 80px;
+    height: 80px;
+}

@@ -1,7 +1,9 @@
-import Card from '../../../shared/components/Card/Card';
+import Modal from '../../../shared/components/Modal/Modal';
 import { useState } from 'react'
 import styles from '../../components/RequestDetails.module.css'; 
-import { toastMeError, toastMeSuccess } from '../../../shared/components/util/functions';
+import ReactDOM from "react-dom";
+import React from 'react';
+import { toastMeError,toastMeSuccess } from '../../../shared/components/util/functions';
 
 const RequestDetails = (props) => {
     const [formVisible, setFormVisible] = useState(true);
@@ -35,17 +37,18 @@ const RequestDetails = (props) => {
 
             if (response.ok) {
                 // Handle a successful response
-                toastMeSuccess('Doctor accepted successfully!');
+                
                 setStatus('Accepted');
-                props.onStatusChange(props.data['id'], 'Accepted');
-                setFormVisible(false);
+                // props.onStatusChange(props.data['id'], 'Accepted');
+                // setFormVisible(false);
+                toastMeSuccess('Doctor accepted successfully!');
             } else {
                 // Handle errors if the server response is not ok
                 toastMeError('Accepting request Failed!');
             }
         } catch (error) {
             // Handle network errors
-            toastMeError('Network error: ' + error.message);
+            // toastMeError('Network error: ' + error.message);
         }
  
     }
@@ -65,30 +68,31 @@ const RequestDetails = (props) => {
 
             if (response.ok) {
                 // Handle a successful response
-                toastMeError('Doctor rejected!');
+                
                 setStatus('Rejected');
-                props.onStatusChange(props.data['id'], 'Rejected');
-                setFormVisible(false);
+                // props.onStatusChange(props.data['id'], 'Rejected');
+                // setFormVisible(false);
+                toastMeSuccess('Doctor rejected!');
             } else {
                 // Handle errors if the server response is not ok
                 toastMeError('Rejecting request Failed!');
             }
         } catch (error) {
             // Handle network errors
-            toastMeError('Network error: ' + error.message);
+            // alert('Network error: ' + error.message);
         }
     }
     
-    return (
-        <>
-      {formVisible && (
-        <>
-          <div className={styles.overlay} onClick={closeForm}></div>
-          <div id="form" className={styles.formContainer}>
-            <Card className={`${styles.addForm} ${styles.scrollable}`}>
+    const RequestDetails = () => {
+        return (
+         <React.Fragment>
+           <>
+         {  (
+           <>
+   
+     
                         <div className={styles.topBorder}></div>
                         <div className={styles.doctor}>Doctor Request</div>
-                        <form className={styles.form}>
                         <div className={styles.personal}>
                         <div className={styles.headers}>Personal Details</div>
                             <div className={styles.fieldGroup}>
@@ -96,17 +100,17 @@ const RequestDetails = (props) => {
                                     <span className={styles.smallText}>Name</span>
                                     <div className={styles.formControl}>{props.data['name']}</div>
                                 </div>
-                                <div className={styles.field}>
+                                <div className={styles.nameField}>
                                     <span className={styles.smallText}>Email</span>
                                     <div className={styles.formControl}>{props.data['email']}</div>
                                 </div>
                             </div>
                             <div className={styles.fieldGroup}>
-                                <div className={styles.field}>
+                                <div className={styles.nameField}>
                                     <span className={styles.smallText}>Username</span>
                                     <div className={styles.formControl}>{props.data['username']}</div>
                                 </div>
-                                <div className={styles.field}>
+                                <div className={styles.nameField}>
                                     <span className={styles.smallText}>Date of Birth</span>
                                     <div className={styles.formControl}>{formatDate(new Date(props.data['dateOfBirth']))}</div>
                                 </div>
@@ -175,32 +179,34 @@ const RequestDetails = (props) => {
                         {status.toLowerCase() === 'pending' && <ActionButtons onReject={onReject} onAccept={onAccept} />}
                                
                             </div>
-                        </form>
-                        </Card>
-          </div>
         </>
       )}
     </>
+    </React.Fragment>
+  );};
+
+
+return ReactDOM.createPortal(
+    <Modal exit={props.exit}>
+      {RequestDetails()}
+      {/* <ActionButtons onDelete={onDelete} /> */}
+    </Modal>, document.getElementById("backdrop-root")
   );
-};
+}
 
-
-
-            
 const ActionButtons = (props) => {
     return (
-        <div  className={styles.buttonPos}>
+   
+           <div  className={styles.buttonPos}>
             <button className={styles.reject} onClick={props.onReject}>Reject</button>
             <button className={styles.accept} onClick={props.onAccept}>
                 {!props.isLoading && <span>Accept</span>}
                 {props.isLoading && <div className="loader" />}
             </button>
         </div>
+       
     );
-}          
-        
- 
-
+};
 
 
 export default RequestDetails;
