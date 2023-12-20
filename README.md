@@ -384,7 +384,7 @@ We welcome contributions from the community. Please ensure that your pull reques
 
 <a name="collabs"></a>
 
-## Contributors
+## Contributors 
 
 <div style="display: flex;">
 
