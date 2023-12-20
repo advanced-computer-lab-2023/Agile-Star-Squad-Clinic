@@ -247,7 +247,6 @@ exports.unsubscribePackage = catchAsync(async (req, res, next) => {
 
   await Patient.findByIdAndUpdate(patient._id, {
 
-    package: null,
     cancellationDate: Date.now()
   });
 

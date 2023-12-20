@@ -4,7 +4,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import 'react-calendar/dist/Calendar.css';
 import NavBar from '../../../shared/components/NavBar/NavBar';
 import UserContext from '../../../user-store/user-context';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './Account.module.css';
 import patient1 from '../../../assets/patientHomepage/patient1.png';
 import globeImg from '../../../assets/patientAccount/globe.png';
@@ -23,7 +23,8 @@ import FamilyCard from './FamilyCard';
 import PaymentCard from './PaymentCard';
 import MedicalCard from './MedicalCard';
 import AccountDetailsCard from './AccountDetailsCard';
-import { toastMeError } from '../../../shared/components/util/functions';
+import { toastMeError, toastMeSuccess } from '../../../shared/components/util/functions';
+import SubscriptionCard from './SubscriptionCard';
 
 const PatientAccountSettings = (props) => {
   const patient = useContext(UserContext);
@@ -34,15 +35,18 @@ const PatientAccountSettings = (props) => {
   const [healthRecord, setHealthRecord] = useState('');
   const [subscriptionDate, setsubscriptionDate] = useState(Date.now());
   const [expiringDate, setexpiringDate] = useState(Date.now());
-  const [cancellationDate, setcancellationDate] = useState(Date.now());
+  const [cancellationDate, setcancellationDate] = useState();
   const [currentPatient, setCurrentPatient] = useState('');
   const [appointments, setAppointments] = useState([]);
   const [familyMembers, setFamilyMembers] = useState([]);
-  const [index, setIndex] = useState(null);
+  // const [patient, setPatient] = useState();
+  const location = useLocation();
+  const [index, setIndex] = useState(location.state != null ? location.state.index : null);
 
   useEffect(() => {
     fetchAppointments();
     fetchFamilyMembers();
+    fetchPackage();
   }, []);
 
   const onHealthRecordChange = (file) => {
@@ -88,7 +92,6 @@ const PatientAccountSettings = (props) => {
       credentials: 'include',
     }).then(async (response) => {
       const json = await response.json();
-      console.log(json.data);
       setsubscriptionDate(json.data.patient.subscriptionDate);
       setexpiringDate(json.data.patient.expiringDate);
       setMedicalRecords(json.data.patient.medicalRecord);
@@ -111,11 +114,10 @@ const PatientAccountSettings = (props) => {
       );
       console.log(response);
       if (response.ok) {
-        setButtonPressed(true);
-        setPackage(null);
+        toastMeSuccess(`Cancelled subscription successfully, Expiration Date: ${formatDate(expiringDate)}`)
         setcancellationDate(JSON.stringify(new Date()));
       } else {
-        console.error(
+        toastMeError(
           'Failed to remove health package. Status:',
           response.status,
         );
@@ -126,6 +128,7 @@ const PatientAccountSettings = (props) => {
       console.error('Error removing health package:', error);
     }
   };
+
   const handleHealthRecordUpload = async () => {
     let healthRecordUrl;
     if (healthRecord !== '') {
@@ -168,10 +171,6 @@ const PatientAccountSettings = (props) => {
     }
   };
 
-  useEffect(() => {
-    fetchPackage();
-  }, []);
-
   const deleteImage = (e, url) => {
     e.preventDefault();
 
@@ -190,6 +189,7 @@ const PatientAccountSettings = (props) => {
       return newRecords;
     });
   };
+
   useEffect(()=>{
     if (index==9)
       logout()
@@ -206,6 +206,10 @@ const PatientAccountSettings = (props) => {
   const familyMembersHandler = () => {
     navigate('/patient/family');
   };
+
+  const getCancellationDate = () => {
+    return cancellationDate;
+  }
   
 
   const { healthRecordInput } = healthRecord;
@@ -247,7 +251,7 @@ const PatientAccountSettings = (props) => {
         />
         <SettingsTile
           onClick={() => setIndex(5)}
-          title={'Email Notifications'}
+          title={'My Subscription'}
           imagePath={notificationImg}
         />
       </SettingsContainer>
@@ -278,6 +282,7 @@ const PatientAccountSettings = (props) => {
       {index == 2 && <MedicalCard />}
       {index == 3 && <PaymentCard />}
       {index == 4 && <AppointmentsCard appointments={appointments} />}
+      {index == 5 && <SubscriptionCard  healthPackage={healthPackage} handleUnsubscribe={handeleUnsubscribeButtonclick} cancellationDate={getCancellationDate()} expiringDate={expiringDate}/>}
     </body>
   );
 };
@@ -324,4 +329,16 @@ const Greeting = (props) => {
 
 export const SideCard = (props) => {
   return <div className={classes.sideCard}>{props.children}</div>;
+};
+
+
+
+const formatDate = (date) => {
+  date = new Date(date);
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  }).format(date);
+  return formattedDate;
 };
