@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import Card from '../../shared/components/Card/Card';
 
 import axios from 'axios';
@@ -8,13 +8,18 @@ import PrescriptionDetail from '../../prescriptions/pages/PrescriptionDetails';
 import styles from '../pages/PatientDetails.module.css';
 import AddNewPrescription from '../../prescriptions/AddNewPrescription';
 import EditPrescriptionDetails from '../../prescriptions/pages/EditPrescriptionDetails';
+import jsPDF from 'jspdf';
+import PrescriptionPDF from '../../patient/pages/prescriptions/PrescriptionPDF';
 
 const PatientPrescriptionDetails = (props) => {
   const [finalPrescriptions, setPrescriptions] = useState([]);
   const [detailsOn, setDetailsOn] = useState(false);
   const [addNewOn, setaddNewOn] = useState(false);
   const [editOn, setEditOn] = useState(false);
+  const [doctorName, setDoctorName] = useState(false);
   const [chosenPrescription, setChosenPrescription] = useState(null);
+  const [showTempPdf, setShowTempPdf] = useState(false);
+  const pdfRef = useRef();
   const patient = props.patient;
   const doctor = props.doctor;
   const fetchPrescriptions = async () => {
@@ -45,6 +50,25 @@ const PatientPrescriptionDetails = (props) => {
     }
   };
 
+  const fetchdoctor = async () => {
+    const response = await axios.get(
+      `http://localhost:3000/doctors/${props.doctor.userId}`,
+    );
+
+    setDoctorName(response.data.data.doctor.name);
+  };
+
+
+  const downloadPrescriptions = () => {
+    const doc = new jsPDF({ orientation: "landscape", format: [1450, 780], unit: "px" });
+    doc.setFont('Helvetica', 'normal');
+
+    doc.html(pdfRef.current, {
+      async callback(doc) {
+        doc.save('Clinic Prescription');
+      },
+    });
+  }
   const submitPrescHandler = (newPrescription) => {
     //  fetchPrescriptions();
     setPrescriptions((prev) => {
@@ -61,6 +85,7 @@ const PatientPrescriptionDetails = (props) => {
   };
   useEffect(() => {
     fetchPrescriptions();
+    fetchdoctor();
   }, []);
 
   const addPrescriptionHandler = () => {
@@ -69,6 +94,7 @@ const PatientPrescriptionDetails = (props) => {
 
   const handleClose = () => {
     setDetailsOn(false);
+    setShowTempPdf(false)
   };
   const handleClose2 = () => {
     setaddNewOn(false);
@@ -78,7 +104,7 @@ const PatientPrescriptionDetails = (props) => {
   };
   const viewButtonHandler = (prescription) => {
     setChosenPrescription(prescription);
-
+    setShowTempPdf(true);
     setDetailsOn(true);
   };
   const editButtonHandler = (prescription) => {
@@ -90,7 +116,6 @@ const PatientPrescriptionDetails = (props) => {
     const date = new Date(dateString);
     return date.toDateString(); // Adjust this to fit your desired date format
   };
-  console.log(finalPrescriptions);
   return (
     <React.Fragment>
       <Card className={styles.prescriptionDetails}>
@@ -132,7 +157,7 @@ const PatientPrescriptionDetails = (props) => {
         </div>
       </Card>
       {detailsOn && chosenPrescription && (
-        <PrescriptionDetail data={chosenPrescription} exit={handleClose} />
+        <PrescriptionDetail onDownload={downloadPrescriptions} data={chosenPrescription} exit={handleClose} />
       )}
       {editOn && chosenPrescription && (
         <EditPrescriptionDetails
@@ -151,6 +176,11 @@ const PatientPrescriptionDetails = (props) => {
           onAddPrescription={submitPrescHandler}
         />
       )}
+      {showTempPdf && chosenPrescription != null && <div ref={pdfRef} className='position-absolute w-100'>
+        <PrescriptionPDF prescriptions={chosenPrescription.items.map(presc => {
+        return { name: presc.name, dosage: presc.dosage, frequency: presc.frequency, doctor: doctorName, date: formatDate(chosenPrescription.dateOfCreation), status: chosenPrescription.status, _id: chosenPrescription._id.substring(0,7) }
+      })} />
+      </div>}
     </React.Fragment>
   );
 };

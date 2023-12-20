@@ -8,7 +8,7 @@ import UserContext from '../../../user-store/user-context';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import storage from '../../..';
-import { toastMeSuccess } from '../../../shared/components/util/functions';
+import { toastMeError, toastMeSuccess } from '../../../shared/components/util/functions';
 
 const MedicalCard = (props) => {
   const [tab, setTab] = useState(0);
@@ -104,7 +104,7 @@ const MedicalCard = (props) => {
         <MyDropzone
           label="Upload Document"
           maxFiles={5}
-          toast={toastMe}
+          toast={toastMeError}
           files={files}
           setFiles={setFiles}
         />
@@ -133,7 +133,8 @@ const MedicalCard = (props) => {
           >
             <a href={file} target="_blank">
               <div>
-                <img src={file} height={50} />
+                {!file.includes('pdf') && <img src={file} height={50} />}
+                {file.includes('pdf') && "View PDF"}
               </div>
             </a>
             <div onClick={() => deleteDocument(file)} className={classes.deleteButton}>
@@ -188,7 +189,7 @@ const MyDropzone = (props) => {
   });
 
   const rejectFile = () => {
-    props.toast(`Only .PNG and .JPG files are accepted`);
+    props.toast(`Only .PNG, .PDF, .JPG files are accepted`);
     return;
   };
 
@@ -205,7 +206,7 @@ const MyDropzone = (props) => {
       <Dropzone
         onDrop={onDrop}
         onDropRejected={rejectFile}
-        accept={{ 'image/png': ['png'], 'image/jpeg': ['jpg'] }}
+        accept={{ 'image/png': ['png'], 'image/jpeg': ['jpg'], 'application/pdf': ['pdf'] }}
       >
         {({ getRootProps, getInputProps }) => (
           <section>

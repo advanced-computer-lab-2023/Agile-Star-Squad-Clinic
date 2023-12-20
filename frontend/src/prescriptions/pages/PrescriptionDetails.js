@@ -71,7 +71,7 @@ const PrescriptionDetails = (props) => {
   return ReactDOM.createPortal(
     <Modal exit={props.exit}>
       {getPrescBody()}
-      <ActionButtons onDelete={onDelete} />
+      <ActionButtons onDownload={props.onDownload} onDelete={onDelete} />
     </Modal>,
     document.getElementById('backdrop-root'),
   );
@@ -79,6 +79,13 @@ const PrescriptionDetails = (props) => {
 
 const ActionButtons = (props) => {
   return <div className="d-flex justify-content-end mt-5">
+    <button
+        onClick={props.onDownload}
+        className={`${styles.mainButton} me-3`}
+        
+      >
+        Download PDF
+      </button>
     <button
         onClick={props.onDelete}
         className={styles.mainButton}
