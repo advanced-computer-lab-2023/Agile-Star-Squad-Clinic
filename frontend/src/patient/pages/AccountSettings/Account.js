@@ -25,6 +25,7 @@ import MedicalCard from './MedicalCard';
 import AccountDetailsCard from './AccountDetailsCard';
 import { toastMeError, toastMeSuccess } from '../../../shared/components/util/functions';
 import SubscriptionCard from './SubscriptionCard';
+import AboutUs from './AboutUs';
 
 const PatientAccountSettings = (props) => {
   const patient = useContext(UserContext);
@@ -262,16 +263,6 @@ const PatientAccountSettings = (props) => {
           imagePath={aboutImg}
         />
         <SettingsTile
-          onClick={() => setIndex(7)}
-          title={'Contact Us'}
-          imagePath={contactImg}
-        />
-        <SettingsTile
-          onClick={() => setIndex(8)}
-          title={'Invite Your Friends'}
-          imagePath={inviteImg}
-        />
-        <SettingsTile
           onClick={() => setIndex(9)}
           title={'Logout'}
           imagePath={logoutImg}
@@ -283,6 +274,7 @@ const PatientAccountSettings = (props) => {
       {index == 3 && <PaymentCard />}
       {index == 4 && <AppointmentsCard appointments={appointments} />}
       {index == 5 && <SubscriptionCard  healthPackage={healthPackage} handleUnsubscribe={handeleUnsubscribeButtonclick} cancellationDate={getCancellationDate()} expiringDate={expiringDate}/>}
+      {index == 6 && <AboutUs/>}
     </body>
   );
 };
@@ -315,7 +307,7 @@ const Greeting = (props) => {
     }/${joinedDate.getFullYear()}`;
   return (
     <div className={classes.greetingContainer}>
-      <img src={props.imageUrl} />
+      {/* <img src={props.imageUrl} /> */}
       <div>
         <h1 className={classes.name}>{name}</h1>
         <div className={classes.subtitle}>

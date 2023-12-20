@@ -26,6 +26,7 @@ import chevronRight from '../../../assets/patientAccount/chevronRight.png';
 import { toastMeError, toastMeSuccess } from '../../../shared/components/util/functions';
 // import SubscriptionCard from './SubscriptionCard';
 import AccountDetails from './AccountDetails';
+import AboutUs from '../../../patient/pages/AccountSettings/AboutUs';
 
 const AccountDr = (props) => {
   const doctor = useContext(UserContext);
@@ -256,49 +257,12 @@ useEffect(()=>{fetchImage()},[]);
           title={'Account Details'}
           imagePath={globeImg}
         />
-        <SettingsTile
-          onClick={() => setIndex(1)}
-          title={'My Family'}
-          imagePath={familyImg}
-        />
-        <SettingsTile
-          onClick={() => setIndex(2)}
-          title={'Medical Documents'}
-          imagePath={medicalImg}
-        />
-        <SettingsTile
-          onClick={() => setIndex(3)}
-          title={'Payment Details'}
-          imagePath={paymentImg}
-        />
-      </SettingsContainer>
-      <SettingsContainer title={'Account'}>
-        <SettingsTile
-          onClick={() => setIndex(4)}
-          title={'Appointments'}
-          imagePath={appointmentsImg}
-        />
-        <SettingsTile
-          onClick={() => setIndex(5)}
-          title={'My Subscription'}
-          imagePath={notificationImg}
-        />
       </SettingsContainer>
       <SettingsContainer title={'Other'}>
         <SettingsTile
           onClick={() => setIndex(6)}
           title={'About Us'}
           imagePath={aboutImg}
-        />
-        <SettingsTile
-          onClick={() => setIndex(7)}
-          title={'Contact Us'}
-          imagePath={contactImg}
-        />
-        <SettingsTile
-          onClick={() => setIndex(8)}
-          title={'Invite Your Friends'}
-          imagePath={inviteImg}
         />
         <SettingsTile
           onClick={() => setIndex(9)}
@@ -312,6 +276,7 @@ useEffect(()=>{fetchImage()},[]);
       {index == 3 && <PaymentCard />}
       {index == 4 && <AppointmentsCard appointments={appointments} />}
       {index == 5 && <SubscriptionCard  healthPackage={healthPackage} handleUnsubscribe={handeleUnsubscribeButtonclick} cancellationDate={getCancellationDate()} expiringDate={expiringDate}/>} */}
+      {index == 6 && <AboutUs/>}
     </body>
   );
 };

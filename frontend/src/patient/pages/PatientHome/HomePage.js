@@ -11,9 +11,6 @@ import JoinMeetingCard from '../../../shared/components/Meeting/JoinMeetingCard'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const imageUrl =
-  'https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D';
-
 const PatientHomePage = () => {
   const [patient, setPatient] = useState({});
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
@@ -86,7 +83,7 @@ const PatientHomePage = () => {
   return (
     <>
       <NavBar />
-      <Greeting name={patient['name']} imageUrl={imageUrl} />
+      <Greeting name={patient['name']} />
       <Dashboard
         appointments={upcomingAppointments}
         prescriptions={prescriptionsItems}
@@ -153,7 +150,7 @@ const Dashboard = (props) => {
             {appointment.day}
           </div>
           <div className={classes.appointmentRight}>
-            <img src={imageUrl} />
+            <img src={doctor.image} />
             <div className={classes.timeText}>{appointment.time}</div>
           </div>
           <div className={classes.doctorCard}>
@@ -272,7 +269,7 @@ const Greeting = (props) => {
   name = name.toUpperCase();
   return (
     <div className={classes.greetingContainer}>
-      <img src={props.imageUrl} />
+      {/* <img src={props.imageUrl} /> */}
       <div>
         <h1 className={classes.name}>{name}</h1>
         <div className={classes.subtitle}>
