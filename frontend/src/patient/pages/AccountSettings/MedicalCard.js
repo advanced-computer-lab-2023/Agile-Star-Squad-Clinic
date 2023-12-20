@@ -19,7 +19,11 @@ const MedicalCard = (props) => {
   //     { withCredentials: true },
   //   );
 
-  useEffect(async () => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
     const response = await axios.get(
       `http://localhost:3000/patients/${userCtx.userId}`,
       {
@@ -28,7 +32,7 @@ const MedicalCard = (props) => {
     );
     console.log(response.data.data.medicalRecord);
     setFiles(response.data.data.medicalRecord);
-  }, []);
+  }
 
   const getTabStyle = (index) => {
     if (index == tab) {
