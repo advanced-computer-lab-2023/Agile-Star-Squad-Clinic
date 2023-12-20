@@ -34,6 +34,7 @@ const PatientPrescriptionDetails = (props) => {
           },
         );
         // console.log("hello123",response2.data.data.prescriptions.filter(prescription => prescription.doctor === doctor.userId));
+        
         setPrescriptions(
           response2.data.data.prescriptions.filter(
             (prescription) => prescription.doctor === doctor.userId,

@@ -21,7 +21,7 @@ const PatientDetails2 = () => {
     <React.Fragment>
       <DoctorNavBar />
       <div className="container " >
-        <div className="row justify-content-center" style={{marginLeft: '0px',width: '110%',marginTop: '10px'}}>
+        <div className="row justify-content-center" style={{marginLeft: '0px',width: '100%',marginTop: '10px'}}>
           <div className="col" >
             <PatientPersonalDetails data={patient} />
           </div>
@@ -29,7 +29,7 @@ const PatientDetails2 = () => {
             <PatientHealthRecord data={patient} />
           </div>
         </div>
-        <div className="row justify-content-center" style={{marginLeft: '0px',width: '110%',marginTop: '10px'}}>
+        <div className="row justify-content-center" style={{marginLeft: '0px',width: '100%',marginTop: '10px'}}>
           <div className="col">
             <PatientPrescriptionDetails patient={patient} doctor={doctor} />
           </div>

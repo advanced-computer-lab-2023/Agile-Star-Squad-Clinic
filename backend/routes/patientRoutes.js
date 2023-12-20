@@ -64,7 +64,8 @@ router
 
 router
   .route('/:patientId/appointments')
-  .get(appointmentController.allAppointmentsForPatients);
+  .get(appointmentController.allAppointmentsForPatients)
+  .post(patientController.scheduleFollowUp);
 
 router
   .route('/:patientId/upcomingAppointments')
