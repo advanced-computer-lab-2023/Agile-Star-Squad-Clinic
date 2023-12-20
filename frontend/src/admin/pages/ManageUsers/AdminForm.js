@@ -4,7 +4,6 @@ import ReactDOM  from 'react-dom';
 import Modal from '../../../shared/components/Modal/Modal';
 import Card from '../../../shared/components/Card/Card';
 import styles from './AdminForm.module.css';
-import { toastMeSuccess } from '../../../shared/components/util/functions';
 
 const AdminForm = ( { onSubmitSuccess } ) => {
     const [username, setUsername] = useState("");
@@ -68,15 +67,6 @@ const AdminForm = ( { onSubmitSuccess } ) => {
           alert('An error occurred. Please try again.');
         } finally {
           setLoading(false);
-          setFormVisible(false);
-        };
-
-        const result = await fetch(`http://localhost:3000/admins`, requestOptions)
-        props.exit();
-        if (result.status === 403) {
-            toastMeSuccess((await result.json()).message)
-        } else {
-            props.refresh()
         }
       };
       
@@ -90,16 +80,6 @@ const AdminForm = ( { onSubmitSuccess } ) => {
               <div className={styles.title}>Add Admin</div>
               <form  onSubmit={onAdd} className={styles.form}>
               <div className={styles.fieldGroup}>
-              <div className={styles.field}>
-          <span className={styles.smallText}>Username</span>
-          <input
-            type="text"
-            className="form-control"
-            required
-            value={username}
-            onChange={onUsernameChange}
-          />
-        </div>
         <div className={styles.nameField}>
           <span className={styles.smallText}>Email</span>
           <input
@@ -111,7 +91,16 @@ const AdminForm = ( { onSubmitSuccess } ) => {
             required
           />
         </div>  
-       
+        <div className={styles.field}>
+          <span className={styles.smallText}>Username</span>
+          <input
+            type="text"
+            className="form-control"
+            required
+            value={username}
+            onChange={onUsernameChange}
+          />
+        </div>
       </div>
       <div className={styles.fieldGroup}>
         <div className={styles.field}>
