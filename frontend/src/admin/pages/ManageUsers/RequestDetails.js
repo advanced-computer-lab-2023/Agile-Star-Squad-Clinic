@@ -1,6 +1,7 @@
 import Modal from '../../../shared/components/Modal/Modal';
 import { useState } from 'react'
 import styles from '../../components/RequestDetails.module.css'; 
+import { toastMeError, toastMeSuccess } from '../../../shared/components/util/functions';
 import ReactDOM from "react-dom";
 import React from 'react';
 
@@ -36,17 +37,17 @@ const RequestDetails = (props) => {
 
             if (response.ok) {
                 // Handle a successful response
-                alert('Doctor accepted successfully!');
+                toastMeSuccess('Doctor accepted successfully!');
                 setStatus('Accepted');
                 props.onStatusChange(props.data['id'], 'Accepted');
                 setFormVisible(false);
             } else {
                 // Handle errors if the server response is not ok
-                alert('Accepting request Failed!');
+                toastMeError('Accepting request Failed!');
             }
         } catch (error) {
             // Handle network errors
-            alert('Network error: ' + error.message);
+            toastMeError('Network error: ' + error.message);
         }
  
     }
@@ -66,17 +67,17 @@ const RequestDetails = (props) => {
 
             if (response.ok) {
                 // Handle a successful response
-                alert('Doctor rejected!');
+                toastMeError('Doctor rejected!');
                 setStatus('Rejected');
                 props.onStatusChange(props.data['id'], 'Rejected');
                 setFormVisible(false);
             } else {
                 // Handle errors if the server response is not ok
-                alert('Rejecting request Failed!');
+                toastMeError('Rejecting request Failed!');
             }
         } catch (error) {
             // Handle network errors
-            // alert('Network error: ' + error.message);
+            alert('Network error: ' + error.message);
         }
     }
     

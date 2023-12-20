@@ -23,6 +23,7 @@ import FamilyCard from './FamilyCard';
 import PaymentCard from './PaymentCard';
 import MedicalCard from './MedicalCard';
 import AccountDetailsCard from './AccountDetailsCard';
+import { toastMeError } from '../../../shared/components/util/functions';
 
 const PatientAccountSettings = (props) => {
   const patient = useContext(UserContext);
@@ -160,7 +161,7 @@ const PatientAccountSettings = (props) => {
       );
       console.log(response);
       if (!response.ok) {
-        alert('Failed to upload health record');
+        toastMeError('Failed to upload health record');
       }
     } catch (error) {
       console.error('Error uploading health record:', error);

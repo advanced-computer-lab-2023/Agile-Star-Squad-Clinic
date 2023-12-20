@@ -5,7 +5,7 @@ import Card from '../../shared/components/Card/Card';
 import axios from 'axios';
 import PrescriptionDetail from '../../prescriptions/pages/PrescriptionDetails';
 
-import '../pages/PatientDetails.css'
+import styles from '../pages/PatientDetails.module.css'
 import AddNewPrescription from '../../prescriptions/AddNewPrescription';
 
 const PatientPrescriptionDetails  =(props)=>{
@@ -39,8 +39,9 @@ const PatientPrescriptionDetails  =(props)=>{
     }
   };
 
- const submitPrescHandler =()=>{
-   fetchPrescriptions();
+ const submitPrescHandler =(newPrescription)=>{
+  //  fetchPrescriptions();
+  setPrescriptions((prev)=>{return[...prev,newPrescription]})
  }
   useEffect(() => {
     
@@ -63,28 +64,36 @@ const PatientPrescriptionDetails  =(props)=>{
     const date = new Date(dateString);
     return date.toDateString(); // Adjust this to fit your desired date format
   };
-
+  console.log(finalPrescriptions)
   return(
     <React.Fragment>
-    <Card className="prescriptionDetails" >
-    <div className='prescriptionHeader'>     
-           <h3 className='welcomeText' style={{textAlign:'center'}}>Prescriptions</h3>         
-       <button onClick={addPrescriptionHandler}>Add New Prescription</button>
+    <Card className={styles.prescriptionDetails} >
+    <div className={styles.prescriptionHeader}>     
+           <h3 className={styles.welcomeText} style={{textAlign:'center'}}>Prescriptions</h3>         
+       <button onClick={addPrescriptionHandler} >Add New Prescription</button>
        </div>
-       <div className='prescriptionList'>
+       <div className={styles.prescriptionList}>
        {finalPrescriptions.length != 0 &&
          finalPrescriptions.map((url,index) => {
            return (
              <>
-               <div className="prescriptionItem">
+               <div className={styles.prescriptionItem}>
                  <p ><strong>Prescription  {index + 1} </strong><br/> {url.body}</p>
-                 <button className="patientButton" onClick={() => viewButtonHandler(url)}>View</button>
+                 <div>
+                 <button className={styles.patientButton} onClick={() => viewButtonHandler(url)}>Edit</button>
+                 <button className={styles.patientButton} onClick={() => viewButtonHandler(url)} style={{marginLeft:"10px"}}>View</button>
+                 </div>
                </div>
              </>
            );
          })}
          </div>
      </Card>
+     {detailsOn && chosenPrescription && (
+       
+        <PrescriptionDetail data={chosenPrescription} exit={handleClose}/>
+      
+    )}
      {detailsOn && chosenPrescription && (
        
         <PrescriptionDetail data={chosenPrescription} exit={handleClose}/>

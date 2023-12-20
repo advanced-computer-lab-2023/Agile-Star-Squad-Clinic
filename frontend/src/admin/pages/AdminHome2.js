@@ -11,6 +11,7 @@ import classes from './AdminHome.module.css';
 import req from '../req.png';
 import x from '../X.png';
 import check from '../check.png';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
 const AdminHome2 = (props) => {
   const userCtx = useContext(UserContext);
@@ -268,17 +269,17 @@ console.log(selectedRequest);
 
       if (response.ok) {
         // Handle a successful response
-        alert('Doctor accepted successfully!');
+        toastMeSuccess('Doctor accepted successfully!');
         setStatus('Accepted');
         // statusChangeHandler(props.id, 'Accepted');
         refreshUserData();
       } else {
         // Handle errors if the server response is not ok
-        alert('Accepting request Failed!');
+        toastMeError('Accepting request Failed!');
       }
     } catch (error) {
       // Handle network errors
-      alert('Network error: ' + error.message);
+      toastMeError('Network error: ' + error.message);
     }
     fetchPendingRequests();
   };
@@ -298,17 +299,17 @@ console.log(selectedRequest);
 
       if (response.ok) {
         // Handle a successful response
-        alert('Doctor rejected!');
+        toastMeError('Doctor rejected!');
         setStatus('Rejected');
         // statusChangeHandler(props.id, 'Rejected');
         refreshUserData();
       } else {
         // Handle errors if the server response is not ok
-        alert('Rejecting request Failed!');
+        toastMeError('Rejecting request Failed!');
       }
     } catch (error) {
       // Handle network errors
-      alert('Network error: ' + error.message);
+      toastMeError('Network error: ' + error.message);
     }
     fetchPendingRequests();
   };

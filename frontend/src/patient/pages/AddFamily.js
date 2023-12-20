@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Modal from '../../shared/components/Modal/Modal';
 import '../../shared/components/InputField/InputField.css';
 import UserContext from '../../user-store/user-context';
+import { toastMeError } from '../../shared/components/util/functions';
 
 const AddFamilyForm = (props) => {
   const userCtx = useContext(UserContext);
@@ -41,7 +42,7 @@ const AddFamilyForm = (props) => {
       props.exit();
       props.onAddFamily(formData);
     } else {
-      alert('Please fill in all required fields');
+      toastMeError('Please fill in all required fields');
     }
   };
 

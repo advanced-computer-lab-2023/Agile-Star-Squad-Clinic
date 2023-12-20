@@ -4,6 +4,7 @@ import ReactDOM  from 'react-dom';
 import Modal from '../../../shared/components/Modal/Modal';
 import Card from '../../../shared/components/Card/Card';
 import styles from './AdminForm.module.css';
+import { toastMeSuccess } from '../../../shared/components/util/functions';
 
 const AdminForm = ( { onSubmitSuccess } ) => {
     const [username, setUsername] = useState("");
@@ -68,6 +69,16 @@ const AdminForm = ( { onSubmitSuccess } ) => {
         } finally {
           setLoading(false);
           setFormVisible(false);
+            headers: { "Content-type": "application/json; charset=UTF-8", },
+            body: JSON.stringify(data)
+        };
+
+        const result = await fetch(`http://localhost:3000/admins`, requestOptions)
+        props.exit();
+        if (result.status === 403) {
+            toastMeSuccess((await result.json()).message)
+        } else {
+            props.refresh()
         }
       };
       

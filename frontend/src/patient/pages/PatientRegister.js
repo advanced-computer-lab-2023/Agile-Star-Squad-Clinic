@@ -5,6 +5,7 @@ import classes from './patientRegister.module.css';
 import logo from '../components/logo.png';
 import medicines from '../components/Medicines.png';
 import Select from 'react-select';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
 const PatientRegisterForm = () => {
   const navigate = useNavigate();
@@ -155,15 +156,16 @@ const dayOptions = () => {
 
       if (response.ok) {
         // Handle a successful response
+        toastMeSuccess('Registration Successful!');
         setUserRole('patient');
         navigate('/patient/home');
       } else {
         // Handle errors if the server response is not ok
-        alert('Registration Failed!');
+        toastMeError('Registration Failed!');
       }
     } catch (error) {
       // Handle network errors
-      alert('Network error: ' + error.message);
+      toastMeError('Network error: ' + error.message);
     }
   };
 

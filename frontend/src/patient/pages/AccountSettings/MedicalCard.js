@@ -21,13 +21,13 @@ const MedicalCard = (props) => {
 
   useEffect(async () => {
     const response = await axios.get(
-      `https://localhost:3000/patients/${userCtx.user._id}`,
+      `http://localhost:3000/patients/${userCtx.userId}`,
       {
         useCredentials: true,
       },
     );
-
-    setFiles(response.data.medicalRecord);
+    console.log(response.data.data.medicalRecord);
+    setFiles(response.data.data.medicalRecord);
   }, []);
 
   const getTabStyle = (index) => {

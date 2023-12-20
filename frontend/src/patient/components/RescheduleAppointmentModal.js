@@ -8,6 +8,7 @@ import UserContext from '../../user-store/user-context';
 import Modal from '../../shared/components/Modal/Modal';
 
 import styles from './bookAppointment/bookImplementation/BookImplementation.module.css';
+import { toastMeError } from '../../shared/components/util/functions';
 
 const RescheduleAppointmentModal = (props) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const RescheduleAppointmentModal = (props) => {
       );
       setUser(response.data.data.patient);
     } catch (error) {
-      alert('get patient error');
+      toastMeError('get patient error');
       console.error('Error:', error);
     }
   };
@@ -41,7 +42,7 @@ const RescheduleAppointmentModal = (props) => {
       );
       setDoctor(response.data.data.doctor);
     } catch (error) {
-      alert('get doctor error');
+      toastMeError('get doctor error');
       console.error('Error:', error);
     }
   };
@@ -54,7 +55,7 @@ const RescheduleAppointmentModal = (props) => {
       );
       setUpComingAppointments(response.data.data.appointments);
     } catch (error) {
-      alert('get upcoming appointments error');
+      toastMeError('get upcoming appointments error');
       console.error('Error:', error);
     }
   };

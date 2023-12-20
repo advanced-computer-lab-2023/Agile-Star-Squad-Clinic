@@ -4,6 +4,7 @@ import AddFamilyForm from './AddFamily';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
+import { toastMeSuccess } from '../../shared/components/util/functions';
 
 const PatientFamily = () => {
   const [familyMembers, setFamilyMembers] = useState(false);
@@ -47,7 +48,7 @@ const PatientFamily = () => {
   };
 
   const addFamilyHandler = (family) => {
-    alert('added');
+    toastMeSuccess('Member added');
     setFamilyMembers(family);
   };
 

@@ -4,6 +4,7 @@ import styles from './login.module.css';
 import InputField from './InputField/InputField';
 import Button from './Button/Button';
 import axios from 'axios';
+import { toastMeError } from '../../shared/components/util/functions';
 
 function Component2({ setTab3, email }) {
   const navigate = useNavigate();
@@ -56,12 +57,12 @@ function Component2({ setTab3, email }) {
 
         setTab3(true);
       } else {
-        alert('Your password does not match the criteria');
+        toastMeError('Your password does not match the criteria');
       }
     } else {
       setNewPassword('');
       setRetypePassword('');
-      alert('Passwords do not match');
+      toastMeError('Passwords do not match');
     }
   };
 
