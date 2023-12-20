@@ -9,6 +9,7 @@ import closeImg from '../../../assets/patientAccount/close.png';
 import { useNavigate } from 'react-router-dom';
 import RescheduleAppointmentModal from '../../components/RescheduleAppointmentModal';
 import axios from 'axios';
+import { toastMeSuccess } from '../../../shared/components/util/functions';
 
 const AppointmentsCard = (props) => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const AppointmentsCard = (props) => {
     }
     let newAppointments = allAppointments.filter(
       (app) =>
-      app.status == tabText || (tab == 0 && app.status == 'Rescheduled') || (tab == 1 && app.status=='Completed'),
+        app.status == tabText || (tab == 0 && app.status == 'Rescheduled') || (tab == 1 && app.status == 'Completed'),
     );
     if (pickedDate != null) {
       newAppointments = newAppointments.filter((app) => {
@@ -194,18 +195,18 @@ const AppointmentsCard = (props) => {
         `http://localhost:3000/patients/appointments/${app._id}`,
         { withCredentials: true },
       );
-      //update the front end
+      toastMeSuccess("Appointment cancelled successfully")
     };
 
     return (
       <div className="d-flex justify-content-between">
-          <div onClick={onclick} className={classes.rescheduleButton + ' me-2 py-2'}>
-            {tab == 0 ? 'Reschedule' : tab == 1 ? 'Follow Up' : 'Book Again'}
-          </div>
+        <div onClick={onclick} className={classes.rescheduleButton + ' me-2 py-2'}>
+          {tab == 0 ? 'Reschedule' : tab == 1 ? 'Follow Up' : 'Book Again'}
+        </div>
         {tab == 0 && (
-            <div onClick={cancelBookingHandler} className={classes.cancelButton + ' ms-2 py-2'}>
-              Cancel Booking
-            </div>
+          <div onClick={cancelBookingHandler} className={classes.cancelButton + ' ms-2 py-2'}>
+            Cancel Booking
+          </div>
         )}
       </div>
     );

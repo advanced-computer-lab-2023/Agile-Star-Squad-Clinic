@@ -73,7 +73,8 @@ exports.createAppointment = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteAppointment = catchAsync(async (req, res, next) => {
-  const appointment = await Appointment.findByIdAndDelete(req.params.id);
+  const appointment = await Appointment.findById(req.params.id);
+  appointment.status = 'cancelled'
   const patient = await Patient.findById(appointment.patient);
   const doctor = await Doctor.findById(appointment.doctor);
 
@@ -83,11 +84,7 @@ exports.deleteAppointment = catchAsync(async (req, res, next) => {
 
   const newNotification = await Notifications.create({ patient: req.body.patient, doctor: req.body.doctor, appoinmentDate: req.body.dateOfAppointment, appointmentStatus: appointment.status, patientMessage: pMessage, doctorMessage: dMessage });
 
-
-  patient.appointments.pull(appointment._id);
-  await patient.save();
-  doctor.appointments.pull(appointment._id);
-  await doctor.save();
+  await appointment.save();
   doctor.notifications.push(newNotification);
   await doctor.save();
   patient.notifications.push(newNotification);
