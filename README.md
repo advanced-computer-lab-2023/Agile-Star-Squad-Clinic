@@ -279,7 +279,49 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 <a name="tests"></a>
 
 ## Tests
-<!-- todo -->
+
+To test the API locally, you can use a tool like [Postman](https://www.postman.com/) or [curl](https://curl.se/). The API runs on `http://localhost:3000` by default.
+
+Here are some examples of how to test the different endpoints:
+
+**Postman**
+
+- Get all patients
+```
+GET: http://localhost:3000/patients 
+```
+- Signup as a patient
+```
+POST: http://localhost:3000/patients
+```
+- Add health record to patient
+```
+PATCH: http://localhost:3000/endpoint/:id
+```
+- Delete patient
+```
+DELETE: http://localhost:3000/endpoint/:id
+```
+
+  **curl**
+- Get all patients
+```bash
+curl http://localhost:3000/patients
+```
+- Signup as a patient
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"key":"value"}' http://
+localhost:3000/patients
+```
+- Add health record to patient
+```bash
+curl -X PATCH -H "Content-Type: application/json" -d '{"key":"value"}' http://localhost:3000/patients/:id
+```
+- Delete patient
+```bash
+curl -X DELETE http://localhost:3000/patients/:id
+```
+
 
 <a name="usage"></a>
 
@@ -384,9 +426,13 @@ We welcome contributions from the community. Please ensure that your pull reques
 <a name="credits"></a>
 
 ## Credits
-<!-- todo -->
 
+This project was made possible with help from the following resources:
 
+- [Code Ninja YouTube Channel](https://www.youtube.com/channel/UCStj-ORBZ7TGK1FwtGAUgbQ)
+- [StackOverflow](https://stackoverflow.com/)
+- [GitHub Copilot](https://copilot.github.com/)
+- [ChatGPT](https://www.openai.com/chatgpt/)
 
 <a name="licenses"></a>
 
