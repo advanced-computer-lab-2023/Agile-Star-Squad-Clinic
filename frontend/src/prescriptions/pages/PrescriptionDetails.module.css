@@ -1,0 +1,94 @@
+/* Prescription Details Styling */
+
+.prescriptionDetails {
+    margin-top: 20px;
+    
+    
+  }
+  
+  .detail {
+    margin-bottom: 15px;
+    border-bottom: 1px solid cadetblue;
+    padding-bottom: 10px;
+  }
+  
+  .detail h4 {
+    margin-bottom: 5px;
+    color: #193842;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .detail span {
+    display: block;
+    margin-top: 5px;
+    color: #193842;
+    font-size: 14px;
+  }
+  
+  .detail ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 5px;
+  }
+  
+  .detail li {
+    margin-bottom: 5px;
+    color: #193842;
+    font-size: 14px;
+  }
+  
+  .detail p {
+    margin: 0;
+  }
+  
+  /* Buttons Styling */
+  
+  .mainButton,
+  .patientButton {
+    cursor: pointer;
+    padding: 5px 20px;
+    border-radius: 15px;
+    font-weight: 500;
+    border-width: 0;
+    font-size: 14px;
+  }
+  
+  .mainButton {
+    background-color: rgb(241, 144, 79);
+    color: white;
+  }
+  
+  .mainButton:hover {
+    background-color: rgb(203, 121, 66);
+  }
+  
+  .patientButton {
+    background-color: cadetblue;
+    color: white;
+  }
+  
+  .patientButton:hover {
+    background-color: #6c9193;
+  }
+  .prescriptionTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .prescriptionTable th,
+  .prescriptionTable td {
+    border: 1px solid cadetblue;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .prescriptionTable th {
+    background-color:  cadetblue;
+    color: white;
+  }
+  
+  .prescriptionTable td button {
+    margin-right: 5px;
+  }

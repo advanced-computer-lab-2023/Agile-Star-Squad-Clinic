@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import PatientPersonalDetails from '../components/PatientPersonalDetails';
 import styles from './PatientDetails.module.css';
 import PatientPrescriptionDetails from '../components/PatientPrescriptionDetails';
+import RecentAppointment from '../components/RecentAppointment';
 
 const PatientDetails2 = () => {
   const doctor = useContext(UserContext);
@@ -22,7 +23,7 @@ const PatientDetails2 = () => {
       <div className="container " >
         <div className="row justify-content-center" style={{marginLeft: '0px',width: '110%',marginTop: '10px'}}>
           <div className="col" >
-            <PatientPersonalDetails data={patient}/>
+            <PatientPersonalDetails data={patient} />
           </div>
           <div className="col">
             <PatientHealthRecord data={patient} />
@@ -33,7 +34,7 @@ const PatientDetails2 = () => {
             <PatientPrescriptionDetails patient={patient} doctor={doctor} />
           </div>
           <div className="col">
-            <PatientPrescriptionDetails patient={patient} doctor={doctor} />
+            <RecentAppointment patient={patient} doctor={doctor}/>
           </div>
         </div>
       </div>
