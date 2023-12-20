@@ -35,6 +35,17 @@ const AdminPackagesView = () => {
     sendRequest();
   }, [showAddForm]);
 
+  const updatePackage = (updatedPackage) => {
+    setLoadedPackages(val => {
+      const newPackages = val.map((pkg) => {
+        if (pkg._id == updatedPackage._id) {
+          return updatedPackage;
+        } 
+        return pkg
+      });
+      return newPackages;
+    })
+  }
   
   
   const toggleAddForm = () => {
@@ -87,7 +98,7 @@ const AdminPackagesView = () => {
         </div>
       )}
       {loadedPackages && (
-        <PackageList items={loadedPackages}/>
+        <PackageList onUpdate={updatePackage} items={loadedPackages}/>
       )}
     </div>
   );
