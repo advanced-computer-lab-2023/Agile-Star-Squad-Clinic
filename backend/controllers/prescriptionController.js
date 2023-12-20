@@ -36,6 +36,23 @@ exports.createPrescription = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.editPrescription = async (req, res) => {
+  const editedPackage = await Prescription.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      presc: editedPackage,
+    },
+  });
+};
 
 exports.getPatientPrescriptions = catchAsync(async (req, res, next) => {
   const myApps = [];

@@ -14,7 +14,7 @@ router
 router
   .route('/list')
   .post(prescriptionController.getPrescriptionByIds)
-  
+router.route('/:id').patch(prescriptionController.editPrescription);
 // router
 //   .route('/:id')
 //   .get(doctorController.getDoctor)
