@@ -9,7 +9,7 @@ import Medicines from '../images/Medicines.png';
 import Select from 'react-select';
 import 'react-toastify/dist/ReactToastify.css';
 import uploadImg from '../../assets/doctorRequest/upload.png';
-import { toastMeError } from '../../shared/components/util/functions';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
 const DoctorRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -144,7 +144,7 @@ const DoctorRequestForm = () => {
 
       if (response.ok) {
         // Handle a successful response
-        toastMeError('Request is pending...');
+        toastMeSuccess('Request is pending, please wait for approval.');
         navigate('/');
       } else {
         // Handle errors if the server response is not ok
