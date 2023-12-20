@@ -12,12 +12,14 @@ const AdminPackagesView = () => {
   const [error, setError] = useState();
   const [loadedPackages, setLoadedPackages] = useState();
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showDeleteForm, setShowDeleteForm] = useState(false);
+  
 
   useEffect(() => {
     const sendRequest = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:3000/packages/');
+        const response = await fetch('http://localhost:3000/packages');
         const responseData = await response.json();
 
         if (!response.ok) {
@@ -31,7 +33,7 @@ const AdminPackagesView = () => {
     };
 
     sendRequest();
-  }, []);
+  }, [showAddForm]);
 
   
   
@@ -85,7 +87,7 @@ const AdminPackagesView = () => {
         </div>
       )}
       {loadedPackages && (
-        <PackageList items={loadedPackages}  />
+        <PackageList items={loadedPackages}/>
       )}
     </div>
   );

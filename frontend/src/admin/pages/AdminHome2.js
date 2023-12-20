@@ -273,6 +273,7 @@ console.log(selectedRequest);
         setStatus('Accepted');
         // statusChangeHandler(props.id, 'Accepted');
         refreshUserData();
+        fetchPendingRequests();
       } else {
         // Handle errors if the server response is not ok
         toastMeError('Accepting request Failed!');
@@ -303,6 +304,7 @@ console.log(selectedRequest);
         setStatus('Rejected');
         // statusChangeHandler(props.id, 'Rejected');
         refreshUserData();
+        fetchPendingRequests();
       } else {
         // Handle errors if the server response is not ok
         toastMeError('Rejecting request Failed!');
@@ -456,6 +458,7 @@ console.log(selectedRequest);
   const exitRequestModal = () => {
     setSelectedRequest(null); 
     setShowRequest(false);
+    fetchPendingRequests();
   };
 
   return (

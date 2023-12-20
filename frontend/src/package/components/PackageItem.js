@@ -27,6 +27,9 @@ const PackageItem = (props) => {
       // Handle errors, if needed
     }
   };
+  const exitForm = () =>{
+    setShowUpdateForm(false);
+  }
 
   return (
    
@@ -79,10 +82,10 @@ const PackageItem = (props) => {
         </div>
       </Container>
       {showUpdateForm && (
-        <div className={classes.overlay }  >
+     
           
-          <UpdatePackage updates={setShowUpdateForm} packageId={props.id} />
-        </div>
+          <UpdatePackage updates={setShowUpdateForm} packageId={props.id} exit={exitForm} />
+ 
       )}
       </div>
   );

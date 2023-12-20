@@ -56,6 +56,20 @@ h3 {
     text-align: left;
 }
 
+.viewAll {
+    cursor: pointer;
+    color: #616161;
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 40px;
+    transition: all 0.2s ease;
+}
+
+.viewAll:hover {
+    color: #0C1320;
+    transition: all 0.2s ease;
+}
+
 .appointmentWrapper {
     /* margin-right: 40px; */
 }

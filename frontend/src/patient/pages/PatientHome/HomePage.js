@@ -9,6 +9,7 @@ import BrowseDoctors from './BrowseDoctors';
 import UserContext from '../../../user-store/user-context';
 import JoinMeetingCard from '../../../shared/components/Meeting/JoinMeetingCard';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const imageUrl =
   'https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D';
@@ -18,7 +19,7 @@ const PatientHomePage = () => {
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionsItems, setPrescriptionItems] = useState([]);
-
+  const navigate = useNavigate();
   const patientId = useContext(UserContext).userId;
 
   useEffect(() => {
@@ -26,6 +27,10 @@ const PatientHomePage = () => {
     fetchPrescriptions();
     fetchUpcomingAppointments();
   }, []);
+
+  const toAppointments = () => {
+    navigate("/patient/account", {state: {index:4}})
+  }
 
   const fetchPatient = async () => {
     fetch(`http://localhost:3000/patients/${patientId}`, {
@@ -85,6 +90,7 @@ const PatientHomePage = () => {
       <Dashboard
         appointments={upcomingAppointments}
         prescriptions={prescriptionsItems}
+        toAppointments={toAppointments}
       />
     </>
   );
@@ -204,6 +210,7 @@ const Dashboard = (props) => {
     return time;
   }
 
+
   return (
     <>
       <section className={classes.dashSection}>
@@ -211,7 +218,11 @@ const Dashboard = (props) => {
           <div className="col-1" />
           {!currentAppointment && (
             <div className={`col-5 ${classes.appointmentWrapper}`}>
-              <h3>UPCOMING APPOINTMENTS</h3>
+              <div className='d-flex justify-content-between'>
+                <h3>UPCOMING APPOINTMENTS</h3>
+                <div onClick={props.toAppointments} className={classes.viewAll}>VIEW ALL</div>
+              </div>
+              
               <div className={classes.appointmentContainer}>
                 <Carousel controls={false} interval={5000}>
                   {appointments.map((appointment) =>

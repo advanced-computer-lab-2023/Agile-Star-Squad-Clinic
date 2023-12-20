@@ -1,9 +1,9 @@
 import Modal from '../../../shared/components/Modal/Modal';
 import { useState } from 'react'
 import styles from '../../components/RequestDetails.module.css'; 
-import { toastMeError, toastMeSuccess } from '../../../shared/components/util/functions';
 import ReactDOM from "react-dom";
 import React from 'react';
+import { toastMeError,toastMeSuccess } from '../../../shared/components/util/functions';
 
 const RequestDetails = (props) => {
     const [formVisible, setFormVisible] = useState(true);
@@ -37,17 +37,18 @@ const RequestDetails = (props) => {
 
             if (response.ok) {
                 // Handle a successful response
-                toastMeSuccess('Doctor accepted successfully!');
+                
                 setStatus('Accepted');
-                props.onStatusChange(props.data['id'], 'Accepted');
-                setFormVisible(false);
+                // props.onStatusChange(props.data['id'], 'Accepted');
+                // setFormVisible(false);
+                toastMeSuccess('Doctor accepted successfully!');
             } else {
                 // Handle errors if the server response is not ok
                 toastMeError('Accepting request Failed!');
             }
         } catch (error) {
             // Handle network errors
-            toastMeError('Network error: ' + error.message);
+            // toastMeError('Network error: ' + error.message);
         }
  
     }
@@ -67,17 +68,18 @@ const RequestDetails = (props) => {
 
             if (response.ok) {
                 // Handle a successful response
-                toastMeError('Doctor rejected!');
+                
                 setStatus('Rejected');
-                props.onStatusChange(props.data['id'], 'Rejected');
-                setFormVisible(false);
+                // props.onStatusChange(props.data['id'], 'Rejected');
+                // setFormVisible(false);
+                toastMeSuccess('Doctor rejected!');
             } else {
                 // Handle errors if the server response is not ok
                 toastMeError('Rejecting request Failed!');
             }
         } catch (error) {
             // Handle network errors
-            alert('Network error: ' + error.message);
+            // alert('Network error: ' + error.message);
         }
     }
     
