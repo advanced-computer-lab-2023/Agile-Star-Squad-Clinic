@@ -81,7 +81,7 @@ const PrescriptionPDF = (props) => {
                     <div style={{flex: 2, textAlign: "center"}}>{presc.doctor}</div>
                     <div style={{flex: 2, textAlign: "center"}}>{presc.date}</div>
                     <div style={{flex: 1, textAlign: "center"}} >{presc.status}</div>
-                    <div style={{flex: 2, fontSize: "12px", textAlign: "center"}}>{presc.id}</div>
+                    <div style={{flex: 2, fontSize: "12px", textAlign: "center"}}>{presc._id}</div>
                 </div>}))}
         </div>
     }

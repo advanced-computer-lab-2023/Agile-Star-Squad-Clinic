@@ -200,7 +200,7 @@ const Dashboard = (props) => {
   };
 
   function getTime(date) {
-    let hours = date.getHours() - 2;
+    let hours = date.getHours();
     let minutes = date.getMinutes();
     let ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;

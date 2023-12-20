@@ -38,6 +38,7 @@ import Prescriptions from './patient/pages/prescriptions/Prescriptions';
 // import PatientDetails from './doctor/pages/PatientDetails';
 import DoctorHomepage from './doctor/pages/home/DoctorHomepage';
 import PatientDetails2 from './doctor/pages/PatientDetails2';
+import AccountDr from './doctor/pages/AccountSettings/AccountDr';
 
 function App() {
   const user = useContext(UserContext);
@@ -85,6 +86,7 @@ function App() {
         return (
           <Routes>
             <Route path="/" element={<AcceptedRequest />} />
+          
           </Routes>
         );
       } else {
@@ -93,6 +95,7 @@ function App() {
             <Route path="/doctor/home" element={<DoctorHomepage />} exact />
             {/* <Route path="/patientDetails" element={<PatientDetails  />} exact /> */}
             <Route path="changePassword" element={<ChangePassword />} exact />
+            <Route path="/doctor/settings" element={<AccountDr />} exact/>
             <Route path="/patient" element={<PatientDetails2 />} exact />
           <Route path="/messages" element={<Messages />} exact />
             <Route
