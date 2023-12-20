@@ -30,7 +30,7 @@ const AppointmentsCard = (props) => {
       props.appointments.map((app) => {
         const status =
           app.status.charAt(0).toUpperCase() + app.status.substring(1);
-        console.log(app);
+        // console.log("heyyy",app);
         return {
           _id: app._id,
           doctorId: app.doctorId,
@@ -56,6 +56,7 @@ const AppointmentsCard = (props) => {
         tabText = 'Cancelled';
         break;
     }
+    // console.log("hihihih",allAppointments)
     let newAppointments = allAppointments.filter(
       (app) =>
         app.status == tabText || (tab == 0 && app.status == 'Rescheduled') || (tab == 1 && app.status == 'Completed'),
@@ -74,6 +75,7 @@ const AppointmentsCard = (props) => {
         return appDate.getTime() == selectedDate.getTime();
       });
     }
+    
     setAppointments(newAppointments);
   }, [tab, allAppointments]);
 
@@ -111,7 +113,8 @@ const AppointmentsCard = (props) => {
     }
     return allAppointments.filter(
       (app) =>
-        app.status == tabText || (tab == 0 && app.status == 'Rescheduled'),
+      app.status == tabText || (tab == 0 && app.status == 'Rescheduled')||(tab == 1 && app.status=='Completed'),
+
     );
   };
 
@@ -176,6 +179,7 @@ const AppointmentsCard = (props) => {
 
   const onRescheduleAppointment = (newAppointment) => {
     //update the front end
+    console.log(newAppointment)
   };
 
   const getButtons = (app) => {

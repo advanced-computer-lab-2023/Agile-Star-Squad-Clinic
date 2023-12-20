@@ -8,7 +8,7 @@ import UserContext from '../../user-store/user-context';
 import Modal from '../../shared/components/Modal/Modal';
 
 import styles from './bookAppointment/bookImplementation/BookImplementation.module.css';
-import { toastMeError } from '../../shared/components/util/functions';
+import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
 const RescheduleAppointmentModal = (props) => {
   const navigate = useNavigate();
@@ -156,6 +156,7 @@ const RescheduleAppointmentModal = (props) => {
     const appointmentDate = new Date(chosenDate);
     appointmentDate.setHours(hours);
     appointmentDate.setMinutes(minutes);
+    
     const status =
       props.buttonText === 'Reschedule Appointment'
         ? 'rescheduled'
@@ -170,6 +171,23 @@ const RescheduleAppointmentModal = (props) => {
       dateOfAppointment: appointmentDate,
       timeOfAppointment: chosenTime,
     };
+    if(props.buttonText ==='Follow Up Appointment'){
+      
+        const hello={data:dataToSend,doctorId:doctor._id}
+        const response =await axios.post(`http://localhost:3000/patients/${userCtx.userId}/appointments`,hello,{withCredentials: true });
+        // const responseData =await response.json();
+        console.log(response)
+        if(!(response && response.status === 200 && response.statusText === 'OK')){
+          toastMeError("failed to schedule follow up")
+        }
+        else{
+          toastMeSuccess("Follow Up Scheduled Successfully")
+          props.onRescheduleAppointment(dataToSend);
+          props.exit();
+          return
+        }
+        
+    }
     // await axios.delete(
     //   `http://localhost:3000/patients/appointments/${props.appointment._id}`,
     //   { withCredentials: true },
@@ -177,12 +195,13 @@ const RescheduleAppointmentModal = (props) => {
     // await axios.post('http://localhost:3000/doctors/appointments', dataToSend, {
     //   withCredentials: true,
     // });
-
+    else{
     await axios.patch(
       `http://localhost:3000/patients/appointments/${props.appointment._id}`,
       dataToSend,
       { withCredentials: true },
     );
+    }
     props.onRescheduleAppointment(dataToSend);
     props.exit();
   };

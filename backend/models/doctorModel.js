@@ -105,6 +105,15 @@ const doctorSchema = new mongoose.Schema(
         type: Array,
       }
     ],
+    followUps: [
+      {
+        
+         
+        type: Array,
+         
+        
+      }
+    ],
     notifications: [
       {
         type: mongoose.Schema.ObjectId,
