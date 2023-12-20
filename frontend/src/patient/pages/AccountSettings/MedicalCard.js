@@ -6,10 +6,14 @@ import uploadImg from '../../../assets/patientAccount/upload.png';
 import deleteImg from '../../../assets/patientAccount/delete.png';
 import UserContext from '../../../user-store/user-context';
 import axios from 'axios';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import storage from '../../..';
+import { toastMeSuccess } from '../../../shared/components/util/functions';
 
 const MedicalCard = (props) => {
   const [tab, setTab] = useState(0);
   const [files, setFiles] = useState([]);
+  const [existingFiles, setExistingFiles] = useState([]);
 
   const userCtx = useContext(UserContext);
 
@@ -23,6 +27,24 @@ const MedicalCard = (props) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const updateBackend = async () => {
+      await fetch(
+        `http://localhost:3000/patients/${userCtx.userId}`,
+        {
+          credentials: 'include',
+          method: "PATCH",
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+          body: JSON.stringify({ medicalRecord: existingFiles }),
+        },
+      );
+    }
+
+    if (existingFiles!= null) {
+      updateBackend();
+    }
+  }, [existingFiles])
+
   const fetchData = async () => {
     const response = await axios.get(
       `http://localhost:3000/patients/${userCtx.userId}`,
@@ -30,8 +52,7 @@ const MedicalCard = (props) => {
         useCredentials: true,
       },
     );
-    console.log(response.data.data.medicalRecord);
-    setFiles(response.data.data.medicalRecord);
+    setExistingFiles(response.data.data.medicalRecord);
   }
 
   const getTabStyle = (index) => {
@@ -41,7 +62,33 @@ const MedicalCard = (props) => {
     return classes.tabText;
   };
 
-  const toastMe = (msg) => {};
+  const toastMe = (msg) => { };
+
+  const uploadFiles = async () => {
+    const newFiles = [];
+    toastMeSuccess("Uploading...")
+    for (const file of files) {
+      const fileRef = ref(storage, `${file.name}`);
+      await uploadBytesResumable(fileRef, file).then(async (snapshot) => {
+        const downloadUrl = await getDownloadURL(snapshot.ref);
+        newFiles.push(downloadUrl);
+      });
+    }
+
+
+    setExistingFiles(val => [...val, ...newFiles]);
+    setFiles([]);
+
+    toastMeSuccess("Documents uploaded successfully")
+
+  }
+
+  const deleteDocument = async (deletedFile) => {
+    setExistingFiles(files => {
+      return files.filter(file => deletedFile != file);
+    })
+    toastMeSuccess("Document deleted successfully")
+  }
 
   const getUploadTab = () => {
     const thumbs = files.map((file) => (
@@ -68,7 +115,7 @@ const MedicalCard = (props) => {
           )}
           {files.length > 0 && <aside style={thumbsContainer}>{thumbs}</aside>}
         </div>
-        <button disabled={files.length == 0} className={classes.uploadButton}>
+        <button onClick={uploadFiles} disabled={files.length == 0} className={classes.uploadButton}>
           Upload Files
         </button>
       </>
@@ -78,18 +125,18 @@ const MedicalCard = (props) => {
   const getDocumentsTab = () => {
     //files line 53 should be patients uploaded file urls from db
     return (
-      <div className="d-flex flex-wrap">
-        {files.map((file) => (
+      <div className="d-flex flex-wrap overflow-scroll">
+        {existingFiles.map((file) => (
           <div
             className="position-relative border p-3 col-5 m-3"
             key={file.name}
           >
-            <a href={file.preview} target="_blank">
+            <a href={file} target="_blank">
               <div>
-                <img src={file.preview} height={50} />
+                <img src={file} height={50} />
               </div>
             </a>
-            <div className={classes.deleteButton}>
+            <div onClick={() => deleteDocument(file)} className={classes.deleteButton}>
               <img height={30} src={deleteImg} />
             </div>
           </div>

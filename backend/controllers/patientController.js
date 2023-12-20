@@ -311,7 +311,7 @@ exports.addHealthRecord = catchAsync(async (req, res, next) => {
   const updatedPatient = await Patient.findByIdAndUpdate(
     req.params.id,
     {
-      $push: { medicalRecord: req.body.medicalRecord },
+      $set: { medicalRecord: req.body.medicalRecord },
     },
     {
       new: true,
