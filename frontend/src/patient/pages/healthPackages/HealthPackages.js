@@ -35,30 +35,9 @@ const HealthPackages = () => {
     navigate(-1);
   };
 
-  const arrow = (
-    <svg
-      className={styles.backArrow}
-      xmlns="http://www.w3.org/2000/svg"
-      width="23"
-      height="14"
-      viewBox="0 0 23 14"
-      fill="none"
-    >
-      <path
-        d="M1.59583 1.53345L11.9077 11.9807L22.2571 1.57064"
-        stroke="black"
-        strokeOpacity="0.6"
-        strokeWidth="2.04827"
-      />
-    </svg>
-  );
-
   return (
     <div className={styles.window}>
       <NavBar />
-      <button className={styles.button} onClick={backButtonClickHandler}>
-        {arrow}
-      </button>
       <div className={styles.text}>
         <h2>Health Packages</h2>
         <p>

@@ -210,7 +210,7 @@ const BrowseDoctors = (props) => {
   return <div>
     {props.where == null && <NavBar />}
     <section className={classes.medicineSection}>
-      <div className={classes.medicineSectionTitle}>BROWSE MEDICINE</div>
+      <div className={classes.medicineSectionTitle}>BROWSE DOCTORS</div>
       <div className={classes.medicineSearchContainer}>
         <div className={classes.medicineSearchIcon}><img width={30} src={searchIconImg} /></div>
         <input className={classes.medicineSearchInput} value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search" />
