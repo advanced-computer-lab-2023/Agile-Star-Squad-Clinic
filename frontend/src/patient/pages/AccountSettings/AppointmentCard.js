@@ -57,7 +57,7 @@ const AppointmentsCard = (props) => {
     }
     let newAppointments = allAppointments.filter(
       (app) =>
-        app.status == tabText || (tab == 0 && app.status == 'Rescheduled'),
+      app.status == tabText || (tab == 0 && app.status == 'Rescheduled') || (tab == 1 && app.status=='Completed'),
     );
     if (pickedDate != null) {
       newAppointments = newAppointments.filter((app) => {
