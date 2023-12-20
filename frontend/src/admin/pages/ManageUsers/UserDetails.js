@@ -62,10 +62,16 @@ const UserDetails = (props) => {
                 <div className={styles.formControl}>{props.data['mobileNumber']}</div>
               </div>
             </div>
+            <div className={styles.fieldGroup}>
             <div className={styles.nameField}>
-              <span className={styles.smallText}>Emergency Number</span>
-              <div className={styles.formControl}>{props.data['emergencyNumber']}</div>
+              <span className={styles.smallText}>Emergency Contact Name</span>
+              <div className={styles.formControl}>{(props.data['emergencyContact'])['fullName']}</div>
             </div>
+            <div className={styles.nameField}>
+              <span className={styles.smallText}>Emergency Contact number</span>
+              <div className={styles.formControl}>{(props.data['emergencyContact'])['phoneNumber']}</div>
+            </div>
+          </div>
           </React.Fragment>
         );
       }
@@ -132,50 +138,6 @@ const UserDetails = (props) => {
                                 <div className="formControl">{props.data['educationalBackground']}</div>
                             </div>
                             </div>
-                        </div>
-                        <div className={styles.headers}>Documents</div>
-                        <div className={styles.images}>
-
-                        
-                        
-            {/* ID Image */}
-            <div className={styles.spacing}>
-              <span className={styles.smallText}>ID Image</span>
-              <br />
-              {props.data['idImage'] && (
-                props.data['idImage'].includes('pdf') ? (
-                  <a href={props.data['idImage']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-                ) : (
-                  <img width={130} src={props.data['idImage']} alt="ID Image" />
-                )
-              )}
-            </div>
-
-            {/* Medical License */}
-            <div className={styles.spacing}>
-              <span className={styles.smallText}>Medical License</span>
-              <br />
-              {props.data['medicalLicense'] && (
-                props.data['medicalLicense'].includes('pdf') ? (
-                  <a href={props.data['medicalLicense']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-                ) : (
-                  <img width={130} src={props.data['medicalLicense']} alt="Medical License" />
-                )
-              )}
-            </div>
-
-            {/* Medical Degree */}
-            <div className={styles.spacing}>
-              <span className={styles.smallText}>Medical Degree</span>
-              <br />
-              {props.data['medicalDegree'] && (
-                props.data['medicalDegree'].includes('pdf') ? (
-                  <a href={props.data['medicalDegree']} target="_blank" rel="noopener noreferrer">Download PDF</a>
-                ) : (
-                  <img width={130} src={props.data['medicalDegree']} alt="Medical Degree" />
-                )
-              )}
-                        </div>
                         </div>
         </React.Fragment>
     }

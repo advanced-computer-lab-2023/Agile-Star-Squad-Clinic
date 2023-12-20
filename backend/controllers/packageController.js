@@ -1,10 +1,10 @@
 // #Task route solution
 const Package = require('../models/packageModel');
 const { default: mongoose } = require('mongoose');
+const AppError = require('../utils/appError');
 
 const addPackage = async (req, res) => {
   const newPackage = await Package.create(req.body);
-___
   res.status(200).json({
     status: 'success',
     data: {
@@ -59,7 +59,7 @@ const editPackage = async (req, res) => {
   });
 };
 
-const deletePackage = async (req, res) => {
+const deletePackage = async (req, res, next) => {
   const package = await Package.findByIdAndDelete(req.params.id);
   if (!package) {
     return next(new AppError('No package found with that ID', 404));
