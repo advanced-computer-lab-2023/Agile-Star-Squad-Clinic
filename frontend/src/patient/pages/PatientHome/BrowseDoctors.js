@@ -135,39 +135,58 @@ const BrowseDoctors = (props) => {
       newDoctors = newDoctors.filter((doc) => doc.speciality === specialtyOptions[categoryIndex]);
     }
 
-    // if (pickedDate !== "") {
-    //   newDoctors = applyDateFilter(newDoctors);
-    // }
+    if (pickedDate !== "") {
+      newDoctors = applyDateFilter(newDoctors);
+    }
 
     setFilteredDoctors(newDoctors);
   };
 
-  const applyDateFilter = (doctorList) => {
-    const pickedISODate = new Date(pickedDate).toISOString();
-    const newDoctors = doctorList.filter((doctor) => {
-      const appointments = doctor.appointments;
-      const isNotFree = appointments.some((app) => {
-        let start = new Date(app.dateOfAppointment);
-        const end = new Date(start.getTime() + 1000 * 60 * 60).toISOString(); // ADDS 1 HOUR
-        start = start.toISOString();
-        const result = pickedISODate > start && pickedISODate < end;
-        return result;
-      });
-      return !isNotFree;
+  const applyDateFilter = () => {
+    console.log("APPLYING DATE FILTER");
+    const selectedDay = new Date(pickedDate).getDay();
+    const selectedTime = pickedTime.value;
+    console.log(selectedTime);
+    console.log(selectedDay);
+    console.log(doctors);
+
+    const filteredDoctors = doctors.filter((doctor) => {
+      console.log(doctor);
+      console.log(doctor.timeSlots);
+      const timeSlotsForDay = doctor.timeSlots[selectedDay];
+      console.log("TIME SLOTS FOR DAY", timeSlotsForDay);
+      if (selectedTime && timeSlotsForDay && timeSlotsForDay.includes(selectedTime)) {
+        if (timeSlotsForDay && timeSlotsForDay.length !== 0) {
+          return true;
+        }
+        return false
+      }
+      else if (!selectedTime && timeSlotsForDay && timeSlotsForDay.length !== 0) {
+        return true;
+      }
+      return false
     });
-
-    return newDoctors;
+    console.log(filteredDoctors);
+    setFilteredDoctors(filteredDoctors);
+    return filteredDoctors;
   };
-
 
   useEffect(() => {
     fetchDoctors();
   }, []);
 
+  useEffect(() => {
+    applyDateFilter();
+  }, [pickedDate, pickedTime]);
 
   const handlePickDate = (value) => {
+    setShowCalendar(true);
+    setPickedDate(value);
+  }
+
+  const handlePickTime = (option) => {
     setShowCalendar(false);
-    setPickedDate(value)
+    setPickedTime(option);
   }
 
   const getSpecialtyTiles = () => {
@@ -210,7 +229,7 @@ const BrowseDoctors = (props) => {
   return <div>
     {props.where == null && <NavBar />}
     <section className={classes.medicineSection}>
-      <div className={classes.medicineSectionTitle}>BROWSE MEDICINE</div>
+      <div className={classes.medicineSectionTitle}>BROWSE DOCTORS</div>
       <div className={classes.medicineSearchContainer}>
         <div className={classes.medicineSearchIcon}><img width={30} src={searchIconImg} /></div>
         <input className={classes.medicineSearchInput} value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search" />
@@ -234,7 +253,7 @@ const BrowseDoctors = (props) => {
               styles={customStyles}
               value={pickedTime}
               isSearchable={false}
-              onChange={(option) => setPickedTime(option)}
+              onChange={(option) => handlePickTime(option)}
             />
           </div>
         </div>}
@@ -248,165 +267,6 @@ const BrowseDoctors = (props) => {
     </section>
   </div >
 
-  // return (
-  //   <div className="position-relative" style={{ minHeight: "1200px" }}>
-  //     <h1 className="Browse-Doctors_title">BROWSE DOCTORS</h1>
-  //     <form className="Browse-Doctors_search" onSubmit={handleSearch}>
-  //       <h2 className="Browse-Doctors_speciality">Speciality</h2>
-  //       <div className="input-container">
-  //         <img
-  //           src={searchImage}
-  //           alt="Search"
-  //           width="25"
-  //           height="18"
-  //           className="search-icon_image"
-  //         />
-
-  //         <input
-  //           type="text"
-  //           placeholder="Search..."
-  //           className="search-input"
-  //           value={searchText}
-  //           onChange={(e) => { setSearchText(e.target.value); handleSearch(e); }}
-  //         />
-
-  //         <div className="dropdown-container">
-  //           {/* {!showDropdown && (
-  //           <button
-  //             type="button"
-  //             className="filter-icon-button"
-  //             onClick={() => setShowDropdown(true)}
-  //           >
-  //             <img
-  //               src={filter}
-  //               alt=""
-  //               width="30"
-  //               height="24"
-  //               className="filter-icon-image"
-  //               id="filter"
-  //             />
-  //           </button>
-  //         )} */}
-
-  //           {true && (
-  //             <div className="dropdown-list">
-  //               <select
-  //                 value={selectedDropdown}
-  //                 onChange={handleDropdownChange}
-  //               >
-  //                 <option value="name">Name</option>
-  //                 <option value="specialty">Specialty</option>
-  //               </select>
-  //             </div>
-  //           )}
-  //         </div>
-
-  //       </div>
-
-  //     </form>
-
-  //     <div className="container-fluid container-fluid1 d-flex mx-2 mb-5">
-  //       <div className="row align-items-center">
-  //         <div className="col" onClick={() => applyFilterBySpecialty('Ophthalmology')}>
-  //           <img src={ophthalmology} alt="" className="icons" />
-  //           <p className="text">Ophthalmology</p>
-  //         </div>
-  //         <div className="col" onClick={() => applyFilterBySpecialty('Dentist')}>
-  //           <img src={dentist} alt="" className="icons" />
-  //           <p className="text">Dentist</p>
-  //         </div>
-  //         <div className="col" onClick={() => applyFilterBySpecialty('Gastroenterology')}>
-  //           <img src={gas} alt="" className="icons" />
-  //           <p className="text">Gastroenterology</p>
-  //         </div>
-  //         <div className="col" onClick={() => applyFilterBySpecialty('Neurology')}>
-  //           <img src={neurology} alt="" className="icons" />
-  //           <p className="text">Neurology</p>
-  //         </div>
-  //         <div className="col" onClick={() => applyFilterBySpecialty('Radiology')}>
-  //           <img src={radiology} alt="" className="icons" />
-  //           <p className="text">Radiology</p>
-  //         </div>
-  //         <div className="col" onClick={() => applyFilterBySpecialty('Nutrition')}>
-  //           <img src={nutrition} alt="" className="icons" />
-  //           <p className="text">Nutrition</p>
-  //         </div>
-  //         <div className="col" onClick={() => applyFilterBySpecialty('Dermatology')}>
-  //           <img src={dermatology} alt="" className="icons" />
-  //           <p className="text">Dermatology</p>
-  //         </div>
-
-
-  //       </div>
-
-  //     </div>
-
-  //     <div className="container">
-  //       <div className="row">
-  //         {filteredDoctors.length === 0 ? (
-  //           console.log("Filtered Doctors:pew", filteredDoctors)
-  //         ) : (
-  //           filteredDoctors.map((doctor) => (
-  //             <div className="col-12 col-md-4" key={doctor.id}>
-  //               <div className="doctors" onClick={() => handleDoctorClick(doctor)}>
-  //                 <p className="name">{doctor.name}</p>
-  //                 <p className="spec"> {doctor.speciality}</p>
-  //                 <p className="rate"> ${doctor.hourlyRate}/session</p>
-  //                 <p className="affil">{doctor.affiliation}</p>
-
-  //                 <div className="right-section">
-  //                   <div className="mobile">
-  //                     <img
-  //                       src={call}
-  //                       alt="call"
-  //                       width="25" // Adjust the width as needed
-  //                       height="20" // Adjust the height as needed
-  //                       className="comm-icon"
-  //                     />
-  //                     <p>{doctor.mobileNumber} </p>
-  //                   </div>
-  //                   <div className="appointment">
-  //                     <img
-  //                       src={appoint}
-  //                       alt="appoint"
-  //                       width="25" // Adjust the width as needed
-  //                       height="20" // Adjust the height as needed
-  //                       className="comm-icon"
-  //                     />
-  //                     <p>Make an appointment </p>
-  //                   </div>
-  //                   <div className="email">
-  //                     <img
-  //                       src={email}
-  //                       alt="email"
-  //                       width="25" // Adjust the width as needed
-  //                       height="20" // Adjust the height as needed
-  //                       className="comm-icon"
-  //                     />
-  //                     <p>{doctor.email} </p>
-  //                   </div>
-  //                   <p className="edu">{doctor.educationalBackground}</p>
-  //                 </div>
-  //                 <div className="doc1">
-  //                   <img
-  //                     src={doc1}
-  //                     alt="doc1"
-  //                     width="105px"
-  //                     height="101px"
-  //                     className="doc-icon"
-  //                   />
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           ))
-  //         )}
-  //       </div>
-  //     </div>
-
-  //   </div>
-
-
-  // );
 };
 
 export default BrowseDoctors;
