@@ -18,7 +18,7 @@ const AppointmentTime = (props) => {
             key={time}
             disabled={
               props.isDisabled ||
-              (props.unavailableTimes !== null &&
+              (props.unavailableTimes !== undefined &&
                 props.unavailableTimes.includes(time))
             }
             className={styles.button}
