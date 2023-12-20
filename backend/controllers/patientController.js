@@ -43,6 +43,7 @@ exports.getPatient = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       patient,
+      medicalRecord: patient.medicalRecord,
     },
   });
 });

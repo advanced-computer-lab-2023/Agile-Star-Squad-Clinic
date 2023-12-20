@@ -26,6 +26,7 @@
     overflow-y: scroll;
     border-radius: 24px;
     filter: drop-shadow(-13px 3px 17px rgba(0, 0, 0, 0.10)) drop-shadow(15px 15px 17px rgba(0, 0, 0, 0.10));
+    color: #193842;
 }
 #listPresc{
     /* display: flex; */
@@ -36,16 +37,16 @@
 /* Align title and button at the top */
 
 .prescriptionHeader button{
-    margin-left: 220px;
+    margin-left: 260px;
     background-color: rgb(241, 144, 79);
     width: 150%;
    
 }
-/* .row{
+#row321{
   margin-left: 0px;
   width: 110%;
   margin-top: 10px;
-} */
+} 
 .prescriptionHeader button:hover {
     background-color:  rgb(203, 121, 66);
 }

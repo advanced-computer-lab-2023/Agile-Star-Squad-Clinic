@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Card from '../../shared/components/Card/Card';
-import './PatientPersonalDetails.css'
+import styles from './PatientPersonalDetails.module.css'
 
 const PatientPersonalDetails = (props) =>{
     const patient = props.data;
@@ -16,11 +16,11 @@ const PatientPersonalDetails = (props) =>{
       };
 
     return(
-        <Card className="overall">
+        <Card className={styles.overall}>
         <div>     
-            <h3 className='welcomeText' style={{paddingBottom:'5px'}}>Personal Details</h3>         
+            <h3 className={styles.welcomeText} style={{paddingBottom:'5px'}}>Personal Details</h3>         
         </div>
-        <div className="personalDetails">
+        <div className={styles.personalDetails}>
         <div>
           <span>
             <span>Username</span>
