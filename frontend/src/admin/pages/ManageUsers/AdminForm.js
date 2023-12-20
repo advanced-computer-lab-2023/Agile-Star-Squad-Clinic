@@ -69,8 +69,6 @@ const AdminForm = ( { onSubmitSuccess } ) => {
         } finally {
           setLoading(false);
           setFormVisible(false);
-            headers: { "Content-type": "application/json; charset=UTF-8", },
-            body: JSON.stringify(data)
         };
 
         const result = await fetch(`http://localhost:3000/admins`, requestOptions)
