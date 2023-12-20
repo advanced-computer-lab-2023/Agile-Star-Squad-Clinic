@@ -5,7 +5,7 @@ import Card from '../../shared/components/Card/Card';
 import axios from 'axios';
 import PrescriptionDetail from '../../prescriptions/pages/PrescriptionDetails';
 
-import '../pages/PatientDetails.css'
+import styles from '../pages/PatientDetails.module.css'
 import AddNewPrescription from '../../prescriptions/AddNewPrescription';
 
 const PatientPrescriptionDetails  =(props)=>{
