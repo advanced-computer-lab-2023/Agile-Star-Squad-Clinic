@@ -29,6 +29,7 @@ const AdminHome2 = (props) => {
   const [users, setUsers] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [showRequestDetails, setShowRequestDetails] = useState(false);
+  const [showRequest, setShowRequest] = useState(false);
 
 
   useEffect(() => {
@@ -155,6 +156,8 @@ const AdminHome2 = (props) => {
         ...adminsJson.map((admin) => ({
           id: admin['_id'],
           username: admin['username'],
+          email: admin['email'],
+          creationDate: admin['creationDate'],
           name: '-',
           mobileNumber: '-',
           role: 'Admin',
@@ -166,7 +169,9 @@ const AdminHome2 = (props) => {
   };
   const handleRoleButtonClick = (role) => {
     filterUsersByRole(role);
+    setShowAdminForm(false); // Reset add form visibility
   };
+  
 
   const logout = async () => {
     await userCtx.logout();
@@ -177,17 +182,17 @@ const AdminHome2 = (props) => {
     navigate('/changePassword');
   };
 
-  const statusChangeHandler = (id, status) => {
-    setRequests(
-      requests.map((request) => {
-        if (request.id === id) {
-          request.status = status;
-        }
-        return request;
-      }),
-    );
-    refreshUserData();
-  };
+  // const statusChangeHandler = (id, status) => {
+  //   setRequests(
+  //     requests.map((request) => {
+  //       if (request.id === id) {
+  //         request.status = status;
+  //       }
+  //       return request;
+  //     }),
+  //   );
+  //   refreshUserData();
+  // };
 
   const filterUsersByRole = (role) => {
     let filtered = [];
@@ -266,7 +271,7 @@ console.log(selectedRequest);
         // Handle a successful response
         toastMeSuccess('Doctor accepted successfully!');
         setStatus('Accepted');
-        statusChangeHandler(props.id, 'Accepted');
+        // statusChangeHandler(props.id, 'Accepted');
         refreshUserData();
       } else {
         // Handle errors if the server response is not ok
@@ -276,6 +281,7 @@ console.log(selectedRequest);
       // Handle network errors
       toastMeError('Network error: ' + error.message);
     }
+    fetchPendingRequests();
   };
 
   const reject = async (props) => {
@@ -295,7 +301,7 @@ console.log(selectedRequest);
         // Handle a successful response
         toastMeError('Doctor rejected!');
         setStatus('Rejected');
-        statusChangeHandler(props.id, 'Rejected');
+        // statusChangeHandler(props.id, 'Rejected');
         refreshUserData();
       } else {
         // Handle errors if the server response is not ok
@@ -305,9 +311,11 @@ console.log(selectedRequest);
       // Handle network errors
       toastMeError('Network error: ' + error.message);
     }
+    fetchPendingRequests();
   };
 
   const showDetails = (request) => {
+    console.log(request.creationDate+"reqqqqqqqqqq");
     if (request && request.id) {
       setSelectedRequest(request);
       setShowRequestDetails(true); // Set the state to true to show details
@@ -327,7 +335,14 @@ console.log(selectedRequest);
   };
 
   const showRequestModal = (request) => {
-    setSelectedRequest(request);
+   
+    setShowRequest(true);
+    setSelectedRequest(request);  
+    // Additional logic as needed
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // You can adjust the behavior as needed
+    });
   };
 
   const showUserModal = (user) => {
@@ -339,9 +354,7 @@ console.log(selectedRequest);
     });
   };
 
-  const exitRequestModal = () => {
-    setSelectedRequest(null);
-  };
+
 
   const exitUserModal = () => {
     setSelectedUser(null);
@@ -397,19 +410,52 @@ console.log(selectedRequest);
       };
     }
   };
-  const formatDefaultDate = () => {
-    const currentDate = new Date();
-    const oneDayAgo = new Date(currentDate);
-    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-
-    const options = {
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
+ 
+  const toggleAddForm = () => {
+    setShowAdminForm((prevShowAddForm) => !prevShowAddForm);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // You can adjust the behavior as needed
+    });
+  };
+  const exitAdminModal = () => {
+    setShowAdminForm(false);
+  };
+  
+  const handleFormSubmitSuccess = () => {
+    setShowAdminForm(false); // Close the form after successful submission
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const formElement = document.getElementById('form'); // Replace 'yourFormId' with the actual ID of your form
+      if (formElement && !formElement.contains(event.target)) {
+        setShowAdminForm(false); // Close the form when clicking outside of it
+      }
     };
 
-    return oneDayAgo.toLocaleDateString('en-US', options);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setShowAdminForm]);
+  function formatDateString(inputDateString) {
+    const date = new Date(inputDateString);
+  
+    // Get day, month, and time in words
+    const dayInWords = new Intl.DateTimeFormat('en-US', { day: 'numeric' }).format(date);
+    const monthInWords = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
+    const timeInWords = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
+  
+    // Format the result
+    const formattedResult = `${dayInWords}, ${monthInWords} ${timeInWords}`;
+  
+    return formattedResult;
+  }
+
+  const exitRequestModal = () => {
+    setSelectedRequest(null); 
+    setShowRequest(false);
   };
 
   return (
@@ -420,24 +466,22 @@ console.log(selectedRequest);
           <Container className={classes.requests}>
             <h2 className={classes.title}>Requests</h2>
             <div className="container">
-              <div className="row">
+              <div className="row2">
                 <table className="table table-hover">
                   <tbody>
                     {requests.map((request) => (
-                      <tr key={request.id} onClick={() => showDetails(request)}>
+                      <tr key={request.id} onClick={() => showRequestModal(request)}>
                         <td className={classes.req}>
                           <img src={req} alt="req" />
                         </td>
                         <td className={classes.bold}>
                           {request.name} - {request.affiliation}
                           <div className={classes.small}>
-                            {request.speciality}-
-                            {calculateAge(request.dateOfBirth)},{' '}
-                            {formatDefaultDate(
-                              request.creationDate
-                                ? new Date(request.creationDate)
-                                : undefined,
-                            )}
+                            {request.speciality} - {calculateAge(request.dateOfBirth)}{' '}
+                            {/* {
+                              formatDateString(request.creationDate)
+                               
+                            } */}
                           </div>
                         </td>
                         {status.toLowerCase() === 'pending' && (
@@ -496,7 +540,7 @@ console.log(selectedRequest);
             </div>
             <h2 className={classes.title}>Packages</h2>
             <div className="container">
-              <div className="row">
+              <div className="row2">
                 <Table hover className="custom-table">
                   <tr className={classes.packageTitles}>
                     <th>Package</th>
@@ -549,9 +593,17 @@ console.log(selectedRequest);
               >
                 Admins
               </button>
+              {activeRole === 'admin' && (
+      <button className={`${classes.filterButton} ${
+        activeRole === 'admin' ? classes.active : ''
+      }`}
+       onClick={toggleAddForm}>
+        Add Admin
+      </button>
+    )}
             </div>
             <div className="container">
-              <div className="row">
+              <div className="row2">
                 <Table hover className={'custom-table'}>
                   <tr>
                     {activeRole === 'patient' && (
@@ -670,12 +722,18 @@ console.log(selectedRequest);
               onDelete={deleteUser}
             />
           )}
-        {showRequestDetails && (
-  <RequestDetails
-    data={selectedRequest}
-   
-  />
-)}
+        {showRequest &&(
+        <RequestDetails
+        // onStatusChange={statusChangeHandler}
+        data={selectedRequest}
+        exit={exitRequestModal}
+        />
+      )}
+{showAdminForm &&(
+        <div className={classes.overlay}>
+        <AdminForm exit={exitAdminModal} refresh={fetchAdmins} onSubmitSuccess={handleFormSubmitSuccess} />
+        </div>
+      )}
 
      
         </div>

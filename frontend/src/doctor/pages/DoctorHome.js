@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import DataTable from '../../shared/components/DataTable/DataTable';
 import AppointmentDetails from './AppointmentDetails';
 import MyInfo from './MyInfo';
-import PatientDetails from './PatientDetails';
+// import PatientDetails from './PatientDetails';
 import { useLocation, useNavigate } from 'react-router-dom';
 import UserContext from '../../user-store/user-context';
 import DoctorNavBar from '../components/DoctorNavBar';

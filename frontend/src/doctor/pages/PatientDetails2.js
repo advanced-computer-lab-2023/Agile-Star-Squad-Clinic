@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import { useLocation } from 'react-router-dom';
 import PatientPersonalDetails from '../components/PatientPersonalDetails';
-import './PatientDetails.css';
+import styles from './PatientDetails.module.css';
 import PatientPrescriptionDetails from '../components/PatientPrescriptionDetails';
 
 const PatientDetails2 = () => {
@@ -20,7 +20,7 @@ const PatientDetails2 = () => {
     <React.Fragment>
       <DoctorNavBar />
       <div className="container " >
-        <div className="row justify-content-center" >
+        <div className="row justify-content-center" style={{marginLeft: '0px',width: '110%',marginTop: '10px'}}>
           <div className="col" >
             <PatientPersonalDetails data={patient}/>
           </div>
@@ -28,7 +28,7 @@ const PatientDetails2 = () => {
             <PatientHealthRecord data={patient} />
           </div>
         </div>
-        <div className="row justify-content-center">
+        <div className="row justify-content-center" style={{marginLeft: '0px',width: '110%',marginTop: '10px'}}>
           <div className="col">
             <PatientPrescriptionDetails patient={patient} doctor={doctor} />
           </div>

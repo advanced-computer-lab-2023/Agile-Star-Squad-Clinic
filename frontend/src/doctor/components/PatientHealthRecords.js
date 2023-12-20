@@ -5,7 +5,7 @@ import Card from '../../shared/components/Card/Card';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './PatientPersonalDetails.css';
+import styles from './PatientPersonalDetails.module.css';
 import { toastMeError } from '../../shared/components/util/functions';
 
 const PatientHealthRecord = (props) => {
@@ -78,12 +78,12 @@ const PatientHealthRecord = (props) => {
   };
   const { healthRecordInput } = healthRecord;
   return (
-    <Card className="healthRecord" >
-      <div className="welcomeText">
+    <Card className={styles.healthRecord} >
+      <div className={styles.welcomeText}>
         {/* <p  className='welcomeText'>Medical Record</p> */}
         Medical Record
       </div>
-      <div className="carousel-container">
+      <div className={styles.carouselContainer}>
         {/* <div className="d-flex flex-row"> */}
 
         <Slider {...settings}>
@@ -125,12 +125,12 @@ const PatientHealthRecord = (props) => {
             name="healthRecord"
             value={healthRecordInput}
             onChange={onHealthRecordChange}
-            className="patientButton"
+            className={styles.patientButton}
             
           />
         </div>
         <div style={{ paddingTop: '20px' }}>
-          <button className="mainButton" onClick={handleHealthRecordUpload} style={{marginBottom:'15px'}} >
+          <button className={styles.mainButton} onClick={handleHealthRecordUpload} style={{marginBottom:'15px'}} >
             Upload Health Record
           </button>
         </div>
