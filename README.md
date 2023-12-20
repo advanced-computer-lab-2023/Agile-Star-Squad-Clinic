@@ -5,17 +5,15 @@
 1. [ Motivation. ](#motivation)
 2. [ Build Status. ](#build-status)
 3. [ Code Style. ](#code-style)
-4. [ Screenshots. ](#screenshots)
-5. [ Technologies Used. ](#technology)
-6. [ Features. ](#features)
-7. [ Code Examples. ](#code-examples)
-8. [ API Refrences. ](#api-ref)
-9. [ Tests. ](#tests)
-10. [ Usage. ](#usage)
-11. [ Contribution. ](#contribution)
-12. [ Collaborators. ](#collabs)
-13. [ Credits. ](#credits)
-14. [ Licenses. ](#licenses)
+4. [ Technologies Used. ](#technology)
+5. [ Features. ](#features)
+6. [ API Refrences. ](#api-ref)
+7. [ Tests. ](#tests)
+8. [ Usage. ](#usage)
+9. [ Contribution. ](#contribution)
+10. [ Collaborators. ](#collabs)
+11. [ Credits. ](#credits)
+12. [ Licenses. ](#licenses)
 
 <a name="motivation"></a>
 
@@ -45,11 +43,6 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
   3. Each of the leaf folders mentioned above contains the main files of the project.
 
 <a name="screenshots"></a>
-
-## Screenshots
-<!-- todo -->
-
-<a name="technology"></a>
 
 ## Technologies Used
 
@@ -95,12 +88,6 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 
 <a name="code-examples"></a>
 
-## Code Examples
-<!-- todo -->
-
-
-
-<a name="api-ref"></a>
 
 ## API Refrences
 
@@ -346,8 +333,6 @@ curl -X DELETE http://localhost:3000/patients/:id
 9. **Chat**: Once you have started an appointment, you can chat with the doctor through the "Chat" feature available on the "My Appointments" page.
 
 Remember to log out when you're done using the website to ensure your account remains secure.
-
-
 
 
 <a name="contribution"></a>
