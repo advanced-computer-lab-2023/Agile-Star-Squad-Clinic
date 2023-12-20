@@ -32,7 +32,7 @@ const patientSchema = new mongoose.Schema({
     // minLength: 8,
   },
   dateOfBirth: Date,
-  creationDate: Date,
+  creationDate: { type: Date, default: Date.now },
   gender: {
     type: String,
     enum: ['male', 'female'],

@@ -2,24 +2,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@600&display=swap');
 .addForm{
   width: 764px;
-  height: 595px;
-    border-radius: 26px 26px 26px 26px;
-    left:28%  ;
-    top:5%;
-    display: flex;
-    margin-bottom: 10%;
-    scroll-behavior: inherit;
-    overflow-y: auto;
+  height: 684px;
+  border-radius: 26px 26px 26px 26px;
+  left: 28%;
+  display: flex;
+  margin-bottom: 23%;
+  scroll-behavior: inherit;
+  overflow-y: auto;
+
 }
-.topBorder {
-    margin: -1rem;
-    margin-bottom: 20px;
-    height: 77px;
-    padding-left: 27px;
-    padding-top: 21px;
-    border-radius: 26px 26px 0px 0px;
-    background-color: #EA580C;
-  } 
+.topBorderReq {
+  border-radius: 26px 26px 0px 0px;
+  border-top: solid 85px #EA580C;
+  position: inherit;
+  left: -2%;
+  top: -5%;
+  width: inherit;
+}
+.topBorderUser {
+  border-radius: 26px 26px 0px 0px;
+  border-top: solid 85px #EA580C;
+  position: inherit;
+  left: 0%;
+  top: -5%;
+  width: inherit;
+}
+.adminTop{
+  width: inherit;
+  border-radius: 26px 26px 0px 0px;
+  border-top: solid 85px #EA580C;
+  position: inherit;
+  left: 0%;
+  top: -26%;
+}
 .doctor {
   color: var(--white-100, #ffffff);
   font-family: 'Poppins';
@@ -27,17 +42,8 @@
   font-weight: 500;
   position: inherit;
   bottom: 10%;
-  right: 0%;
+  right: 24%;
   z-index: 2; /* Set the z-index to bring it above other elements */
-}
-.userTitle{
-    color: var(--white-100, #ffffff);
-  font-family: 'Poppins';
-  font-size: 26px;
-  font-weight: 500;
-  position: inherit;
-  bottom: 90%;
-  right: 65%;
 }
 
 .title{
@@ -80,17 +86,20 @@ margin-top: 0%;
     flex:  1;
     min-width: 150px;
     max-width: 190px;
+    margin-bottom: 10%;
   }
-  .dateField{
+  .adminField{
     flex:  1;
     min-width: 150px;
     max-width: 190px;
-    margin-left: 6%;
+    margin-top: 9%;
+    min-height: 200px;
   }
   .nameField{
     flex:  1;
     min-width: 240px;
     max-width: 190px;
+    margin-top: 8%;
   }
   .form{
     position: absolute;
@@ -100,15 +109,14 @@ margin-top: 0%;
     align-items: flex-start;
     grid-row-gap: 15px;
     width: 764px;
-  height: 650px;
+  height: 820px;
   }
  .personal{
-  padding-top:  7%;
-  margin-bottom: 0%;
+  padding-top:  4%;
+  
   text-align: -webkit-left;
  }
  .professional{
-    margin-top: 0%;
   text-align: -webkit-left;
  }
   
@@ -151,7 +159,6 @@ margin-top: 0%;
   }
   .spacing{
     margin-left: 5%;
-    margin-bottom: -5%;
   }
   .overlay {
     position: fixed;
@@ -165,14 +172,20 @@ margin-top: 0%;
   
   .formContainer {
     position: fixed;
-    top: 53%;
+    top: 60%;
     left: 35%;
     transform: translate(-50%, -50%);
     z-index: 1000; /* Make sure this is higher than the overlay z-index */
     scroll-behavior: smooth;
   }
-  .addForm::-webkit-scrollbar {
-    width: 4px; /* For Chrome, Safari, and Opera */
+  .userTitle{
+    color: var(--white-100, #ffffff);
+    font-family: 'Poppins';
+    font-size: 26px;
+    font-weight: 500;
+    position: inherit;
+    top: 5%;
+    right: 40%; 
   }
   
   
