@@ -95,7 +95,7 @@ const NavBar = (props) => {
                 </button>
 
               </Link>
-              <Link to={'/doctorAccountSettings'}>
+              <Link to={'/doctor/settings'}>
                 <a href="#" className="btn btn-white" id="last">
                   Account
                 </a>
