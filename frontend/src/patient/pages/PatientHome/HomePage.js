@@ -26,8 +26,8 @@ const PatientHomePage = () => {
   }, []);
 
   const toAppointments = () => {
-    navigate("/patient/account", {state: {index:4}})
-  }
+    navigate('/patient/account', { state: { index: 4 } });
+  };
 
   const fetchPatient = async () => {
     fetch(`http://localhost:3000/patients/${patientId}`, {
@@ -115,9 +115,11 @@ const Dashboard = (props) => {
     if (
       date.getDate() === now.getDate() &&
       date.getMonth() === now.getMonth() &&
-      date.getFullYear() === now.getFullYear() &&
-      date.getHours() === now.getHours() + 2
+      date.getFullYear() === now.getFullYear()
+      // date.getHours() === now.getHours() + 2
     ) {
+      console.log(date.getHours());
+      console.log(now.getHours() + 2);
       currentAppointment = appointment;
     }
     return { weekday, month, day, time, doctorName, doctorSpecialty };
@@ -207,7 +209,6 @@ const Dashboard = (props) => {
     return time;
   }
 
-
   return (
     <>
       <section className={classes.dashSection}>
@@ -215,11 +216,13 @@ const Dashboard = (props) => {
           <div className="col-1" />
           {!currentAppointment && (
             <div className={`col-5 ${classes.appointmentWrapper}`}>
-              <div className='d-flex justify-content-between'>
+              <div className="d-flex justify-content-between">
                 <h3>UPCOMING APPOINTMENTS</h3>
-                <div onClick={props.toAppointments} className={classes.viewAll}>VIEW ALL</div>
+                <div onClick={props.toAppointments} className={classes.viewAll}>
+                  VIEW ALL
+                </div>
               </div>
-              
+
               <div className={classes.appointmentContainer}>
                 <Carousel controls={false} interval={5000}>
                   {appointments.map((appointment) =>
@@ -258,7 +261,7 @@ const Dashboard = (props) => {
         <div className={classes.calendar}></div>
       </section>
       <section>
-        <BrowseDoctors where={"here"} />
+        <BrowseDoctors where={'here'} />
       </section>
     </>
   );

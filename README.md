@@ -2,21 +2,55 @@
 
 ## Table of Contents
 
-1. [ Description. ](#desc)
-2. [ Features. ](#feats)
-3. [ Usage. ](#usage)
-4. [ Contribution. ](#contribution)
-5. [ Credits. ](#credits)
+1. [ Motivation. ](#motivation)
+2. [ Build Status. ](#build-status)
+3. [ Code Style. ](#code-style)
+4. [ Screenshots. ](#ss)
+5. [ Technologies Used. ](#tech)
+6. [ Features. ](#feats)
+7. [ API Refrences. ](#api-ref)
+8. [ Tests. ](#tests)
+9. [ Usage. ](#usage)
+10. [ Contribution. ](#contribution)
+11. [ Collaborators. ](#collabs)
+12. [ Credits. ](#credits)
+13. [ License. ](#license)
 
-<a name="desc"></a>
+<a name="motivation"></a>
 
-## Description
-
-### 1. Project summary:
+## Motivation
 
 The Clinic Website is a comprehensive web application designed for healthcare providers and patients. This website provides a user-friendly interface for users to explore, book appointments, view available services, and access detailed information about healthcare professionals and facilities. Whether you're a patient seeking medical assistance or a healthcare provider looking to streamline your services, this website is your ultimate platform for efficient healthcare management and access.
 
-### 2. Technologies used:
+<a name="build-status"></a>
+
+## Build Status
+
+1. Family discounts is not yet incorporated.
+2. Doctor wallet
+3. Doctor can not view details of requested appointments
+4. Doctor can not reschedule or cancel appointments
+
+<a name="code-style"></a>
+
+## Code Style
+
+- The project is divided into 2 main folders the backend and the frontend.
+  1. Backend
+    - The backend is divided into models, controllers, routes, utils & middleware.
+  2. Frontend
+    - The frontend is divided into src & public.
+    - The src is divided into assets, admin, checkout, doctor, login, package, patient, prescriptions, requests, shared, temp & user-store
+  3. Each of the leaf folders mentioned above contains the main files of the project.
+
+<a name="ss"></a>
+
+## Screenshots
+<!-- todo -->
+
+<a name="tech"></a>
+
+## Technologies Used
 
 - **React**: This project uses React, a JavaScript library for building user interfaces. React's component-based architecture makes it easy to create complex UIs from small, reusable pieces of code. It also provides a virtual DOM to optimize rendering and improve app performance.
 
@@ -29,6 +63,8 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 - **Bootstrap and CSS**: Bootstrap, a popular CSS framework, is used for designing responsive and mobile-first web pages. Custom CSS is also used for additional styling and layout design.
 
 - **Material-UI (MUI)**: This project uses Material-UI, a popular React UI framework that implements Google's Material Design. It provides a set of pre-built React components that follow the best practices of user interface design. With MUI, you can build robust, consistent, and beautiful user interfaces with less effort.
+
+- **Video SDK**: This was used to facilitate video appointments between doctors and patients. It provided the necessary tools to establish a secure and reliable video connection, ensuring a smooth and efficient consultation process.
 
 <a name="feats"></a>
 
@@ -55,6 +91,194 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 ### 5. User Authentication:
 - Secure login system for patients and doctors.
 - Role-based access control to protect sensitive information.
+
+<a name="code-examples"></a>
+
+## Code Examples
+<!-- todo -->
+
+
+
+<a name="api-ref"></a>
+
+## API Refrences
+
+### Admin Routes
+
+- **GET /api/admin**: Get a list of all admins.
+
+- **POST /api/admin**: Create a new admin. The request body should include the necessary admin details.
+
+- **GET /api/admin/requests**: View all admin requests.
+
+- **POST /api/admin/requests**: Accept an admin request. The request body should include the necessary request details.
+
+- **PUT /api/admin/requests**: Reject an admin request. The request body should include the necessary request details.
+
+- **PATCH /api/admin/requests**: Also used to reject an admin request. The request body should include the necessary request details.
+
+- **GET /api/admin/:id**: Get details of a specific admin by ID.
+
+- **DELETE /api/admin/:id**: Delete a specific admin by ID.
+
+### Auth Routes
+
+- **GET /api/auth/resetPassword**: Get an OTP for password reset.
+
+- **GET /api/auth/resetPassword/:email**: Get a user by email for password reset.
+
+- **POST /api/auth/resetPassword/:email**: Request a password reset. The request body should include the necessary user details.
+
+- **PATCH /api/auth/resetPassword/:id**: Update the password for a user. The request body should include the new password.
+
+- **GET /api/auth/:username/:password**: Log in a user. Replace `:username` and `:password` with the user's username and password.
+
+- **GET /api/auth/logout**: Log out the current user.
+
+- **GET /api/auth/me**: Get the currently logged in user.
+
+### Doctor Routes
+
+- **GET /api/doctor/chats/:id/:chatId**: Add a chat for a doctor.
+
+- **GET /api/doctor/appointments**: Get all appointments for a doctor.
+
+- **POST /api/doctor/appointments**: Create a new appointment for a doctor.
+
+- **GET /api/doctor/**: Get all doctors.
+
+- **POST /api/doctor/**: Sign up a new doctor.
+
+- **GET /api/doctor/:doctorId/setAsMember**: Set a doctor as a member.
+
+- **GET /api/doctor/:doctorId/patients**: Get all patients for a doctor.
+
+- **POST /api/doctor/:doctorId/patients**: Add a patient for a doctor.
+
+- **GET /api/doctor/:id/patient**: Get a specific patient for a doctor.
+
+- **POST /api/doctor/:doctorId/timeSlots**: Set time slots for a doctor.
+
+- **GET /api/doctor/:doctorId/upComingAppointments**: Get upcoming appointments for a doctor.
+
+- **DELETE /api/doctor/:doctorId/notifications/:notificationId**: Delete a specific notification for a doctor.
+
+- **GET /api/doctor/:doctorId/notifications**: Get all notifications for a doctor.
+
+- **GET /api/doctor/:id**: Get a specific doctor.
+
+- **PATCH /api/doctor/:id**: Update a specific doctor.
+
+- **DELETE /api/doctor/:id**: Delete a specific doctor.
+
+- **GET /api/doctor/healthRecord/:patientId**: Get the health record of a specific patient for a doctor.
+
+- **PATCH /api/doctor/healthRecord/:patientId**: Add a health record for a specific patient for a doctor.
+
+- **POST /api/doctor/:doctorId/wallet**: Update the wallet for a doctor.
+
+### Meeting Routes
+
+- **POST /api/meeting**: Add a new meeting. The request body should include the necessary meeting details.
+
+- **GET /api/meeting**: Get the meeting details.
+
+- **DELETE /api/meeting**: Delete the meeting.
+
+- **PATCH /api/meeting**: Update the meeting details. The request body should include the updated meeting details.
+
+### Package Routes
+
+- **GET /api/package**: Get all packages. This route requires patient authentication.
+
+- **POST /api/package**: Add a new package. This route requires admin authentication. The request body should include the necessary package details.
+
+- **GET /api/package/:id**: Get a specific package.
+
+- **PATCH /api/package/:id**: Edit a specific package. This route requires admin authentication. The request body should include the updated package details.
+
+- **DELETE /api/package/:id**: Delete a specific package. This route requires admin authentication.
+
+### Patient Routes
+
+- **GET /api/patient/appointments**: Get all appointments.
+
+- **POST /api/patient/appointments**: Create a new appointment. This route requires patient authentication.
+
+- **DELETE /api/patient/appointments/:id**: Delete a specific appointment.
+
+- **PATCH /api/patient/appointments/:id**: Update a specific appointment.
+
+- **GET /api/patient/:patientId/familyMembers**: Get all family members of a patient. This route requires patient authentication.
+
+- **POST /api/patient/:patientId/familyMembers**: Add a family member for a patient. This route requires patient authentication.
+
+- **DELETE /api/patient/:patientId/familyMembers/:id**: Remove a specific family member of a patient. This route requires patient authentication.
+
+- **GET /api/patient**: Get all patients.
+
+- **POST /api/patient**: Sign up a new patient.
+
+- **POST /api/patient/:patientId/package**: Subscribe a patient to a package.
+
+- **PATCH /api/patient/:patientId/package**: Unsubscribe a patient from a package.
+
+- **GET /api/patient/:id**: Get a specific patient.
+
+- **PATCH /api/patient/:id**: Add a health record for a patient. This route requires admin authentication.
+
+- **DELETE /api/patient/:id**: Remove a specific patient. This route requires admin authentication.
+
+- **POST /api/patient/:id/kimoSubscribe**: Subscribe a patient to Kimo.
+
+- **GET /api/patient/getByNationalId/:nationalId**: Get a patient by their national ID. This route requires patient authentication.
+
+- **PATCH /api/patient/:id/setHealthRecords**: Remove a health record of a patient.
+
+- **GET /api/patient/:patientId/prescriptions**: Get all prescriptions of a patient. This route requires patient authentication.
+
+- **GET /api/patient/prescriptions/:username**: Get all prescriptions of a patient by their username. This route requires patient authentication.
+
+- **GET /api/patient/:patientId/appointments**: Get all appointments of a patient.
+
+- **POST /api/patient/:patientId/appointments**: Schedule a follow-up for a patient.
+
+- **GET /api/patient/:patientId/upcomingAppointments**: Get all upcoming appointments of a patient.
+
+- **DELETE /api/patient/:patientId/notifications/:notificationId**: Delete a specific notification of a patient. This route requires patient authentication.
+
+- **GET /api/patient/:patientId/notifications**: Get all notifications of a patient. This route requires patient authentication.
+
+- **POST /api/patient/:patientId/wallet**: Update the wallet of a patient.
+
+- **GET /api/patient/:patientId/chats**: Get all chat IDs of a patient. This route requires patient authentication.
+
+- **GET /api/patient/:doctorId/doctorUpcomingAppointments**: Get all upcoming appointments of a doctor. This route requires patient authentication.
+
+- **POST /api/patient/:patientId/cards**: Add a card for a patient.
+
+- **DELETE /api/patient/:patientId/cards/:cardNumber**: Delete a specific card of a patient.
+
+### Payment Routes
+
+- **POST /api/payment/create-checkout-session**: Create a new checkout session. The request body should include the necessary payment details.
+
+### Prescription Routes
+
+- **GET /api/prescription**: Get all prescriptions.
+
+- **POST /api/prescription**: Create a new prescription. This route requires doctor authentication.
+
+- **POST /api/prescription/list**: Get prescriptions by their IDs. The request body should include the necessary IDs.
+
+- **PATCH /api/prescription/:id**: Edit a specific prescription.
+
+
+
+<a name="tests"></a>
+
+## Tests
+<!-- todo -->
 
 <a name="usage"></a>
 
@@ -104,9 +328,9 @@ If you're a developer interested in contributing to the project, you can install
 
 We welcome contributions from the community. Please ensure that your pull request provides a detailed description of the changes you propose.
 
-<a name="credits"></a>
+<a name="collabs"></a>
 
-## Credits
+## Collaborators
 
 <div style="display: flex;">
 
@@ -154,3 +378,16 @@ We welcome contributions from the community. Please ensure that your pull reques
   </a >
 
 </div>
+
+
+<a name="credits"></a>
+
+## Credits
+<!-- todo -->
+
+
+
+<a name="license"></a>
+
+## License
+<!-- todo -->
