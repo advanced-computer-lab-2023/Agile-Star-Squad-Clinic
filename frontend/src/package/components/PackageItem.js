@@ -84,7 +84,7 @@ const PackageItem = (props) => {
       {showUpdateForm && (
      
           
-          <UpdatePackage updates={setShowUpdateForm} packageId={props.id} exit={exitForm} />
+          <UpdatePackage updates={setShowUpdateForm} onUpdate={props.onUpdate} packageId={props.id} exit={exitForm} />
  
       )}
       </div>

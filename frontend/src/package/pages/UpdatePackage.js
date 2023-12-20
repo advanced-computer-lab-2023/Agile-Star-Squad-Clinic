@@ -5,7 +5,7 @@ import Card from '../../shared/components/Card/Card';
 import styles from './NewPackage.module.css';
 import { toastMeError, toastMeSuccess } from '../../shared/components/util/functions';
 
-const UpdatePackage = ({ packageId, updates }) => {
+const UpdatePackage = ({ packageId, onUpdate, exit, updates }) => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [pricePerYear, setPricePerYear] = useState('');
@@ -41,10 +41,11 @@ const UpdatePackage = ({ packageId, updates }) => {
           toastMeError('Failed to fetch package data.');
         }
       } catch (error) {
+        console.log(error)
+        console.log("hey")
         toastMeError('Network error: ' + error.message);
       }
     };
-
     fetchData();
   }, [packageId]);
 
@@ -68,12 +69,14 @@ const UpdatePackage = ({ packageId, updates }) => {
        
         toggleAddForm();
         toastMeSuccess('Package updated successfully.');
+        onUpdate({...data, _id:packageId})
         navigate('/packages');
       } else {
         toastMeError('Failed to update data.');
       }
     } catch (error) {
       toastMeError('Network error: ' + error.message);
+      console.log(error)
     }
   };
   

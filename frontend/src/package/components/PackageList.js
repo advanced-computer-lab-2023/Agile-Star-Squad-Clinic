@@ -29,7 +29,7 @@ const PackageList = (props) => {
             familyMemberDiscount={pkg.familyMemberDiscount}
             description={pkg.description}
             onDelete={props.onDelete}
-            
+            onUpdate={props.onUpdate}
           />
        
       ))}
