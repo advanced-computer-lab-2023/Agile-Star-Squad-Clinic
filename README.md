@@ -26,7 +26,7 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 ## Build Status
 
 1. Family discounts is not yet incorporated.
-2. Doctor wallet
+2. Doctor wallet is not yet visible in the UI.
 3. Doctor can not view details of requested appointments
 4. Doctor can not reschedule or cancel appointments
 
