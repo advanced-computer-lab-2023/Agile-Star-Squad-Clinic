@@ -42,7 +42,7 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
     - The src is divided into assets, admin, checkout, doctor, login, package, patient, prescriptions, requests, shared, temp & user-store
   3. Each of the leaf folders mentioned above contains the main files of the project.
 
-<a name="technology"></a>
+<a name="screenshots"></a>
 
 ## Technologies Used
 
@@ -86,10 +86,32 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 - Secure login system for patients and doctors.
 - Role-based access control to protect sensitive information.
 
-<a name="api-ref"></a>
+<a name="code-examples"></a>
 
 
 ## API Refrences
+
+### API Routes
+
+Here are the available routes:
+
+- **Admin Routes**: `/admins`
+
+- **Doctor Routes**: `/doctors`
+
+- **Patient Routes**: `/patients`
+
+- **Prescription Routes**: `/prescriptions`
+
+- **Package Routes**: `/packages`
+
+- **Payment Routes**: `/payments`
+
+- **Auth Routes**: `/auth`
+
+- **Meeting Routes**: `/meeting`
+
+For example, to get all doctors, you would send a GET request to `http://localhost:3000/doctors`.
 
 ### Admin Routes
 
