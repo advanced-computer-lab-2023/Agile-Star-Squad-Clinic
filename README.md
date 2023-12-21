@@ -26,7 +26,7 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 ## Build Status
 
 1. Family discounts is not yet incorporated.
-2. Doctor wallet is not yet visible in the UI.
+2. Doctor wallet
 3. Doctor can not view details of requested appointments
 4. Doctor can not reschedule or cancel appointments
 
@@ -93,173 +93,173 @@ The Clinic Website is a comprehensive web application designed for healthcare pr
 
 ### Admin Routes
 
-- **GET /api/admin**: Get a list of all admins.
+- **GET /admin**: Get a list of all admins.
 
-- **POST /api/admin**: Create a new admin. The request body should include the necessary admin details.
+- **POST /admin**: Create a new admin. The request body should include the necessary admin details.
 
-- **GET /api/admin/requests**: View all admin requests.
+- **GET /admin/requests**: View all admin requests.
 
-- **POST /api/admin/requests**: Accept an admin request. The request body should include the necessary request details.
+- **POST /admin/requests**: Accept an admin request. The request body should include the necessary request details.
 
-- **PUT /api/admin/requests**: Reject an admin request. The request body should include the necessary request details.
+- **PUT /admin/requests**: Reject an admin request. The request body should include the necessary request details.
 
-- **PATCH /api/admin/requests**: Also used to reject an admin request. The request body should include the necessary request details.
+- **PATCH /admin/requests**: Also used to reject an admin request. The request body should include the necessary request details.
 
-- **GET /api/admin/:id**: Get details of a specific admin by ID.
+- **GET /admin/:id**: Get details of a specific admin by ID.
 
-- **DELETE /api/admin/:id**: Delete a specific admin by ID.
+- **DELETE /admin/:id**: Delete a specific admin by ID.
 
 ### Auth Routes
 
-- **GET /api/auth/resetPassword**: Get an OTP for password reset.
+- **GET /auth/resetPassword**: Get an OTP for password reset.
 
-- **GET /api/auth/resetPassword/:email**: Get a user by email for password reset.
+- **GET /auth/resetPassword/:email**: Get a user by email for password reset.
 
-- **POST /api/auth/resetPassword/:email**: Request a password reset. The request body should include the necessary user details.
+- **POST /auth/resetPassword/:email**: Request a password reset. The request body should include the necessary user details.
 
-- **PATCH /api/auth/resetPassword/:id**: Update the password for a user. The request body should include the new password.
+- **PATCH /auth/resetPassword/:id**: Update the password for a user. The request body should include the new password.
 
-- **GET /api/auth/:username/:password**: Log in a user. Replace `:username` and `:password` with the user's username and password.
+- **GET /auth/:username/:password**: Log in a user. Replace `:username` and `:password` with the user's username and password.
 
-- **GET /api/auth/logout**: Log out the current user.
+- **GET /auth/logout**: Log out the current user.
 
-- **GET /api/auth/me**: Get the currently logged in user.
+- **GET /auth/me**: Get the currently logged in user.
 
 ### Doctor Routes
 
-- **GET /api/doctor/chats/:id/:chatId**: Add a chat for a doctor.
+- **GET /doctor/chats/:id/:chatId**: Add a chat for a doctor.
 
-- **GET /api/doctor/appointments**: Get all appointments for a doctor.
+- **GET /doctor/appointments**: Get all appointments for a doctor.
 
-- **POST /api/doctor/appointments**: Create a new appointment for a doctor.
+- **POST /doctor/appointments**: Create a new appointment for a doctor.
 
-- **GET /api/doctor/**: Get all doctors.
+- **GET /doctor/**: Get all doctors.
 
-- **POST /api/doctor/**: Sign up a new doctor.
+- **POST /doctor/**: Sign up a new doctor.
 
-- **GET /api/doctor/:doctorId/setAsMember**: Set a doctor as a member.
+- **GET /doctor/:doctorId/setAsMember**: Set a doctor as a member.
 
-- **GET /api/doctor/:doctorId/patients**: Get all patients for a doctor.
+- **GET /doctor/:doctorId/patients**: Get all patients for a doctor.
 
-- **POST /api/doctor/:doctorId/patients**: Add a patient for a doctor.
+- **POST /doctor/:doctorId/patients**: Add a patient for a doctor.
 
-- **GET /api/doctor/:id/patient**: Get a specific patient for a doctor.
+- **GET /doctor/:id/patient**: Get a specific patient for a doctor.
 
-- **POST /api/doctor/:doctorId/timeSlots**: Set time slots for a doctor.
+- **POST /doctor/:doctorId/timeSlots**: Set time slots for a doctor.
 
-- **GET /api/doctor/:doctorId/upComingAppointments**: Get upcoming appointments for a doctor.
+- **GET /doctor/:doctorId/upComingAppointments**: Get upcoming appointments for a doctor.
 
-- **DELETE /api/doctor/:doctorId/notifications/:notificationId**: Delete a specific notification for a doctor.
+- **DELETE /doctor/:doctorId/notifications/:notificationId**: Delete a specific notification for a doctor.
 
-- **GET /api/doctor/:doctorId/notifications**: Get all notifications for a doctor.
+- **GET /doctor/:doctorId/notifications**: Get all notifications for a doctor.
 
-- **GET /api/doctor/:id**: Get a specific doctor.
+- **GET /doctor/:id**: Get a specific doctor.
 
-- **PATCH /api/doctor/:id**: Update a specific doctor.
+- **PATCH /doctor/:id**: Update a specific doctor.
 
-- **DELETE /api/doctor/:id**: Delete a specific doctor.
+- **DELETE /doctor/:id**: Delete a specific doctor.
 
-- **GET /api/doctor/healthRecord/:patientId**: Get the health record of a specific patient for a doctor.
+- **GET /doctor/healthRecord/:patientId**: Get the health record of a specific patient for a doctor.
 
-- **PATCH /api/doctor/healthRecord/:patientId**: Add a health record for a specific patient for a doctor.
+- **PATCH /doctor/healthRecord/:patientId**: Add a health record for a specific patient for a doctor.
 
-- **POST /api/doctor/:doctorId/wallet**: Update the wallet for a doctor.
+- **POST /doctor/:doctorId/wallet**: Update the wallet for a doctor.
 
 ### Meeting Routes
 
-- **POST /api/meeting**: Add a new meeting. The request body should include the necessary meeting details.
+- **POST /meeting**: Add a new meeting. The request body should include the necessary meeting details.
 
-- **GET /api/meeting**: Get the meeting details.
+- **GET /meeting**: Get the meeting details.
 
-- **DELETE /api/meeting**: Delete the meeting.
+- **DELETE /meeting**: Delete the meeting.
 
-- **PATCH /api/meeting**: Update the meeting details. The request body should include the updated meeting details.
+- **PATCH /meeting**: Update the meeting details. The request body should include the updated meeting details.
 
 ### Package Routes
 
-- **GET /api/package**: Get all packages. This route requires patient authentication.
+- **GET /package**: Get all packages. This route requires patient authentication.
 
-- **POST /api/package**: Add a new package. This route requires admin authentication. The request body should include the necessary package details.
+- **POST /package**: Add a new package. This route requires admin authentication. The request body should include the necessary package details.
 
-- **GET /api/package/:id**: Get a specific package.
+- **GET /package/:id**: Get a specific package.
 
-- **PATCH /api/package/:id**: Edit a specific package. This route requires admin authentication. The request body should include the updated package details.
+- **PATCH /package/:id**: Edit a specific package. This route requires admin authentication. The request body should include the updated package details.
 
-- **DELETE /api/package/:id**: Delete a specific package. This route requires admin authentication.
+- **DELETE /package/:id**: Delete a specific package. This route requires admin authentication.
 
 ### Patient Routes
 
-- **GET /api/patient/appointments**: Get all appointments.
+- **GET /patient/appointments**: Get all appointments.
 
-- **POST /api/patient/appointments**: Create a new appointment. This route requires patient authentication.
+- **POST /patient/appointments**: Create a new appointment. This route requires patient authentication.
 
-- **DELETE /api/patient/appointments/:id**: Delete a specific appointment.
+- **DELETE /patient/appointments/:id**: Delete a specific appointment.
 
-- **PATCH /api/patient/appointments/:id**: Update a specific appointment.
+- **PATCH /patient/appointments/:id**: Update a specific appointment.
 
-- **GET /api/patient/:patientId/familyMembers**: Get all family members of a patient. This route requires patient authentication.
+- **GET /patient/:patientId/familyMembers**: Get all family members of a patient. This route requires patient authentication.
 
-- **POST /api/patient/:patientId/familyMembers**: Add a family member for a patient. This route requires patient authentication.
+- **POST /patient/:patientId/familyMembers**: Add a family member for a patient. This route requires patient authentication.
 
-- **DELETE /api/patient/:patientId/familyMembers/:id**: Remove a specific family member of a patient. This route requires patient authentication.
+- **DELETE /patient/:patientId/familyMembers/:id**: Remove a specific family member of a patient. This route requires patient authentication.
 
-- **GET /api/patient**: Get all patients.
+- **GET /patient**: Get all patients.
 
-- **POST /api/patient**: Sign up a new patient.
+- **POST /patient**: Sign up a new patient.
 
-- **POST /api/patient/:patientId/package**: Subscribe a patient to a package.
+- **POST /patient/:patientId/package**: Subscribe a patient to a package.
 
-- **PATCH /api/patient/:patientId/package**: Unsubscribe a patient from a package.
+- **PATCH /patient/:patientId/package**: Unsubscribe a patient from a package.
 
-- **GET /api/patient/:id**: Get a specific patient.
+- **GET /patient/:id**: Get a specific patient.
 
-- **PATCH /api/patient/:id**: Add a health record for a patient. This route requires admin authentication.
+- **PATCH /patient/:id**: Add a health record for a patient. This route requires admin authentication.
 
-- **DELETE /api/patient/:id**: Remove a specific patient. This route requires admin authentication.
+- **DELETE /patient/:id**: Remove a specific patient. This route requires admin authentication.
 
-- **POST /api/patient/:id/kimoSubscribe**: Subscribe a patient to Kimo.
+- **POST /patient/:id/kimoSubscribe**: Subscribe a patient to Kimo.
 
-- **GET /api/patient/getByNationalId/:nationalId**: Get a patient by their national ID. This route requires patient authentication.
+- **GET /patient/getByNationalId/:nationalId**: Get a patient by their national ID. This route requires patient authentication.
 
-- **PATCH /api/patient/:id/setHealthRecords**: Remove a health record of a patient.
+- **PATCH /patient/:id/setHealthRecords**: Remove a health record of a patient.
 
-- **GET /api/patient/:patientId/prescriptions**: Get all prescriptions of a patient. This route requires patient authentication.
+- **GET /patient/:patientId/prescriptions**: Get all prescriptions of a patient. This route requires patient authentication.
 
-- **GET /api/patient/prescriptions/:username**: Get all prescriptions of a patient by their username. This route requires patient authentication.
+- **GET /patient/prescriptions/:username**: Get all prescriptions of a patient by their username. This route requires patient authentication.
 
-- **GET /api/patient/:patientId/appointments**: Get all appointments of a patient.
+- **GET /patient/:patientId/appointments**: Get all appointments of a patient.
 
-- **POST /api/patient/:patientId/appointments**: Schedule a follow-up for a patient.
+- **POST /patient/:patientId/appointments**: Schedule a follow-up for a patient.
 
-- **GET /api/patient/:patientId/upcomingAppointments**: Get all upcoming appointments of a patient.
+- **GET /patient/:patientId/upcomingAppointments**: Get all upcoming appointments of a patient.
 
-- **DELETE /api/patient/:patientId/notifications/:notificationId**: Delete a specific notification of a patient. This route requires patient authentication.
+- **DELETE /patient/:patientId/notifications/:notificationId**: Delete a specific notification of a patient. This route requires patient authentication.
 
-- **GET /api/patient/:patientId/notifications**: Get all notifications of a patient. This route requires patient authentication.
+- **GET /patient/:patientId/notifications**: Get all notifications of a patient. This route requires patient authentication.
 
-- **POST /api/patient/:patientId/wallet**: Update the wallet of a patient.
+- **POST /patient/:patientId/wallet**: Update the wallet of a patient.
 
-- **GET /api/patient/:patientId/chats**: Get all chat IDs of a patient. This route requires patient authentication.
+- **GET /patient/:patientId/chats**: Get all chat IDs of a patient. This route requires patient authentication.
 
-- **GET /api/patient/:doctorId/doctorUpcomingAppointments**: Get all upcoming appointments of a doctor. This route requires patient authentication.
+- **GET /patient/:doctorId/doctorUpcomingAppointments**: Get all upcoming appointments of a doctor. This route requires patient authentication.
 
-- **POST /api/patient/:patientId/cards**: Add a card for a patient.
+- **POST /patient/:patientId/cards**: Add a card for a patient.
 
-- **DELETE /api/patient/:patientId/cards/:cardNumber**: Delete a specific card of a patient.
+- **DELETE /patient/:patientId/cards/:cardNumber**: Delete a specific card of a patient.
 
 ### Payment Routes
 
-- **POST /api/payment/create-checkout-session**: Create a new checkout session. The request body should include the necessary payment details.
+- **POST /payment/create-checkout-session**: Create a new checkout session. The request body should include the necessary payment details.
 
 ### Prescription Routes
 
-- **GET /api/prescription**: Get all prescriptions.
+- **GET /prescription**: Get all prescriptions.
 
-- **POST /api/prescription**: Create a new prescription. This route requires doctor authentication.
+- **POST /prescription**: Create a new prescription. This route requires doctor authentication.
 
-- **POST /api/prescription/list**: Get prescriptions by their IDs. The request body should include the necessary IDs.
+- **POST /prescription/list**: Get prescriptions by their IDs. The request body should include the necessary IDs.
 
-- **PATCH /api/prescription/:id**: Edit a specific prescription.
+- **PATCH /prescription/:id**: Edit a specific prescription.
 
 
 
